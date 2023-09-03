@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/io_client.dart';
 import 'package:intl/intl.dart';
-import 'package:school_system/views/loginScreen.dart';
+import 'package:school_system/views/common/loginScreen.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:school_system/views/utils/shade_prefrence.dart';
 
-import '../../views/verify_email_screen.dart';
+import '../../views/common/verify_email_screen.dart';
 
 String baseUrl = 'https://schoolsnow.parentteachermobile.com';
 
@@ -37,7 +37,9 @@ class LoginApi {
       Fluttertoast.showToast(msg: 'Login Success');
       var data = jsonDecode(request.body);
       String token = data['token'];
+      String role = data['user']['type'];
       LoginApiShadePreference.preferences!.setString('api_token', token);
+      LoginApiShadePreference.preferences!.setString('role', role);
       return request.statusCode;
     } else {
       var data = jsonDecode(request.body);

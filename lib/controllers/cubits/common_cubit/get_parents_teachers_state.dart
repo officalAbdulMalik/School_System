@@ -1,4 +1,4 @@
-part of 'getl_parents_teachers_cubit.dart';
+part of 'get_parents_teachers_cubit.dart';
 
 @immutable
 abstract class GetAllParentsState {}

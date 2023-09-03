@@ -4,7 +4,6 @@ import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_system/views/bottom_bar_parent/profile_screens/menu_screen.dart';
 import 'package:school_system/views/bottom_bar_techer/scudel_meetings_teach.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:stylish_bottom_bar/model/bar_items.dart';
@@ -12,11 +11,11 @@ import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
 import '../bottom_bar_parent/events_scren.dart';
 import '../bottom_bar_parent/history_screen.dart';
+import '../common/menu_screen.dart';
 import 'add_report_screen.dart';
 import 'chat_screen.dart';
 import 'events_screen.dart';
 import 'library_screen.dart';
-import 'menu_screen.dart';
 import 'metting_screen.dart';
 import 'notification_screen.dart';
 
@@ -160,7 +159,7 @@ class _TeacherBottomBarState extends State<TeacherBottomBar> {
             ClassListScreen(),
             NewsEventsPage(),
             MeetingHistoryPage(),
-            TeacherMenuScreen(),
+            MenuScreen(),
           ],
         ),
       ),

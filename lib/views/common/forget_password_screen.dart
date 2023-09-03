@@ -3,12 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:school_system/views/loginScreen.dart';
-import 'package:school_system/views/onboarding_screen.dart';
-import 'package:school_system/views/sign_up_screen.dart';
+import 'package:school_system/views/common/loginScreen.dart';
+import 'package:school_system/views/common/onboarding_screen.dart';
+import 'package:school_system/views/common/sign_up_screen.dart';
 import 'package:school_system/views/utils/colors.dart';
 
-import '../controllers/apis_repo/forget_password_api.dart';
+import '../../controllers/apis_repo/forget_password_api.dart';
 import 'forget_password_screen.dart';
 
 class ForgetPassword extends StatefulWidget {

@@ -1,35 +1,43 @@
 import 'dart:convert';
 
-class UserData {
-  int? status;
+class SchoolTeachers {
+  bool? error;
   String? message;
-  User? user;
+  List<Datum>? data;
+  int? code;
 
-  UserData({
-    this.status,
+  SchoolTeachers({
+    this.error,
     this.message,
-    this.user,
+    this.data,
+    this.code,
   });
 
-  factory UserData.fromRawJson(String str) =>
-      UserData.fromJson(json.decode(str));
+  factory SchoolTeachers.fromRawJson(String str) =>
+      SchoolTeachers.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory UserData.fromJson(Map<String, dynamic> json) => UserData(
-        status: json["status"],
+  factory SchoolTeachers.fromJson(Map<String, dynamic> json) => SchoolTeachers(
+        error: json["error"],
         message: json["message"],
-        user: json["user"] == null ? null : User.fromJson(json["user"]),
+        data: json["data"] == null
+            ? []
+            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+        code: json["code"],
       );
 
   Map<String, dynamic> toJson() => {
-        "status": status,
+        "error": error,
         "message": message,
-        "user": user?.toJson(),
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "code": code,
       };
 }
 
-class User {
+class Datum {
   int? id;
   String? title;
   String? firstName;
@@ -45,14 +53,12 @@ class User {
   dynamic currentAddress;
   dynamic permanentAddress;
   int? status;
-  dynamic pincode;
+  String? pincode;
   String? language;
   int? resetRequest;
   String? hearAboutUs;
-  dynamic parent;
-  Teacher? teacher;
 
-  User({
+  Datum({
     this.id,
     this.title,
     this.firstName,
@@ -72,15 +78,13 @@ class User {
     this.language,
     this.resetRequest,
     this.hearAboutUs,
-    this.parent,
-    this.teacher,
   });
 
-  factory User.fromRawJson(String str) => User.fromJson(json.decode(str));
+  factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         title: json["title"],
         firstName: json["first_name"],
@@ -100,9 +104,6 @@ class User {
         language: json["language"],
         resetRequest: json["reset_request"],
         hearAboutUs: json["hear_about_us"],
-        parent: json["parent"],
-        teacher:
-            json["teacher"] == null ? null : Teacher.fromJson(json["teacher"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -125,35 +126,5 @@ class User {
         "language": language,
         "reset_request": resetRequest,
         "hear_about_us": hearAboutUs,
-        "parent": parent,
-        "teacher": teacher?.toJson(),
-      };
-}
-
-class Teacher {
-  int? id;
-  int? userId;
-  String? qualification;
-
-  Teacher({
-    this.id,
-    this.userId,
-    this.qualification,
-  });
-
-  factory Teacher.fromRawJson(String str) => Teacher.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory Teacher.fromJson(Map<String, dynamic> json) => Teacher(
-        id: json["id"],
-        userId: json["user_id"],
-        qualification: json["qualification"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "user_id": userId,
-        "qualification": qualification,
       };
 }

@@ -5,14 +5,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/controllers/cubits/common_cubit/sign_up_cubit.dart';
-import 'package:school_system/views/loginScreen.dart';
-import 'package:school_system/views/teacher_data/teacher_add_clases.dart';
+import 'package:school_system/views/common/loginScreen.dart';
+import 'package:school_system/views/bottom_bar_techer/prifile_screen/teacher_add_clases.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:school_system/views/utils/custom_widget/container_decoration.dart';
 import 'package:school_system/views/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/views/utils/shade_prefrence.dart';
 
-import '../controllers/apis_repo/auth_apis.dart';
+import '../../controllers/apis_repo/auth_apis.dart';
 import 'all_school_screen.dart';
 
 class SignUpScreen extends StatefulWidget {

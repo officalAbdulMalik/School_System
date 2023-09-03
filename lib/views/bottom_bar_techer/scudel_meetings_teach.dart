@@ -6,7 +6,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-import '../../controllers/cubits/common_cubit/getl_parents_teachers_cubit.dart';
+import '../../controllers/cubits/common_cubit/get_parents_teachers_cubit.dart';
 import '../bottom_bar_parent/metting_request_screen.dart';
 
 class ShcudleMetteingsTeachers extends StatefulWidget {

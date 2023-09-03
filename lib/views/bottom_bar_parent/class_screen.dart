@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:school_system/controllers/cubits/common_cubit/getl_parents_teachers_cubit.dart';
+import 'package:school_system/controllers/cubits/common_cubit/get_parents_teachers_cubit.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 

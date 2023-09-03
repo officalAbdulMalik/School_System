@@ -4,12 +4,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/controllers/cubits/teacher_cubit/get_class_student_cubit.dart';
+import 'package:school_system/views/bottom_bar_parent/profile_screens/add_child_screen.dart';
 import 'package:school_system/views/utils/colors.dart';
+import 'package:school_system/views/utils/custom_widget/custom_widgets.dart';
 
-import '../../controllers/cubits/teacher_cubit/show_teacher_class_cubit.dart';
+import '../../../controllers/cubits/teacher_cubit/show_teacher_class_cubit.dart';
 
 class ShowChildren extends StatefulWidget {
-  const ShowChildren({Key? key}) : super(key: key);
+  ShowChildren({Key? key, required this.classId}) : super(key: key);
+
+  String classId;
 
   @override
   State<ShowChildren> createState() => _ShowChildrenState();
@@ -18,6 +22,7 @@ class ShowChildren extends StatefulWidget {
 class _ShowChildrenState extends State<ShowChildren> {
   @override
   void initState() {
+    context.read<GetClassStudentCubit>().getStudent(widget.classId);
     // TODO: implement initState
     super.initState();
   }
@@ -42,6 +47,19 @@ class _ShowChildrenState extends State<ShowChildren> {
       body: ListView(
         padding: EdgeInsets.only(left: 15.sp, right: 15.sp),
         children: [
+          SizedBox(
+            height: 20.h,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return AddChildScreen();
+                },
+              ));
+            },
+            child: CustomWidgets.customButton('Add Child'),
+          ),
           SizedBox(
             height: 20.h,
           ),

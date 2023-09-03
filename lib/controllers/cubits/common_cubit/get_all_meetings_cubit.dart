@@ -26,7 +26,7 @@ class GetAllMeetingsCubit extends Cubit<GetAllMeetingsState> {
       };
 
       var url = Uri.parse(
-          'https://schoolsnow.parentteachermobile.com/api/get/meetings');
+          'https://www.dev.schoolsnow.parentteachermobile.com/api/get/meetings?status=new');
       var response = await http.get(url, headers: headers);
 
       print('status code is ${response.statusCode}');
@@ -62,7 +62,8 @@ class GetAllMeetingsCubit extends Cubit<GetAllMeetingsState> {
         'search_title': search,
       });
 
-      var url = Uri.parse('$baseUrl/api/search/meetings');
+      var url = Uri.parse(
+          'https://www.dev.schoolsnow.parentteachermobile.com/api/get/meetings?status=$search');
       var response = await http.post(url, headers: headers, body: body);
 
       print('status code is ${response.statusCode}');

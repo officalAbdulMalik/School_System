@@ -1,20 +1,21 @@
 import 'dart:convert';
-
+import 'package:http/http.dart' as http;
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:http/http.dart' as http;
-import '../../../models/get_class_student_model.dart';
+import 'package:school_system/models/school_teacher_model.dart';
+import 'package:school_system/views/bottom_bar_techer/prifile_screen/teacher_add_clases.dart';
+
 import '../../../views/utils/shade_prefrence.dart';
 
-part 'get_class_student_state.dart';
+part 'get_school_teacher_state.dart';
 
-class GetClassStudentCubit extends Cubit<GetClassStudentState> {
-  GetClassStudentCubit() : super(GetClassStudentInitial());
+class GetSchoolTeacherCubit extends Cubit<GetSchoolTeacherState> {
+  GetSchoolTeacherCubit() : super(GetSchoolTeacherInitial());
 
-  Future getStudent(String classId) async {
+  Future getTeacher(String schoolId) async {
     print('data');
 
-    emit(GetClassStudentLoading());
+    emit(GetSchoolTeacherLoading());
 
     print(LoginApiShadePreference.preferences!.getString("api_token"));
 
@@ -24,10 +25,8 @@ class GetClassStudentCubit extends Cubit<GetClassStudentState> {
           'Bearer Bearer ${LoginApiShadePreference.preferences!.getString("api_token")}'
     };
 
-    var body = json.encode({"class_id": classId});
-
     var url = Uri.parse(
-        'http://www.dev.schoolsnow.parentteachermobile.com/api/teacher/class/students?first_name=&last_name=');
+        'http://www.dev.schoolsnow.parentteachermobile.com/api/parent/school/teachers?school_id=$schoolId&first_name=&last_name=');
     var response = await http.get(
       url,
       headers: headers,
@@ -39,12 +38,12 @@ class GetClassStudentCubit extends Cubit<GetClassStudentState> {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body.toString());
 
-      ClassStudents students = ClassStudents.fromJson(data);
+      SchoolTeachers teachers = SchoolTeachers.fromJson(data);
 
-      emit(GetClassStudentLoaded(model: students));
+      emit(GetSchoolTeacherLoaded(teachers: teachers));
       // Get.snackbar('KASI', 'Settings get successfully');
     } else {
-      emit(GetClassStudentError());
+      emit(GetSchoolTeacherError());
       print('error');
       // var data = jsonDecode(response.body.toString());
       // print(data['message']);

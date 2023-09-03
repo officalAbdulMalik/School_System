@@ -5,10 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/controllers/cubits/common_cubit/get_all_school_cubit.dart';
 import 'package:school_system/models/get_all_school_model.dart';
-import 'package:school_system/views/shool_addInInfo.dart';
-import 'package:school_system/views/sign_up_screen.dart';
+import 'package:school_system/views/common/shool_addInInfo.dart';
+import 'package:school_system/views/common/sign_up_screen.dart';
 import 'package:school_system/views/utils/colors.dart';
-import '../controllers/apis_repo/school_in_info.dart';
+import '../../controllers/apis_repo/school_in_info.dart';
 import 'add_school_screen.dart';
 
 class SchoolListScreen extends StatefulWidget {

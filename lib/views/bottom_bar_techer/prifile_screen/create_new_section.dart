@@ -4,12 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:school_system/views/loginScreen.dart';
+import 'package:school_system/views/common/loginScreen.dart';
 import 'package:school_system/views/utils/colors.dart';
 
-import '../../controllers/apis_repo/teacher_apis/teacher_add_section.dart';
-import '../../controllers/cubits/common_cubit/get_all_school_cubit.dart';
-import '../utils/custom_widget/custom_widgets.dart';
+import '../../../controllers/apis_repo/teacher_apis/teacher_add_section.dart';
+import '../../../controllers/cubits/common_cubit/get_all_school_cubit.dart';
+import '../../utils/custom_widget/custom_widgets.dart';
 
 class CreateSection extends StatefulWidget {
   CreateSection({Key? key, required this.schoolId, required this.sectionId})

@@ -4,11 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/controllers/apis_repo/teacher_apis/teacher_create_class.dart';
-import 'package:school_system/views/teacher_data/show_class.dart';
-import 'package:school_system/views/teacher_data/teacher_add_clases.dart';
+import 'package:school_system/views/bottom_bar_techer/prifile_screen/show_class.dart';
+import 'package:school_system/views/bottom_bar_techer/prifile_screen/teacher_add_clases.dart';
 
-import '../../controllers/cubits/teacher_cubit/get_section_cubit.dart';
-import '../utils/colors.dart';
+import '../../../controllers/cubits/teacher_cubit/get_section_cubit.dart';
+import '../../utils/colors.dart';
 import 'create_new_section.dart';
 
 class SelectSection extends StatefulWidget {

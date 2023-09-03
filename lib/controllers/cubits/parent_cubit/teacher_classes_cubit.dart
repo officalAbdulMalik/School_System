@@ -3,18 +3,18 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
-import '../../../models/get_class_student_model.dart';
+import '../../../models/show_teacher_classes.dart';
 import '../../../views/utils/shade_prefrence.dart';
 
-part 'get_class_student_state.dart';
+part 'teacher_classes_state.dart';
 
-class GetClassStudentCubit extends Cubit<GetClassStudentState> {
-  GetClassStudentCubit() : super(GetClassStudentInitial());
+class TeacherClassesCubit extends Cubit<TeacherClassesState> {
+  TeacherClassesCubit() : super(TeacherClassesInitial());
 
-  Future getStudent(String classId) async {
+  Future getTeacherClasses(String teacherID) async {
     print('data');
 
-    emit(GetClassStudentLoading());
+    emit(TeacherClassesLoading());
 
     print(LoginApiShadePreference.preferences!.getString("api_token"));
 
@@ -24,10 +24,8 @@ class GetClassStudentCubit extends Cubit<GetClassStudentState> {
           'Bearer Bearer ${LoginApiShadePreference.preferences!.getString("api_token")}'
     };
 
-    var body = json.encode({"class_id": classId});
-
     var url = Uri.parse(
-        'http://www.dev.schoolsnow.parentteachermobile.com/api/teacher/class/students?first_name=&last_name=');
+        'http://www.dev.schoolsnow.parentteachermobile.com/api/parent/classes/teacher/fetch?teacher_id=$teacherID');
     var response = await http.get(
       url,
       headers: headers,
@@ -39,12 +37,12 @@ class GetClassStudentCubit extends Cubit<GetClassStudentState> {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body.toString());
 
-      ClassStudents students = ClassStudents.fromJson(data);
+      TeacherClasses classes = TeacherClasses.fromJson(data);
 
-      emit(GetClassStudentLoaded(model: students));
+      emit(TeacherClassesLoaded(classes));
       // Get.snackbar('KASI', 'Settings get successfully');
     } else {
-      emit(GetClassStudentError());
+      emit(TeacherClassesError());
       print('error');
       // var data = jsonDecode(response.body.toString());
       // print(data['message']);

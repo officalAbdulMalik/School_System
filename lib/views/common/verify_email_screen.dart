@@ -7,14 +7,14 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
-import 'package:school_system/views/forget_password_screen.dart';
-import 'package:school_system/views/loginScreen.dart';
-import 'package:school_system/views/teacher_data/teacher_add_clases.dart';
+import 'package:school_system/views/common/loginScreen.dart';
+import 'package:school_system/views/bottom_bar_techer/prifile_screen/teacher_add_clases.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:school_system/views/utils/shade_prefrence.dart';
 
-import '../controllers/apis_repo/forget_password_api.dart';
+import '../../controllers/apis_repo/forget_password_api.dart';
 import 'all_school_screen.dart';
+import 'forget_password_screen.dart';
 
 class VerifyEmailScreen extends StatefulWidget {
   const VerifyEmailScreen({Key? key}) : super(key: key);

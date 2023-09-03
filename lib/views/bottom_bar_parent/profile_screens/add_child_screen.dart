@@ -1,8 +1,14 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import '../../../controllers/apis_repo/parent_api/add_child_api.dart';
+import '../../../controllers/image_picking.dart';
 import '../../utils/colors.dart';
+import '../../utils/custom_widget/container_decoration.dart';
+import '../../utils/custom_widget/custom_widgets.dart';
 
 class AddChildScreen extends StatefulWidget {
   const AddChildScreen({super.key});
@@ -12,7 +18,15 @@ class AddChildScreen extends StatefulWidget {
 }
 
 class _AddChildScreenState extends State<AddChildScreen> {
-  String gender = "Gender*", relation = "You are his / her";
+  String gender = "Gender*", relation = "Relation";
+
+  TextEditingController lastName = TextEditingController();
+  TextEditingController firstName = TextEditingController();
+  TextEditingController dob = TextEditingController();
+
+  ValueNotifier<bool> loading = ValueNotifier(false);
+  File? image1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,12 +53,21 @@ class _AddChildScreenState extends State<AddChildScreen> {
               const SizedBox(
                 height: 30,
               ),
-              const CircleAvatar(
-                radius: 40,
+              InkWell(
+                onTap: () async {
+                  var image = await ImagePick.pickImageFromGallery();
+                  image1 = image;
+                  setState(() {});
+                },
                 child: CircleAvatar(
-                  backgroundColor: kButtonColor,
-                  backgroundImage: AssetImage('images/prof.png'),
-                  radius: 39,
+                  radius: 35,
+                  child: CircleAvatar(
+                    backgroundColor: kButtonColor,
+                    backgroundImage: image1 == null
+                        ? AssetImage('images/prof.png')
+                        : FileImage(image1!) as ImageProvider,
+                    radius: 33,
+                  ),
                 ),
               ),
               const SizedBox(
@@ -54,20 +77,9 @@ class _AddChildScreenState extends State<AddChildScreen> {
                 padding: const EdgeInsets.only(left: 20),
                 height: 50,
                 width: 340,
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(15),
-                  gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFC7CEF1),
-                        Color(0xFF8C9BE3),
-                      ],
-                      begin: FractionalOffset(0.0, 0.0),
-                      end: FractionalOffset(1.0, 0.0),
-                      stops: [0.1, 1.0],
-                      tileMode: TileMode.clamp),
-                ),
+                decoration: ContinerDecoration.continerDecoration(),
                 child: TextFormField(
+                  controller: firstName,
                   decoration: const InputDecoration(
                     hintText: 'First Name',
                     hintStyle: TextStyle(color: Colors.black, fontSize: 12),
@@ -85,20 +97,9 @@ class _AddChildScreenState extends State<AddChildScreen> {
                 padding: const EdgeInsets.only(left: 20),
                 height: 50,
                 width: 340,
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(15),
-                  gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFC7CEF1),
-                        Color(0xFF8C9BE3),
-                      ],
-                      begin: FractionalOffset(0.0, 0.0),
-                      end: FractionalOffset(1.0, 0.0),
-                      stops: [0.1, 1.0],
-                      tileMode: TileMode.clamp),
-                ),
+                decoration: ContinerDecoration.continerDecoration(),
                 child: TextFormField(
+                  controller: lastName,
                   decoration: const InputDecoration(
                     hintText: 'Last Name',
                     hintStyle: TextStyle(color: Colors.black, fontSize: 12),
@@ -116,20 +117,9 @@ class _AddChildScreenState extends State<AddChildScreen> {
                 padding: const EdgeInsets.only(left: 20),
                 height: 50,
                 width: 340,
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(15),
-                  gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFC7CEF1),
-                        Color(0xFF8C9BE3),
-                      ],
-                      begin: FractionalOffset(0.0, 0.0),
-                      end: FractionalOffset(1.0, 0.0),
-                      stops: [0.1, 1.0],
-                      tileMode: TileMode.clamp),
-                ),
+                decoration: ContinerDecoration.continerDecoration(),
                 child: TextFormField(
+                  controller: dob,
                   decoration: const InputDecoration(
                     hintText: 'Date of Birth',
                     hintStyle: TextStyle(color: Colors.black, fontSize: 12),
@@ -147,29 +137,24 @@ class _AddChildScreenState extends State<AddChildScreen> {
                 padding: const EdgeInsets.only(left: 10),
                 height: 50,
                 width: 340,
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(15),
-                  gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFC7CEF1),
-                        Color(0xFF8C9BE3),
-                      ],
-                      begin: FractionalOffset(0.0, 0.0),
-                      end: FractionalOffset(1.0, 0.0),
-                      stops: [0.1, 1.0],
-                      tileMode: TileMode.decal),
-                ),
+                decoration: ContinerDecoration.continerDecoration(),
                 child: Row(
                   children: [
                     Expanded(
-                        flex: 2,
+                        flex: 1,
                         child: Text(
                           gender,
                           style: GoogleFonts.acme(
                               color: Colors.black, fontSize: 11),
                         )),
+                    Spacer(
+                      flex: 1,
+                    ),
+                    SizedBox(
+                      width: 35,
+                    ),
                     Expanded(
+                      flex: 1,
                       child: Padding(
                         padding: const EdgeInsets.only(right: 10.0),
                         child: DropdownButton<String>(
@@ -200,29 +185,18 @@ class _AddChildScreenState extends State<AddChildScreen> {
                 padding: const EdgeInsets.only(left: 10),
                 height: 50,
                 width: 340,
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(15),
-                  gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFC7CEF1),
-                        Color(0xFF8C9BE3),
-                      ],
-                      begin: FractionalOffset(0.0, 0.0),
-                      end: FractionalOffset(1.0, 0.0),
-                      stops: [0.1, 1.0],
-                      tileMode: TileMode.decal),
-                ),
+                decoration: ContinerDecoration.continerDecoration(),
                 child: Row(
                   children: [
                     Expanded(
-                        flex: 2,
+                        flex: 3,
                         child: Text(
                           relation,
                           style: GoogleFonts.acme(
                               color: Colors.black, fontSize: 11),
                         )),
                     Expanded(
+                      flex: 2,
                       child: Padding(
                         padding: const EdgeInsets.only(right: 10.0),
                         child: DropdownButton<String>(
@@ -230,6 +204,9 @@ class _AddChildScreenState extends State<AddChildScreen> {
                           items: <String>[
                             'Mother',
                             'Father',
+                            'Brother',
+                            'Sister',
+                            'Grand Father',
                           ].map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -260,36 +237,64 @@ class _AddChildScreenState extends State<AddChildScreen> {
               const SizedBox(
                 height: 20,
               ),
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
+              ValueListenableBuilder(
+                valueListenable: loading,
+                builder: (context, value, child) {
+                  if (value == false) {
+                    return InkWell(
+                      onTap: () {
+                        bool val = validate();
+                        if (val == true) {
+                          loading.value = true;
+                          AddChildRepo.addChild(
+                                  context: context,
+                                  firstName: firstName.text.trim(),
+                                  lastName: lastName.text.trim(),
+                                  relation: relation,
+                                  dob: dob.text.trim(),
+                                  gender: gender,
+                                  image: image1!.path)
+                              .then((value) {
+                            loading.value = false;
+                          });
+                        }
+                      },
+                      child: CustomWidgets.customButton('Add Child'),
+                    );
+                  } else {
+                    return Center(
+                        child: LoadingAnimationWidget.fallingDot(
+                      color: Colors.white,
+                      size: 50.sp,
+                    ));
+                  }
                 },
-                child: Container(
-                  height: 50,
-                  width: 340,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    gradient: const LinearGradient(
-                        colors: [
-                          Color(0xFF2A3B5D),
-                          Color(0xFF3D529B),
-                        ],
-                        end: FractionalOffset(0.0, 0.0),
-                        begin: FractionalOffset(1.0, 0.0),
-                        stops: [0.1, 1.0],
-                        tileMode: TileMode.decal),
-                  ),
-                  child: Center(
-                      child: Text(
-                    'Add',
-                    style: GoogleFonts.acme(color: Colors.white, fontSize: 20),
-                  )),
-                ),
-              )
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  validate() {
+    if (image1 == null) {
+      Fluttertoast.showToast(msg: 'Add Image');
+      return false;
+    } else if (firstName.text.isEmpty) {
+      Fluttertoast.showToast(msg: 'First name is required');
+      return false;
+    } else if (lastName.text.isEmpty) {
+      Fluttertoast.showToast(msg: 'Last  name is required');
+      return false;
+    } else if (gender == 'Gender*') {
+      Fluttertoast.showToast(msg: 'Select  Gender ');
+      return false;
+    } else if (relation == 'Relation') {
+      Fluttertoast.showToast(msg: 'Select  Relation');
+      return false;
+    } else {
+      return true;
+    }
   }
 }

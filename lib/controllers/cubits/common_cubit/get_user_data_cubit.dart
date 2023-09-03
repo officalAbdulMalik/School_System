@@ -25,7 +25,7 @@ class GetUserDataCubit extends Cubit<GetUserDataState> {
       };
 
       var url = Uri.parse(
-          'https://schoolsnow.parentteachermobile.com/api/auth/get/profile');
+          'https://www.dev.schoolsnow.parentteachermobile.com/api/auth/details');
       var response = await http.get(url, headers: headers);
 
       print('status code is ${response.statusCode}');

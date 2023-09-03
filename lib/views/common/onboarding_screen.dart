@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_system/views/sign_up_screen.dart';
+import 'package:school_system/views/common/select_country.dart';
+import 'package:school_system/views/common/sign_up_screen.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:school_system/views/utils/custom_widget/container_decoration.dart';
 import 'package:school_system/views/utils/shade_prefrence.dart';
 
-import '../controllers/firebase_repos/firebase_notification.dart';
+import '../../controllers/firebase_repos/firebase_notification.dart';
 
-class SelectCountry extends StatefulWidget {
-  SelectCountry({Key? key}) : super(key: key);
+class OnboardingScreen extends StatefulWidget {
+  OnboardingScreen({Key? key}) : super(key: key);
 
   @override
-  State<SelectCountry> createState() => _SelectCountryState();
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _SelectCountryState extends State<SelectCountry> {
+class _OnboardingScreenState extends State<OnboardingScreen> {
   final ValueNotifier<bool> loading = ValueNotifier(false);
 
   final ValueNotifier<bool> showPassword = ValueNotifier(false);
@@ -52,11 +53,29 @@ class _SelectCountryState extends State<SelectCountry> {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    'Select Your Country',
+                    'Parent Teacher Mobile ',
                     style: GoogleFonts.acme(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
                       fontSize: 24.sp,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 21.sp),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Connecting Parents and Teacher Worldwide ',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.acme(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 19.sp,
+                      ),
                     ),
                   ),
                 ),
@@ -66,13 +85,18 @@ class _SelectCountryState extends State<SelectCountry> {
                 InkWell(
                   onTap: () async {
                     LoginApiShadePreference.preferences!
-                        .setString('country', 'US');
+                        .setString('role', 'teacher');
+                    type = 'teacher';
                     setState(() {});
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return SignUpScreen();
+                        return SelectCountry();
                       },
                     ));
+                    String token =
+                        await FirebaseNotificationsService().getDeviceToken();
+                    LoginApiShadePreference.preferences!
+                        .setString('device_token', token);
                   },
                   child: Container(
                     padding: EdgeInsets.only(left: 10.sp),
@@ -87,7 +111,7 @@ class _SelectCountryState extends State<SelectCountry> {
                               height: 40.h,
                               width: 100.w,
                               child: Image.asset(
-                                'images/us.jpg',
+                                'images/teacher.png',
                                 color: Colors.black,
                               ),
                             ),
@@ -103,7 +127,7 @@ class _SelectCountryState extends State<SelectCountry> {
                                 height: 40.h,
                                 width: 100.w,
                                 child: Text(
-                                  'United State',
+                                  'I\'m a teacher',
                                   style: GoogleFonts.acme(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,
@@ -125,10 +149,11 @@ class _SelectCountryState extends State<SelectCountry> {
                 InkWell(
                   onTap: () async {
                     LoginApiShadePreference.preferences!
-                        .setString('country', 'UK');
+                        .setString('role', 'parents');
+                    type = 'parents';
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return SignUpScreen();
+                        return SelectCountry();
                       },
                     ));
 
@@ -144,9 +169,9 @@ class _SelectCountryState extends State<SelectCountry> {
                         children: [
                           Expanded(
                             child: SizedBox(
-                              height: 30.h,
-                              width: 80.w,
-                              child: Image.asset('images/un.png'),
+                              height: 40.h,
+                              width: 100.w,
+                              child: Image.asset('images/parents.png'),
                             ),
                           ),
                           SizedBox(
@@ -160,7 +185,7 @@ class _SelectCountryState extends State<SelectCountry> {
                                 height: 40.h,
                                 width: 100.w,
                                 child: Text(
-                                  'United Kingdom',
+                                  'I\'m a parents',
                                   style: GoogleFonts.acme(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,

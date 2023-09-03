@@ -8,10 +8,10 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/views/bottom_bar_techer/metting_screen.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:school_system/views/utils/custom_widget/container_decoration.dart';
-import 'package:school_system/views/verify_email_screen.dart';
+import 'package:school_system/views/common/verify_email_screen.dart';
 
-import '../controllers/apis_repo/add_school_api.dart';
-import '../controllers/image_picking.dart';
+import '../../controllers/apis_repo/add_school_api.dart';
+import '../../controllers/image_picking.dart';
 import 'all_school_screen.dart';
 
 class AddSchoolScreen extends StatefulWidget {

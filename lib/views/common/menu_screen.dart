@@ -5,14 +5,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/views/bottom_bar_parent/profile_screens/preferences_screen.dart';
 import 'package:school_system/views/bottom_bar_parent/profile_screens/subscription_screen.dart';
-import 'package:school_system/views/terms_condation.dart';
+import 'package:school_system/views/common/terms_condation.dart';
 import 'package:school_system/views/utils/shade_prefrence.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../controllers/cubits/common_cubit/get_user_data_cubit.dart';
-import '../../utils/colors.dart';
-import 'edit_profile_screen.dart';
-import 'manage_children_screen.dart';
+import '../bottom_bar_parent/profile_screens/edit_profile_screen.dart';
+import '../bottom_bar_parent/profile_screens/show_teacher.dart';
+import '../bottom_bar_techer/prifile_screen/show_class.dart';
+import '../utils/colors.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -108,8 +109,10 @@ class _MenuScreenState extends State<MenuScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              const ManageChildrenScreen()));
+                                          builder: (context) => SchoolTeacher(
+                                                schoolId: state.model.user!.id
+                                                    .toString(),
+                                              )));
                                 },
                                 child: Container(
                                   padding:
@@ -151,6 +154,54 @@ class _MenuScreenState extends State<MenuScreen> {
                                 ),
                               )
                             : SizedBox(),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const TeacherClass()));
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(15),
+                              gradient: const LinearGradient(
+                                  colors: [
+                                    Color(0xFFC7CEF1),
+                                    Color(0xFF8C9BE3),
+                                  ],
+                                  end: FractionalOffset(0.0, 0.0),
+                                  begin: FractionalOffset(1.0, 0.0),
+                                  stops: [0.1, 1.0],
+                                  tileMode: TileMode.decal),
+                            ),
+                            child: ListTile(
+                              leading: Container(
+                                  height: 40,
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xffdbeffe),
+                                      borderRadius: BorderRadius.circular(50)),
+                                  child:
+                                      Image.asset("images/subscription.png")),
+                              title: Text(
+                                "My Classes",
+                                style: GoogleFonts.acme(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              trailing: IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.keyboard_arrow_right)),
+                            ),
+                          ),
+                        ),
                         const SizedBox(
                           height: 10,
                         ),

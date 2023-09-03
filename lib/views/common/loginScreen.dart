@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:school_system/views/onboarding_screen.dart';
-import 'package:school_system/views/sign_up_screen.dart';
-import 'package:school_system/views/terms_condation.dart';
+import 'package:school_system/views/common/onboarding_screen.dart';
+import 'package:school_system/views/common/sign_up_screen.dart';
+import 'package:school_system/views/common/terms_condation.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:school_system/views/utils/custom_widget/container_decoration.dart';
 import 'package:school_system/views/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/views/utils/shade_prefrence.dart';
-import '../controllers/apis_repo/auth_apis.dart';
-import 'bottom_bar_parent/bottom_bar_parent.dart';
-import 'bottom_bar_techer/bottom_bar_teacher.dart';
+import '../../controllers/apis_repo/auth_apis.dart';
+import '../bottom_bar_parent/bottom_bar_parent.dart';
+import '../bottom_bar_techer/bottom_bar_teacher.dart';
 import 'forget_email_screen.dart';
-import 'forget_password_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class LogInScreen extends StatefulWidget {
@@ -188,7 +187,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                   builder: (context) {
                                     return LoginApiShadePreference.preferences!
                                                 .getString('role') ==
-                                            'parents'
+                                            'parent'
                                         ? BottomBarPages()
                                         : TeacherBottomBar();
                                   },

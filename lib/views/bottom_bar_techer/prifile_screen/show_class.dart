@@ -3,12 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:school_system/views/teacher_data/show_children.dart';
-import 'package:school_system/views/teacher_data/slect_section.dart';
+import 'package:school_system/views/bottom_bar_techer/prifile_screen/show_student.dart';
+import 'package:school_system/views/bottom_bar_techer/prifile_screen/show_teacher_subjects.dart';
+import 'package:school_system/views/bottom_bar_techer/prifile_screen/slect_section.dart';
 import 'package:school_system/views/utils/colors.dart';
 
-import '../../controllers/cubits/teacher_cubit/get_class_student_cubit.dart';
-import '../../controllers/cubits/teacher_cubit/show_teacher_class_cubit.dart';
+import '../../../controllers/cubits/teacher_cubit/get_class_student_cubit.dart';
+import '../../../controllers/cubits/teacher_cubit/show_teacher_class_cubit.dart';
 
 class TeacherClass extends StatefulWidget {
   const TeacherClass({Key? key}) : super(key: key);
@@ -99,11 +100,11 @@ class _TeacherClassState extends State<TeacherClass> {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
-                          context.read<GetClassStudentCubit>().getSections(
-                              state.model.data![index].id.toString());
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
-                              return const ShowChildren();
+                              return ShowTeacherSubject(
+                                classID: state.model.data![index].id.toString(),
+                              );
                             },
                           ));
                         },
@@ -119,7 +120,6 @@ class _TeacherClassState extends State<TeacherClass> {
                               width: 10.w,
                             ),
                             title: Text(state.model.data![index].name!),
-                            subtitle: Text(state.model.data![index].grade!),
                             trailing: Text(
                                 state.model.data![index].schoolId.toString()),
                           ),
@@ -127,12 +127,12 @@ class _TeacherClassState extends State<TeacherClass> {
                       );
                     },
                     separatorBuilder: (context, index) {
-                      return SizedBox();
+                      return const SizedBox();
                     },
                   ),
                 );
               } else {
-                return Text('Data Issue');
+                return const Text('Data Issue');
               }
             },
           )

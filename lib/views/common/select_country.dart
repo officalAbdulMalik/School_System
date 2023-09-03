@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_system/views/select_country.dart';
-import 'package:school_system/views/sign_up_screen.dart';
+import 'package:school_system/views/common/sign_up_screen.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:school_system/views/utils/custom_widget/container_decoration.dart';
 import 'package:school_system/views/utils/shade_prefrence.dart';
 
-import '../controllers/firebase_repos/firebase_notification.dart';
+import '../../controllers/firebase_repos/firebase_notification.dart';
 
-class OnboardingScreen extends StatefulWidget {
-  OnboardingScreen({Key? key}) : super(key: key);
+class SelectCountry extends StatefulWidget {
+  SelectCountry({Key? key}) : super(key: key);
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  State<SelectCountry> createState() => _SelectCountryState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _SelectCountryState extends State<SelectCountry> {
   final ValueNotifier<bool> loading = ValueNotifier(false);
 
   final ValueNotifier<bool> showPassword = ValueNotifier(false);
@@ -53,29 +52,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    'Parent Teacher Mobile ',
+                    'Select Your Country',
                     style: GoogleFonts.acme(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
                       fontSize: 24.sp,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 21.sp),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Connecting Parents and Teacher Worldwide ',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.acme(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 19.sp,
-                      ),
                     ),
                   ),
                 ),
@@ -85,18 +66,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 InkWell(
                   onTap: () async {
                     LoginApiShadePreference.preferences!
-                        .setString('role', 'teacher');
-                    type = 'teacher';
+                        .setString('country', 'US');
                     setState(() {});
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return SelectCountry();
+                        return SignUpScreen();
                       },
                     ));
-                    String token =
-                        await FirebaseNotificationsService().getDeviceToken();
-                    LoginApiShadePreference.preferences!
-                        .setString('device_token', token);
                   },
                   child: Container(
                     padding: EdgeInsets.only(left: 10.sp),
@@ -108,11 +84,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         children: [
                           Expanded(
                             child: SizedBox(
-                              height: 40.h,
-                              width: 100.w,
+                              height: 30.h,
+                              width: 80.w,
                               child: Image.asset(
-                                'images/teacher.png',
-                                color: Colors.black,
+                                'images/usa.png',
                               ),
                             ),
                           ),
@@ -127,7 +102,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 height: 40.h,
                                 width: 100.w,
                                 child: Text(
-                                  'I\'m a teacher',
+                                  'United State',
                                   style: GoogleFonts.acme(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,
@@ -149,11 +124,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 InkWell(
                   onTap: () async {
                     LoginApiShadePreference.preferences!
-                        .setString('role', 'parents');
-                    type = 'parents';
+                        .setString('country', 'UK');
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return SelectCountry();
+                        return SignUpScreen();
                       },
                     ));
 
@@ -169,9 +143,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         children: [
                           Expanded(
                             child: SizedBox(
-                              height: 40.h,
-                              width: 100.w,
-                              child: Image.asset('images/parents.png'),
+                              height: 30.h,
+                              width: 80.w,
+                              child: Image.asset('images/un.png'),
                             ),
                           ),
                           SizedBox(
@@ -185,7 +159,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 height: 40.h,
                                 width: 100.w,
                                 child: Text(
-                                  'I\'m a parents',
+                                  'United Kingdom',
                                   style: GoogleFonts.acme(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,

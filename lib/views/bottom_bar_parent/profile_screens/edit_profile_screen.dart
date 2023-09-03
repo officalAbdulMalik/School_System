@@ -1,9 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:school_system/views/utils/shade_prefrence.dart';
 
+import '../../../controllers/apis_repo/update_profile.dart';
+import '../../../controllers/image_picking.dart';
 import '../../../models/user_data_model.dart';
 import '../../utils/colors.dart';
+import '../../utils/custom_widget/container_decoration.dart';
 import '../../utils/custom_widget/custom_widgets.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -16,19 +24,40 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  String language = 'Preferred Language';
   bool check = false;
 
   TextEditingController firsName = TextEditingController();
   TextEditingController secondName = TextEditingController();
   TextEditingController email = TextEditingController();
+  TextEditingController occupation = TextEditingController();
+  String language = '';
+  String gender = '';
+  String image1 = '';
+  ValueNotifier<bool> loading = ValueNotifier(false);
+
+  String title = '';
+  String dob = '';
+  String about = '';
+  File? showImage;
+
+  List<String> teacher = [
+    'Mr.',
+    'Mrs.',
+    'Doctor',
+    'Ms.',
+  ];
 
   @override
   void initState() {
     firsName.text = widget.data!.firstName! ?? "";
     secondName.text = widget.data!.lastName! ?? "";
     email.text = widget.data!.email! ?? "";
-    language = widget.data!.language ?? " ";
+    language = widget.data!.language ?? "Preferred Language ";
+    title = widget.data!.title ?? "";
+    title = widget.data!.dob ?? "";
+    title = widget.data!.hearAboutUs ?? "";
+    image1 = widget.data!.image!;
+    gender = widget.data!.gender ?? "Select Gender";
     // TODO: implement initState
     super.initState();
   }
@@ -38,6 +67,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         centerTitle: true,
         backgroundColor: kButtonColor,
         title: Text(
@@ -58,13 +88,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               const SizedBox(
                 height: 30,
               ),
-              CircleAvatar(
-                radius: 60,
+              InkWell(
+                onTap: () async {
+                  final image = await ImagePick.pickImageFromGallery();
+                  if (image != null) {
+                    setState(() {
+                      image1 = image.path;
+                      showImage = image;
+                    });
+                  } else {
+                    Fluttertoast.showToast(msg: 'Image Is Empty');
+                  }
+                },
                 child: CircleAvatar(
-                  foregroundImage: widget.data!.image!.isEmpty
-                      ? AssetImage("images/users.png")
-                      : NetworkImage(widget.data!.image!) as ImageProvider,
                   radius: 50,
+                  child: showImage == null
+                      ? CircleAvatar(
+                          foregroundImage: widget.data!.image!.isEmpty
+                              ? AssetImage("images/users.png")
+                              : NetworkImage(widget.data!.image!)
+                                  as ImageProvider,
+                          radius: 50,
+                        )
+                      : CircleAvatar(
+                          foregroundImage: FileImage(showImage!),
+                          radius: 50,
+                        ),
                 ),
               ),
               const SizedBox(
@@ -83,24 +132,54 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 height: 20,
               ),
               Container(
+                padding: EdgeInsets.only(left: 10.sp),
+                height: 50.h,
+                width: 340.sp,
+                decoration: ContinerDecoration.continerDecoration(),
+                child: Row(
+                  children: [
+                    Expanded(
+                        flex: 2,
+                        child: Text(
+                          title,
+                          style: GoogleFonts.acme(
+                              color: Colors.black, fontSize: 11.sp),
+                        )),
+                    SizedBox(
+                      width: 30.w,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 10.0.sp),
+                        child: DropdownButton<String>(
+                          underline: SizedBox(),
+                          items: teacher.map((String item) {
+                            return DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(item),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            title = value!;
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Container(
                 padding: EdgeInsets.only(left: 20),
                 height: 50,
                 width: 340,
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(15),
-                  gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFC7CEF1),
-                        Color(0xFF8C9BE3),
-                      ],
-                      begin: FractionalOffset(0.0, 0.0),
-                      end: FractionalOffset(1.0, 0.0),
-                      stops: [0.1, 1.0],
-                      tileMode: TileMode.clamp),
-                ),
+                decoration: ContinerDecoration.continerDecoration(),
                 child: TextFormField(
                   controller: firsName,
+                  style: GoogleFonts.acme(color: Colors.black, fontSize: 11.sp),
                   decoration: const InputDecoration(
                     hintText: 'First Name',
                     hintStyle: TextStyle(color: Colors.black, fontSize: 12),
@@ -118,21 +197,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 padding: const EdgeInsets.only(left: 20),
                 height: 50,
                 width: 340,
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(15),
-                  gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFC7CEF1),
-                        Color(0xFF8C9BE3),
-                      ],
-                      begin: FractionalOffset(0.0, 0.0),
-                      end: FractionalOffset(1.0, 0.0),
-                      stops: [0.1, 1.0],
-                      tileMode: TileMode.clamp),
-                ),
+                decoration: ContinerDecoration.continerDecoration(),
                 child: TextFormField(
                   controller: secondName,
+                  style: GoogleFonts.acme(color: Colors.black, fontSize: 11.sp),
                   decoration: const InputDecoration(
                     hintText: 'Last Name',
                     hintStyle: TextStyle(color: Colors.black, fontSize: 12),
@@ -150,21 +218,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 padding: EdgeInsets.only(left: 20),
                 height: 50,
                 width: 340,
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(15),
-                  gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFC7CEF1),
-                        Color(0xFF8C9BE3),
-                      ],
-                      begin: FractionalOffset(0.0, 0.0),
-                      end: FractionalOffset(1.0, 0.0),
-                      stops: [0.1, 1.0],
-                      tileMode: TileMode.clamp),
-                ),
+                decoration: ContinerDecoration.continerDecoration(),
                 child: TextFormField(
                   controller: email,
+                  style: GoogleFonts.acme(color: Colors.black, fontSize: 11.sp),
                   decoration: const InputDecoration(
                     hintText: 'Email',
                     hintStyle: TextStyle(color: Colors.black, fontSize: 12),
@@ -182,28 +239,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 padding: const EdgeInsets.only(left: 10),
                 height: 50,
                 width: 340,
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(15),
-                  gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFC7CEF1),
-                        Color(0xFF8C9BE3),
-                      ],
-                      begin: FractionalOffset(0.0, 0.0),
-                      end: FractionalOffset(1.0, 0.0),
-                      stops: [0.1, 1.0],
-                      tileMode: TileMode.decal),
-                ),
+                decoration: ContinerDecoration.continerDecoration(),
                 child: Row(
                   children: [
                     Expanded(
-                        flex: 2,
-                        child: Text(
-                          language,
-                          style: GoogleFonts.acme(
-                              color: Colors.black, fontSize: 11),
-                        )),
+                      flex: 2,
+                      child: Text(
+                        language,
+                        style: GoogleFonts.acme(
+                            color: Colors.black, fontSize: 11.sp),
+                      ),
+                    ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(right: 10.0),
@@ -215,8 +261,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             'Welsh',
                           ].map((String value) {
                             return DropdownMenuItem<String>(
-                              child: Text(value),
                               value: value,
+                              child: Text(value),
                             );
                           }).toList(),
                           onChanged: (value) {
@@ -231,6 +277,75 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               const SizedBox(
                 height: 20,
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 10.sp),
+                height: 50.h,
+                width: 340.w,
+                decoration: ContinerDecoration.continerDecoration(),
+                child: TextFormField(
+                  controller: occupation,
+                  style: GoogleFonts.acme(color: Colors.black, fontSize: 11.sp),
+                  decoration: InputDecoration(
+                    hintText: LoginApiShadePreference.preferences!
+                                .getString('role') ==
+                            'teacher'
+                        ? 'qualification'
+                        : 'occupation',
+                    hintStyle: TextStyle(color: Colors.black, fontSize: 11.sp),
+                    border: InputBorder.none,
+                  ),
+                  cursorColor: kPrimaryColor,
+                  // decoration: textFieldIconDecoration(
+                  //     Icons.alternate_email, 'service@gmail.com', null),
+                ),
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 10.sp),
+                height: 50.h,
+                width: 340.w,
+                decoration: ContinerDecoration.continerDecoration(),
+                child: Row(
+                  children: [
+                    Expanded(
+                        flex: 2,
+                        child: Text(
+                          gender,
+                          style: GoogleFonts.acme(
+                              color: Colors.black, fontSize: 11.sp),
+                        )),
+                    SizedBox(
+                      width: 30.sp,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 10.0.sp),
+                        child: DropdownButton<String>(
+                          underline: SizedBox(),
+                          items: <String>[
+                            'Male',
+                            'Female',
+                          ].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            gender = value!;
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20.h,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -273,14 +388,65 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ],
               ),
+              ValueListenableBuilder(
+                valueListenable: loading,
+                builder: (context, value, child) {
+                  if (value == false) {
+                    return InkWell(
+                      onTap: () {
+                        bool val = validate();
+                        if (val == true) {
+                          loading.value = true;
+                          UpdateProfile.updateProfile(
+                                  context: context,
+                                  firstName: firsName.text.trim(),
+                                  lastName: secondName.text.trim(),
+                                  email: email.text.trim(),
+                                  language: language,
+                                  title: title,
+                                  about: about,
+                                  occupation: occupation.text.trim(),
+                                  dob: dob,
+                                  gender: gender,
+                                  image: image1)
+                              .then((value) {
+                            loading.value = false;
+                          });
+                        }
+                      },
+                      child: CustomWidgets.customButton('Update Profile'),
+                    );
+                  } else {
+                    return Center(
+                        child: LoadingAnimationWidget.fallingDot(
+                      color: Colors.white,
+                      size: 50.sp,
+                    ));
+                  }
+                },
+              ),
               const SizedBox(
                 height: 10,
               ),
-              CustomWidgets.customButton('Update Profile'),
             ],
           ),
         ),
       ),
     );
+  }
+
+  validate() {
+    if (showImage == null) {
+      Fluttertoast.showToast(msg: 'Image is Required');
+      return false;
+    } else if (firsName.text.isEmpty) {
+      Fluttertoast.showToast(msg: 'First name is required');
+      return false;
+    } else if (secondName.text.isEmpty) {
+      Fluttertoast.showToast(msg: 'Second name is required');
+      return false;
+    } else {
+      return true;
+    }
   }
 }

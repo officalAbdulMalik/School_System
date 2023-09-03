@@ -4,7 +4,6 @@ import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_system/views/bottom_bar_parent/profile_screens/menu_screen.dart';
 import 'package:school_system/views/bottom_bar_parent/show_report_sreen.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:stylish_bottom_bar/model/bar_items.dart';
@@ -12,6 +11,7 @@ import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
 import '../bottom_bar_techer/metting_screen.dart';
 import '../bottom_bar_techer/notification_screen.dart';
+import '../common/menu_screen.dart';
 import 'chat_screen.dart';
 import 'class_screen.dart';
 import 'history_screen.dart';

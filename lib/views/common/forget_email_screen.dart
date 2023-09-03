@@ -3,13 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:school_system/views/forget_password_screen.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:school_system/views/utils/custom_widget/container_decoration.dart';
 import 'package:school_system/views/utils/custom_widget/custom_widgets.dart';
-import 'package:school_system/views/verify_email_screen.dart';
+import 'package:school_system/views/common/verify_email_screen.dart';
 
-import '../controllers/apis_repo/forget_password_api.dart';
+import '../../controllers/apis_repo/forget_password_api.dart';
 
 class ForgetPasswordEmailScreen extends StatefulWidget {
   const ForgetPasswordEmailScreen({Key? key}) : super(key: key);

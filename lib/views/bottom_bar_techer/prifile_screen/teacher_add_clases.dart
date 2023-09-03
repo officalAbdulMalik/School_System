@@ -3,15 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:school_system/views/loginScreen.dart';
-import 'package:school_system/views/teacher_data/show_class.dart';
+import 'package:school_system/views/common/loginScreen.dart';
+import 'package:school_system/views/bottom_bar_techer/prifile_screen/show_class.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:school_system/views/utils/custom_widget/container_decoration.dart';
 import 'package:school_system/views/utils/custom_widget/custom_dop_down.dart';
 import 'package:school_system/views/utils/custom_widget/custom_widgets.dart';
 
-import '../../controllers/apis_repo/teacher_apis/teacher_create_class.dart';
-import '../utils/shade_prefrence.dart';
+import '../../../controllers/apis_repo/teacher_apis/teacher_create_class.dart';
+import '../../utils/shade_prefrence.dart';
 
 class TeacherAddClass extends StatefulWidget {
   TeacherAddClass({Key? key, required this.sectionId, required this.schoolId})

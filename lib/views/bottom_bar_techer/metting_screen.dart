@@ -80,8 +80,6 @@ class _MettingsScreenState extends State<MettingsScreen> {
                 BlocBuilder<GetAllMeetingsCubit, GetAllMeetingsState>(
                   builder: (context, state) {
                     if (state is GetAllMeetingsLoaded) {
-                      print(state.mettings.data![0].meetingDate);
-
                       return SizedBox(
                         height: 500,
                         width: 600,
