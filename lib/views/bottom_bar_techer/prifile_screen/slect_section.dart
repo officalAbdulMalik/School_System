@@ -9,6 +9,7 @@ import 'package:school_system/views/bottom_bar_techer/prifile_screen/teacher_add
 
 import '../../../controllers/cubits/teacher_cubit/get_section_cubit.dart';
 import '../../utils/colors.dart';
+import '../../utils/custom_widget/custom_widgets.dart';
 import 'create_new_section.dart';
 
 class SelectSection extends StatefulWidget {
@@ -51,11 +52,7 @@ class _SelectSectionState extends State<SelectSection> {
           BlocBuilder<GetSectionCubit, GetSectionState>(
             builder: (context, state) {
               if (state is GetSectionLoading) {
-                return Center(
-                    child: LoadingAnimationWidget.fallingDot(
-                  color: Colors.white,
-                  size: 50.sp,
-                ));
+                return CustomWidgets.loadingIndicator();
               } else if (state is GetSectionLoaded) {
                 return SizedBox(
                   height: MediaQuery.of(context).size.height.h,

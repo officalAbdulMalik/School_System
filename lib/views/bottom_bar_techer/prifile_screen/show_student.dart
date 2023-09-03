@@ -7,6 +7,7 @@ import 'package:school_system/controllers/cubits/teacher_cubit/get_class_student
 import 'package:school_system/views/utils/colors.dart';
 
 import '../../../controllers/cubits/teacher_cubit/show_teacher_class_cubit.dart';
+import '../../utils/custom_widget/custom_widgets.dart';
 
 class ShowStudents extends StatefulWidget {
   ShowStudents({Key? key, required this.classId}) : super(key: key);
@@ -53,11 +54,7 @@ class _ShowStudentsState extends State<ShowStudents> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Center(
-                        child: LoadingAnimationWidget.fallingDot(
-                      color: Colors.white,
-                      size: 50.sp,
-                    )),
+                     CustomWidgets.loadingIndicator(),
                   ],
                 );
               } else if (state is GetClassStudentLoaded) {

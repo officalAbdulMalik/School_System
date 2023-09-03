@@ -7,6 +7,7 @@ import 'package:school_system/controllers/cubits/common_cubit/get_parents_teache
 import 'package:school_system/views/utils/colors.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import '../utils/custom_widget/custom_widgets.dart';
 import 'metting_request_screen.dart';
 
 class ClassScreen extends StatefulWidget {
@@ -194,11 +195,7 @@ class _ClassScreenState extends State<ClassScreen> {
                             ),
                     );
                   } else {
-                    return Center(
-                        child: LoadingAnimationWidget.fallingDot(
-                      color: Colors.white,
-                      size: 50.sp,
-                    ));
+                    return CustomWidgets.loadingIndicator();
                   }
                 },
               )

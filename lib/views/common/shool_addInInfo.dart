@@ -98,11 +98,7 @@ class _SchoolAddInInfoState extends State<SchoolAddInInfo> {
                       child: CustomWidgets.customButton('Continue'),
                     );
                   } else {
-                    return Center(
-                        child: LoadingAnimationWidget.fallingDot(
-                      color: Colors.white,
-                      size: 50.sp,
-                    ));
+                    return CustomWidgets.loadingIndicator();
                   }
                 },
               ),

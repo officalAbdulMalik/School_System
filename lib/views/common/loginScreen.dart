@@ -167,11 +167,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   valueListenable: loading,
                   builder: (context, value, child) {
                     if (value == true) {
-                      return Center(
-                          child: LoadingAnimationWidget.fallingDot(
-                        color: Colors.white,
-                        size: 50.sp,
-                      ));
+                      return CustomWidgets.loadingIndicator();
                     } else {
                       return InkWell(
                         onTap: () {

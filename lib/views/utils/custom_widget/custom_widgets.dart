@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../colors.dart';
 
@@ -47,27 +48,42 @@ class CustomWidgets {
     );
   }
 
+  static textStyle(
+      {required Color color,
+      required double size,
+      required FontWeight weight}) {
+    return GoogleFonts.poppins(
+      color: color,
+      fontSize: size,
+      fontWeight: weight,
+    );
+  }
+
   static customButton(String text) {
     return Container(
-      height: 50.h,
+      height: 45.h,
       width: 340.w,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.sp),
-        gradient: LinearGradient(
-            colors: [
-              const Color(0xFF2A3B5D),
-              const Color(0xFF3D529B),
-            ],
-            begin: const FractionalOffset(0.0, 0.0),
-            end: const FractionalOffset(1.0, 0.0),
-            stops: [0.1, 1.0],
-            tileMode: TileMode.decal),
+        borderRadius: BorderRadius.circular(15.sp),
+        color: kPrimaryColor,
       ),
       child: Center(
           child: Text(
         text,
-        style: GoogleFonts.acme(color: Colors.white, fontSize: 20.h),
+        style: GoogleFonts.poppins(
+          color: Colors.white,
+          fontSize: 16.h,
+          fontWeight: FontWeight.w500,
+        ),
       )),
     );
+  }
+
+  static loadingIndicator() {
+    return Center(
+        child: LoadingAnimationWidget.fallingDot(
+      color: kPrimaryColor,
+      size: 50.sp,
+    ));
   }
 }

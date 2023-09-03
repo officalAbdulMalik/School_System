@@ -262,11 +262,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                       child: CustomWidgets.customButton('Add Child'),
                     );
                   } else {
-                    return Center(
-                        child: LoadingAnimationWidget.fallingDot(
-                      color: Colors.white,
-                      size: 50.sp,
-                    ));
+                    return CustomWidgets.loadingIndicator();
                   }
                 },
               ),

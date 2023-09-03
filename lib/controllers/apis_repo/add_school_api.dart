@@ -45,13 +45,15 @@ class AddSchoolApi {
 
     http.StreamedResponse response = await request.send();
 
+    print("here is sisisiis${response.reasonPhrase}");
+
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
 
       return response.statusCode;
     } else {
       var data = response.stream.bytesToString();
-      print(data);
+      print("the data is $data");
       print(response.reasonPhrase);
       return response.statusCode;
     }

@@ -7,6 +7,7 @@ import 'package:school_system/controllers/cubits/common_cubit/get_all_meetings_c
 import 'package:school_system/views/utils/colors.dart';
 
 import '../../controllers/apis_repo/accept_reject_metting.dart';
+import '../utils/custom_widget/custom_widgets.dart';
 
 class MettingsScreen extends StatefulWidget {
   MettingsScreen({Key? key}) : super(key: key);
@@ -233,11 +234,7 @@ class _MettingsScreenState extends State<MettingsScreen> {
                               ),
                       );
                     } else {
-                      return Center(
-                          child: LoadingAnimationWidget.fallingDot(
-                        color: Colors.white,
-                        size: 50.sp,
-                      ));
+                      return CustomWidgets.loadingIndicator();
                     }
                   },
                 )

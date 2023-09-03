@@ -6,6 +6,8 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/controllers/cubits/common_cubit/history_mettings_cubit.dart';
 import 'package:school_system/views/utils/colors.dart';
 
+import '../utils/custom_widget/custom_widgets.dart';
+
 class Meeting {
   String title;
   String subtitle;
@@ -153,11 +155,7 @@ class _MeetingHistoryPageState extends State<MeetingHistoryPage> {
                     ),
                   ));
           } else {
-            return Center(
-                child: LoadingAnimationWidget.fallingDot(
-              color: Colors.white,
-              size: 50.sp,
-            ));
+            return CustomWidgets.loadingIndicator();
           }
         },
       ),

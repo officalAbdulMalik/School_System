@@ -90,11 +90,7 @@ class _CreateSectionState extends State<CreateSection> {
                     child: CustomWidgets.customButton('Save'),
                   );
                 } else {
-                  return Center(
-                      child: LoadingAnimationWidget.fallingDot(
-                    color: Colors.white,
-                    size: 50.sp,
-                  ));
+                  return CustomWidgets.loadingIndicator();
                 }
               },
             ),

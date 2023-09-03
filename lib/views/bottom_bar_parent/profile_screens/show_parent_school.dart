@@ -9,6 +9,7 @@ import 'package:school_system/views/common/shool_addInInfo.dart';
 import 'package:school_system/views/common/sign_up_screen.dart';
 import 'package:school_system/views/utils/colors.dart';
 
+import '../../utils/custom_widget/custom_widgets.dart';
 import 'show_teacher.dart';
 
 class ShowParentSchool extends StatefulWidget {
@@ -103,11 +104,7 @@ class _ShowParentSchoolState extends State<ShowParentSchool> {
                       ),
               );
             } else {
-              return Center(
-                  child: LoadingAnimationWidget.fallingDot(
-                color: Colors.white,
-                size: 50.sp,
-              ));
+              return CustomWidgets.loadingIndicator();
             }
           },
         ),

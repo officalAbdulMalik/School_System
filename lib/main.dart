@@ -4,10 +4,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:school_system/controllers/app_providers.dart';
 import 'package:school_system/controllers/cubits/common_cubit/get_all_meetings_cubit.dart';
 import 'package:school_system/controllers/cubits/common_cubit/get_all_school_cubit.dart';
 import 'package:school_system/controllers/cubits/common_cubit/sign_up_cubit.dart';
 import 'package:school_system/views/bottom_bar_parent/profile_screens/add_child_screen.dart';
+import 'package:school_system/views/common/all_school_screen.dart';
 import 'package:school_system/views/common/loginScreen.dart';
 import 'package:school_system/views/common/onboarding_screen.dart';
 import 'package:school_system/views/bottom_bar_techer/prifile_screen/teacher_add_clases.dart';
@@ -76,7 +78,7 @@ class MyApp extends StatelessWidget {
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
                 useMaterial3: true,
               ),
-              home: LogInScreen(),
+              home: OnboardingScreen(),
             ),
           );
         });

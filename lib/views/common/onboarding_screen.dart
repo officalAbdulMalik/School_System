@@ -39,7 +39,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kPrimaryColor,
+        backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Padding(
@@ -48,15 +48,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 90.h,
+                  height: 30.h,
+                ),
+                Center(
+                  child: SizedBox(
+                    height: 170,
+                    width: 200,
+                    child: Image.asset(
+                      'images/satar.png',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20.h,
                 ),
                 Align(
                   alignment: Alignment.center,
                   child: Text(
                     'Parent Teacher Mobile ',
-                    style: GoogleFonts.acme(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
+                    style: GoogleFonts.poppins(
+                      color: kPrimaryColor,
+                      fontWeight: FontWeight.w600,
                       fontSize: 24.sp,
                     ),
                   ),
@@ -71,10 +84,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: Text(
                       'Connecting Parents and Teacher Worldwide ',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.acme(
-                        color: Colors.white,
+                      style: GoogleFonts.poppins(
+                        color: Colors.amber,
                         fontWeight: FontWeight.w500,
-                        fontSize: 19.sp,
+                        fontSize: 16.sp,
                       ),
                     ),
                   ),
@@ -90,7 +103,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     setState(() {});
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return SelectCountry();
+                        return SignUpScreen();
                       },
                     ));
                     String token =
@@ -102,7 +115,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     padding: EdgeInsets.only(left: 10.sp),
                     height: 60.h,
                     width: 340.w,
-                    decoration: ContinerDecoration.continerDecoration(),
+                    decoration: BoxDecoration(
+                      color: kBorderColor.withOpacity(0.2),
+                      border: Border.all(color: kPrimaryColor),
+                      borderRadius: BorderRadius.circular(15.sp),
+                    ),
                     child: Center(
                       child: Row(
                         children: [
@@ -153,7 +170,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     type = 'parents';
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return SelectCountry();
+                        return SignUpScreen();
                       },
                     ));
 
@@ -163,7 +180,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     padding: EdgeInsets.only(left: 10.sp),
                     height: 60.h,
                     width: 340.w,
-                    decoration: ContinerDecoration.continerDecoration(),
+                    decoration: BoxDecoration(
+                      color: kBorderColor.withOpacity(0.2),
+                      border: Border.all(color: kPrimaryColor),
+                      borderRadius: BorderRadius.circular(15.sp),
+                    ),
                     child: Center(
                       child: Row(
                         children: [

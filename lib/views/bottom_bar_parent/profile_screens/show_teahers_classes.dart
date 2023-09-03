@@ -9,6 +9,7 @@ import 'package:school_system/views/bottom_bar_parent/profile_screens/show_child
 import '../../../controllers/cubits/parent_cubit/get_school_teacher_cubit.dart';
 import '../../../controllers/cubits/parent_cubit/teacher_classes_cubit.dart';
 import '../../utils/colors.dart';
+import '../../utils/custom_widget/custom_widgets.dart';
 import 'add_child_screen.dart';
 
 class ShowTeacherClasses extends StatefulWidget {
@@ -100,11 +101,7 @@ class _ShowTeacherClassesState extends State<ShowTeacherClasses> {
                       ),
               );
             } else {
-              return Center(
-                  child: LoadingAnimationWidget.fallingDot(
-                color: Colors.white,
-                size: 50.sp,
-              ));
+              return CustomWidgets.loadingIndicator();
             }
           },
         ),

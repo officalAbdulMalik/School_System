@@ -13,6 +13,7 @@ import 'package:school_system/views/utils/colors.dart';
 import 'package:school_system/views/utils/shade_prefrence.dart';
 
 import '../../controllers/apis_repo/forget_password_api.dart';
+import '../utils/custom_widget/custom_widgets.dart';
 import 'all_school_screen.dart';
 import 'forget_password_screen.dart';
 
@@ -186,11 +187,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                     ),
                   );
                 } else {
-                  return Center(
-                      child: LoadingAnimationWidget.fallingDot(
-                    color: Colors.white,
-                    size: 50.sp,
-                  ));
+                  return CustomWidgets.loadingIndicator();
                 }
               },
             )

@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:school_system/views/utils/colors.dart';
+
+class DecoratedContainer extends StatelessWidget {
+  DecoratedContainer({Key? key, required this.child}) : super(key: key);
+
+  Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(left: 10.sp, right: 20.sp),
+      height: 45.h,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.sp),
+        color: kContainerColor,
+      ),
+      child: child,
+    );
+  }
+}
 
 class ContinerDecoration {
   static continerDecoration() {
     return BoxDecoration(
-        color: Colors.grey,
-        borderRadius: BorderRadius.circular(15.r),
-        gradient: LinearGradient(
-            colors: [
-              const Color(0xFFC7CEF1),
-              const Color(0xFF8C9BE3),
-            ],
-            begin: const FractionalOffset(0.0, 0.0),
-            end: const FractionalOffset(1.0, 0.0),
-            stops: [0.1, 1.0],
-            tileMode: TileMode.clamp));
+      color: kContainerColor,
+      borderRadius: BorderRadius.circular(15.r),
+    );
   }
 }

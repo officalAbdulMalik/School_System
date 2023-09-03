@@ -13,6 +13,8 @@ import 'package:school_system/views/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/views/utils/shade_prefrence.dart';
 
 import '../../controllers/apis_repo/auth_apis.dart';
+import '../utils/custom_widget/custom_row_widget.dart';
+import '../utils/custom_widget/navigator_pop.dart';
 import 'all_school_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -68,92 +70,66 @@ class _SignUpScreenState extends State<SignUpScreen> {
     'Ms.',
   ];
 
+  bool checkBox = false;
+
   String role = LoginApiShadePreference.preferences!.getString('role')!;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kPrimaryColor,
+        backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: ListView(
           padding: EdgeInsets.only(left: 20.sp, right: 20.sp),
           children: [
             SizedBox(
-              height: 10.h,
+              height: 20.h,
             ),
-            Align(
-                alignment: Alignment.centerRight,
-                child: Image.asset('images/satar.png')),
-
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Let\'s Get You Sign up',
-                style: GoogleFonts.acme(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 22.sp,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 8.h,
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Welcome Back,\nYou\'ve been missed!',
-                style: GoogleFonts.acme(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 17.sp,
-                ),
-              ),
+            const NavigatorPop(),
+            SizedBox(height: 20.h),
+            CustomRowWidget(
+              text1: 'Create Your New Account!',
+              text2: 'Improving Parent & Teacher Communication.',
             ),
             SizedBox(
               height: 13.sp,
             ),
-            Container(
-              padding: EdgeInsets.only(left: 10.sp),
-              height: 50.h,
-              width: 340.sp,
-              decoration: ContinerDecoration.continerDecoration(),
+            DecoratedContainer(
               child: Row(
                 children: [
                   Expanded(
                       flex: role == 'teacher' ? 2 : 1,
                       child: Text(
                         teacherM,
-                        style: GoogleFonts.acme(
-                            color: Colors.black, fontSize: 11.sp),
+                        style: CustomWidgets.textStyle(
+                            color: Colors.black,
+                            size: 11.0,
+                            weight: FontWeight.w500),
                       )),
                   SizedBox(
                     width: 30.w,
                   ),
                   Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 10.0.sp),
-                      child: DropdownButton<String>(
-                        underline: SizedBox(),
-                        items: role == 'teacher'
-                            ? teacher.map((String item) {
-                                return DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(item),
-                                );
-                              }).toList()
-                            : parents.map((String item) {
-                                return DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(item),
-                                );
-                              }).toList(),
-                        onChanged: (value) {
-                          teacherM = value!;
-                          setState(() {});
-                        },
-                      ),
+                    child: DropdownButton<String>(
+                      underline: SizedBox(),
+                      items: role == 'teacher'
+                          ? teacher.map((String item) {
+                              return DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(item),
+                              );
+                            }).toList()
+                          : parents.map((String item) {
+                              return DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(item),
+                              );
+                            }).toList(),
+                      onChanged: (value) {
+                        teacherM = value!;
+                        setState(() {});
+                      },
                     ),
                   ),
                 ],
@@ -162,17 +138,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(
               height: 20.h,
             ),
-            Container(
-              padding: EdgeInsets.only(left: 10.sp),
-              height: 50.h,
-              width: 340.w,
-              decoration: ContinerDecoration.continerDecoration(),
+            DecoratedContainer(
               child: TextFormField(
                 controller: firstName,
                 style: GoogleFonts.acme(color: Colors.black, fontSize: 11.sp),
                 decoration: InputDecoration(
                   hintText: 'First Name',
-                  hintStyle: TextStyle(color: Colors.black, fontSize: 12.sp),
+                  hintStyle: CustomWidgets.textStyle(
+                      color: Colors.black, size: 11.0, weight: FontWeight.w500),
                   border: InputBorder.none,
                 ),
                 cursorColor: kPrimaryColor,
@@ -183,17 +156,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(
               height: 20.h,
             ),
-            Container(
-              padding: EdgeInsets.only(left: 10.sp),
-              height: 50.h,
-              width: 340.w,
-              decoration: ContinerDecoration.continerDecoration(),
+            DecoratedContainer(
               child: TextFormField(
                 controller: lastName,
                 style: GoogleFonts.acme(color: Colors.black, fontSize: 11.sp),
                 decoration: InputDecoration(
                   hintText: 'Last Name',
-                  hintStyle: TextStyle(color: Colors.black, fontSize: 12.sp),
+                  hintStyle: CustomWidgets.textStyle(
+                      color: Colors.black, size: 11.0, weight: FontWeight.w500),
                   border: InputBorder.none,
                 ),
                 cursorColor: kPrimaryColor,
@@ -204,17 +174,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(
               height: 20.h,
             ),
-            Container(
-              padding: EdgeInsets.only(left: 10.sp),
-              height: 50.h,
-              width: 340.w,
-              decoration: ContinerDecoration.continerDecoration(),
+            DecoratedContainer(
               child: TextFormField(
                 controller: email,
                 style: GoogleFonts.acme(color: Colors.black, fontSize: 11.sp),
                 decoration: InputDecoration(
                   hintText: 'Email',
-                  hintStyle: TextStyle(color: Colors.black, fontSize: 11.sp),
+                  hintStyle: CustomWidgets.textStyle(
+                      color: Colors.black, size: 11.0, weight: FontWeight.w500),
                   border: InputBorder.none,
                 ),
                 cursorColor: kPrimaryColor,
@@ -225,11 +192,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(
               height: 20.h,
             ),
-            Container(
-              padding: EdgeInsets.only(left: 10.sp),
-              height: 50.h,
-              width: 340.w,
-              decoration: ContinerDecoration.continerDecoration(),
+            DecoratedContainer(
               child: Center(
                 child: ValueListenableBuilder(
                   valueListenable: showPassword,
@@ -248,8 +211,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             child: value != true
                                 ? const Icon(Icons.visibility)
                                 : const Icon(Icons.visibility_off)),
-                        hintStyle:
-                            TextStyle(color: Colors.black, fontSize: 12.sp),
+                        hintStyle: CustomWidgets.textStyle(
+                            color: Colors.black,
+                            size: 11.0,
+                            weight: FontWeight.w500),
                         border: InputBorder.none,
                       ),
                       cursorColor: kPrimaryColor,
@@ -263,11 +228,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(
               height: 20.h,
             ),
-            Container(
-              padding: EdgeInsets.only(left: 10.sp),
-              height: 50.h,
-              width: 340.w,
-              decoration: ContinerDecoration.continerDecoration(),
+            DecoratedContainer(
               child: Center(
                 child: ValueListenableBuilder(
                   valueListenable: showCPassword,
@@ -286,8 +247,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             child: value != true
                                 ? const Icon(Icons.visibility)
                                 : const Icon(Icons.visibility_off)),
-                        hintStyle:
-                            TextStyle(color: Colors.black, fontSize: 12.sp),
+                        hintStyle: CustomWidgets.textStyle(
+                            color: Colors.black,
+                            size: 11.0,
+                            weight: FontWeight.w500),
                         border: InputBorder.none,
                       ),
                       cursorColor: kPrimaryColor,
@@ -302,19 +265,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
               height: role == 'parents' ? 20.h : 0,
             ),
             role == 'parents'
-                ? Container(
-                    padding: EdgeInsets.only(left: 10.sp),
-                    height: 50.h,
-                    width: 340.w,
-                    decoration: ContinerDecoration.continerDecoration(),
+                ? DecoratedContainer(
                     child: TextFormField(
                       controller: phoneNumber,
                       style: GoogleFonts.acme(
                           color: Colors.black, fontSize: 11.sp),
                       decoration: InputDecoration(
                         hintText: 'Phone Number',
-                        hintStyle:
-                            TextStyle(color: Colors.black, fontSize: 11.sp),
+                        hintStyle: CustomWidgets.textStyle(
+                            color: Colors.black,
+                            size: 11.0,
+                            weight: FontWeight.w500),
                         border: InputBorder.none,
                       ),
                       cursorColor: kPrimaryColor,
@@ -327,19 +288,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
               height: role == 'parents' ? 20.h : 0,
             ),
             role == 'parents'
-                ? Container(
-                    padding: EdgeInsets.only(left: 10.sp),
-                    height: 50.h,
-                    width: 340.w,
-                    decoration: ContinerDecoration.continerDecoration(),
+                ? DecoratedContainer(
                     child: TextFormField(
                       controller: dob,
                       style: GoogleFonts.acme(
                           color: Colors.black, fontSize: 11.sp),
                       decoration: InputDecoration(
                         hintText: 'Date Of Birth',
-                        hintStyle:
-                            TextStyle(color: Colors.black, fontSize: 11.sp),
+                        hintStyle: CustomWidgets.textStyle(
+                            color: Colors.black,
+                            size: 11.0,
+                            weight: FontWeight.w500),
                         border: InputBorder.none,
                       ),
                       cursorColor: kPrimaryColor,
@@ -351,17 +310,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(
               height: 20.h,
             ),
-            Container(
-              padding: EdgeInsets.only(left: 10.sp),
-              height: 50.h,
-              width: 340.w,
-              decoration: ContinerDecoration.continerDecoration(),
+            DecoratedContainer(
               child: TextFormField(
                 controller: occupation,
                 style: GoogleFonts.acme(color: Colors.black, fontSize: 11.sp),
                 decoration: InputDecoration(
                   hintText: role == 'teacher' ? 'qualification' : 'occupation',
-                  hintStyle: TextStyle(color: Colors.black, fontSize: 11.sp),
+                  hintStyle: CustomWidgets.textStyle(
+                      color: Colors.black, size: 11.0, weight: FontWeight.w500),
                   border: InputBorder.none,
                 ),
                 cursorColor: kPrimaryColor,
@@ -373,19 +329,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
               height: 20.h,
             ),
             // buildTextFieldLabel('Password'),
-            Container(
-              padding: EdgeInsets.only(left: 10.sp),
-              height: 50.h,
-              width: 340.w,
-              decoration: ContinerDecoration.continerDecoration(),
+            DecoratedContainer(
               child: Row(
                 children: [
                   Expanded(
                       flex: 2,
                       child: Text(
                         language,
-                        style: GoogleFonts.acme(
-                            color: Colors.black, fontSize: 11.sp),
+                        style: CustomWidgets.textStyle(
+                            color: Colors.black,
+                            size: 11.0,
+                            weight: FontWeight.w500),
                       )),
                   SizedBox(
                     width: 30.sp,
@@ -418,20 +372,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(
               height: 20.h,
             ),
-            Container(
-              padding: EdgeInsets.only(left: 10.sp),
-              height: 50.h,
-              width: 340.w,
-              decoration: ContinerDecoration.continerDecoration(),
+            DecoratedContainer(
               child: Row(
                 children: [
                   Expanded(
-                      flex: 2,
-                      child: Text(
-                        gender,
-                        style: GoogleFonts.acme(
-                            color: Colors.black, fontSize: 11.sp),
-                      )),
+                    flex: 2,
+                    child: Text(
+                      gender,
+                      style: CustomWidgets.textStyle(
+                          color: Colors.black,
+                          size: 11.0,
+                          weight: FontWeight.w500),
+                    ),
+                  ),
                   SizedBox(
                     width: 30.sp,
                   ),
@@ -463,24 +416,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
               height: 20.h,
             ),
             // buildTextFieldLabel('Password'),
-            Container(
-              padding: EdgeInsets.only(left: 10.sp),
-              height: 50.h,
-              width: 340.w,
-              decoration: ContinerDecoration.continerDecoration(),
+            DecoratedContainer(
               child: Row(
                 children: [
                   Expanded(
-                      flex: 1,
-                      child: Text(
-                        abou,
-                        style: GoogleFonts.acme(
-                            color: Colors.black, fontSize: 11.sp),
-                      )),
+                    flex: 1,
+                    child: Text(
+                      abou,
+                      style: CustomWidgets.textStyle(
+                          color: Colors.black,
+                          size: 11.0,
+                          weight: FontWeight.w500),
+                    ),
+                  ),
                   SizedBox(
-                    width: 30.sp,
+                    width: 30.w,
                   ),
                   Expanded(
+                    flex: 1,
                     child: Padding(
                       padding: EdgeInsets.only(right: 10.0.sp),
                       child: DropdownButton<String>(
@@ -502,38 +455,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
             SizedBox(
-              height: 15.h,
+              height: 5.h,
             ),
             Row(
               children: [
-                Container(
-                  height: 20.h,
-                  width: 20.w,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black, width: 1.5),
-                  ),
-                  child: Checkbox(
-                    value: true,
-                    onChanged: (bool? value) {},
-                  ),
-                ),
-                SizedBox(
-                  width: 10.h,
+                Checkbox(
+                  activeColor: kPrimaryColor,
+                  splashRadius: 0.0,
+                  value: checkBox,
+                  onChanged: (bool? value) {
+                    checkBox = value!;
+                    setState(() {});
+                  },
                 ),
                 Expanded(
                   flex: 1,
                   child: Text(
                     'i am agree to receive emails and notifications ',
-                    style: GoogleFonts.acme(
-                      color: Colors.white,
-                      fontSize: 15.sp,
+                    style: GoogleFonts.poppins(
+                      color: kDescriptionColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12.sp,
                     ),
                   ),
                 )
               ],
             ),
             SizedBox(
-              height: 15.h,
+              height: 5.h,
             ),
             BlocConsumer<SignUpCubit, SignUpState>(
               listener: (context, state) {
@@ -547,11 +496,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               },
               builder: (context, state) {
                 if (state is SignUpLoading) {
-                  return Center(
-                      child: LoadingAnimationWidget.fallingDot(
-                    color: Colors.white,
-                    size: 50.sp,
-                  ));
+                  return CustomWidgets.loadingIndicator();
                 } else {
                   return InkWell(
                     onTap: () async {
@@ -593,10 +538,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'You have account  ',
-                  style: GoogleFonts.acme(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
+                  'You have accoun,  ',
+                  style: GoogleFonts.poppins(
+                    color: kDescriptionColor,
+                    fontWeight: FontWeight.w500,
                     fontSize: 15.sp,
                   ),
                 ),
@@ -610,10 +555,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                   child: Text(
                     'Login here!',
-                    style: GoogleFonts.acme(
-                      color: Color(0xFF2A3B5D),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15.sp,
+                    style: GoogleFonts.poppins(
+                      color: kPrimaryColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14.sp,
                     ),
                   ),
                 ),
@@ -621,17 +566,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             SizedBox(
               height: 30.h,
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: SizedBox(
-                height: 50.h,
-                width: 50.w,
-                child: Image.asset('images/satar.png'),
-              ),
-            ),
-            SizedBox(
-              height: 10.h,
             ),
           ],
         ),

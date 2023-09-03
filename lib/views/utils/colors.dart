@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 const Color kButtonColor = Color(0xFF2A3B5D);
-const Color kPrimaryColor = Color(0xff29ABE2);
-const Color kContainerColor = Color(0xffD3E5F9);
+const Color kPrimaryColor = Color(0xff3DAEF5);
+const Color kContainerColor = Color(0xfff0f5ff);
 const Color kH2Color = Color(0xff19303E);
-const Color kDescriptionColor = Color(0xff6A6A6A);
+const Color kDescriptionColor = Color(0xff6B7280);
 const Color kHintTextColor = Color(0xffB7B7B7);
 const Color kTextFieldFillColor = Color(0xffFCFCFC);
 const Color kBoxColor = Color(0xffF2F2FF);

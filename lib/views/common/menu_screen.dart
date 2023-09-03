@@ -14,6 +14,7 @@ import '../bottom_bar_parent/profile_screens/edit_profile_screen.dart';
 import '../bottom_bar_parent/profile_screens/show_teacher.dart';
 import '../bottom_bar_techer/prifile_screen/show_class.dart';
 import '../utils/colors.dart';
+import '../utils/custom_widget/custom_widgets.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -512,11 +513,7 @@ class _MenuScreenState extends State<MenuScreen> {
               ),
             );
           } else {
-            return Center(
-                child: LoadingAnimationWidget.fallingDot(
-              color: Colors.white,
-              size: 50.sp,
-            ));
+            return CustomWidgets.loadingIndicator();
           }
         },
       ),

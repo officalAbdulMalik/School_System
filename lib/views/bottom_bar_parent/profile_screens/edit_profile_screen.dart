@@ -417,11 +417,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       child: CustomWidgets.customButton('Update Profile'),
                     );
                   } else {
-                    return Center(
-                        child: LoadingAnimationWidget.fallingDot(
-                      color: Colors.white,
-                      size: 50.sp,
-                    ));
+                    return CustomWidgets.loadingIndicator();
                   }
                 },
               ),

@@ -69,11 +69,7 @@ class _ShowChildrenState extends State<ShowChildren> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Center(
-                        child: LoadingAnimationWidget.fallingDot(
-                      color: Colors.white,
-                      size: 50.sp,
-                    )),
+                    CustomWidgets.loadingIndicator(),
                   ],
                 );
               } else if (state is GetClassStudentLoaded) {
