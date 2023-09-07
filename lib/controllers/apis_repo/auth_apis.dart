@@ -8,7 +8,7 @@ import 'package:school_system/views/common/loginScreen.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:school_system/views/utils/shade_prefrence.dart';
 
-import '../../views/common/verify_email_screen.dart';
+import '../../views/common/otp_screen.dart';
 
 String baseUrl = 'https://schoolsnow.parentteachermobile.com';
 

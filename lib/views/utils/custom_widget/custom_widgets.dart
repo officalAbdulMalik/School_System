@@ -86,4 +86,12 @@ class CustomWidgets {
       size: 50.sp,
     ));
   }
+
+  static style() {
+    return GoogleFonts.poppins(
+      fontSize: 14.sp,
+      fontWeight: FontWeight.w400,
+      color: Colors.black,
+    );
+  }
 }

@@ -7,8 +7,11 @@ import 'package:school_system/views/common/loginScreen.dart';
 import 'package:school_system/views/common/onboarding_screen.dart';
 import 'package:school_system/views/common/sign_up_screen.dart';
 import 'package:school_system/views/utils/colors.dart';
+import 'package:school_system/views/utils/custom_widget/container_decoration.dart';
+import 'package:school_system/views/utils/custom_widget/custom_widgets.dart';
 
 import '../../controllers/apis_repo/forget_password_api.dart';
+import 'complete_screen.dart';
 import 'forget_password_screen.dart';
 
 class ForgetPassword extends StatefulWidget {
@@ -25,11 +28,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   TextEditingController password = TextEditingController();
   TextEditingController confirm = TextEditingController();
 
+  bool iconVis = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kPrimaryColor,
+        backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Column(
@@ -40,12 +45,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               ),
               Align(
                 alignment: Alignment.center,
-                child: CircleAvatar(
-                  radius: 60.r,
-                  backgroundColor: Colors.white,
-                  child: CircleAvatar(
-                    radius: 59.r,
-                    backgroundImage: AssetImage('images/forget.png'),
+                child: SizedBox(
+                  height: 150,
+                  width: 400,
+                  child: Image.asset(
+                    'images/add_s_star.png',
+                    height: 150,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
@@ -55,11 +61,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'Change Password',
-                  style: GoogleFonts.acme(
-                    color: Colors.white,
+                  'Set New Password',
+                  style: GoogleFonts.poppins(
+                    color: Colors.black,
                     fontWeight: FontWeight.w700,
-                    fontSize: 33.sp,
+                    fontSize: 20.sp,
                   ),
                 ),
               ),
@@ -69,9 +75,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'Enter New password to change your password',
-                  style: GoogleFonts.acme(
-                    color: Colors.white,
+                  'Must be at least 8 characters.',
+                  style: GoogleFonts.poppins(
+                    color: kDescriptionColor,
                     fontWeight: FontWeight.w600,
                     fontSize: 15.sp,
                   ),
@@ -89,29 +95,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       SizedBox(
                         height: 49.h,
                       ),
-                      Container(
-                        padding: EdgeInsets.only(left: 10.sp),
-                        height: 50.h,
-                        width: 340.w,
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(15.r),
-                          gradient: LinearGradient(
-                              colors: [
-                                const Color(0xFFC7CEF1),
-                                const Color(0xFF8C9BE3),
-                              ],
-                              begin: const FractionalOffset(0.0, 0.0),
-                              end: const FractionalOffset(1.0, 0.0),
-                              stops: [0.1, 1.0],
-                              tileMode: TileMode.clamp),
-                        ),
+                      DecoratedContainer(
                         child: TextFormField(
                           controller: password,
                           decoration: InputDecoration(
                             hintText: 'Password',
-                            hintStyle:
-                                TextStyle(color: Colors.black, fontSize: 12.sp),
+                            hintStyle: GoogleFonts.poppins(
+                                color: Colors.black, fontSize: 12.sp),
                             border: InputBorder.none,
                           ),
                           cursorColor: kPrimaryColor,
@@ -123,29 +113,22 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         height: 20.h,
                       ),
                       // buildTextFieldLabel('Password'),
-                      Container(
-                        padding: EdgeInsets.only(left: 10.sp),
-                        height: 50.h,
-                        width: 340.w,
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(15.sp),
-                          gradient: LinearGradient(
-                              colors: [
-                                const Color(0xFFC7CEF1),
-                                const Color(0xFF8C9BE3),
-                              ],
-                              begin: const FractionalOffset(0.0, 0.0),
-                              end: const FractionalOffset(1.0, 0.0),
-                              stops: [0.1, 1.0],
-                              tileMode: TileMode.decal),
-                        ),
+                      DecoratedContainer(
                         child: TextFormField(
                           controller: confirm,
+                          obscureText: iconVis,
                           decoration: InputDecoration(
                             hintText: 'Confirm Password',
-                            hintStyle:
-                                TextStyle(color: Colors.black, fontSize: 12.sp),
+                            suffixIcon: InkWell(
+                                onTap: () {
+                                  iconVis = !iconVis;
+                                  setState(() {});
+                                },
+                                child: Icon(iconVis == false
+                                    ? Icons.visibility_off
+                                    : Icons.visibility)),
+                            hintStyle: GoogleFonts.poppins(
+                                color: Colors.black, fontSize: 12.sp),
                             border: InputBorder.none,
                           ),
                           cursorColor: kPrimaryColor,
@@ -154,7 +137,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         ),
                       ),
                       SizedBox(
-                        height: 50.h,
+                        height: 130.h,
                       ),
                       ValueListenableBuilder(
                         valueListenable: loading,
@@ -172,7 +155,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                     if (value == 200) {
                                       Navigator.push(context, MaterialPageRoute(
                                         builder: (context) {
-                                          return LogInScreen();
+                                          return CompleteScreen();
                                         },
                                       ));
                                     }
@@ -182,35 +165,12 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                       msg: 'check Your Password');
                                 }
                               },
-                              child: Container(
-                                height: 50.h,
-                                width: 300.w,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  gradient: LinearGradient(
-                                      colors: [
-                                        const Color(0xFF2A3B5D),
-                                        const Color(0xFF3D529B),
-                                      ],
-                                      begin: const FractionalOffset(0.0, 0.0),
-                                      end: const FractionalOffset(1.0, 0.0),
-                                      stops: [0.1, 1.0],
-                                      tileMode: TileMode.decal),
-                                ),
-                                child: Center(
-                                    child: Text(
-                                  'Change Password',
-                                  style: GoogleFonts.acme(
-                                      color: Colors.white, fontSize: 20.sp),
-                                )),
-                              ),
+                              child:
+                                  CustomWidgets.customButton('Reset Password'),
                             );
                           } else {
                             return Center(
-                                child: LoadingAnimationWidget.fallingDot(
-                              color: Colors.white,
-                              size: 50.sp,
-                            ));
+                                child: CustomWidgets.loadingIndicator());
                           }
                         },
                       )

@@ -100,10 +100,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     LoginApiShadePreference.preferences!
                         .setString('role', 'teacher');
                     type = 'teacher';
+
                     setState(() {});
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return SignUpScreen();
+                        return SelectCountry();
                       },
                     ));
                     String token =
@@ -117,44 +118,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     width: 340.w,
                     decoration: BoxDecoration(
                       color: kBorderColor.withOpacity(0.2),
-                      border: Border.all(color: kPrimaryColor),
+                      border: type == "teacher"
+                          ? Border.all(color: kPrimaryColor)
+                          : Border.all(color: Colors.white),
                       borderRadius: BorderRadius.circular(15.sp),
                     ),
-                    child: Center(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: SizedBox(
-                              height: 40.h,
-                              width: 100.w,
-                              child: Image.asset(
-                                'images/teacher.png',
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10.h,
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 13.sp),
-                              child: SizedBox(
-                                height: 40.h,
-                                width: 100.w,
-                                child: Text(
-                                  'I\'m a teacher',
-                                  style: GoogleFonts.acme(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18.sp,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'I\'m a teacher',
+                        style: GoogleFonts.acme(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20.sp,
+                        ),
                       ),
                     ),
                   ),
@@ -170,7 +147,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     type = 'parents';
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return SignUpScreen();
+                        return SelectCountry();
                       },
                     ));
 
@@ -182,41 +159,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     width: 340.w,
                     decoration: BoxDecoration(
                       color: kBorderColor.withOpacity(0.2),
-                      border: Border.all(color: kPrimaryColor),
+                      border: type == "parents"
+                          ? Border.all(color: kPrimaryColor)
+                          : Border.all(color: Colors.white),
                       borderRadius: BorderRadius.circular(15.sp),
                     ),
                     child: Center(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: SizedBox(
-                              height: 40.h,
-                              width: 100.w,
-                              child: Image.asset('images/parents.png'),
-                            ),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          '  I\'m a parents',
+                          style: GoogleFonts.acme(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20.sp,
                           ),
-                          SizedBox(
-                            width: 10.h,
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 13.sp),
-                              child: SizedBox(
-                                height: 40.h,
-                                width: 100.w,
-                                child: Text(
-                                  'I\'m a parents',
-                                  style: GoogleFonts.acme(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18.sp,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),

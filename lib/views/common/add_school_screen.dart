@@ -9,8 +9,9 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/views/bottom_bar_techer/metting_screen.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:school_system/views/utils/custom_widget/container_decoration.dart';
-import 'package:school_system/views/common/verify_email_screen.dart';
+import 'package:school_system/views/common/otp_screen.dart';
 import 'package:school_system/views/utils/custom_widget/custom_row_widget.dart';
+import 'package:school_system/views/utils/shade_prefrence.dart';
 
 import '../../controllers/apis_repo/add_school_api.dart';
 import '../../controllers/image_picking.dart';
@@ -26,7 +27,7 @@ class AddSchoolScreen extends StatefulWidget {
 }
 
 class _AddSchoolScreenState extends State<AddSchoolScreen> {
-  String country = 'United Kingdom';
+  String? country = LoginApiShadePreference.preferences!.getString('country');
 
   ValueNotifier<bool> loading = ValueNotifier(false);
 
@@ -99,60 +100,13 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                 SizedBox(
                   height: 20.h,
                 ),
-                Container(
-                  height: 50.h,
-                  width: 340.w,
-                  decoration: ContinerDecoration.continerDecoration(),
-                  child: ListTile(
-                    leading: SizedBox(
-                      height: 30.h,
-                      width: 30.w,
-                      child: Image.asset(country == 'United Kingdom'
-                          ? 'images/un.png'
-                          : 'images/us.png'),
-                    ),
-                    title: Text(
-                      country,
-                      style: GoogleFonts.poppins(
-                          color: Colors.black,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    trailing: DropdownButton<String>(
-                      underline: SizedBox(),
-                      items: <String>[
-                        'United Kingdom',
-                        'United State',
-                      ].map((String value) {
-                        return DropdownMenuItem<String>(
-                          child: Text(value),
-                          value: value,
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        country = value!;
-                        setState(() {});
-                      },
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                Container(
-                  padding: const EdgeInsets.only(left: 10),
-                  height: 50.h,
-                  width: 340.w,
-                  decoration: ContinerDecoration.continerDecoration(),
+                DecoratedContainer(
                   child: TextFormField(
+                    style: CustomWidgets.style(),
                     controller: schName,
                     decoration: InputDecoration(
                       hintText: 'School Name',
-                      hintStyle: GoogleFonts.poppins(
-                        color: Colors.black,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      hintStyle: CustomWidgets.style(),
                       border: InputBorder.none,
                     ),
                     cursorColor: kPrimaryColor,
@@ -163,22 +117,15 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                 SizedBox(
                   height: 20.h,
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 10.sp),
-                  height: 50.h,
-                  width: 340.w,
-                  decoration: ContinerDecoration.continerDecoration(),
+                DecoratedContainer(
                   child: TextFormField(
+                    style: CustomWidgets.style(),
                     controller: address,
                     decoration: InputDecoration(
                       hintText: country == 'United Kingdom'
                           ? 'Number and Street Name'
                           : 'Address',
-                      hintStyle: GoogleFonts.poppins(
-                        color: Colors.black,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      hintStyle: CustomWidgets.style(),
                       border: InputBorder.none,
                     ),
                     cursorColor: kPrimaryColor,
@@ -189,21 +136,14 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                 SizedBox(
                   height: 20.h,
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 10),
-                  height: 50.h,
-                  width: 340.w,
-                  decoration: ContinerDecoration.continerDecoration(),
+                DecoratedContainer(
                   child: TextFormField(
+                    style: CustomWidgets.style(),
                     controller: city,
                     decoration: InputDecoration(
                       hintText:
                           country == 'United Kingdom' ? 'Locality' : 'City',
-                      hintStyle: GoogleFonts.poppins(
-                        color: Colors.black,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      hintStyle: CustomWidgets.style(),
                       border: InputBorder.none,
                     ),
                     cursorColor: kPrimaryColor,
@@ -214,21 +154,14 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                 SizedBox(
                   height: 20.h,
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 10.sp),
-                  height: 50.h,
-                  width: 340.w,
-                  decoration: ContinerDecoration.continerDecoration(),
+                DecoratedContainer(
                   child: TextFormField(
+                    style: CustomWidgets.style(),
                     controller: state,
                     decoration: InputDecoration(
                       hintText:
                           country == 'United Kingdom' ? 'Post Town' : 'State',
-                      hintStyle: GoogleFonts.poppins(
-                        color: Colors.black,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      hintStyle: CustomWidgets.style(),
                       border: InputBorder.none,
                     ),
                     cursorColor: kPrimaryColor,
@@ -239,22 +172,15 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                 SizedBox(
                   height: 20.h,
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 10.sp),
-                  height: 50.h,
-                  width: 340.w,
-                  decoration: ContinerDecoration.continerDecoration(),
+                DecoratedContainer(
                   child: TextFormField(
+                    style: CustomWidgets.style(),
                     controller: zipCode,
                     decoration: InputDecoration(
                       hintText: country == 'United Kingdom'
                           ? 'Post code'
                           : 'Zip code',
-                      hintStyle: GoogleFonts.poppins(
-                        color: Colors.black,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      hintStyle: CustomWidgets.style(),
                       border: InputBorder.none,
                     ),
                     cursorColor: kPrimaryColor,
@@ -265,20 +191,13 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                 SizedBox(
                   height: 20.h,
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 10.sp),
-                  height: 50.h,
-                  width: 340.w,
-                  decoration: ContinerDecoration.continerDecoration(),
+                DecoratedContainer(
                   child: TextFormField(
+                    style: CustomWidgets.style(),
                     controller: email,
                     decoration: InputDecoration(
                       hintText: 'Email Address (optional)',
-                      hintStyle: GoogleFonts.poppins(
-                        color: Colors.black,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      hintStyle: CustomWidgets.style(),
                       border: InputBorder.none,
                     ),
                     cursorColor: kPrimaryColor,
@@ -289,20 +208,13 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                 SizedBox(
                   height: 20.h,
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 10.sp),
-                  height: 50.h,
-                  width: 340.w,
-                  decoration: ContinerDecoration.continerDecoration(),
+                DecoratedContainer(
                   child: TextFormField(
+                    style: CustomWidgets.style(),
                     controller: phone,
                     decoration: InputDecoration(
                       hintText: 'Phone Number (optional)',
-                      hintStyle: GoogleFonts.poppins(
-                        color: Colors.black,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      hintStyle: CustomWidgets.style(),
                       border: InputBorder.none,
                     ),
                     cursorColor: kPrimaryColor,
@@ -313,20 +225,13 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                 SizedBox(
                   height: 20.h,
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 10.sp),
-                  height: 50.h,
-                  width: 340.w,
-                  decoration: ContinerDecoration.continerDecoration(),
+                DecoratedContainer(
                   child: TextFormField(
+                    style: CustomWidgets.style(),
                     controller: website,
                     decoration: InputDecoration(
                       hintText: 'Website (optional)',
-                      hintStyle: GoogleFonts.poppins(
-                        color: Colors.black,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      hintStyle: CustomWidgets.style(),
                       border: InputBorder.none,
                     ),
                     cursorColor: kPrimaryColor,

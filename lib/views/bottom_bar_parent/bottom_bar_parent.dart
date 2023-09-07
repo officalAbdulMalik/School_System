@@ -4,7 +4,7 @@ import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/views/bottom_bar_parent/show_report_sreen.dart';
 import 'package:school_system/views/common/dashboard_screen/dashboard_screen.dart';
@@ -73,7 +73,6 @@ List<TabItem> items = [
   ),
 ];
 
-
 class _BottomBarPagesState extends State<BottomBarPages> {
   @override
   void initState() {
@@ -82,6 +81,7 @@ class _BottomBarPagesState extends State<BottomBarPages> {
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -144,7 +144,6 @@ class _BottomBarPagesState extends State<BottomBarPages> {
                       MettingsScreen(),
                       ChatScreen(),
                       MenuScreen(),
-
                       ClassScreen(),
                       NewsEventsPage(),
                       ReportCardScreen(),

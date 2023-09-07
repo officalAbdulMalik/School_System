@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/views/common/onboarding_screen.dart';
+import 'package:school_system/views/common/privacy_police.dart';
 import 'package:school_system/views/common/sign_up_screen.dart';
 import 'package:school_system/views/common/terms_condation.dart';
 import 'package:school_system/views/utils/colors.dart';
@@ -35,7 +36,7 @@ class _LogInScreenState extends State<LogInScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kPrimaryColor,
+        backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Padding(
@@ -47,19 +48,24 @@ class _LogInScreenState extends State<LogInScreen> {
                   height: 20.h,
                 ),
                 Align(
-                    alignment: Alignment.centerRight,
-                    child: Image.asset('images/satar.png')),
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                        height: 150.h,
+                        width: 300.w,
+                        child: Image.asset(
+                          'images/satar.png',
+                          fit: BoxFit.contain,
+                        ))),
                 SizedBox(
                   height: 20.h,
                 ),
-                Align(
-                  alignment: Alignment.centerLeft,
+                Center(
                   child: Text(
-                    ' Let\'s Sign In',
-                    style: GoogleFonts.acme(
-                      color: Colors.white,
+                    ' Let’s Get You Signed In',
+                    style: GoogleFonts.poppins(
+                      color: Colors.black,
                       fontWeight: FontWeight.w700,
-                      fontSize: 33.sp,
+                      fontSize: 22.sp,
                     ),
                   ),
                 ),
@@ -67,12 +73,13 @@ class _LogInScreenState extends State<LogInScreen> {
                   height: 10.h,
                 ),
                 Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.center,
                   child: Text(
-                    'Welcome Back,\nYou\'ve been missed',
-                    style: GoogleFonts.acme(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+                    'Connecting Parents and Teachers\nWorld Wide.',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                      color: kDescriptionColor,
+                      fontWeight: FontWeight.w400,
                       fontSize: 18.sp,
                     ),
                   ),
@@ -86,11 +93,11 @@ class _LogInScreenState extends State<LogInScreen> {
                   width: 340.w,
                   decoration: ContinerDecoration.continerDecoration(),
                   child: TextFormField(
+                    style: CustomWidgets.style(),
                     controller: email,
                     decoration: InputDecoration(
                       hintText: 'Email',
-                      hintStyle:
-                          TextStyle(color: Colors.black, fontSize: 12.sp),
+                      hintStyle: CustomWidgets.style(),
                       border: InputBorder.none,
                     ),
                     cursorColor: kPrimaryColor,
@@ -102,15 +109,12 @@ class _LogInScreenState extends State<LogInScreen> {
                   height: 20.h,
                 ),
                 // buildTextFieldLabel('Password'),
-                Container(
-                  padding: EdgeInsets.only(left: 10.sp),
-                  height: 50.h,
-                  width: 340.w,
-                  decoration: ContinerDecoration.continerDecoration(),
+                DecoratedContainer(
                   child: ValueListenableBuilder(
                     valueListenable: showPassword,
                     builder: (context, value, child) {
                       return TextFormField(
+                        style: CustomWidgets.style(),
                         obscureText: showPassword.value,
                         controller: pass,
                         decoration: InputDecoration(
@@ -123,8 +127,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                 : Icon(Icons.visibility_off),
                           ),
                           hintText: 'Password',
-                          hintStyle:
-                              TextStyle(color: Colors.black, fontSize: 12.sp),
+                          hintStyle: CustomWidgets.style(),
                           border: InputBorder.none,
                         ),
                         cursorColor: kPrimaryColor,
@@ -150,11 +153,11 @@ class _LogInScreenState extends State<LogInScreen> {
                         ));
                       },
                       child: Text(
-                        'Forget Password',
-                        style: GoogleFonts.acme(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 15.sp,
+                        'Forget Password ?',
+                        style: GoogleFonts.poppins(
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 18.sp,
                         ),
                       ),
                     ),
@@ -171,29 +174,29 @@ class _LogInScreenState extends State<LogInScreen> {
                     } else {
                       return InkWell(
                         onTap: () {
-                          if (email.text.isNotEmpty && pass.text.isNotEmpty) {
-                            print('if');
-                            loading.value = true;
-                            LoginApi.createUser(email.text.trim(),
-                                    pass.text.trim(), context)
-                                .then((value) {
-                              loading.value = false;
-                              if (value == 200) {
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return LoginApiShadePreference.preferences!
-                                                .getString('role') ==
-                                            'parent'
-                                        ? BottomBarPages()
-                                        : TeacherBottomBar();
-                                  },
-                                ));
-                              }
-                            });
-                          } else {
-                            Fluttertoast.showToast(msg: 'All Fields Required');
-                            print('else');
-                          }
+                          // if (email.text.isNotEmpty && pass.text.isNotEmpty) {
+                          //   print('if');
+                          //   loading.value = true;
+                          //   LoginApi.createUser(email.text.trim(),
+                          //           pass.text.trim(), context)
+                          //       .then((value) {
+                          //     loading.value = false;
+                          //     if (value == 200) {
+                          //       Navigator.push(context, MaterialPageRoute(
+                          //         builder: (context) {
+                          //           return LoginApiShadePreference.preferences!
+                          //                       .getString('role') ==
+                          //                   'parent'
+                          //               ? BottomBarPages()
+                          //               : TeacherBottomBar();
+                          //         },
+                          //       ));
+                          //     }
+                          //   });
+                          // } else {
+                          //   Fluttertoast.showToast(msg: 'All Fields Required');
+                          //   print('else');
+                          // }
                         },
                         child: CustomWidgets.customButton('Login'),
                       );
@@ -203,53 +206,15 @@ class _LogInScreenState extends State<LogInScreen> {
                 SizedBox(
                   height: 20.h,
                 ),
-                Center(
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return TermsCondation();
-                        },
-                      ));
-                    },
-                    child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(children: [
-                          TextSpan(
-                              text: 'By Loging you agree with',
-                              style: GoogleFonts.acme(
-                                color: Colors.white,
-                              )),
-                          TextSpan(
-                              text: ' Terms and condition ',
-                              style: GoogleFonts.acme(
-                                color: kButtonColor,
-                              )),
-                          TextSpan(
-                              text: '& ',
-                              style: GoogleFonts.acme(
-                                color: Colors.white,
-                              )),
-                          TextSpan(
-                              text: '\nPrivacy Police',
-                              style: GoogleFonts.acme(
-                                color: kButtonColor,
-                              ))
-                        ])),
-                  ),
-                ),
-                SizedBox(
-                  height: 15.h,
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'No have Account  ',
-                      style: GoogleFonts.acme(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15.sp,
+                      style: GoogleFonts.poppins(
+                        color: kPrimaryColor,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16.sp,
                       ),
                     ),
                     InkWell(
@@ -262,25 +227,58 @@ class _LogInScreenState extends State<LogInScreen> {
                       },
                       child: Text(
                         'Sign up here!',
-                        style: GoogleFonts.acme(
-                          color: Color(0xFF2A3B5D),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15.sp,
+                        style: GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16.sp,
                         ),
                       ),
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: 30.h,
+                  height: 60.h,
                 ),
-                Align(
-                  alignment: Alignment.center,
-                  child: SizedBox(
-                    height: 50.h,
-                    width: 50.w,
-                    child: Image.asset('images/satar.png'),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return TermsCondation();
+                          },
+                        ));
+                      },
+                      child: Text('Terms & Conditions',
+                          style: GoogleFonts.poppins(
+                            color: kPrimaryColor,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16.sp,
+                          )),
+                    ),
+                    Text(' and ',
+                        style: GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16.sp,
+                        )),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return PrivacyPolice();
+                          },
+                        ));
+                      },
+                      child: Text('Privacy Policy',
+                          style: GoogleFonts.poppins(
+                            color: kPrimaryColor,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16.sp,
+                          )),
+                    ),
+                  ],
                 ),
               ],
             ),

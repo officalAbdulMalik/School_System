@@ -91,9 +91,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             CustomRowWidget(
               text1: 'Create Your New Account!',
               text2: 'Improving Parent & Teacher Communication.',
+              image: 'sign_star.png',
             ),
             SizedBox(
-              height: 13.sp,
+              height: 20.sp,
             ),
             DecoratedContainer(
               child: Row(
@@ -102,10 +103,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       flex: role == 'teacher' ? 2 : 1,
                       child: Text(
                         teacherM,
-                        style: CustomWidgets.textStyle(
-                            color: Colors.black,
-                            size: 11.0,
-                            weight: FontWeight.w500),
+                        style: CustomWidgets.style(),
                       )),
                   SizedBox(
                     width: 30.w,
@@ -141,11 +139,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             DecoratedContainer(
               child: TextFormField(
                 controller: firstName,
-                style: GoogleFonts.acme(color: Colors.black, fontSize: 11.sp),
+                style: CustomWidgets.style(),
                 decoration: InputDecoration(
                   hintText: 'First Name',
-                  hintStyle: CustomWidgets.textStyle(
-                      color: Colors.black, size: 11.0, weight: FontWeight.w500),
+                  hintStyle: CustomWidgets.style(),
                   border: InputBorder.none,
                 ),
                 cursorColor: kPrimaryColor,
@@ -159,11 +156,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             DecoratedContainer(
               child: TextFormField(
                 controller: lastName,
-                style: GoogleFonts.acme(color: Colors.black, fontSize: 11.sp),
+                style: CustomWidgets.style(),
                 decoration: InputDecoration(
                   hintText: 'Last Name',
-                  hintStyle: CustomWidgets.textStyle(
-                      color: Colors.black, size: 11.0, weight: FontWeight.w500),
+                  hintStyle: CustomWidgets.style(),
                   border: InputBorder.none,
                 ),
                 cursorColor: kPrimaryColor,
@@ -177,11 +173,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             DecoratedContainer(
               child: TextFormField(
                 controller: email,
-                style: GoogleFonts.acme(color: Colors.black, fontSize: 11.sp),
+                style: CustomWidgets.style(),
                 decoration: InputDecoration(
                   hintText: 'Email',
-                  hintStyle: CustomWidgets.textStyle(
-                      color: Colors.black, size: 11.0, weight: FontWeight.w500),
+                  hintStyle: CustomWidgets.style(),
                   border: InputBorder.none,
                 ),
                 cursorColor: kPrimaryColor,
@@ -199,8 +194,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   builder: (context, value, child) {
                     return TextFormField(
                       controller: password,
-                      style: GoogleFonts.acme(
-                          color: Colors.black, fontSize: 11.sp),
+                      style: CustomWidgets.style(),
                       obscureText: showPassword.value,
                       decoration: InputDecoration(
                         hintText: 'Password',
@@ -211,10 +205,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             child: value != true
                                 ? const Icon(Icons.visibility)
                                 : const Icon(Icons.visibility_off)),
-                        hintStyle: CustomWidgets.textStyle(
-                            color: Colors.black,
-                            size: 11.0,
-                            weight: FontWeight.w500),
+                        hintStyle: CustomWidgets.style(),
                         border: InputBorder.none,
                       ),
                       cursorColor: kPrimaryColor,
@@ -235,8 +226,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   builder: (context, value, child) {
                     return TextFormField(
                       controller: confirmPassword,
-                      style: GoogleFonts.acme(
-                          color: Colors.black, fontSize: 11.sp),
+                      style: CustomWidgets.style(),
                       obscureText: showCPassword.value,
                       decoration: InputDecoration(
                         hintText: 'Confirm Password',
@@ -247,10 +237,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             child: value != true
                                 ? const Icon(Icons.visibility)
                                 : const Icon(Icons.visibility_off)),
-                        hintStyle: CustomWidgets.textStyle(
-                            color: Colors.black,
-                            size: 11.0,
-                            weight: FontWeight.w500),
+                        hintStyle: CustomWidgets.style(),
                         border: InputBorder.none,
                       ),
                       cursorColor: kPrimaryColor,
@@ -268,14 +255,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ? DecoratedContainer(
                     child: TextFormField(
                       controller: phoneNumber,
-                      style: GoogleFonts.acme(
-                          color: Colors.black, fontSize: 11.sp),
+                      style: CustomWidgets.style(),
                       decoration: InputDecoration(
                         hintText: 'Phone Number',
-                        hintStyle: CustomWidgets.textStyle(
-                            color: Colors.black,
-                            size: 11.0,
-                            weight: FontWeight.w500),
+                        hintStyle: CustomWidgets.style(),
                         border: InputBorder.none,
                       ),
                       cursorColor: kPrimaryColor,
@@ -291,14 +274,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ? DecoratedContainer(
                     child: TextFormField(
                       controller: dob,
-                      style: GoogleFonts.acme(
-                          color: Colors.black, fontSize: 11.sp),
+                      style: CustomWidgets.style(),
                       decoration: InputDecoration(
                         hintText: 'Date Of Birth',
-                        hintStyle: CustomWidgets.textStyle(
-                            color: Colors.black,
-                            size: 11.0,
-                            weight: FontWeight.w500),
+                        hintStyle: CustomWidgets.style(),
                         border: InputBorder.none,
                       ),
                       cursorColor: kPrimaryColor,
@@ -313,11 +292,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             DecoratedContainer(
               child: TextFormField(
                 controller: occupation,
-                style: GoogleFonts.acme(color: Colors.black, fontSize: 11.sp),
+                style: CustomWidgets.style(),
                 decoration: InputDecoration(
                   hintText: role == 'teacher' ? 'qualification' : 'occupation',
-                  hintStyle: CustomWidgets.textStyle(
-                      color: Colors.black, size: 11.0, weight: FontWeight.w500),
+                  hintStyle: CustomWidgets.style(),
                   border: InputBorder.none,
                 ),
                 cursorColor: kPrimaryColor,
@@ -336,10 +314,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       flex: 2,
                       child: Text(
                         language,
-                        style: CustomWidgets.textStyle(
-                            color: Colors.black,
-                            size: 11.0,
-                            weight: FontWeight.w500),
+                        style: CustomWidgets.style(),
                       )),
                   SizedBox(
                     width: 30.sp,
@@ -379,10 +354,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     flex: 2,
                     child: Text(
                       gender,
-                      style: CustomWidgets.textStyle(
-                          color: Colors.black,
-                          size: 11.0,
-                          weight: FontWeight.w500),
+                      style: CustomWidgets.style(),
                     ),
                   ),
                   SizedBox(
@@ -423,10 +395,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     flex: 1,
                     child: Text(
                       abou,
-                      style: CustomWidgets.textStyle(
-                          color: Colors.black,
-                          size: 11.0,
-                          weight: FontWeight.w500),
+                      style: CustomWidgets.style(),
                     ),
                   ),
                   SizedBox(
@@ -500,31 +469,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 } else {
                   return InkWell(
                     onTap: () async {
-                      bool validate = checkSignupValidation();
-                      if (validate == true) {
-                        print(validate);
+                      LoginApiShadePreference.preferences!
+                          .setString('email', email.text);
 
-                        context
-                            .read<SignUpCubit>()
-                            .createUser(
-                                firstName.text.trim(),
-                                lastName.text.trim(),
-                                email.text.trim(),
-                                password.text.trim(),
-                                teacherM,
-                                language,
-                                abou,
-                                occupation.text.trim(),
-                                phoneNumber.text.trim(),
-                                gender,
-                                dob.text.trim(),
-                                context)
-                            .then((value) {});
-                      } else {
-                        Fluttertoast.showToast(
-                            msg:
-                                'Please check all required fields or password is incorrect');
-                      }
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return SchoolListScreen();
+                        },
+                      ));
+                      // bool validate = checkSignupValidation();
+                      // if (validate == true) {
+                      //   print(validate);
+                      //
+                      //   context
+                      //       .read<SignUpCubit>()
+                      //       .createUser(
+                      //           firstName.text.trim(),
+                      //           lastName.text.trim(),
+                      //           email.text.trim(),
+                      //           password.text.trim(),
+                      //           teacherM,
+                      //           language,
+                      //           abou,
+                      //           occupation.text.trim(),
+                      //           phoneNumber.text.trim(),
+                      //           gender,
+                      //           dob.text.trim(),
+                      //           context)
+                      //       .then((value) {});
+                      // } else {
+                      //   Fluttertoast.showToast(
+                      //       msg:
+                      //           'Please check all required fields or password is incorrect');
+                      // }
                     },
                     child: CustomWidgets.customButton('Sign Up'),
                   );

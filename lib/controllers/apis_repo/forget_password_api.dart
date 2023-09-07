@@ -10,30 +10,37 @@ class ForgetPasswordApi {
     var body = json.encode({
       'email': email,
     });
-    var headers = {'Content-Type': 'application/json'};
-    http.Response request = await http.post(
-        Uri.parse(
-            'https://schoolsnow.parentteachermobile.com/api/forgot/password'),
-        body: body,
-        headers: headers);
 
-    print(request.statusCode);
-    print(request.body);
-    if (request.statusCode == 200) {
-      var data = jsonDecode(request.body);
-      Fluttertoast.showToast(msg: 'Password Send Success');
-      return request.statusCode;
+    try {
+      var headers = {'Content-Type': 'application/json'};
+      http.Response request = await http.post(
+          Uri.parse(
+              'https://schoolsnow.parentteachermobile.com/api/forgot/password'),
+          body: body,
+          headers: headers);
 
+      print(request.statusCode);
       print(request.body);
-    } else {
-      var data = jsonDecode(request.body);
-      var msg = data['message'];
-      Fluttertoast.showToast(msg: msg);
-      return request.statusCode;
+      if (request.statusCode == 200) {
+        var data = jsonDecode(request.body);
+        Fluttertoast.showToast(msg: 'Password Send Success');
+        return request.statusCode;
+
+        print(request.body);
+      } else {
+        var data = jsonDecode(request.body);
+        var msg = data['message'];
+        Fluttertoast.showToast(msg: msg);
+        return request.statusCode;
+      }
+    } catch (E) {
+      print(E.toString());
+
+      return 300;
     }
   }
 
-  static Future<int> verifyOtp(String otp) async {
+  static Future<Map<String, dynamic>> verifyOtp(String otp) async {
     var body = json.encode({
       'pincode': otp,
     });
@@ -52,14 +59,13 @@ class ForgetPasswordApi {
     print(request.body);
     if (request.statusCode == 200) {
       var data = jsonDecode(request.body);
-      Fluttertoast.showToast(msg: 'Verify Success');
-      return request.statusCode;
-      print(request.body);
+
+      return data;
     } else {
       var data = jsonDecode(request.body);
       var msg = data['error'];
       Fluttertoast.showToast(msg: msg);
-      return request.statusCode;
+      return data;
     }
   }
 

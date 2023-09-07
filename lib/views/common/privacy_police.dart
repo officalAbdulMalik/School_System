@@ -3,14 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/views/utils/colors.dart';
 
-class TermsCondation extends StatefulWidget {
-  const TermsCondation({Key? key}) : super(key: key);
+class PrivacyPolice extends StatefulWidget {
+  const PrivacyPolice({Key? key}) : super(key: key);
 
   @override
-  State<TermsCondation> createState() => _TermsCondationState();
+  State<PrivacyPolice> createState() => _PrivacyPoliceState();
 }
 
-class _TermsCondationState extends State<TermsCondation> {
+class _PrivacyPoliceState extends State<PrivacyPolice> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -46,7 +46,7 @@ class _TermsCondationState extends State<TermsCondation> {
                         child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              'Terms And Condition',
+                              'Privacy Police',
                               style: GoogleFonts.poppins(
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.w500,

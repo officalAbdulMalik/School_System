@@ -7,6 +7,8 @@ import 'package:school_system/views/utils/custom_widget/container_decoration.dar
 import 'package:school_system/views/utils/shade_prefrence.dart';
 
 import '../../controllers/firebase_repos/firebase_notification.dart';
+import '../utils/custom_widget/custom_row_widget.dart';
+import '../utils/custom_widget/navigator_pop.dart';
 
 class SelectCountry extends StatefulWidget {
   SelectCountry({Key? key}) : super(key: key);
@@ -20,7 +22,7 @@ class _SelectCountryState extends State<SelectCountry> {
 
   final ValueNotifier<bool> showPassword = ValueNotifier(false);
 
-  String type = '';
+  String country = '';
 
   getToken() async {
     String token = await FirebaseNotificationsService().getDeviceToken();
@@ -38,7 +40,6 @@ class _SelectCountryState extends State<SelectCountry> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kPrimaryColor,
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Padding(
@@ -47,26 +48,25 @@ class _SelectCountryState extends State<SelectCountry> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 90.h,
+                  height: 20.h,
                 ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Select Your Country',
-                    style: GoogleFonts.acme(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 24.sp,
-                    ),
-                  ),
+                const NavigatorPop(),
+                SizedBox(
+                  height: 20.h,
+                ),
+                CustomRowWidget(
+                  text1: 'Choice Your Country',
+                  text2: 'Select Your country from here...',
+                  image: 'con_star.png',
                 ),
                 SizedBox(
-                  height: 55.h,
+                  height: 70.h,
                 ),
                 InkWell(
                   onTap: () async {
                     LoginApiShadePreference.preferences!
                         .setString('country', 'US');
+                    country = 'US';
                     setState(() {});
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
@@ -78,37 +78,30 @@ class _SelectCountryState extends State<SelectCountry> {
                     padding: EdgeInsets.only(left: 10.sp),
                     height: 60.h,
                     width: 340.w,
-                    decoration: ContinerDecoration.continerDecoration(),
+                    decoration: BoxDecoration(
+                      color: kBorderColor.withOpacity(0.2),
+                      border: Border.all(
+                          color:
+                              country == "US" ? kPrimaryColor : Colors.white),
+                      borderRadius: BorderRadius.circular(15.sp),
+                    ),
                     child: Center(
                       child: Row(
                         children: [
-                          Expanded(
-                            child: SizedBox(
-                              height: 30.h,
-                              width: 80.w,
-                              child: Image.asset(
-                                'images/usa.png',
-                              ),
+                          const Expanded(
+                            child: CircleAvatar(
+                              radius: 20,
+                              backgroundImage: AssetImage('images/usa.png'),
                             ),
                           ),
-                          SizedBox(
-                            width: 10.h,
-                          ),
                           Expanded(
-                            flex: 3,
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 13.sp),
-                              child: SizedBox(
-                                height: 40.h,
-                                width: 100.w,
-                                child: Text(
-                                  'United State',
-                                  style: GoogleFonts.acme(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18.sp,
-                                  ),
-                                ),
+                            flex: 4,
+                            child: Text(
+                              'United States',
+                              style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 20.sp,
                               ),
                             ),
                           ),
@@ -125,6 +118,7 @@ class _SelectCountryState extends State<SelectCountry> {
                   onTap: () async {
                     LoginApiShadePreference.preferences!
                         .setString('country', 'UK');
+                    country = 'UK';
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
                         return SignUpScreen();
@@ -137,35 +131,30 @@ class _SelectCountryState extends State<SelectCountry> {
                     padding: EdgeInsets.only(left: 10.sp),
                     height: 60.h,
                     width: 340.w,
-                    decoration: ContinerDecoration.continerDecoration(),
+                    decoration: BoxDecoration(
+                      color: kBorderColor.withOpacity(0.2),
+                      border: Border.all(
+                          color:
+                              country == "UK" ? kPrimaryColor : Colors.white),
+                      borderRadius: BorderRadius.circular(15.sp),
+                    ),
                     child: Center(
                       child: Row(
                         children: [
-                          Expanded(
-                            child: SizedBox(
-                              height: 30.h,
-                              width: 80.w,
-                              child: Image.asset('images/un.png'),
+                          const Expanded(
+                            child: CircleAvatar(
+                              radius: 20,
+                              backgroundImage: AssetImage('images/un.png'),
                             ),
                           ),
-                          SizedBox(
-                            width: 10.h,
-                          ),
                           Expanded(
-                            flex: 3,
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 13.sp),
-                              child: SizedBox(
-                                height: 40.h,
-                                width: 100.w,
-                                child: Text(
-                                  'United Kingdom',
-                                  style: GoogleFonts.acme(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18.sp,
-                                  ),
-                                ),
+                            flex: 4,
+                            child: Text(
+                              'United Kingdom',
+                              style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 20.sp,
                               ),
                             ),
                           ),
