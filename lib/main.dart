@@ -10,6 +10,7 @@ import 'package:school_system/controllers/cubits/common_cubit/get_all_school_cub
 import 'package:school_system/controllers/cubits/common_cubit/sign_up_cubit.dart';
 import 'package:school_system/views/bottom_bar_parent/profile_screens/add_child_screen.dart';
 import 'package:school_system/views/common/all_school_screen.dart';
+import 'package:school_system/views/common/dashboard_screen/dashboard_screen.dart';
 import 'package:school_system/views/common/loginScreen.dart';
 import 'package:school_system/views/common/onboarding_screen.dart';
 import 'package:school_system/views/bottom_bar_techer/prifile_screen/teacher_add_clases.dart';
@@ -76,7 +77,6 @@ class MyApp extends StatelessWidget {
               title: 'Flutter Demo',
               theme: ThemeData(
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-                useMaterial3: true,
               ),
               home: OnboardingScreen(),
             ),

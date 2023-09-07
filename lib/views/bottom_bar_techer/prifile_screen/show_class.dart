@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:school_system/views/bottom_bar_techer/prifile_screen/show_student.dart';
 import 'package:school_system/views/bottom_bar_techer/prifile_screen/show_teacher_subjects.dart';
 import 'package:school_system/views/bottom_bar_techer/prifile_screen/slect_section.dart';
+import 'package:school_system/views/utils/app_images.dart';
 import 'package:school_system/views/utils/colors.dart';
+import 'package:school_system/views/utils/custom_widget/my_text.dart';
 
-import '../../../controllers/cubits/teacher_cubit/get_class_student_cubit.dart';
 import '../../../controllers/cubits/teacher_cubit/show_teacher_class_cubit.dart';
 import '../../utils/custom_widget/custom_widgets.dart';
 
@@ -30,52 +29,51 @@ class _TeacherClassState extends State<TeacherClass> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(left: 40.sp, bottom: 10.sp),
-        child: InkWell(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(
-              builder: (context) {
-                return const SelectSection();
-              },
-            ));
+      backgroundColor: Colors.white,
+
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xff3DAEF5),
+        onPressed: () {
+
+
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) {
+            return const SelectSection();
           },
-          child: RichText(
-            text: TextSpan(
-                text: 'if you want to add another class',
-                style: GoogleFonts.acme(
-                  color: Colors.white,
-                  fontSize: 16.sp,
-                ),
-                children: [
-                  TextSpan(
-                    text: ' Click here',
-                    style: GoogleFonts.acme(
-                      color: kButtonColor,
-                      fontSize: 16.sp,
-                    ),
-                  ),
-                ]),
-          ),
-        ),
-      ),
-      backgroundColor: kPrimaryColor,
+        ));
+      },child: Icon(Icons.add),),
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
-        backgroundColor: kButtonColor,
+        elevation: 0,
+
+        iconTheme: const IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white,
         centerTitle: true,
-        title: Text(
-          'Classes',
-          style: GoogleFonts.acme(
-            fontSize: 18.sp,
-            color: Colors.white,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
       ),
       body: ListView(
         padding: EdgeInsets.only(left: 15.sp, right: 15.sp),
         children: [
+
+          Row(
+            children: [
+              Expanded(
+                flex:2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MyText('My Classes',fontSize: 20.sp,fontWeight: FontWeight.w600,)
+
+                   , SizedBox(height: 3.sp,),
+                    const MyText('Unleash the potential of students through your classes.',   color: Color(0xFF6B7280),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,)
+                  ],
+                ),),
+             SizedBox(
+                 width: 86.sp,
+                 height: 86.sp,
+                 child: Image.asset(AppImages.starConfuse)),
+            ],
+          ),
           SizedBox(
             height: 20.h,
           ),
@@ -105,20 +103,208 @@ class _TeacherClassState extends State<TeacherClass> {
                             },
                           ));
                         },
-                        child: Card(
-                          color: Colors.white,
-                          child: ListTile(
-                            leading: Container(
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.greenAccent,
-                              ),
-                              height: 10.h,
-                              width: 10.w,
+                        child:  Container(
+
+                          padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                          margin: EdgeInsets.only(bottom: 10.sp),
+                          height: 145.sp,
+                          width: double.infinity,
+                          decoration: ShapeDecoration(
+                            color: const Color(0xFFE2F4FF),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            title: Text(state.model.data![index].name!),
-                            trailing: Text(
-                                state.model.data![index].schoolId.toString()),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 86,
+                                height: 86,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(AppImages.starConfuse),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: SizedBox(
+
+                                  height: double.infinity,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: double.infinity,
+                                        height: 81,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                              decoration: ShapeDecoration(
+                                                color: Colors.white,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(50),
+                                                ),
+                                              ),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Flexible(
+                                                    child: MyText(
+                                                      state.model.data![index].name! ,
+                                                      //'Grade 6',
+                                                        color: const Color(0xFF3DAEF5),
+                                                        fontSize: 14.sp,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        fontWeight: FontWeight.w500,
+                                                      ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Flexible(
+                                              child: MyText(
+                                                // 'Class A',
+                                                state.model.data?[index].grade ,
+
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  color: const Color(0xFF000600),
+                                                  fontSize: 20.sp,
+                                                  fontWeight: FontWeight.w500,
+
+                                              ),
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Row(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      width: 6,
+                                                      height: 6,
+                                                      decoration: ShapeDecoration(
+                                                        color: const Color(0xFF6B7280),
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(100),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 4),
+                                                     const Flexible(
+                                                      child:  MyText(
+                                                        'English',
+                                                          overflow: TextOverflow.ellipsis,
+                                                          color: Color(0xFF6B7280),
+                                                          fontWeight: FontWeight.w400,
+                                                        ),
+                                                    ),
+
+                                                  ],
+                                                ),
+                                                const SizedBox(width: 8),
+                                                Row(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      width: 6,
+                                                      height: 6,
+                                                      decoration: ShapeDecoration(
+                                                        color: const Color(0xFF6B7280),
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(100),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 4),
+                                                    const Flexible(
+                                                      child: MyText(
+                                                        'Sinhala',
+                                                          color: Color(0xFF6B7280),
+                                                          fontWeight: FontWeight.w400,
+                                                        ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      const SizedBox(height: 4),
+                                      SizedBox(
+                                        width: double.infinity,
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  width: 16,
+                                                  height: 16,
+                                                  child: Stack(
+                                                    children: [
+                                                      Positioned(
+                                                        left: 1.33,
+                                                        top: 1.33,
+                                                        child: Container(
+                                                          width: 13.33,
+                                                          height: 13.33,
+                                                          decoration: BoxDecoration(
+                                                            image: DecorationImage(
+                                                              image: AssetImage(AppImages.userImage),
+                                                              fit: BoxFit.fill,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 4),
+                                                const MyText(
+                                                  '42 Students',
+                                                    color: Color(0xFF000600),
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w400,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       );

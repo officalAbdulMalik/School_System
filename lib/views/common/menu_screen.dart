@@ -160,11 +160,11 @@ class _MenuScreenState extends State<MenuScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const TeacherClass()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const TeacherClass()));
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 5),
