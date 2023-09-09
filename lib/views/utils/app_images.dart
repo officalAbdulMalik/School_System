@@ -15,4 +15,8 @@ class AppImages{
   static String chatIcon= 'images/chat-Icon.svg';
   static String userIcon= 'images/Users.svg';
   static String editIcon= 'images/Edit.svg';
+  static String profile= 'images/user.svg';
+  static String emailIcon= 'images/Mail.svg';
+  static String languageIcon= 'images/Language.svg';
+  static String cameraIcon= 'images/Camera Plus.svg';
 }

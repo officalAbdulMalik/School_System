@@ -141,11 +141,13 @@ class _BottomBarPagesState extends State<BottomBarPages> {
                     controller: controller,
                     children: [
                       DashboardScreen(),
-                      MettingsScreen(),
+                      NewsEventsPage(),
+
                       ChatScreen(),
                       MenuScreen(),
                       ClassScreen(),
-                      NewsEventsPage(),
+                      MettingsScreen(),
+
                       ReportCardScreen(),
                       MeetingHistoryPage(),
                     ],

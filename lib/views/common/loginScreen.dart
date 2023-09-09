@@ -256,6 +256,151 @@ class _LogInScreenState extends State<LogInScreen> {
                   ),
                 ],
               ),
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 10.0.sp),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return ForgetPasswordEmailScreen();
+                          },
+                        ));
+                      },
+                      child: Text(
+                        'Forget Password ?',
+                        style: GoogleFonts.poppins(
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 18.sp,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30.h,
+                ),
+                ValueListenableBuilder(
+                  valueListenable: loading,
+                  builder: (context, value, child) {
+                    if (value == true) {
+                      return CustomWidgets.loadingIndicator();
+                    } else {
+                      return InkWell(
+                        onTap: () {
+                          if (email.text.isNotEmpty && pass.text.isNotEmpty) {
+                            print('if');
+                            loading.value = true;
+                            LoginApi.createUser(email.text.trim(),
+                                    pass.text.trim(), context)
+                                .then((value) {
+                              loading.value = false;
+                              if (value == 200) {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return LoginApiShadePreference.preferences!
+                                                .getString('role') ==
+                                            'parent'
+                                        ? BottomBarPages()
+                                        : TeacherBottomBar();
+                                  },
+                                ));
+                              }
+                            });
+                          } else {
+                            Fluttertoast.showToast(msg: 'All Fields Required');
+                            print('else');
+                          }
+                        },
+                        child: CustomWidgets.customButton('Login'),
+                      );
+                    }
+                  },
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'No have Account  ',
+                      style: GoogleFonts.poppins(
+                        color: kPrimaryColor,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return OnboardingScreen();
+                          },
+                        ));
+                      },
+                      child: Text(
+                        'Sign up here!',
+                        style: GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 60.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return TermsCondation();
+                          },
+                        ));
+                      },
+                      child: Text('Terms & Conditions',
+                          style: GoogleFonts.poppins(
+                            color: kPrimaryColor,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16.sp,
+                          )),
+                    ),
+                    Text(' and ',
+                        style: GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16.sp,
+                        )),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return PrivacyPolice();
+                          },
+                        ));
+                      },
+                      child: Text('Privacy Policy',
+                          style: GoogleFonts.poppins(
+                            color: kPrimaryColor,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16.sp,
+                          )),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),

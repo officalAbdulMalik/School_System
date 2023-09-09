@@ -67,21 +67,19 @@ class _MyTextFieldState extends State<MyTextField> {
 
                 return null;
               },
-        style: GoogleFonts.poppins(
-            color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w400),
+        style: GoogleFonts.poppins(color: Colors.black, fontSize: 16.sp),
         decoration: InputDecoration(
           filled: true,
           errorMaxLines: 1,
           isCollapsed: true,
           //  isDense: true,
           fillColor: widget.filledColor ?? Colors.white,
-
           contentPadding: widget.contentPadding ??
               EdgeInsets.only(
                 left: 15.sp,
                 right: 8.sp,
-                top: 12.sp,
-                bottom: 15.sp,
+                top: 8.sp,
+                bottom: 10.sp,
               ),
 
           errorStyle: TextStyle(
@@ -89,28 +87,25 @@ class _MyTextFieldState extends State<MyTextField> {
             height: 0.2.sp,
           ),
 
-          hintStyle: GoogleFonts.poppins(
+          hintStyle: GoogleFonts.cairo(
             fontSize: 14.sp,
-            fontWeight: FontWeight.w400,
-            color: Colors.black,
+            color: Colors.grey,
           ),
           suffixIconConstraints:
-              BoxConstraints(maxHeight: 40.sp, maxWidth: 50.sp),
+              BoxConstraints(maxHeight: 30.sp, maxWidth: 40.sp),
           hintText: widget.hintText,
           suffixIcon: widget.isPasswordField!
               ? IconButton(
-                  hoverColor: Colors.transparent,
                   onPressed: () {
                     setState(() {
                       showPassword = !showPassword;
                     });
                   },
-                  icon: Icon(
-                    showPassword == true
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                    size: 22.sp,
-                  ))
+                  icon: Image.asset(
+                    'assets/images/View Password Button.png',
+                    height: 10.sp,
+                  ),
+                )
               : Center(
                   child: widget.suffixIcon,
                 ),
@@ -158,3 +153,12 @@ class _MyTextFieldState extends State<MyTextField> {
     );
   }
 }
+
+        //  cursorHeight: 20.sp,
+                if (value == null || value.isEmpty) {
+                  return ' ${widget.label ?? widget.hintText} ${"is required"}';
+                }
+                return null;
+              },
+        style: GoogleFonts.poppins(
+            color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w400),
