@@ -10,6 +10,7 @@ import 'package:school_system/views/bottom_bar_techer/prifile_screen/teacher_add
 import 'package:school_system/views/utils/colors.dart';
 import 'package:school_system/views/utils/custom_widget/container_decoration.dart';
 import 'package:school_system/views/utils/custom_widget/custom_widgets.dart';
+import 'package:school_system/views/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/views/utils/shade_prefrence.dart';
 
 import '../../controllers/apis_repo/auth_apis.dart';
@@ -70,6 +71,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     'Ms.',
   ];
 
+  validator() {
+    return 'Field is required';
+  }
+
   bool checkBox = false;
 
   String role = LoginApiShadePreference.preferences!.getString('role')!;
@@ -92,6 +97,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               text1: 'Create Your New Account!',
               text2: 'Improving Parent & Teacher Communication.',
               image: 'sign_star.png',
+              flex: 6,
             ),
             SizedBox(
               height: 20.sp,
@@ -136,172 +142,105 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(
               height: 20.h,
             ),
-            DecoratedContainer(
-              child: TextFormField(
-                controller: firstName,
-                style: CustomWidgets.style(),
-                decoration: InputDecoration(
-                  hintText: 'First Name',
-                  hintStyle: CustomWidgets.style(),
-                  border: InputBorder.none,
-                ),
-                cursorColor: kPrimaryColor,
-                // decoration: textFieldIconDecoration(
-                //     Icons.alternate_email, 'service@gmail.com', null),
-              ),
+            MyTextField(
+              controller: firstName,
+              maxLine: 1,
+              hintText: 'Firs Name',
+              filledColor: kContainerColor,
+              isRequiredField: true,
+              // decoration: textFieldIconDecoration(
+              //     Icons.alternate_email, 'service@gmail.com', null),
             ),
             SizedBox(
               height: 20.h,
             ),
-            DecoratedContainer(
-              child: TextFormField(
-                controller: lastName,
-                style: CustomWidgets.style(),
-                decoration: InputDecoration(
-                  hintText: 'Last Name',
-                  hintStyle: CustomWidgets.style(),
-                  border: InputBorder.none,
-                ),
-                cursorColor: kPrimaryColor,
-                // decoration: textFieldIconDecoration(
-                //     Icons.alternate_email, 'service@gmail.com', null),
-              ),
+            MyTextField(
+              controller: lastName,
+              maxLine: 1,
+              hintText: 'Last Name',
+              filledColor: kContainerColor,
+              isRequiredField: true,
+              // decoration: textFieldIconDecoration(
+              //     Icons.alternate_email, 'service@gmail.com', null),
             ),
             SizedBox(
               height: 20.h,
             ),
-            DecoratedContainer(
-              child: TextFormField(
-                controller: email,
-                style: CustomWidgets.style(),
-                decoration: InputDecoration(
-                  hintText: 'Email',
-                  hintStyle: CustomWidgets.style(),
-                  border: InputBorder.none,
-                ),
-                cursorColor: kPrimaryColor,
-                // decoration: textFieldIconDecoration(
-                //     Icons.alternate_email, 'service@gmail.com', null),
-              ),
+            MyTextField(
+              controller: email,
+              maxLine: 1,
+              hintText: 'Email',
+              filledColor: kContainerColor,
+              isRequiredField: true,
+              // decoration: textFieldIconDecoration(
+              //     Icons.alternate_email, 'service@gmail.com', null),
             ),
             SizedBox(
               height: 20.h,
             ),
-            DecoratedContainer(
-              child: Center(
-                child: ValueListenableBuilder(
-                  valueListenable: showPassword,
-                  builder: (context, value, child) {
-                    return TextFormField(
-                      controller: password,
-                      style: CustomWidgets.style(),
-                      obscureText: showPassword.value,
-                      decoration: InputDecoration(
-                        hintText: 'Password',
-                        suffixIcon: InkWell(
-                            onTap: () {
-                              showPassword.value = !value;
-                            },
-                            child: value != true
-                                ? const Icon(Icons.visibility)
-                                : const Icon(Icons.visibility_off)),
-                        hintStyle: CustomWidgets.style(),
-                        border: InputBorder.none,
-                      ),
-                      cursorColor: kPrimaryColor,
-                      // decoration: textFieldIconDecoration(
-                      //     Icons.alternate_email, 'service@gmail.com', null),
-                    );
-                  },
-                ),
-              ),
+            MyTextField(
+              controller: password,
+              maxLine: 1,
+              hintText: 'Password',
+              filledColor: kContainerColor,
+              isRequiredField: true,
+              isPasswordField: true,
+              // decoration: textFieldIconDecoration(
+              //     Icons.alternate_email, 'service@gmail.com', null),
             ),
+
             SizedBox(
               height: 20.h,
             ),
-            DecoratedContainer(
-              child: Center(
-                child: ValueListenableBuilder(
-                  valueListenable: showCPassword,
-                  builder: (context, value, child) {
-                    return TextFormField(
-                      controller: confirmPassword,
-                      style: CustomWidgets.style(),
-                      obscureText: showCPassword.value,
-                      decoration: InputDecoration(
-                        hintText: 'Confirm Password',
-                        suffixIcon: InkWell(
-                            onTap: () {
-                              showCPassword.value = !value;
-                            },
-                            child: value != true
-                                ? const Icon(Icons.visibility)
-                                : const Icon(Icons.visibility_off)),
-                        hintStyle: CustomWidgets.style(),
-                        border: InputBorder.none,
-                      ),
-                      cursorColor: kPrimaryColor,
-                      // decoration: textFieldIconDecoration(
-                      //     Icons.alternate_email, 'service@gmail.com', null),
-                    );
-                  },
-                ),
-              ),
+            MyTextField(
+              controller: confirmPassword,
+              maxLine: 1,
+              hintText: 'Confirm Password',
+              filledColor: kContainerColor,
+              isRequiredField: true,
+              isPasswordField: true,
+              // decoration: textFieldIconDecoration(
+              //     Icons.alternate_email, 'service@gmail.com', null),
             ),
             SizedBox(
               height: role == 'parents' ? 20.h : 0,
             ),
             role == 'parents'
-                ? DecoratedContainer(
-                    child: TextFormField(
-                      controller: phoneNumber,
-                      style: CustomWidgets.style(),
-                      decoration: InputDecoration(
-                        hintText: 'Phone Number',
-                        hintStyle: CustomWidgets.style(),
-                        border: InputBorder.none,
-                      ),
-                      cursorColor: kPrimaryColor,
-                      // decoration: textFieldIconDecoration(
-                      //     Icons.alternate_email, 'service@gmail.com', null),
-                    ),
+                ? MyTextField(
+                    controller: phoneNumber,
+                    maxLine: 1,
+                    hintText: 'Phone',
+                    filledColor: kContainerColor,
+                    isRequiredField: true,
+                    // decoration: textFieldIconDecoration(
+                    //     Icons.alternate_email, 'service@gmail.com', null),
                   )
                 : SizedBox(),
             SizedBox(
               height: role == 'parents' ? 20.h : 0,
             ),
             role == 'parents'
-                ? DecoratedContainer(
-                    child: TextFormField(
-                      controller: dob,
-                      style: CustomWidgets.style(),
-                      decoration: InputDecoration(
-                        hintText: 'Date Of Birth',
-                        hintStyle: CustomWidgets.style(),
-                        border: InputBorder.none,
-                      ),
-                      cursorColor: kPrimaryColor,
-                      // decoration: textFieldIconDecoration(
-                      //     Icons.alternate_email, 'service@gmail.com', null),
-                    ),
+                ? MyTextField(
+                    controller: dob,
+                    maxLine: 1,
+                    hintText: 'Date Of Birth',
+                    filledColor: kContainerColor,
+                    isRequiredField: true,
+                    // decoration: textFieldIconDecoration(
+                    //     Icons.alternate_email, 'service@gmail.com', null),
                   )
                 : SizedBox(),
             SizedBox(
               height: 20.h,
             ),
-            DecoratedContainer(
-              child: TextFormField(
-                controller: occupation,
-                style: CustomWidgets.style(),
-                decoration: InputDecoration(
-                  hintText: role == 'teacher' ? 'qualification' : 'occupation',
-                  hintStyle: CustomWidgets.style(),
-                  border: InputBorder.none,
-                ),
-                cursorColor: kPrimaryColor,
-                // decoration: textFieldIconDecoration(
-                //     Icons.alternate_email, 'service@gmail.com', null),
-              ),
+            MyTextField(
+              controller: occupation,
+              maxLine: 1,
+              hintText: role == 'teacher' ? 'qualification' : 'occupation',
+              filledColor: kContainerColor,
+              isRequiredField: true,
+              // decoration: textFieldIconDecoration(
+              //     Icons.alternate_email, 'service@gmail.com', null),
             ),
             SizedBox(
               height: 20.h,

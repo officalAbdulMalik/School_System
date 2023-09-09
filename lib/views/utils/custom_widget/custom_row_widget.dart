@@ -3,15 +3,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/views/utils/colors.dart';
 
+import 'my_text.dart';
+
 class CustomRowWidget extends StatelessWidget {
   String text1;
   String text2;
   int? size;
   String? image;
+  int? flex;
   CustomRowWidget(
       {Key? key,
       required this.text1,
       required this.text2,
+      this.flex,
       this.size,
       this.image})
       : super(key: key);
@@ -21,28 +25,25 @@ class CustomRowWidget extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          flex: 4,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: RichText(
-              text: TextSpan(
-                  text: text1,
-                  style: GoogleFonts.poppins(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18.sp,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: '\n$text2',
-                      style: GoogleFonts.poppins(
-                        color: kDescriptionColor,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 13.sp,
-                      ),
-                    )
-                  ]),
-            ),
+          flex: 3,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              MyText(
+                text1,
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w600,
+              ),
+              SizedBox(
+                height: 6.sp,
+              ),
+              MyText(
+                text2,
+                color: Color(0xFF6B7280),
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              )
+            ],
           ),
         ),
         Expanded(

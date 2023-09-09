@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:school_system/controllers/global_list.dart';
 import 'package:school_system/models/get_section_model.dart';
 import 'package:http/http.dart' as http;
 import '../../../views/utils/shade_prefrence.dart';
@@ -33,10 +34,15 @@ class GetSectionCubit extends Cubit<GetSectionState> {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body.toString());
+      // var section = data['sections'];
+      // print(section);
 
       Sections sections = Sections.fromJson(data);
 
       emit(GetSectionLoaded(model: sections));
+      // for (var i in section) {
+      //   GlobalList.sections.add(i);
+      // }
       // Get.snackbar('KASI', 'Settings get successfully');
     } else {
       emit(GetSectionError());

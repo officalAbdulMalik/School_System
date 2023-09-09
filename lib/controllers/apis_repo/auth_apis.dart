@@ -26,27 +26,32 @@ class LoginApi {
         (X509Certificate cert, String host, int port) => true;
     final http = IOClient(ioc);
 
-    var request = await http.post(
-        Uri.parse('https://schoolsnow.parentteachermobile.com/api/auth/login'),
-        body: body,
-        headers: headers);
+    try {
+      var request = await http.post(
+          Uri.parse(
+              'https://schoolsnow.parentteachermobile.com/api/auth/login'),
+          body: body,
+          headers: headers);
 
-    print(request.statusCode);
-    print(request.body);
-    if (request.statusCode == 200) {
-      Fluttertoast.showToast(msg: 'Login Success');
-      var data = jsonDecode(request.body);
-      String token = data['token'];
-      String role = data['user']['type'];
-      LoginApiShadePreference.preferences!.setString('api_token', token);
-      LoginApiShadePreference.preferences!.setString('role', role);
-      return request.statusCode;
-    } else {
-      var data = jsonDecode(request.body);
-      var msg = data['message'];
-      print(msg);
-      Fluttertoast.showToast(msg: msg);
-      return request.statusCode;
+      print(request.statusCode);
+      print(request.body);
+      if (request.statusCode == 200) {
+        Fluttertoast.showToast(msg: 'Login Success');
+        var data = jsonDecode(request.body);
+        String token = data['token'];
+        String role = data['user']['type'];
+        LoginApiShadePreference.preferences!.setString('api_token', token);
+        LoginApiShadePreference.preferences!.setString('role', role);
+        return request.statusCode;
+      } else {
+        var data = jsonDecode(request.body);
+        var msg = data['message'];
+        print(msg);
+        Fluttertoast.showToast(msg: msg);
+        return request.statusCode;
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 }

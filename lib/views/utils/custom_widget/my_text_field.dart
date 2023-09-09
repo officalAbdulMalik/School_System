@@ -49,7 +49,7 @@ class _MyTextFieldState extends State<MyTextField> {
       child: TextFormField(
         keyboardType: widget.keyboardType,
         cursorColor: Colors.blue,
-      //  cursorHeight: 20.sp,
+        //  cursorHeight: 20.sp,
         enabled: widget.enabled,
         // autofocus: true,
 
@@ -61,25 +61,27 @@ class _MyTextFieldState extends State<MyTextField> {
         validator: widget.isRequiredField == null
             ? null
             : (value) {
-          if (value == null || value.isEmpty) {
-            return ' ${widget.label ?? widget.hintText} ${"is required"}';
-          }
+                if (value == null || value.isEmpty) {
+                  return ' ${widget.label ?? widget.hintText} ${"is required"}';
+                }
 
-          return null;
-        },
-        style: GoogleFonts.poppins(color: Colors.black, fontSize: 16.sp),
+                return null;
+              },
+        style: GoogleFonts.poppins(
+            color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w400),
         decoration: InputDecoration(
           filled: true,
           errorMaxLines: 1,
           isCollapsed: true,
           //  isDense: true,
           fillColor: widget.filledColor ?? Colors.white,
+
           contentPadding: widget.contentPadding ??
               EdgeInsets.only(
                 left: 15.sp,
                 right: 8.sp,
-                top: 8.sp,
-                bottom: 10.sp,
+                top: 12.sp,
+                bottom: 15.sp,
               ),
 
           errorStyle: TextStyle(
@@ -87,28 +89,31 @@ class _MyTextFieldState extends State<MyTextField> {
             height: 0.2.sp,
           ),
 
-          hintStyle: GoogleFonts.cairo(
+          hintStyle: GoogleFonts.poppins(
             fontSize: 14.sp,
-            color: Colors.grey,
+            fontWeight: FontWeight.w400,
+            color: Colors.black,
           ),
           suffixIconConstraints:
-          BoxConstraints(maxHeight: 30.sp, maxWidth: 40.sp),
+              BoxConstraints(maxHeight: 40.sp, maxWidth: 50.sp),
           hintText: widget.hintText,
           suffixIcon: widget.isPasswordField!
               ? IconButton(
-            onPressed: () {
-              setState(() {
-                showPassword = !showPassword;
-              });
-            },
-            icon: Image.asset(
-              'assets/images/View Password Button.png',
-              height: 10.sp,
-            ),
-          )
+                  hoverColor: Colors.transparent,
+                  onPressed: () {
+                    setState(() {
+                      showPassword = !showPassword;
+                    });
+                  },
+                  icon: Icon(
+                    showPassword == true
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                    size: 22.sp,
+                  ))
               : Center(
-            child: widget.suffixIcon,
-          ),
+                  child: widget.suffixIcon,
+                ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4.sp),
             borderSide: BorderSide(

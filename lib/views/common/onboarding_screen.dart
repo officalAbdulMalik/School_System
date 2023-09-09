@@ -127,7 +127,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       alignment: Alignment.center,
                       child: Text(
                         'I\'m a teacher',
-                        style: GoogleFonts.acme(
+                        style: GoogleFonts.poppins(
                           color: Colors.black,
                           fontWeight: FontWeight.w500,
                           fontSize: 20.sp,
@@ -169,7 +169,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         alignment: Alignment.center,
                         child: Text(
                           '  I\'m a parents',
-                          style: GoogleFonts.acme(
+                          style: GoogleFonts.poppins(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
                             fontSize: 20.sp,

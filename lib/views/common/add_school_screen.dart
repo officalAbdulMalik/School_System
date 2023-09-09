@@ -11,6 +11,7 @@ import 'package:school_system/views/utils/colors.dart';
 import 'package:school_system/views/utils/custom_widget/container_decoration.dart';
 import 'package:school_system/views/common/otp_screen.dart';
 import 'package:school_system/views/utils/custom_widget/custom_row_widget.dart';
+import 'package:school_system/views/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/views/utils/shade_prefrence.dart';
 
 import '../../controllers/apis_repo/add_school_api.dart';
@@ -98,146 +99,102 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 20.h,
+                  height: 10.h,
                 ),
-                DecoratedContainer(
-                  child: TextFormField(
-                    style: CustomWidgets.style(),
-                    controller: schName,
-                    decoration: InputDecoration(
-                      hintText: 'School Name',
-                      hintStyle: CustomWidgets.style(),
-                      border: InputBorder.none,
-                    ),
-                    cursorColor: kPrimaryColor,
-                    // decoration: textFieldIconDecoration(
-                    //     Icons.alternate_email, 'service@gmail.com', null),
-                  ),
+                MyTextField(
+                  controller: schName,
+                  maxLine: 1,
+                  hintText: 'School Name',
+                  filledColor: kContainerColor,
+                  isRequiredField: true,
+                  // decoration: textFieldIconDecoration(
+                  //     Icons.alternate_email, 'service@gmail.com', null),
                 ),
                 SizedBox(
-                  height: 20.h,
+                  height: 10.h,
                 ),
-                DecoratedContainer(
-                  child: TextFormField(
-                    style: CustomWidgets.style(),
-                    controller: address,
-                    decoration: InputDecoration(
-                      hintText: country == 'United Kingdom'
-                          ? 'Number and Street Name'
-                          : 'Address',
-                      hintStyle: CustomWidgets.style(),
-                      border: InputBorder.none,
-                    ),
-                    cursorColor: kPrimaryColor,
-                    // decoration: textFieldIconDecoration(
-                    //     Icons.alternate_email, 'service@gmail.com', null),
-                  ),
+                MyTextField(
+                  controller: address,
+                  maxLine: 1,
+                  hintText: country == 'United Kingdom'
+                      ? 'Number and Street Name'
+                      : 'Address',
+                  filledColor: kContainerColor,
+                  isRequiredField: true,
+                  // decoration: textFieldIconDecoration(
+                  //     Icons.alternate_email, 'service@gmail.com', null),
                 ),
                 SizedBox(
-                  height: 20.h,
+                  height: 10.h,
                 ),
-                DecoratedContainer(
-                  child: TextFormField(
-                    style: CustomWidgets.style(),
-                    controller: city,
-                    decoration: InputDecoration(
-                      hintText:
-                          country == 'United Kingdom' ? 'Locality' : 'City',
-                      hintStyle: CustomWidgets.style(),
-                      border: InputBorder.none,
-                    ),
-                    cursorColor: kPrimaryColor,
-                    // decoration: textFieldIconDecoration(
-                    //     Icons.alternate_email, 'service@gmail.com', null),
-                  ),
+                MyTextField(
+                  controller: city,
+                  maxLine: 1,
+                  hintText: country == 'United Kingdom' ? 'Locality' : 'City',
+                  filledColor: kContainerColor,
+                  isRequiredField: true,
+                  // decoration: textFieldIconDecoration(
+                  //     Icons.alternate_email, 'service@gmail.com', null),
                 ),
                 SizedBox(
-                  height: 20.h,
+                  height: 10.h,
                 ),
-                DecoratedContainer(
-                  child: TextFormField(
-                    style: CustomWidgets.style(),
-                    controller: state,
-                    decoration: InputDecoration(
-                      hintText:
-                          country == 'United Kingdom' ? 'Post Town' : 'State',
-                      hintStyle: CustomWidgets.style(),
-                      border: InputBorder.none,
-                    ),
-                    cursorColor: kPrimaryColor,
-                    // decoration: textFieldIconDecoration(
-                    //     Icons.alternate_email, 'service@gmail.com', null),
-                  ),
+                MyTextField(
+                  controller: state,
+                  isRequiredField: true,
+                  filledColor: kContainerColor,
+                  hintText: country == 'United Kingdom' ? 'Post Town' : 'State',
+                  // decoration: textFieldIconDecoration(
+                  //     Icons.alternate_email, 'service@gmail.com', null),
                 ),
                 SizedBox(
-                  height: 20.h,
+                  height: 10.h,
                 ),
-                DecoratedContainer(
-                  child: TextFormField(
-                    style: CustomWidgets.style(),
-                    controller: zipCode,
-                    decoration: InputDecoration(
-                      hintText: country == 'United Kingdom'
-                          ? 'Post code'
-                          : 'Zip code',
-                      hintStyle: CustomWidgets.style(),
-                      border: InputBorder.none,
-                    ),
-                    cursorColor: kPrimaryColor,
-                    // decoration: textFieldIconDecoration(
-                    //     Icons.alternate_email, 'service@gmail.com', null),
-                  ),
+                MyTextField(
+                  controller: zipCode,
+                  maxLine: 1,
+                  hintText:
+                      country == 'United Kingdom' ? 'Post code' : 'Zip code',
+                  filledColor: kContainerColor,
+                  isRequiredField: true,
+                  // decoration: textFieldIconDecoration(
+                  //     Icons.alternate_email, 'service@gmail.com', null),
                 ),
                 SizedBox(
-                  height: 20.h,
+                  height: 10.h,
                 ),
-                DecoratedContainer(
-                  child: TextFormField(
-                    style: CustomWidgets.style(),
-                    controller: email,
-                    decoration: InputDecoration(
-                      hintText: 'Email Address (optional)',
-                      hintStyle: CustomWidgets.style(),
-                      border: InputBorder.none,
-                    ),
-                    cursorColor: kPrimaryColor,
-                    // decoration: textFieldIconDecoration(
-                    //     Icons.alternate_email, 'service@gmail.com', null),
-                  ),
+                MyTextField(
+                  controller: email,
+                  maxLine: 1,
+                  hintText: 'Email Address (optional)',
+                  filledColor: kContainerColor,
+                  isRequiredField: true,
+                  // decoration: textFieldIconDecoration(
+                  //     Icons.alternate_email, 'service@gmail.com', null),
                 ),
                 SizedBox(
-                  height: 20.h,
+                  height: 10.h,
                 ),
-                DecoratedContainer(
-                  child: TextFormField(
-                    style: CustomWidgets.style(),
-                    controller: phone,
-                    decoration: InputDecoration(
-                      hintText: 'Phone Number (optional)',
-                      hintStyle: CustomWidgets.style(),
-                      border: InputBorder.none,
-                    ),
-                    cursorColor: kPrimaryColor,
-                    // decoration: textFieldIconDecoration(
-                    //     Icons.alternate_email, 'service@gmail.com', null),
-                  ),
+                MyTextField(
+                  controller: phone,
+                  maxLine: 1,
+                  hintText: 'Phone Number (optional)',
+                  filledColor: kContainerColor,
+                  isRequiredField: true,
+                  // decoration: textFieldIconDecoration(
+                  //     Icons.alternate_email, 'service@gmail.com', null),
                 ),
                 SizedBox(
-                  height: 20.h,
+                  height: 10.h,
                 ),
-                DecoratedContainer(
-                  child: TextFormField(
-                    style: CustomWidgets.style(),
-                    controller: website,
-                    decoration: InputDecoration(
-                      hintText: 'Website (optional)',
-                      hintStyle: CustomWidgets.style(),
-                      border: InputBorder.none,
-                    ),
-                    cursorColor: kPrimaryColor,
-                    // decoration: textFieldIconDecoration(
-                    //     Icons.alternate_email, 'service@gmail.com', null),
-                  ),
+                MyTextField(
+                  controller: website,
+                  maxLine: 1,
+                  hintText: 'Website (optional)',
+                  filledColor: kContainerColor,
+                  isRequiredField: true,
+                  // decoration: textFieldIconDecoration(
+                  //     Icons.alternate_email, 'service@gmail.com', null),
                 ),
                 SizedBox(
                   height: 20.h,
@@ -263,12 +220,7 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                             .then((value) {
                           if (value == 200) {
                             loading.value = false;
-                            Navigator.pushReplacement(context,
-                                MaterialPageRoute(
-                              builder: (context) {
-                                return SchoolListScreen();
-                              },
-                            ));
+                            Navigator.pop(context);
                           }
                         });
                       } else {

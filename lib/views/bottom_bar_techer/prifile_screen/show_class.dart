@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_system/controllers/cubits/teacher_cubit/get_section_cubit.dart';
+import 'package:school_system/views/bottom_bar_parent/profile_screens/show_children.dart';
 import 'package:school_system/views/bottom_bar_techer/prifile_screen/show_teacher_subjects.dart';
-import 'package:school_system/views/bottom_bar_techer/prifile_screen/slect_section.dart';
+import 'package:school_system/views/bottom_bar_techer/prifile_screen/teacher_add_clases.dart';
+import 'package:school_system/views/common/loginScreen.dart';
 import 'package:school_system/views/utils/app_images.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:school_system/views/utils/custom_widget/my_text.dart';
+import 'package:school_system/views/utils/shade_prefrence.dart';
 
 import '../../../controllers/cubits/teacher_cubit/show_teacher_class_cubit.dart';
 import '../../utils/custom_widget/custom_widgets.dart';
@@ -26,25 +30,31 @@ class _TeacherClassState extends State<TeacherClass> {
     super.initState();
   }
 
+  String? role = LoginApiShadePreference.preferences!.getString('role');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xff3DAEF5),
-        onPressed: () {
-
-
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) {
-            return const SelectSection();
-          },
-        ));
-      },child: Icon(Icons.add),),
+      floatingActionButton: role == 'teacher'
+          ? FloatingActionButton(
+              backgroundColor: Color(0xff3DAEF5),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    context.read<GetSectionCubit>().getSections();
+                    return TeacherAddClass(
+                      sectionId: '',
+                      schoolId: '',
+                    );
+                  },
+                ));
+              },
+              child: Icon(Icons.add),
+            )
+          : SizedBox(),
       appBar: AppBar(
         elevation: 0,
-
         iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
         centerTitle: true,
@@ -52,26 +62,34 @@ class _TeacherClassState extends State<TeacherClass> {
       body: ListView(
         padding: EdgeInsets.only(left: 15.sp, right: 15.sp),
         children: [
-
           Row(
             children: [
               Expanded(
-                flex:2,
+                flex: 2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyText('My Classes',fontSize: 20.sp,fontWeight: FontWeight.w600,)
-
-                   , SizedBox(height: 3.sp,),
-                    const MyText('Unleash the potential of students through your classes.',   color: Color(0xFF6B7280),
+                    MyText(
+                      'My Classes',
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    SizedBox(
+                      height: 3.sp,
+                    ),
+                    const MyText(
+                      'Unleash the potential of students through your classes.',
+                      color: Color(0xFF6B7280),
                       fontSize: 14,
-                      fontWeight: FontWeight.w400,)
+                      fontWeight: FontWeight.w400,
+                    )
                   ],
-                ),),
-             SizedBox(
-                 width: 86.sp,
-                 height: 86.sp,
-                 child: Image.asset(AppImages.starConfuse)),
+                ),
+              ),
+              SizedBox(
+                  width: 86.sp,
+                  height: 86.sp,
+                  child: Image.asset(AppImages.starConfuse)),
             ],
           ),
           SizedBox(
@@ -82,8 +100,9 @@ class _TeacherClassState extends State<TeacherClass> {
               if (state is ShowTeacherClassLoading) {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                     CustomWidgets.loadingIndicator(),
+                    CustomWidgets.loadingIndicator(),
                   ],
                 );
               } else if (state is ShowTeacherClassLoaded) {
@@ -91,23 +110,30 @@ class _TeacherClassState extends State<TeacherClass> {
                   height: MediaQuery.of(context).size.height,
                   width: 400.w,
                   child: ListView.separated(
+                    padding: EdgeInsets.only(left: 5.sp, right: 5.sp),
+                    physics: NeverScrollableScrollPhysics(),
                     itemCount: state.model.data!.length,
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
-                              return ShowTeacherSubject(
-                                classID: state.model.data![index].id.toString(),
-                              );
+                              return role == 'teacher'
+                                  ? ShowTeacherSubject(
+                                      classID: state.model.data![index].id
+                                          .toString(),
+                                    )
+                                  : ShowChildren(
+                                      classId: state.model.data![index].id
+                                          .toString(),
+                                    );
                             },
                           ));
                         },
-                        child:  Container(
-
+                        child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                          margin: EdgeInsets.only(bottom: 10.sp),
-                          height: 145.sp,
+                          margin: EdgeInsets.only(bottom: 10.sp, top: 10.sp),
+                          height: 120.h,
                           width: double.infinity,
                           decoration: ShapeDecoration(
                             color: const Color(0xFFE2F4FF),
@@ -133,43 +159,56 @@ class _TeacherClassState extends State<TeacherClass> {
                               const SizedBox(width: 16),
                               Expanded(
                                 child: SizedBox(
-
                                   height: double.infinity,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         width: double.infinity,
                                         height: 81,
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Container(
-                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 2),
                                               decoration: ShapeDecoration(
                                                 color: Colors.white,
                                                 shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(50),
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
                                                 ),
                                               ),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Flexible(
                                                     child: MyText(
-                                                      state.model.data![index].name! ,
+                                                      state.model.data?[index]
+                                                              .grade ??
+                                                          "",
                                                       //'Grade 6',
-                                                        color: const Color(0xFF3DAEF5),
-                                                        fontSize: 14.sp,
-                                                        overflow: TextOverflow.ellipsis,
-                                                        fontWeight: FontWeight.w500,
-                                                      ),
+                                                      color: const Color(
+                                                          0xFF3DAEF5),
+                                                      fontSize: 14.sp,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -178,62 +217,84 @@ class _TeacherClassState extends State<TeacherClass> {
                                             Flexible(
                                               child: MyText(
                                                 // 'Class A',
-                                                state.model.data?[index].grade ,
+                                                state.model.data?[index].name ??
+                                                    "",
 
-                                                  maxLines: 1,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  color: const Color(0xFF000600),
-                                                  fontSize: 20.sp,
-                                                  fontWeight: FontWeight.w500,
-
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                color: const Color(0xFF000600),
+                                                fontSize: 20.sp,
+                                                fontWeight: FontWeight.w500,
                                               ),
                                             ),
                                             const SizedBox(height: 4),
                                             Row(
                                               mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
                                               children: [
                                                 Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
                                                   children: [
                                                     Container(
                                                       width: 6,
                                                       height: 6,
-                                                      decoration: ShapeDecoration(
-                                                        color: const Color(0xFF6B7280),
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(100),
+                                                      decoration:
+                                                          ShapeDecoration(
+                                                        color: const Color(
+                                                            0xFF6B7280),
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      100),
                                                         ),
                                                       ),
                                                     ),
                                                     const SizedBox(width: 4),
-                                                     const Flexible(
-                                                      child:  MyText(
+                                                    const Flexible(
+                                                      child: MyText(
                                                         'English',
-                                                          overflow: TextOverflow.ellipsis,
-                                                          color: Color(0xFF6B7280),
-                                                          fontWeight: FontWeight.w400,
-                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        color:
+                                                            Color(0xFF6B7280),
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
                                                     ),
-
                                                   ],
                                                 ),
                                                 const SizedBox(width: 8),
                                                 Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
                                                   children: [
                                                     Container(
                                                       width: 6,
                                                       height: 6,
-                                                      decoration: ShapeDecoration(
-                                                        color: const Color(0xFF6B7280),
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(100),
+                                                      decoration:
+                                                          ShapeDecoration(
+                                                        color: const Color(
+                                                            0xFF6B7280),
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      100),
                                                         ),
                                                       ),
                                                     ),
@@ -241,9 +302,11 @@ class _TeacherClassState extends State<TeacherClass> {
                                                     const Flexible(
                                                       child: MyText(
                                                         'Sinhala',
-                                                          color: Color(0xFF6B7280),
-                                                          fontWeight: FontWeight.w400,
-                                                        ),
+                                                        color:
+                                                            Color(0xFF6B7280),
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -252,19 +315,22 @@ class _TeacherClassState extends State<TeacherClass> {
                                           ],
                                         ),
                                       ),
-
                                       const SizedBox(height: 4),
                                       SizedBox(
                                         width: double.infinity,
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Row(
                                               mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 SizedBox(
                                                   width: 16,
@@ -277,9 +343,13 @@ class _TeacherClassState extends State<TeacherClass> {
                                                         child: Container(
                                                           width: 13.33,
                                                           height: 13.33,
-                                                          decoration: BoxDecoration(
-                                                            image: DecorationImage(
-                                                              image: AssetImage(AppImages.userImage),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            image:
+                                                                DecorationImage(
+                                                              image: AssetImage(
+                                                                  AppImages
+                                                                      .userImage),
                                                               fit: BoxFit.fill,
                                                             ),
                                                           ),
@@ -291,9 +361,9 @@ class _TeacherClassState extends State<TeacherClass> {
                                                 const SizedBox(width: 4),
                                                 const MyText(
                                                   '42 Students',
-                                                    color: Color(0xFF000600),
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w400,
+                                                  color: Color(0xFF000600),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w400,
                                                 ),
                                               ],
                                             ),

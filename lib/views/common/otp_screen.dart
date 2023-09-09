@@ -52,8 +52,8 @@ class _OtpScreenState extends State<OtpScreen> {
                 height: 20.h,
               ),
               CustomRowWidget(
-                text1: 'Choice Your Country',
-                text2: 'Select Your country from here...',
+                text1: 'OTP Verification',
+                text2: 'Please type the verification code sent to email.',
                 image: 'sch_star.png',
               ),
               Align(
@@ -107,7 +107,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       text: 'Don\'t Receive The Otp?',
                       style: GoogleFonts.poppins(
                         color: kDescriptionColor,
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
                       ),
                       children: [
@@ -115,7 +115,8 @@ class _OtpScreenState extends State<OtpScreen> {
                             text: ' Resend It',
                             style: GoogleFonts.poppins(
                               color: kPrimaryColor,
-                              fontSize: 18.sp,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
                             )),
                       ]),
                 ),

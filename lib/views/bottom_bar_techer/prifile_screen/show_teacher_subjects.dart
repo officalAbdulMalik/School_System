@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/controllers/cubits/teacher_cubit/get_teacher_subject_cubit.dart';
 import 'package:school_system/views/bottom_bar_techer/prifile_screen/show_student.dart';
-import 'package:school_system/views/bottom_bar_techer/prifile_screen/slect_section.dart';
 import 'package:school_system/views/bottom_bar_techer/prifile_screen/teacher_create_subject.dart';
 import 'package:school_system/views/utils/colors.dart';
 
@@ -66,11 +65,11 @@ class _ShowTeacherSubjectState extends State<ShowTeacherSubject> {
       ),
       backgroundColor: kPrimaryColor,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: kButtonColor,
         centerTitle: true,
         title: Text(
-          'Classes',
+          'Subjects',
           style: GoogleFonts.acme(
             fontSize: 18.sp,
             color: Colors.white,

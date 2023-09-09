@@ -5,8 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/controllers/cubits/teacher_cubit/get_class_student_cubit.dart';
 import 'package:school_system/views/bottom_bar_parent/profile_screens/add_child_screen.dart';
+import 'package:school_system/views/bottom_bar_parent/profile_screens/show_parent_school.dart';
+import 'package:school_system/views/utils/app_images.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:school_system/views/utils/custom_widget/custom_widgets.dart';
+import 'package:school_system/views/utils/custom_widget/my_text.dart';
+import 'package:school_system/views/utils/custom_widget/navigator_pop.dart';
 
 import '../../../controllers/cubits/teacher_cubit/show_teacher_class_cubit.dart';
 
@@ -29,99 +33,123 @@ class _ShowChildrenState extends State<ShowChildren> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kPrimaryColor,
-      appBar: AppBar(
-        centerTitle: true,
-        iconTheme: const IconThemeData(color: Colors.white),
-        title: Text(
-          'Class Students',
-          style: GoogleFonts.acme(
+    return SafeArea(
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.blue,
+          child: Icon(
+            Icons.add,
             color: Colors.white,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.w700,
           ),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return ShowParentSchool();
+              },
+            ));
+          },
         ),
-        backgroundColor: kButtonColor,
-      ),
-      body: ListView(
-        padding: EdgeInsets.only(left: 15.sp, right: 15.sp),
-        children: [
-          SizedBox(
-            height: 20.h,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) {
-                  return AddChildScreen();
-                },
-              ));
-            },
-            child: CustomWidgets.customButton('Add Child'),
-          ),
-          SizedBox(
-            height: 20.h,
-          ),
-          BlocBuilder<GetClassStudentCubit, GetClassStudentState>(
-            builder: (context, state) {
-              if (state is GetClassStudentLoading) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomWidgets.loadingIndicator(),
-                  ],
-                );
-              } else if (state is GetClassStudentLoaded) {
-                return state.model.data!.isNotEmpty
-                    ? SizedBox(
-                        height: MediaQuery.of(context).size.height,
-                        width: 400.w,
-                        child: ListView.separated(
-                          itemCount: state.model.data!.length,
-                          itemBuilder: (context, index) {
-                            return Card(
-                              color: Colors.white,
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  radius: 40.sp,
-                                  backgroundImage:
-                                      state.model.data![index].image != null
-                                          ? NetworkImage(
-                                              state.model.data![index].image!)
-                                          : AssetImage('images/prof.png')
-                                              as ImageProvider,
-                                ),
-                                title:
-                                    Text(state.model.data![index].firstName!),
-                                subtitle:
-                                    Text(state.model.data![index].lastName!),
-                                trailing:
-                                    Text(state.model.data![index].language),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return SizedBox();
-                          },
-                        ),
+        backgroundColor: Colors.white,
+        body: ListView(
+          padding: EdgeInsets.only(left: 15.sp, right: 15.sp),
+          children: [
+            SizedBox(
+              height: 20.h,
+            ),
+            NavigatorPop(),
+            Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MyText(
+                        'My Kids',
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      SizedBox(
+                        height: 3.sp,
+                      ),
+                      const MyText(
+                        'View all your kids details here.',
+                        color: Color(0xFF6B7280),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
                       )
-                    : Center(
-                        child: Text(
-                          'No Student Found Found',
-                          style: GoogleFonts.acme(
-                            color: Colors.white,
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w700,
+                    ],
+                  ),
+                ),
+                SizedBox(
+                    width: 86.sp,
+                    height: 86.sp,
+                    child: Image.asset(AppImages.starConfuse)),
+              ],
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            BlocBuilder<GetClassStudentCubit, GetClassStudentState>(
+              builder: (context, state) {
+                if (state is GetClassStudentLoading) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CustomWidgets.loadingIndicator(),
+                    ],
+                  );
+                } else if (state is GetClassStudentLoaded) {
+                  return state.model.data!.isNotEmpty
+                      ? SizedBox(
+                          height: MediaQuery.of(context).size.height,
+                          width: 400.w,
+                          child: ListView.separated(
+                            itemCount: state.model.data!.length,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                color: Colors.white,
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    radius: 40.sp,
+                                    backgroundImage:
+                                        state.model.data![index].image != null
+                                            ? NetworkImage(
+                                                state.model.data![index].image!)
+                                            : AssetImage('images/prof.png')
+                                                as ImageProvider,
+                                  ),
+                                  title:
+                                      Text(state.model.data![index].firstName!),
+                                  subtitle:
+                                      Text(state.model.data![index].lastName!),
+                                  trailing:
+                                      Text(state.model.data![index].language),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return SizedBox();
+                            },
                           ),
-                        ),
-                      );
-              } else {
-                return Text('Data Issue');
-              }
-            },
-          )
-        ],
+                        )
+                      : Center(
+                          child: Text(
+                            'No Student Found Found',
+                            style: GoogleFonts.poppins(
+                              color: kPrimaryColor,
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        );
+                } else {
+                  return Text('Data Issue');
+                }
+              },
+            )
+          ],
+        ),
       ),
     );
   }

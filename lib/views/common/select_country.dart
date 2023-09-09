@@ -100,8 +100,8 @@ class _SelectCountryState extends State<SelectCountry> {
                               'United States',
                               style: GoogleFonts.poppins(
                                 color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 18.sp,
                               ),
                             ),
                           ),
@@ -153,8 +153,8 @@ class _SelectCountryState extends State<SelectCountry> {
                               'United Kingdom',
                               style: GoogleFonts.poppins(
                                 color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 18.sp,
                               ),
                             ),
                           ),

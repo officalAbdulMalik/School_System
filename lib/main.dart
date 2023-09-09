@@ -13,7 +13,6 @@ import 'package:school_system/views/common/all_school_screen.dart';
 import 'package:school_system/views/common/loginScreen.dart';
 import 'package:school_system/views/common/onboarding_screen.dart';
 import 'package:school_system/views/bottom_bar_techer/prifile_screen/teacher_add_clases.dart';
-import 'package:school_system/views/bottom_bar_techer/prifile_screen/slect_section.dart';
 import 'package:school_system/views/utils/shade_prefrence.dart';
 import 'controllers/cubits/parent_cubit/get_school_teacher_cubit.dart';
 import 'controllers/cubits/parent_cubit/teacher_classes_cubit.dart';
@@ -25,6 +24,7 @@ import 'controllers/cubits/common_cubit/history_mettings_cubit.dart';
 import 'controllers/cubits/teacher_cubit/get_teacher_subject_cubit.dart';
 import 'controllers/cubits/teacher_cubit/show_teacher_class_cubit.dart';
 import 'controllers/firebase_repos/firebase_notification.dart';
+import 'package:timezone/standalone.dart' as tz;
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -39,6 +39,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await LoginApiShadePreference.getInit();
+  await tz.initializeTimeZone();
   FirebaseNotificationsService().firebaseInit();
 
   HttpOverrides.global = MyHttpOverrides();
