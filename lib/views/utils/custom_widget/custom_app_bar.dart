@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school_system/views/bottom_bar_techer/prifile_screen/profile_detail_screen.dart';
+import 'package:school_system/views/menu_drawer/menu_drawer.dart';
 
 import '../../../controllers/cubits/common_cubit/get_user_data_cubit.dart';
 import '../../bottom_bar_parent/profile_screens/edit_profile_screen.dart';
@@ -29,17 +30,24 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             SizedBox(width: 8.sp,),
             Center(
-              child: Container(
-                height: 30.sp,
-                width: 30.sp,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(color: Colors.grey.withAlpha(80), blurRadius: 8)
-                    ]),
-                child: Center(
-                  child: Icon(Icons.menu),
+              child: InkWell(
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                    return MenuDrawerScreen();
+                  }));
+                },
+                child: Container(
+                  height: 30.sp,
+                  width: 30.sp,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(color: Colors.grey.withAlpha(80), blurRadius: 8)
+                      ]),
+                  child: Center(
+                    child: Icon(Icons.menu),
+                  ),
                 ),
               ),
             ),

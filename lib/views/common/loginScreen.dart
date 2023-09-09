@@ -174,29 +174,29 @@ class _LogInScreenState extends State<LogInScreen> {
                     } else {
                       return InkWell(
                         onTap: () {
-                          // if (email.text.isNotEmpty && pass.text.isNotEmpty) {
-                          //   print('if');
-                          //   loading.value = true;
-                          //   LoginApi.createUser(email.text.trim(),
-                          //           pass.text.trim(), context)
-                          //       .then((value) {
-                          //     loading.value = false;
-                          //     if (value == 200) {
-                          //       Navigator.push(context, MaterialPageRoute(
-                          //         builder: (context) {
-                          //           return LoginApiShadePreference.preferences!
-                          //                       .getString('role') ==
-                          //                   'parent'
-                          //               ? BottomBarPages()
-                          //               : TeacherBottomBar();
-                          //         },
-                          //       ));
-                          //     }
-                          //   });
-                          // } else {
-                          //   Fluttertoast.showToast(msg: 'All Fields Required');
-                          //   print('else');
-                          // }
+                          if (email.text.isNotEmpty && pass.text.isNotEmpty) {
+                            print('if');
+                            loading.value = true;
+                            LoginApi.createUser(email.text.trim(),
+                                    pass.text.trim(), context)
+                                .then((value) {
+                              loading.value = false;
+                              if (value == 200) {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return LoginApiShadePreference.preferences!
+                                                .getString('role') ==
+                                            'parent'
+                                        ? BottomBarPages()
+                                        : TeacherBottomBar();
+                                  },
+                                ));
+                              }
+                            });
+                          } else {
+                            Fluttertoast.showToast(msg: 'All Fields Required');
+                            print('else');
+                          }
                         },
                         child: CustomWidgets.customButton('Login'),
                       );

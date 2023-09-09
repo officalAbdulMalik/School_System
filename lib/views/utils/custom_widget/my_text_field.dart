@@ -67,7 +67,7 @@ class _MyTextFieldState extends State<MyTextField> {
 
           return null;
         },
-        style: GoogleFonts.poppins(color: Colors.black, fontSize: 16.sp),
+        style: GoogleFonts.poppins(color: Colors.black, fontSize: 14.sp),
         decoration: InputDecoration(
           filled: true,
           errorMaxLines: 1,
@@ -78,8 +78,8 @@ class _MyTextFieldState extends State<MyTextField> {
               EdgeInsets.only(
                 left: 15.sp,
                 right: 8.sp,
-                top: 8.sp,
-                bottom: 10.sp,
+                top: 11.5.sp,
+                bottom: 11.5.sp,
               ),
 
           errorStyle: TextStyle(
@@ -87,7 +87,7 @@ class _MyTextFieldState extends State<MyTextField> {
             height: 0.2.sp,
           ),
 
-          hintStyle: GoogleFonts.cairo(
+          hintStyle: GoogleFonts.poppins(
             fontSize: 14.sp,
             color: Colors.grey,
           ),

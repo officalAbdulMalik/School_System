@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:school_system/views/bottom_bar_parent/profile_screens/edit_profile_screen.dart';
+import 'package:school_system/views/bottom_bar_techer/prifile_screen/components/profile_titles.dart';
 
 import '../../../models/user_data_model.dart';
 import '../../utils/app_images.dart';
@@ -9,51 +11,63 @@ import '../../utils/custom_widget/my_text.dart';
 class ProfileDetailScreen extends StatelessWidget {
   final User? data;
 
-  const ProfileDetailScreen({Key? key,required this.data}) : super(key: key);
+  const ProfileDetailScreen({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
       ),
-
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 16.sp),
         children: [
           Row(
             children: [
               Expanded(
-                flex:2,
+                flex: 2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyText('My Profile',fontSize: 20.sp,fontWeight: FontWeight.w600,)
-
-                    , SizedBox(height: 3.sp,),
-                    const MyText('Manage your all profile details here.',   color: Color(0xFF6B7280),
+                    MyText(
+                      'My Profile',
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    SizedBox(
+                      height: 3.sp,
+                    ),
+                    const MyText(
+                      'Manage your all profile details here.',
+                      color: Color(0xFF6B7280),
                       fontSize: 14,
-                      fontWeight: FontWeight.w400,)
+                      fontWeight: FontWeight.w400,
+                    )
                   ],
-                ),),
+                ),
+              ),
               SizedBox(
                   width: 86.sp,
                   height: 86.sp,
                   child: Image.asset('images/satar.png')),
             ],
           ),
-
-          SizedBox(height: 15.sp,),
+          SizedBox(
+            height: 15.sp,
+          ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 8.sp,vertical: 10.sp,),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(color: Colors.grey.withAlpha(50),blurRadius: 5)
-              ]
+            padding: EdgeInsets.symmetric(
+              horizontal: 8.sp,
+              vertical: 10.sp,
             ),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15.sp),
+                color: Colors.white, boxShadow: [
+              BoxShadow(color: Colors.grey.withAlpha(50), blurRadius: 5)
+            ]),
             child: Column(
               children: [
                 Row(
@@ -66,116 +80,162 @@ class ProfileDetailScreen extends StatelessWidget {
                             shape: BoxShape.circle,
                             color: Colors.white,
                             image: DecorationImage(
-                                image: AssetImage(AppImages.userImage)
-                            ),
+                                image: AssetImage(AppImages.userImage)),
                             boxShadow: [
                               BoxShadow(
-                                  color: Colors.grey.withAlpha(80), blurRadius: 8)
-                            ]
-                        ),
+                                  color: Colors.grey.withAlpha(80),
+                                  blurRadius: 8)
+                            ]),
                       ),
                     ),
-                    SizedBox(width: 15.sp,),
+                    SizedBox(
+                      width: 15.sp,
+                    ),
                     Expanded(
-                      flex:2,
+                      flex: 2,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          MyText(data!.firstName.toString()+ " ${data!.lastName.toString()}",fontSize: 16.sp,fontWeight: FontWeight.w600,)
-
-                          , SizedBox(height: 3.sp,),
-                           MyText(data!.permanentAddress.toString(),   color: Color(0xFF6B7280),
+                          MyText(
+                            data!.firstName.toString() +
+                                " ${data!.lastName.toString()}",
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          SizedBox(
+                            height: 3.sp,
+                          ),
+                          MyText(
+                            data!.permanentAddress.toString(),
+                            color: const Color(0xFF6B7280),
                             fontSize: 14,
-                            fontWeight: FontWeight.w400,)
+                            fontWeight: FontWeight.w400,
+                          )
                         ],
-                      ),),
-                    SvgPicture.asset(AppImages.editIcon)
-
+                      ),
+                    ),
+                    InkWell(
+                        onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                            return EditProfileScreen(data: data);
+                          }));
+                        },
+                        child: SvgPicture.asset(AppImages.editIcon))
                   ],
                 ),
+                SizedBox(
+                  height: 10.sp,
+                ),
+                ProfileTitles(
+                  title: "First Name",
+                  value: data?.firstName ?? '',
+                  icon: AppImages.profile,
+                ),
+                const Divider(),
+                ProfileTitles(
+                  title: "Last Name",
+                  value: data?.lastName ?? '',
+                  icon: AppImages.profile,
+                ),
+                const Divider(),
+                ProfileTitles(
+                  title: "Email",
+                  value: data?.email ?? '',
+                  icon: AppImages.emailIcon,
+                ),
+                const Divider(),
+                ProfileTitles(
+                  title: "Language",
+                  value: data?.language ?? '',
+                  icon: AppImages.languageIcon,
+                ),
 
-                SizedBox(height: 10.sp,),
-                Container(
-                  width: 311,
-                  height: 46,
-                  child: Row(
+
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 16.sp,
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  height: 78.sp,
+                  width: 1.sw,
+                  padding: const EdgeInsets.all(16),
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFFE2F4FF),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        width: 32,
-                        height: 32,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              left: 0,
-                              top: 0,
-                              child: Container(
-                                width: 32,
-                                height: 32,
-                                decoration: ShapeDecoration(
-                                  color: Color(0xFFF9FAFB),
-                                  shape: OvalBorder(),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: 4,
-                              top: 4,
-                              child: Container(
-                                width: 24,
-                                height: 24,
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      left: 5,
-                                      top: 2,
-                                      child: Container(
-                                        width: 14,
-                                        height: 20,
-                                        decoration: BoxDecoration(
-                                        ),
-                                        child: Center(child: Icon(Icons.person),),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
+                      Expanded(
+                        child: MyText(
+                          'My Classes',
+                          color: Color(0xFF6B7280),
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: 0.75,
                         ),
                       ),
-                      const SizedBox(width: 16),
-                      Container(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const MyText(
-                              'First Name',
-                                color: Color(0xFF6B7280),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                            ),
-                            const SizedBox(height: 4),
-                            MyText(
-                              data!.firstName.toString(),
-                                color: Color(0xFF000600),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                            ),
-                          ],
+                      const Expanded(
+                        child: MyText(
+                          '12',
+                          color: Color(0xFF000600),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],
                   ),
-                )
-              ],
-            ),
-          ),
-
+                ),
+              ),
+              SizedBox(width: 8.sp,),
+              Expanded(
+                child: Container(
+                  height: 78.sp,
+                  width: 1.sw,
+                  padding: const EdgeInsets.all(16),
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFFFFEEF5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: MyText(
+                          'My Subjects',
+                          color: Color(0xFF6B7280),
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: 0.75,
+                        ),
+                      ),
+                      const Expanded(
+                        child: MyText(
+                          '8',
+                          color: Color(0xFF000600),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );

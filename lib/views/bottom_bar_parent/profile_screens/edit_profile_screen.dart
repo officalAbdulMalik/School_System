@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:school_system/views/utils/app_images.dart';
+import 'package:school_system/views/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/views/utils/shade_prefrence.dart';
 
 import '../../../controllers/apis_repo/update_profile.dart';
@@ -13,6 +16,7 @@ import '../../../models/user_data_model.dart';
 import '../../utils/colors.dart';
 import '../../utils/custom_widget/container_decoration.dart';
 import '../../utils/custom_widget/custom_widgets.dart';
+import '../../utils/custom_widget/my_text.dart';
 
 class EditProfileScreen extends StatefulWidget {
   EditProfileScreen({super.key, required this.data});
@@ -40,6 +44,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String about = '';
   File? showImage;
 
+  final formKey = GlobalKey<FormState>();
   List<String> teacher = [
     'Mr.',
     'Mrs.',
@@ -54,10 +59,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     email.text = widget.data!.email! ?? "";
     language = widget.data!.language ?? "Preferred Language ";
     title = widget.data!.title ?? "";
-    title = widget.data!.dob ?? "";
-    title = widget.data!.hearAboutUs ?? "";
+    dob = widget.data!.dob ?? "";
+    about = widget.data!.hearAboutUs ?? "";
     image1 = widget.data!.image!;
     gender = widget.data!.gender ?? "Select Gender";
+    print('===================== this is title  ${title}');
     // TODO: implement initState
     super.initState();
   }
@@ -65,367 +71,329 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kPrimaryColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
-        centerTitle: true,
-        backgroundColor: kButtonColor,
-        title: Text(
-          'Your Profile ',
-          style: GoogleFonts.acme(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+        elevation: 0,
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 21),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(
-                height: 30,
-              ),
-              InkWell(
-                onTap: () async {
-                  final image = await ImagePick.pickImageFromGallery();
-                  if (image != null) {
-                    setState(() {
-                      image1 = image.path;
-                      showImage = image;
-                    });
-                  } else {
-                    Fluttertoast.showToast(msg: 'Image Is Empty');
-                  }
-                },
-                child: CircleAvatar(
-                  radius: 50,
-                  child: showImage == null
-                      ? CircleAvatar(
-                          foregroundImage: widget.data!.image!.isEmpty
-                              ? AssetImage("images/users.png")
-                              : NetworkImage(widget.data!.image!)
-                                  as ImageProvider,
-                          radius: 50,
-                        )
-                      : CircleAvatar(
-                          foregroundImage: FileImage(showImage!),
-                          radius: 50,
-                        ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                textAlign: TextAlign.center,
-                "Please enter your fullname, email and \n optional profile picture",
-                style: GoogleFonts.acme(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 10.sp),
-                height: 50.h,
-                width: 340.sp,
-                decoration: ContinerDecoration.continerDecoration(),
-                child: Row(
-                  children: [
-                    Expanded(
-                        flex: 2,
-                        child: Text(
-                          title,
-                          style: GoogleFonts.acme(
-                              color: Colors.black, fontSize: 11.sp),
-                        )),
-                    SizedBox(
-                      width: 30.w,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 10.0.sp),
-                        child: DropdownButton<String>(
-                          underline: SizedBox(),
-                          items: teacher.map((String item) {
-                            return DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(item),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            title = value!;
-                            setState(() {});
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 20),
-                height: 50,
-                width: 340,
-                decoration: ContinerDecoration.continerDecoration(),
-                child: TextFormField(
-                  controller: firsName,
-                  style: GoogleFonts.acme(color: Colors.black, fontSize: 11.sp),
-                  decoration: const InputDecoration(
-                    hintText: 'First Name',
-                    hintStyle: TextStyle(color: Colors.black, fontSize: 12),
-                    border: InputBorder.none,
-                  ),
-                  cursorColor: kPrimaryColor,
-                  // decoration: textFieldIconDecoration(
-                  //     Icons.alternate_email, 'service@gmail.com', null),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: const EdgeInsets.only(left: 20),
-                height: 50,
-                width: 340,
-                decoration: ContinerDecoration.continerDecoration(),
-                child: TextFormField(
-                  controller: secondName,
-                  style: GoogleFonts.acme(color: Colors.black, fontSize: 11.sp),
-                  decoration: const InputDecoration(
-                    hintText: 'Last Name',
-                    hintStyle: TextStyle(color: Colors.black, fontSize: 12),
-                    border: InputBorder.none,
-                  ),
-                  cursorColor: kPrimaryColor,
-                  // decoration: textFieldIconDecoration(
-                  //     Icons.alternate_email, 'service@gmail.com', null),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 20),
-                height: 50,
-                width: 340,
-                decoration: ContinerDecoration.continerDecoration(),
-                child: TextFormField(
-                  controller: email,
-                  style: GoogleFonts.acme(color: Colors.black, fontSize: 11.sp),
-                  decoration: const InputDecoration(
-                    hintText: 'Email',
-                    hintStyle: TextStyle(color: Colors.black, fontSize: 12),
-                    border: InputBorder.none,
-                  ),
-                  cursorColor: kPrimaryColor,
-                  // decoration: textFieldIconDecoration(
-                  //     Icons.alternate_email, 'service@gmail.com', null),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: const EdgeInsets.only(left: 10),
-                height: 50,
-                width: 340,
-                decoration: ContinerDecoration.continerDecoration(),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        language,
-                        style: GoogleFonts.acme(
-                            color: Colors.black, fontSize: 11.sp),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 10.0),
-                        child: DropdownButton<String>(
-                          underline: SizedBox(),
-                          items: <String>[
-                            'English',
-                            'Scots',
-                            'Welsh',
-                          ].map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            language = value!;
-                            setState(() {});
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 10.sp),
-                height: 50.h,
-                width: 340.w,
-                decoration: ContinerDecoration.continerDecoration(),
-                child: TextFormField(
-                  controller: occupation,
-                  style: GoogleFonts.acme(color: Colors.black, fontSize: 11.sp),
-                  decoration: InputDecoration(
-                    hintText: LoginApiShadePreference.preferences!
-                                .getString('role') ==
-                            'teacher'
-                        ? 'qualification'
-                        : 'occupation',
-                    hintStyle: TextStyle(color: Colors.black, fontSize: 11.sp),
-                    border: InputBorder.none,
-                  ),
-                  cursorColor: kPrimaryColor,
-                  // decoration: textFieldIconDecoration(
-                  //     Icons.alternate_email, 'service@gmail.com', null),
-                ),
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 10.sp),
-                height: 50.h,
-                width: 340.w,
-                decoration: ContinerDecoration.continerDecoration(),
-                child: Row(
-                  children: [
-                    Expanded(
-                        flex: 2,
-                        child: Text(
-                          gender,
-                          style: GoogleFonts.acme(
-                              color: Colors.black, fontSize: 11.sp),
-                        )),
-                    SizedBox(
-                      width: 30.sp,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 10.0.sp),
-                        child: DropdownButton<String>(
-                          underline: SizedBox(),
-                          items: <String>[
-                            'Male',
-                            'Female',
-                          ].map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            gender = value!;
-                            setState(() {});
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      body: Form(
+        key: formKey,
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: 15.sp),
                 children: [
-                  Expanded(
-                    flex: 1,
-                    child: Transform.scale(
-                      alignment: Alignment.bottomCenter,
-                      scale: 1.6,
-                      child: Checkbox(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            MyText(
+                              'Edit My Profile',
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            SizedBox(
+                              height: 3.sp,
+                            ),
+                            const MyText(
+                              'Edit your profile details here.',
+                              color: Color(0xFF6B7280),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            )
+                          ],
                         ),
-                        checkColor: Colors.white,
-                        activeColor: Colors.blue,
-                        tristate: false,
-                        value: check,
-                        onChanged: (value) {
-                          check = value!;
-                          setState(() {});
-                        },
+                      ),
+                      SizedBox(
+                          width: 86.sp,
+                          height: 86.sp,
+                          child: Image.asset('images/satar.png')),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Center(
+                    child: Container(
+                      padding: EdgeInsets.all(2.sp),
+                      width: 85.sp,
+                      height: 85.sp,
+                      decoration: const ShapeDecoration(
+                        color: Colors.white,
+                        shape: OvalBorder(
+                          side: BorderSide(width: 1, color: Color(0xFFF7D55C)),
+                        ),
+                      ),
+                      child: Stack(
+                        children: [
+                          showImage == null
+                              ? CircleAvatar(
+                            foregroundImage: widget.data!.image!.isEmpty
+                                ? AssetImage("images/users.png")
+                                : NetworkImage(widget.data!.image!)
+                            as ImageProvider,
+                            radius: 50,
+                          )
+                              : CircleAvatar(
+                            foregroundImage: FileImage(showImage!),
+                            radius: 50,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.5),
+                                shape: BoxShape.circle),
+                          ),
+                          Center(
+                              child: InkWell(
+                                  onTap: () async {
+                                    final image =
+                                    await ImagePick.pickImageFromGallery();
+                                    if (image != null) {
+                                      setState(() {
+                                        image1 = image.path;
+                                        showImage = image;
+                                      });
+                                    } else {
+                                      Fluttertoast.showToast(msg: 'Image Is Empty');
+                                    }
+                                  },
+                                  child: SvgPicture.asset(
+                                    AppImages.cameraIcon,
+                                    color: Colors.white,
+                                  ))),
+                        ],
                       ),
                     ),
                   ),
                   const SizedBox(
-                    width: 5,
+                    height: 10,
                   ),
-                  Expanded(
-                    flex: 6,
-                    child: RichText(
-                      text: TextSpan(
-                        text: 'I agree to receive emails, about ...',
-                        style: GoogleFonts.acme(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16.sp),
+                    height: 44.sp,
+                    decoration: ShapeDecoration(
+                      color: const Color(0xFFF3F4F6),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            flex: 2,
+                            child: MyText(
+                              title,
+                              color: Colors.black,
+                              fontSize: 14.sp,
+                            )),
+                        SizedBox(
+                          width: 30.w,
+                        ),
+                        Expanded(
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            underline: SizedBox(),
+                            icon: const Icon(Icons.keyboard_arrow_down_outlined),
+                            items: teacher.map((String item) {
+                              return DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(item),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              title = value!;
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  MyTextField(
+                    filledColor: const Color(0xFFF3F4F6),
+                    isRequiredField: true,
+                    hintText: 'First Name',
+                    controller: firsName,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MyTextField(
+                    filledColor: const Color(0xFFF3F4F6),
+                    isRequiredField: true,
+                    hintText: 'Last Name',
+                    controller: secondName,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MyTextField(
+                    filledColor: const Color(0xFFF3F4F6),
+                    isRequiredField: true,
+                    hintText: 'Email',
+                    controller: email,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16.sp),
+                    height: 44.sp,
+                    decoration: ShapeDecoration(
+                      color: const Color(0xFFF3F4F6),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: MyText(
+                            language,
+                            color: Colors.black, fontSize: 14.sp,
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 10.0),
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              icon: const Icon(Icons.keyboard_arrow_down_outlined),
+                              underline: SizedBox(),
+                              items: <String>[
+                                'English',
+                                'Scots',
+                                'Welsh',
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                language = value!;
+                                setState(() {});
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+
+                  SizedBox(
+                    height: 20.h,
+                  ),
+
+                ],
+              ),
+            ),
+            Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 20.sp),
+              child: Row(
+                children: [
+
+                  Expanded(child: InkWell(
+                    onTap: (){
+                      FocusScope.of(context).unfocus();
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                      height: 44.sp,
+                      decoration: ShapeDecoration(
+                        color: const Color(0xFF6B7280),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
+                      child: Center(
+                        child: MyText(
+                          'Cancel',
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+
+                        ),
+                      ),
+                    ),
+                  )),
+                  SizedBox(width: 8.sp,),
+                  Expanded(
+                    child: ValueListenableBuilder(
+                      valueListenable: loading,
+                      builder: (context, value, child) {
+                        if (value == false) {
+                          return InkWell(
+                            onTap: () {
+                              if (formKey.currentState!.validate() &&showImage != null ) {
+                                loading.value = true;
+                                UpdateProfile.updateProfile(
+                                    context: context,
+                                    firstName: firsName.text.trim(),
+                                    lastName: secondName.text.trim(),
+                                    email: email.text.trim(),
+                                    language: language,
+                                    title: title,
+                                    about: about,
+                                    occupation: occupation.text.trim(),
+                                    dob: dob,
+                                    gender: gender,
+                                    image: image1)
+                                    .then((value) {
+                                  loading.value = false;
+                                });
+                              }else{
+                                validate();
+                              }
+                            },
+                            child: Container(
+
+                              height: 44.sp,
+                              decoration: ShapeDecoration(
+                                color: const Color(0xFF3DAEF5),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: Center(
+                                child: MyText(
+                                  'Save',
+                                    color: Colors.white,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+
+                              ),
+                            ),
+                          );
+                        } else {
+                          return CustomWidgets.loadingIndicator();
+                        }
+                      },
                     ),
                   ),
                 ],
               ),
-              ValueListenableBuilder(
-                valueListenable: loading,
-                builder: (context, value, child) {
-                  if (value == false) {
-                    return InkWell(
-                      onTap: () {
-                        bool val = validate();
-                        if (val == true) {
-                          loading.value = true;
-                          UpdateProfile.updateProfile(
-                                  context: context,
-                                  firstName: firsName.text.trim(),
-                                  lastName: secondName.text.trim(),
-                                  email: email.text.trim(),
-                                  language: language,
-                                  title: title,
-                                  about: about,
-                                  occupation: occupation.text.trim(),
-                                  dob: dob,
-                                  gender: gender,
-                                  image: image1)
-                              .then((value) {
-                            loading.value = false;
-                          });
-                        }
-                      },
-                      child: CustomWidgets.customButton('Update Profile'),
-                    );
-                  } else {
-                    return CustomWidgets.loadingIndicator();
-                  }
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-            ],
-          ),
+            ),
+             SizedBox(
+              height: 15.sp,
+            ),
+          ],
         ),
       ),
     );
