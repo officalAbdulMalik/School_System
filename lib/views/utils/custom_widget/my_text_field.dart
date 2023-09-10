@@ -17,6 +17,7 @@ class MyTextField extends StatefulWidget {
   final TextInputType? keyboardType;
   final Color? borderColor;
   final Color? filledColor;
+  final Widget? prefixIcon;
 
   const MyTextField({
     Key? key,
@@ -26,6 +27,7 @@ class MyTextField extends StatefulWidget {
     this.filledColor,
     this.contentPadding,
     this.enabled = true,
+    this.prefixIcon,
     this.suffixIcon,
     this.isPasswordField = false,
     required this.controller,
@@ -67,7 +69,8 @@ class _MyTextFieldState extends State<MyTextField> {
 
                 return null;
               },
-        style: GoogleFonts.poppins(color: Colors.black, fontSize: 16.sp),
+        style: GoogleFonts.poppins(
+            color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w500),
         decoration: InputDecoration(
           filled: true,
           errorMaxLines: 1,
@@ -78,7 +81,7 @@ class _MyTextFieldState extends State<MyTextField> {
               EdgeInsets.only(
                 left: 15.sp,
                 right: 8.sp,
-                top: 8.sp,
+                top: 15.sp,
                 bottom: 10.sp,
               ),
 
@@ -86,13 +89,13 @@ class _MyTextFieldState extends State<MyTextField> {
             fontSize: 12.sp,
             height: 0.2.sp,
           ),
-
-          hintStyle: GoogleFonts.cairo(
+          hintStyle: GoogleFonts.poppins(
             fontSize: 14.sp,
-            color: Colors.grey,
+            color: Colors.black,
+            fontWeight: FontWeight.w400,
           ),
           suffixIconConstraints:
-              BoxConstraints(maxHeight: 30.sp, maxWidth: 40.sp),
+              BoxConstraints(maxHeight: 40.sp, maxWidth: 40.sp),
           hintText: widget.hintText,
           suffixIcon: widget.isPasswordField!
               ? IconButton(
@@ -101,11 +104,12 @@ class _MyTextFieldState extends State<MyTextField> {
                       showPassword = !showPassword;
                     });
                   },
-                  icon: Image.asset(
-                    'assets/images/View Password Button.png',
-                    height: 10.sp,
-                  ),
-                )
+                  icon: Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Icon(showPassword == false
+                        ? Icons.visibility_off
+                        : Icons.visibility),
+                  ))
               : Center(
                   child: widget.suffixIcon,
                 ),
@@ -153,12 +157,3 @@ class _MyTextFieldState extends State<MyTextField> {
     );
   }
 }
-
-        //  cursorHeight: 20.sp,
-                if (value == null || value.isEmpty) {
-                  return ' ${widget.label ?? widget.hintText} ${"is required"}';
-                }
-                return null;
-              },
-        style: GoogleFonts.poppins(
-            color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w400),

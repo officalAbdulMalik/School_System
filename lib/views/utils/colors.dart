@@ -19,4 +19,7 @@ const Color kNameColor = Color(0xff4A4B4D);
 const Color kCheckBackgroundColor = Color(0xffDEE1FF);
 const Color kSendChatColor = Color(0xffEEF7F9);
 const Color kReceiveChatColor = Color(0xffF9EEEE);
+const Color kCardBColor = Color(0xffE2F4FF);
+const Color kCardPColor = Color(0xffFFEEF6);
+const Color kCardGColor = Color(0xffEFE7FD);
 const Color kRatingStarColor = Colors.amber;

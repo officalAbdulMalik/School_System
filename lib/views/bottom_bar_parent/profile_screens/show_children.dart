@@ -4,12 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/controllers/cubits/teacher_cubit/get_class_student_cubit.dart';
+import 'package:school_system/views/bottom_bar_parent/kids_details.dart';
 import 'package:school_system/views/bottom_bar_parent/profile_screens/add_child_screen.dart';
 import 'package:school_system/views/bottom_bar_parent/profile_screens/show_parent_school.dart';
 import 'package:school_system/views/utils/app_images.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:school_system/views/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/views/utils/custom_widget/my_text.dart';
+import 'package:school_system/views/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/views/utils/custom_widget/navigator_pop.dart';
 
 import '../../../controllers/cubits/teacher_cubit/show_teacher_class_cubit.dart';
@@ -30,6 +32,8 @@ class _ShowChildrenState extends State<ShowChildren> {
     // TODO: implement initState
     super.initState();
   }
+
+  TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +94,15 @@ class _ShowChildrenState extends State<ShowChildren> {
             SizedBox(
               height: 20.h,
             ),
+            MyTextField(
+              controller: controller,
+              filledColor: kContainerColor,
+              hintText: 'Search',
+              prefixIcon: Icon(Icons.search),
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
             BlocBuilder<GetClassStudentCubit, GetClassStudentState>(
               builder: (context, state) {
                 if (state is GetClassStudentLoading) {
@@ -100,42 +113,55 @@ class _ShowChildrenState extends State<ShowChildren> {
                     ],
                   );
                 } else if (state is GetClassStudentLoaded) {
-                  return state.model.data!.isNotEmpty
+                  return state.model.data!.isEmpty
                       ? SizedBox(
                           height: MediaQuery.of(context).size.height,
                           width: 400.w,
                           child: ListView.separated(
-                            itemCount: state.model.data!.length,
+                            itemCount: 2,
+                            // itemCount: state.model.data!.length,
                             itemBuilder: (context, index) {
-                              return Card(
-                                color: Colors.white,
-                                child: ListTile(
-                                  leading: CircleAvatar(
-                                    radius: 40.sp,
-                                    backgroundImage:
-                                        state.model.data![index].image != null
-                                            ? NetworkImage(
-                                                state.model.data![index].image!)
-                                            : AssetImage('images/prof.png')
-                                                as ImageProvider,
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return KidsDetailsScreen(
+                                        data: state.model.data!,
+                                        index: index,
+                                      );
+                                    },
+                                  ));
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: kContainerColor,
+                                    borderRadius: BorderRadius.circular(10.sp),
                                   ),
-                                  title:
-                                      Text(state.model.data![index].firstName!),
-                                  subtitle:
-                                      Text(state.model.data![index].lastName!),
-                                  trailing:
-                                      Text(state.model.data![index].language),
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      radius: 40.sp,
+                                      backgroundImage: state.model.data != null
+                                          ? NetworkImage('')
+                                          : AssetImage('images/prof.png')
+                                              as ImageProvider,
+                                    ),
+                                    title: Text("111"),
+                                    subtitle: Text("s"),
+                                    trailing: Text("state"),
+                                  ),
                                 ),
                               );
                             },
                             separatorBuilder: (context, index) {
-                              return SizedBox();
+                              return SizedBox(
+                                height: 10.h,
+                              );
                             },
                           ),
                         )
                       : Center(
                           child: Text(
-                            'No Student Found Found',
+                            'No Student Found',
                             style: GoogleFonts.poppins(
                               color: kPrimaryColor,
                               fontSize: 20.sp,

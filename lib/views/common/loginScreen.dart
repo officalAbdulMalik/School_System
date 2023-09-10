@@ -47,360 +47,174 @@ class _LogInScreenState extends State<LogInScreen> {
             child: Form(
               key: formKey,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Align(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                            height: 150.h,
+                            width: 300.w,
+                            child: Image.asset(
+                              'images/satar.png',
+                              fit: BoxFit.contain,
+                            ))),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    Center(
+                      child: Text(
+                        ' Let’s Get You Signed In',
+                        style: GoogleFonts.poppins(
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 22.sp,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    Align(
                       alignment: Alignment.center,
-                      child: SizedBox(
-                          height: 150.h,
-                          width: 300.w,
-                          child: Image.asset(
-                            'images/satar.png',
-                            fit: BoxFit.contain,
-                          ))),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Center(
-                    child: Text(
-                      ' Let’s Get You Signed In',
-                      style: GoogleFonts.poppins(
-                        color: kPrimaryColor,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 22.sp,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Connecting Parents and Teachers\nWorld Wide.',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                        color: kDescriptionColor,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.sp,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  MyTextField(
-                    controller: email,
-                    filledColor: kContainerColor,
-                    isRequiredField: true,
-                    hintText: 'Email',
-                    // decoration: textFieldIconDecoration(
-                    //     Icons.alternate_email, 'service@gmail.com', null),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  // buildTextFieldLabel('Password'),
-                  MyTextField(
-                    controller: pass,
-                    filledColor: kContainerColor,
-                    isRequiredField: true,
-                    isPasswordField: true,
-                    hintText: 'Password',
-                    // decoration: textFieldIconDecoration(
-                    //     Icons.alternate_email, 'service@gmail.com', null),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 10.0.sp),
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return ForgetPasswordEmailScreen();
-                            },
-                          ));
-                        },
-                        child: Text(
-                          'Forget Password ?',
-                          style: GoogleFonts.poppins(
-                            color: kPrimaryColor,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.sp,
-                          ),
+                      child: Text(
+                        'Connecting Parents and Teachers\nWorld Wide.',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          color: kDescriptionColor,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.sp,
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  ValueListenableBuilder(
-                    valueListenable: loading,
-                    builder: (context, value, child) {
-                      if (value == true) {
-                        return CustomWidgets.loadingIndicator();
-                      } else {
-                        return InkWell(
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    MyTextField(
+                      controller: email,
+                      filledColor: kContainerColor,
+                      isRequiredField: true,
+                      hintText: 'Email',
+                      prefixIcon: Icon(Icons.abc),
+                      // decoration: textFieldIconDecoration(
+                      //     Icons.alternate_email, 'service@gmail.com', null),
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    // buildTextFieldLabel('Password'),
+                    MyTextField(
+                      controller: pass,
+                      filledColor: kContainerColor,
+                      isRequiredField: true,
+                      isPasswordField: true,
+                      hintText: 'Password',
+                      // decoration: textFieldIconDecoration(
+                      //     Icons.alternate_email, 'service@gmail.com', null),
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 10.0.sp),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: InkWell(
                           onTap: () {
-                            if (formKey.currentState!.validate()) {
-                              print('if');
-                              loading.value = true;
-                              LoginApi.createUser(email.text.trim(),
-                                      pass.text.trim(), context)
-                                  .then((value) {
-                                loading.value = false;
-                                if (value == 200) {
-                                  Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) {
-                                      return LoginApiShadePreference
-                                                  .preferences!
-                                                  .getString('role') ==
-                                              'parent'
-                                          ? BottomBarPages()
-                                          : TeacherBottomBar();
-                                    },
-                                  ));
-                                }
-                              });
-                            }
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return ForgetPasswordEmailScreen();
+                              },
+                            ));
                           },
-                          child: CustomWidgets.customButton('Login'),
-                        );
-                      }
-                    },
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'No have Account  ',
-                        style: GoogleFonts.poppins(
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14.sp,
+                          child: Text(
+                            'Forget Password ?',
+                            style: GoogleFonts.poppins(
+                              color: kPrimaryColor,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14.sp,
+                            ),
+                          ),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return OnboardingScreen();
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    ValueListenableBuilder(
+                      valueListenable: loading,
+                      builder: (context, value, child) {
+                        if (value == true) {
+                          return CustomWidgets.loadingIndicator();
+                        } else {
+                          return InkWell(
+                            onTap: () {
+                              if (formKey.currentState!.validate()) {
+                                print('if');
+                                loading.value = true;
+                                LoginApi.createUser(email.text.trim(),
+                                        pass.text.trim(), context)
+                                    .then((value) {
+                                  loading.value = false;
+                                  if (value == 200) {
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return LoginApiShadePreference
+                                                    .preferences!
+                                                    .getString('role') ==
+                                                'parent'
+                                            ? BottomBarPages()
+                                            : TeacherBottomBar();
+                                      },
+                                    ));
+                                  }
+                                });
+                              }
                             },
-                          ));
-                        },
-                        child: Text(
-                          'Sign up here!',
+                            child: CustomWidgets.customButton('Login'),
+                          );
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'No have Account  ',
                           style: GoogleFonts.poppins(
-                            color: Colors.black,
+                            color: kPrimaryColor,
                             fontWeight: FontWeight.w400,
                             fontSize: 14.sp,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 60.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return TermsCondation();
-                            },
-                          ));
-                        },
-                        child: Text('Terms & Conditions',
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return OnboardingScreen();
+                              },
+                            ));
+                          },
+                          child: Text(
+                            'Sign up here!',
                             style: GoogleFonts.poppins(
-                              color: kPrimaryColor,
+                              color: Colors.black,
                               fontWeight: FontWeight.w400,
                               fontSize: 14.sp,
-                            )),
-                      ),
-                      Text(' and ',
-                          style: GoogleFonts.poppins(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.sp,
-                          )),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return PrivacyPolice();
-                            },
-                          ));
-                        },
-                        child: Text('Privacy Policy',
-                            style: GoogleFonts.poppins(
-                              color: kPrimaryColor,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14.sp,
-                            )),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 10.0.sp),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return ForgetPasswordEmailScreen();
-                          },
-                        ));
-                      },
-                      child: Text(
-                        'Forget Password ?',
-                        style: GoogleFonts.poppins(
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 18.sp,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ),
-                ),
-                SizedBox(
-                  height: 30.h,
-                ),
-                ValueListenableBuilder(
-                  valueListenable: loading,
-                  builder: (context, value, child) {
-                    if (value == true) {
-                      return CustomWidgets.loadingIndicator();
-                    } else {
-                      return InkWell(
-                        onTap: () {
-                          if (email.text.isNotEmpty && pass.text.isNotEmpty) {
-                            print('if');
-                            loading.value = true;
-                            LoginApi.createUser(email.text.trim(),
-                                    pass.text.trim(), context)
-                                .then((value) {
-                              loading.value = false;
-                              if (value == 200) {
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return LoginApiShadePreference.preferences!
-                                                .getString('role') ==
-                                            'parent'
-                                        ? BottomBarPages()
-                                        : TeacherBottomBar();
-                                  },
-                                ));
-                              }
-                            });
-                          } else {
-                            Fluttertoast.showToast(msg: 'All Fields Required');
-                            print('else');
-                          }
-                        },
-                        child: CustomWidgets.customButton('Login'),
-                      );
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'No have Account  ',
-                      style: GoogleFonts.poppins(
-                        color: kPrimaryColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16.sp,
-                      ),
+                    SizedBox(
+                      height: 20.h,
                     ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return OnboardingScreen();
-                          },
-                        ));
-                      },
-                      child: Text(
-                        'Sign up here!',
-                        style: GoogleFonts.poppins(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16.sp,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 60.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return TermsCondation();
-                          },
-                        ));
-                      },
-                      child: Text('Terms & Conditions',
-                          style: GoogleFonts.poppins(
-                            color: kPrimaryColor,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16.sp,
-                          )),
-                    ),
-                    Text(' and ',
-                        style: GoogleFonts.poppins(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16.sp,
-                        )),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return PrivacyPolice();
-                          },
-                        ));
-                      },
-                      child: Text('Privacy Policy',
-                          style: GoogleFonts.poppins(
-                            color: kPrimaryColor,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16.sp,
-                          )),
-                    ),
-                  ],
-                ),
-              ],
+                  ]),
             ),
           ),
         ),

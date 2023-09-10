@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/controllers/cubits/teacher_cubit/get_section_cubit.dart';
 import 'package:school_system/views/bottom_bar_parent/profile_screens/show_children.dart';
-import 'package:school_system/views/bottom_bar_techer/prifile_screen/show_teacher_subjects.dart';
+import 'package:school_system/views/bottom_bar_techer/prifile_screen/class_details_screen.dart';
 import 'package:school_system/views/bottom_bar_techer/prifile_screen/teacher_add_clases.dart';
 import 'package:school_system/views/common/loginScreen.dart';
 import 'package:school_system/views/utils/app_images.dart';
@@ -36,9 +36,9 @@ class _TeacherClassState extends State<TeacherClass> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      floatingActionButton: role == 'teacher'
+      floatingActionButton: role == 'parent'
           ? FloatingActionButton(
-              backgroundColor: Color(0xff3DAEF5),
+              backgroundColor: const Color(0xff3DAEF5),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
@@ -118,10 +118,10 @@ class _TeacherClassState extends State<TeacherClass> {
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
-                              return role == 'teacher'
-                                  ? ShowTeacherSubject(
-                                      classID: state.model.data![index].id
-                                          .toString(),
+                              return role == 'parent'
+                                  ? ClassDeatailsScreen(
+                                      data: state.model.data!,
+                                      index: index,
                                     )
                                   : ShowChildren(
                                       classId: state.model.data![index].id

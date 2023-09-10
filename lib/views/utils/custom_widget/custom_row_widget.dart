@@ -11,11 +11,13 @@ class CustomRowWidget extends StatelessWidget {
   int? size;
   String? image;
   int? flex;
+  bool? dotButton;
   CustomRowWidget(
       {Key? key,
       required this.text1,
       required this.text2,
       this.flex,
+      this.dotButton,
       this.size,
       this.image})
       : super(key: key);
@@ -25,7 +27,7 @@ class CustomRowWidget extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          flex: 3,
+          flex: flex ?? 3,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -47,11 +49,13 @@ class CustomRowWidget extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Align(
-              alignment: Alignment.centerRight,
-              child: Image.asset(
-                'images/${image ?? 'satar.png'}',
-              )),
+          child: dotButton == null
+              ? Align(
+                  alignment: Alignment.centerRight,
+                  child: Image.asset(
+                    'images/${image ?? 'satar.png'}',
+                  ))
+              : const Icon(Icons.more_vert),
         ),
       ],
     );

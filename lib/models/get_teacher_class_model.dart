@@ -3,7 +3,7 @@ import 'dart:convert';
 class TeacherShowClass {
   bool? error;
   String? message;
-  List<Datum>? data;
+  List<TeacherClasses>? data;
   int? code;
 
   TeacherShowClass({
@@ -24,7 +24,8 @@ class TeacherShowClass {
         message: json["message"],
         data: json["data"] == null
             ? []
-            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+            : List<TeacherClasses>.from(
+                json["data"]!.map((x) => TeacherClasses.fromJson(x))),
         code: json["code"],
       );
 
@@ -38,14 +39,14 @@ class TeacherShowClass {
       };
 }
 
-class Datum {
+class TeacherClasses {
   int? id;
   String? name;
   dynamic mediumId;
   int? schoolId;
   dynamic grade;
 
-  Datum({
+  TeacherClasses({
     this.id,
     this.name,
     this.mediumId,
@@ -53,11 +54,12 @@ class Datum {
     this.grade,
   });
 
-  factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
+  factory TeacherClasses.fromRawJson(String str) =>
+      TeacherClasses.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory TeacherClasses.fromJson(Map<String, dynamic> json) => TeacherClasses(
         id: json["id"],
         name: json["name"],
         mediumId: json["medium_id"],

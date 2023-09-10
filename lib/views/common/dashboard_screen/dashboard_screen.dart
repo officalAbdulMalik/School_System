@@ -107,7 +107,11 @@ class DashboardScreen extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => TeacherClass()));
+                            builder: (context) => role == 'teacher'
+                                ? TeacherClass()
+                                : TeacherClass(
+                                    // classId: '',
+                                    )));
                   },
                   child: Container(
                     height: 136.sp,
