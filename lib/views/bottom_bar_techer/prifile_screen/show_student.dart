@@ -54,7 +54,7 @@ class _ShowStudentsState extends State<ShowStudents> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                     CustomWidgets.loadingIndicator(),
+                    CustomWidgets.loadingIndicator(),
                   ],
                 );
               } else if (state is GetClassStudentLoaded) {
@@ -65,7 +65,15 @@ class _ShowStudentsState extends State<ShowStudents> {
                         child: ListView.separated(
                           itemCount: state.model.data!.length,
                           itemBuilder: (context, index) {
-                            return Card(
+                            return Container(
+                              decoration: BoxDecoration(
+                                color: kContainerColor,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.grey.withAlpha(80),
+                                      blurRadius: 2)
+                                ],
+                              ),
                               color: Colors.white,
                               child: ListTile(
                                 leading: CircleAvatar(

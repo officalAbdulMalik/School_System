@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/models/get_teacher_class_model.dart';
+import 'package:school_system/views/bottom_bar_techer/attendance_screens/attendence_screen.dart';
 import 'package:school_system/views/utils/app_images.dart';
 import 'package:school_system/views/utils/colors.dart';
 import 'package:school_system/views/utils/custom_widget/custom_row_widget.dart';
@@ -264,6 +265,15 @@ class _ClassDeatailsScreenState extends State<ClassDeatailsScreen> {
                   color: kCardPColor,
                   image: 'images/attend.png',
                   text: 'Attendance',
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return AttendanceScreen(
+                          data: widget.data,
+                        );
+                      },
+                    ));
+                  },
                 ),
                 SizedBox(
                   height: 20.h,
