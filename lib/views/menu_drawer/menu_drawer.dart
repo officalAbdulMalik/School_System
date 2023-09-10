@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:school_system/views/common/subscription_screen/subscription_view.dart';
 import 'package:school_system/views/menu_drawer/components/drawer_cards.dart';
 import 'package:school_system/views/utils/app_images.dart';
 import 'package:school_system/views/utils/custom_widget/my_text.dart';
@@ -57,7 +58,12 @@ class MenuDrawerScreen extends StatelessWidget {
 
                 SizedBox(height: 25.sp,),
 
-                DrawerCard(title: 'My Subscription', onTap: (){},),
+                DrawerCard(title: 'My Subscription', onTap: (){
+
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                    return SubscriptionView();
+                  }));
+                },),
                 DrawerCard(title: 'My Minutes', onTap: (){},),
                 DrawerCard(title: 'Preferences', onTap: (){},),
                 DrawerCard(title: 'Security', onTap: (){},),

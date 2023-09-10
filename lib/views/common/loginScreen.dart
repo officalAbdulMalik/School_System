@@ -97,7 +97,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       filledColor: kContainerColor,
                       isRequiredField: true,
                       hintText: 'Email',
-                      prefixIcon: Icon(Icons.abc),
+                    //  prefixIcon: Icon(Icons.abc),
                       // decoration: textFieldIconDecoration(
                       //     Icons.alternate_email, 'service@gmail.com', null),
                     ),

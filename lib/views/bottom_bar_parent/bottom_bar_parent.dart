@@ -144,11 +144,12 @@ class _BottomBarPagesState extends State<BottomBarPages> {
                       NewsEventsPage(),
 
                       ChatScreen(),
+                      ReportCardScreen(),
+
                       MenuScreen(),
                       ClassScreen(),
                       MettingsScreen(),
 
-                      ReportCardScreen(),
                       MeetingHistoryPage(),
                     ],
                   ),

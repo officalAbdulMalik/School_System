@@ -19,4 +19,12 @@ class AppImages{
   static String emailIcon= 'images/Mail.svg';
   static String languageIcon= 'images/Language.svg';
   static String cameraIcon= 'images/Camera Plus.svg';
+  static String bookIcon= 'images/book.gif';
+  static String chatComment= 'images/chat-comment.svg';
+  static String report= 'images/Report-Analytics.svg';
+  static String calendar= 'images/calender.gif';
+  static String crown= 'images/crown.svg';
+  static String glassesStar= 'images/glasses_star.png';
+  static String glassesStarBig= 'images/glasses-star-big.png';
+  static String setting= 'images/setting.svg';
 }

@@ -33,7 +33,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: InkWell(
                 onTap: (){
                   Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                    return MenuDrawerScreen();
+                    return const MenuDrawerScreen();
                   }));
                 },
                 child: Container(
@@ -45,7 +45,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       boxShadow: [
                         BoxShadow(color: Colors.grey.withAlpha(80), blurRadius: 8)
                       ]),
-                  child: Center(
+                  child: const Center(
                     child: Icon(Icons.menu),
                   ),
                 ),
@@ -62,7 +62,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     boxShadow: [
                       BoxShadow(color: Colors.grey.withAlpha(80), blurRadius: 8)
                     ]),
-                child: Center(
+                child: const Center(
                   child: Icon(Icons.notifications_none),
                 ),
               ),

@@ -49,6 +49,7 @@ class _MyTextFieldState extends State<MyTextField> {
     return Align(
       alignment: Alignment.centerLeft,
       child: TextFormField(
+
         keyboardType: widget.keyboardType,
         cursorColor: Colors.blue,
         //  cursorHeight: 20.sp,
@@ -94,6 +95,7 @@ class _MyTextFieldState extends State<MyTextField> {
             color: Colors.black,
             fontWeight: FontWeight.w400,
           ),
+          prefixIcon: widget.prefixIcon,
           suffixIconConstraints:
               BoxConstraints(maxHeight: 40.sp, maxWidth: 40.sp),
           hintText: widget.hintText,

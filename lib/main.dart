@@ -9,6 +9,10 @@ import 'package:school_system/controllers/cubits/common_cubit/get_all_meetings_c
 import 'package:school_system/controllers/cubits/common_cubit/get_all_school_cubit.dart';
 import 'package:school_system/controllers/cubits/common_cubit/sign_up_cubit.dart';
 import 'package:school_system/views/bottom_bar_parent/profile_screens/add_child_screen.dart';
+import 'package:school_system/views/bottom_bar_techer/add_report/teacher_add_report.dart';
+import 'package:school_system/views/bottom_bar_techer/add_report_screen.dart';
+import 'package:school_system/views/bottom_bar_techer/report_screen/report_detail/teacher_report_detail.dart';
+import 'package:school_system/views/bottom_bar_techer/report_screen/teacher_report_screen.dart';
 import 'package:school_system/views/common/all_school_screen.dart';
 import 'package:school_system/views/common/loginScreen.dart';
 import 'package:school_system/views/common/onboarding_screen.dart';
@@ -26,6 +30,8 @@ import 'controllers/cubits/teacher_cubit/show_teacher_class_cubit.dart';
 import 'controllers/firebase_repos/firebase_notification.dart';
 import 'package:timezone/standalone.dart' as tz;
 
+import 'views/bottom_bar_techer/teacher_report_card/teacher_report_card_screen.dart';
+
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
@@ -39,8 +45,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await LoginApiShadePreference.getInit();
-  await tz.initializeTimeZone();
-  FirebaseNotificationsService().firebaseInit();
+  // await tz.initializeTimeZone();
+  // FirebaseNotificationsService().firebaseInit();
 
   HttpOverrides.global = MyHttpOverrides();
 
