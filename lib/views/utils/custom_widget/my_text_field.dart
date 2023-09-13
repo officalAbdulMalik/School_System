@@ -49,7 +49,6 @@ class _MyTextFieldState extends State<MyTextField> {
     return Align(
       alignment: Alignment.centerLeft,
       child: TextFormField(
-
         keyboardType: widget.keyboardType,
         cursorColor: Colors.blue,
         //  cursorHeight: 20.sp,
@@ -71,7 +70,7 @@ class _MyTextFieldState extends State<MyTextField> {
                 return null;
               },
         style: GoogleFonts.poppins(
-            color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w500),
+            color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w400),
         decoration: InputDecoration(
           filled: true,
           errorMaxLines: 1,

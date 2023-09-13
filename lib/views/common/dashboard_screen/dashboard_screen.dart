@@ -11,10 +11,17 @@ import '../../bottom_bar_techer/prifile_screen/show_class.dart';
 import '../../utils/colors.dart';
 import 'components/event_card.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   DashboardScreen({Key? key}) : super(key: key);
 
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
   String? role = LoginApiShadePreference.preferences!.getString('role');
+
+  DateTime selectedTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -62,11 +69,18 @@ class DashboardScreen extends StatelessWidget {
                     formatButtonVisible: true,
                     formatButtonShowsNext: true,
                   ),
+                  onDaySelected: (selectedDay, focusedDay) {
+                    selectedTime = selectedDay;
+                    print(selectedDay);
+                    print(selectedTime);
+                    setState(() {});
+                  },
                   startingDayOfWeek: StartingDayOfWeek.monday,
                   calendarFormat: CalendarFormat.week,
                   firstDay: DateTime.utc(2010, 10, 16),
+                  currentDay: selectedTime,
                   lastDay: DateTime.utc(2030, 3, 14),
-                  focusedDay: DateTime.now(),
+                  focusedDay: selectedTime,
                 ),
                 Divider(),
                 SizedBox(
