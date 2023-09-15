@@ -12,12 +12,14 @@ class CustomRowWidget extends StatelessWidget {
   String? image;
   int? flex;
   bool? dotButton;
+  bool? imageIs;
   CustomRowWidget(
       {Key? key,
       required this.text1,
       required this.text2,
       this.flex,
       this.dotButton,
+      this.imageIs,
       this.size,
       this.image})
       : super(key: key);
@@ -25,6 +27,7 @@ class CustomRowWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
           flex: flex ?? 3,
@@ -55,7 +58,9 @@ class CustomRowWidget extends StatelessWidget {
                   child: Image.asset(
                     'images/${image ?? 'satar.png'}',
                   ))
-              : const Icon(Icons.more_vert),
+              : imageIs == true
+                  ? Icon(Icons.more_vert)
+                  : SizedBox(),
         ),
       ],
     );
