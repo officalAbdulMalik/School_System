@@ -8,7 +8,9 @@ import 'package:school_system/controllers/app_providers.dart';
 import 'package:school_system/controllers/cubits/common_cubit/get_all_meetings_cubit.dart';
 import 'package:school_system/controllers/cubits/common_cubit/get_all_school_cubit.dart';
 import 'package:school_system/controllers/cubits/common_cubit/sign_up_cubit.dart';
+import 'package:school_system/views/agora_calling.dart';
 import 'package:school_system/views/bottom_bar_parent/profile_screens/add_child_screen.dart';
+import 'package:school_system/views/bottom_bar_parent/scedule_meeting/add_meeting_screen.dart';
 import 'package:school_system/views/bottom_bar_techer/add_report/teacher_add_report.dart';
 import 'package:school_system/views/bottom_bar_techer/add_report_screen.dart';
 import 'package:school_system/views/bottom_bar_techer/report_screen/report_detail/teacher_report_detail.dart';
@@ -84,7 +86,7 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               ),
-              home: LogInScreen(),
+              home: VideoPage(),
             ),
           );
         });

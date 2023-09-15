@@ -16,6 +16,7 @@ class AppImages{
   static String userIcon= 'images/Users.svg';
   static String editIcon= 'images/Edit.svg';
   static String profile= 'images/user.svg';
+  static String profilePlus= 'images/person-plues.svg';
   static String emailIcon= 'images/Mail.svg';
   static String languageIcon= 'images/Language.svg';
   static String cameraIcon= 'images/Camera Plus.svg';
