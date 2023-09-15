@@ -28,4 +28,6 @@ class AppImages{
   static String glassesStar= 'images/glasses_star.png';
   static String glassesStarBig= 'images/glasses-star-big.png';
   static String setting= 'images/setting.svg';
+  static String docImage= 'images/doc.png';
+  static String attendIcon= 'images/atten_icon.png';
 }
