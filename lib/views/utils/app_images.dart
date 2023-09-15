@@ -30,4 +30,5 @@ class AppImages{
   static String setting= 'images/setting.svg';
   static String docImage= 'images/doc.png';
   static String attendIcon= 'images/atten_icon.png';
+  static String historyClock= 'images/history-clock.svg';
 }

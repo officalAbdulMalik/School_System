@@ -13,6 +13,8 @@ import 'package:school_system/views/bottom_bar_parent/profile_screens/add_child_
 import 'package:school_system/views/bottom_bar_parent/scedule_meeting/add_meeting_screen.dart';
 import 'package:school_system/views/bottom_bar_techer/add_report/teacher_add_report.dart';
 import 'package:school_system/views/bottom_bar_techer/add_report_screen.dart';
+import 'package:school_system/views/bottom_bar_techer/calendar_view/meeting_detail_screen.dart';
+import 'package:school_system/views/bottom_bar_techer/calendar_view/parent_calendar_view.dart';
 import 'package:school_system/views/bottom_bar_techer/report_screen/report_detail/teacher_report_detail.dart';
 import 'package:school_system/views/bottom_bar_techer/report_screen/teacher_report_screen.dart';
 import 'package:school_system/views/common/all_school_screen.dart';
@@ -86,7 +88,7 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               ),
-              home: VideoPage(),
+              home: TeacherCalendarView(),
             ),
           );
         });
