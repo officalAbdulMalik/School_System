@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../../models/user_data_model.dart';
-import '../../../views/utils/shade_prefrence.dart';
+import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 import 'package:http/http.dart' as http;
 part 'get_user_data_state.dart';
 

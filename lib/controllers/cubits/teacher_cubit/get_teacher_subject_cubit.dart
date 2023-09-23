@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import '../../../models/teacher_subjects.dart';
-import '../../../views/utils/shade_prefrence.dart';
+import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 part 'get_teacher_subject_state.dart';
 
@@ -39,7 +39,8 @@ class GetTeacherSubjectCubit extends Cubit<GetTeacherSubjectState> {
       emit(GetTeacherSubjectLoaded(subjects: subjects));
       // Get.snackbar('KASI', 'Settings get successfully');
     } else {
-      emit(GetTeacherSubjectError());
+      var data = jsonDecode(response.body.toString());
+      emit(GetTeacherSubjectError(error: data['error']));
       print('error');
       // var data = jsonDecode(response.body.toString());
       // print(data['message']);

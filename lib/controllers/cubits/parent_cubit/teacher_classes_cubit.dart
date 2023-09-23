@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import '../../../models/show_teacher_classes.dart';
-import '../../../views/utils/shade_prefrence.dart';
+import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 part 'teacher_classes_state.dart';
 

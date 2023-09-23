@@ -6,8 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http_parser/http_parser.dart';
 
 import 'package:mime/mime.dart';
-
-import '../../../views/utils/shade_prefrence.dart';
+import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 class AddChildRepo {
   static Future<int> addChild({

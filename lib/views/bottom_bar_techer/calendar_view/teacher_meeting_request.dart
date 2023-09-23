@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:school_system/Presentation/utils/app_images.dart';
+import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/views/bottom_bar_techer/calendar_view/meeting_request/meeting_list.dart';
 
-import '../../utils/app_images.dart';
-import '../../utils/custom_widget/my_text.dart';
-
 ValueNotifier tabIndex = ValueNotifier(0);
+
 class TeacherMeetingRequest extends StatefulWidget {
   const TeacherMeetingRequest({Key? key}) : super(key: key);
 
@@ -22,6 +22,7 @@ class _TeacherMeetingRequestState extends State<TeacherMeetingRequest> {
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,19 +65,38 @@ class _TeacherMeetingRequestState extends State<TeacherMeetingRequest> {
                     child: Image.asset(AppImages.glassesStarBig)),
               ],
             ),
-
-            SizedBox(height: 20.sp,),
+            SizedBox(
+              height: 20.sp,
+            ),
             Row(
               children: [
-                MeetingTabItem(title: 'All', controller: pageController, currentIndex: 0,),
-                MeetingTabItem(title: 'Pending', controller: pageController, currentIndex: 1,),
-                MeetingTabItem(title: 'Approved', controller: pageController, currentIndex: 2,),
-                MeetingTabItem(title: 'Rejected', controller: pageController, currentIndex: 3,),
+                MeetingTabItem(
+                  title: 'All',
+                  controller: pageController,
+                  currentIndex: 0,
+                ),
+                MeetingTabItem(
+                  title: 'Pending',
+                  controller: pageController,
+                  currentIndex: 1,
+                ),
+                MeetingTabItem(
+                  title: 'Approved',
+                  controller: pageController,
+                  currentIndex: 2,
+                ),
+                MeetingTabItem(
+                  title: 'Rejected',
+                  controller: pageController,
+                  currentIndex: 3,
+                ),
               ],
             ),
-
-            SizedBox(height: 20.sp,),
-            Expanded(child: PageView(
+            SizedBox(
+              height: 20.sp,
+            ),
+            Expanded(
+                child: PageView(
               physics: const NeverScrollableScrollPhysics(),
               controller: pageController,
               children: const [
@@ -86,7 +106,6 @@ class _TeacherMeetingRequestState extends State<TeacherMeetingRequest> {
                 MeetingList(),
               ],
             ))
-
           ],
         ),
       ),
@@ -98,32 +117,44 @@ class MeetingTabItem extends StatelessWidget {
   final String title;
   final int currentIndex;
   final PageController controller;
-  const MeetingTabItem({Key? key,required this.title,required this.controller,required this.currentIndex}) : super(key: key);
+  const MeetingTabItem(
+      {Key? key,
+      required this.title,
+      required this.controller,
+      required this.currentIndex})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return                 Expanded(child: ValueListenableBuilder(
-      valueListenable: tabIndex,
-      builder: (context,value, child) {
-        return InkWell(
-          onTap: (){
-
-            controller.jumpToPage(currentIndex);
-            tabIndex.value = currentIndex;
-          },
-          child: Column(
-            children: [
-              MyText(title,fontSize: 14.sp, color: value == currentIndex ? Colors.blue: Color(0xff6B7280)),
-              SizedBox(height: 10.sp,),
-              Container(
-                width: 1.sw,
-                height: 2.sp,
-                color: value == currentIndex ? Colors.blue: Colors.transparent,
-              )
-            ],
-          ),
-        );
-      }
-    ));
+    return Expanded(
+        child: ValueListenableBuilder(
+            valueListenable: tabIndex,
+            builder: (context, value, child) {
+              return InkWell(
+                onTap: () {
+                  controller.jumpToPage(currentIndex);
+                  tabIndex.value = currentIndex;
+                },
+                child: Column(
+                  children: [
+                    MyText(title,
+                        fontSize: 14.sp,
+                        color: value == currentIndex
+                            ? Colors.blue
+                            : Color(0xff6B7280)),
+                    SizedBox(
+                      height: 10.sp,
+                    ),
+                    Container(
+                      width: 1.sw,
+                      height: 2.sp,
+                      color: value == currentIndex
+                          ? Colors.blue
+                          : Colors.transparent,
+                    )
+                  ],
+                ),
+              );
+            }));
   }
 }

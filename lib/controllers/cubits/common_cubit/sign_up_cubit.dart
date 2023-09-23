@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../views/utils/shade_prefrence.dart';
+import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 part 'sign_up_state.dart';
 

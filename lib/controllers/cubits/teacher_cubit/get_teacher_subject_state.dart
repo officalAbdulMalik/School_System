@@ -13,4 +13,8 @@ class GetTeacherSubjectLoaded extends GetTeacherSubjectState {
   GetTeacherSubjectLoaded({required this.subjects});
 }
 
-class GetTeacherSubjectError extends GetTeacherSubjectState {}
+class GetTeacherSubjectError extends GetTeacherSubjectState {
+  String? error;
+
+  GetTeacherSubjectError({this.error});
+}

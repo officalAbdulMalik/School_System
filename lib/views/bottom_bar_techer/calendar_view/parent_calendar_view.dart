@@ -2,16 +2,14 @@ import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_system/views/bottom_bar_parent/scedule_meeting/add_meeting_screen.dart';
+import 'package:school_system/Presentation/utils/colors.dart';
+import 'package:school_system/Presentation/utils/custom_widget/custom_app_bar.dart';
+import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/views/bottom_bar_techer/calendar_view/teacher_meeting_request.dart';
 import 'package:school_system/views/bottom_bar_techer/calendar_view/teacher_secdule_meeting.dart';
-import 'package:school_system/views/utils/colors.dart';
-import 'package:school_system/views/utils/custom_widget/custom_app_bar.dart';
+
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:table_calendar/table_calendar.dart';
-
-import '../../utils/custom_widget/my_text.dart';
-
 
 // class TeacherCalendarView {
 //   String title;
@@ -82,7 +80,6 @@ class _TeacherCalendarViewState extends State<TeacherCalendarView> {
 
   @override
   void initState() {
-
     // eventController.add(CalendarEventData(
     //   date: DateTime.now().add(Duration(hours: 1)),
     //   endDate: DateTime.now().add(Duration(hours: 2)),
@@ -92,18 +89,18 @@ class _TeacherCalendarViewState extends State<TeacherCalendarView> {
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       appBar: CustomAppBar(),
       floatingActionButton: Padding(
-        padding:  EdgeInsets.only(bottom: 80.sp),
+        padding: EdgeInsets.only(bottom: 80.sp),
         child: FloatingActionButton(
           backgroundColor: Colors.blue,
-          onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>TeacherScheduleMeeting()));
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => TeacherScheduleMeeting()));
           },
           child: const Icon(Icons.add),
         ),
@@ -136,19 +133,17 @@ class _TeacherCalendarViewState extends State<TeacherCalendarView> {
           Align(
             alignment: Alignment.centerRight,
             child: InkWell(
-              onTap: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>TeacherMeetingRequest()));
-
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => TeacherMeetingRequest()));
               },
               child: MyText(
                 'View Meeting Requests',
                 textAlign: TextAlign.right,
-                  color: Color(0xFF3DAEF5),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-
-                ),
-
+                color: Color(0xFF3DAEF5),
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
           SizedBox(
@@ -182,14 +177,11 @@ class _TeacherCalendarViewState extends State<TeacherCalendarView> {
                 SizedBox(
                   height: 12.sp,
                 ),
-
-
               ],
             ),
           ),
 
           // Calenddar===========================
-
 
           Container(
             height: 0.55.sh,
@@ -210,19 +202,18 @@ class _TeacherCalendarViewState extends State<TeacherCalendarView> {
                 );
               },
               showVerticalLine: true, // To display live time line in day view.
-              showLiveTimeLineInAllDays: true, // To display live time line in all pages in day view.
+              showLiveTimeLineInAllDays:
+                  true, // To display live time line in all pages in day view.
               minDay: DateTime(1990),
               maxDay: DateTime(2050),
               initialDay: DateTime.now(),
               heightPerMinute: 1, // height occupied by 1 minute time span.
-              eventArranger: SideEventArranger(), // To define how simultaneous events will be arranged.
+              eventArranger:
+                  SideEventArranger(), // To define how simultaneous events will be arranged.
               onEventTap: (events, date) => print(events),
               onDateLongPress: (date) => print(date),
             ),
           )
-
-
-
         ],
       ),
     );
@@ -238,7 +229,6 @@ class _TeacherCalendarViewState extends State<TeacherCalendarView> {
     return meetings;
   }
 }
-
 
 class MeetingDataSource extends CalendarDataSource {
   /// Creates a meeting data source, which used to set the appointment
@@ -282,7 +272,6 @@ class MeetingDataSource extends CalendarDataSource {
     return meetingData;
   }
 }
-
 
 class Meeting {
   /// Creates a meeting class with required details.

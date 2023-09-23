@@ -3,9 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:school_system/models/school_teacher_model.dart';
-import 'package:school_system/views/bottom_bar_techer/prifile_screen/teacher_add_clases.dart';
 
-import '../../../views/utils/shade_prefrence.dart';
+import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 part 'get_school_teacher_state.dart';
 

@@ -13,4 +13,8 @@ class GetAllParentsLoaded extends GetAllParentsState {
   GetAllParentsLoaded({required this.model});
 }
 
-class GetAllParentsError extends GetAllParentsState {}
+class GetAllParentsError extends GetAllParentsState {
+  String? error;
+
+  GetAllParentsError({this.error});
+}

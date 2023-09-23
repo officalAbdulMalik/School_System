@@ -3,9 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
-import 'package:school_system/views/bottom_bar_techer/metting_screen.dart';
 
-import '../../views/utils/shade_prefrence.dart';
+import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 import 'auth_apis.dart';
 
 class AddSchoolApi {

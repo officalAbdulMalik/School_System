@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:school_system/controllers/global_list.dart';
 import 'package:school_system/models/get_section_model.dart';
 import 'package:http/http.dart' as http;
-import '../../../views/utils/shade_prefrence.dart';
+import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 part 'get_section_state.dart';
 

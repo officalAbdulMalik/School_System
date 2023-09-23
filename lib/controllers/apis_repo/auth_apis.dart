@@ -4,11 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/io_client.dart';
 import 'package:intl/intl.dart';
-import 'package:school_system/views/common/loginScreen.dart';
-import 'package:school_system/views/utils/colors.dart';
-import 'package:school_system/views/utils/shade_prefrence.dart';
 
-import '../../views/common/otp_screen.dart';
+import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 String baseUrl = 'https://schoolsnow.parentteachermobile.com';
 

@@ -1,62 +1,36 @@
 // To parse this JSON data, do
 //
-//     final getAllMettings = getAllMettingsFromJson(jsonString);
+//     final getAllMeetings = getAllMeetingsFromJson(jsonString);
 
 import 'dart:convert';
 
-class GetAllMettings {
-  int? status;
-  String? message;
-  List<Datum>? data;
+GetAllMeetings getAllMeetingsFromJson(String str) =>
+    GetAllMeetings.fromJson(json.decode(str));
 
-  GetAllMettings({
-    this.status,
-    this.message,
-    this.data,
-  });
+String getAllMeetingsToJson(GetAllMeetings data) => json.encode(data.toJson());
 
-  factory GetAllMettings.fromRawJson(String str) =>
-      GetAllMettings.fromJson(json.decode(str));
+class GetAllMeetings {
+  final int? id;
+  final String? title;
+  final int? userId;
+  final int? teacherId;
+  final int? parentId;
+  final DateTime? meetingDate;
+  final String? meetingTime;
+  final String? description;
+  final String? status;
+  final String? subject;
+  final dynamic location;
+  final int? isOnline;
+  final dynamic notes;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final dynamic studentId;
+  final Parent? teacher;
+  final Parent? parent;
+  final dynamic student;
 
-  String toRawJson() => json.encode(toJson());
-
-  factory GetAllMettings.fromJson(Map<String, dynamic> json) => GetAllMettings(
-        status: json["status"],
-        message: json["message"],
-        data: json["data"] == null
-            ? []
-            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "status": status,
-        "message": message,
-        "data": data == null
-            ? []
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
-      };
-}
-
-class Datum {
-  int? id;
-  String? title;
-  int? userId;
-  int? teacherId;
-  int? parentId;
-  DateTime? meetingDate;
-  String? meetingTime;
-  String? description;
-  String? status;
-  String? subject;
-  dynamic location;
-  int? isOnline;
-  dynamic notes;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  Parent? teacher;
-  Parent? parent;
-
-  Datum({
+  GetAllMeetings({
     this.id,
     this.title,
     this.userId,
@@ -72,15 +46,13 @@ class Datum {
     this.notes,
     this.createdAt,
     this.updatedAt,
+    this.studentId,
     this.teacher,
     this.parent,
+    this.student,
   });
 
-  factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory GetAllMeetings.fromJson(Map<String, dynamic> json) => GetAllMeetings(
         id: json["id"],
         title: json["title"],
         userId: json["user_id"],
@@ -102,9 +74,11 @@ class Datum {
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),
+        studentId: json["student_id"],
         teacher:
             json["teacher"] == null ? null : Parent.fromJson(json["teacher"]),
         parent: json["parent"] == null ? null : Parent.fromJson(json["parent"]),
+        student: json["student"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -114,7 +88,7 @@ class Datum {
         "teacher_id": teacherId,
         "parent_id": parentId,
         "meeting_date":
-            "${meetingDate!.year}-${meetingDate!.month}-${meetingDate!.day}",
+            "${meetingDate!.year.toString().padLeft(4, '0')}-${meetingDate!.month.toString().padLeft(2, '0')}-${meetingDate!.day.toString().padLeft(2, '0')}",
         "meeting_time": meetingTime,
         "description": description,
         "status": status,
@@ -122,81 +96,107 @@ class Datum {
         "location": location,
         "is_online": isOnline,
         "notes": notes,
-        "created_at": createdAt?.toIso8601String(),
-        "updated_at": updatedAt?.toIso8601String(),
+        "created_at":
+            "${createdAt!.year.toString().padLeft(4, '0')}-${createdAt!.month.toString().padLeft(2, '0')}-${createdAt!.day.toString().padLeft(2, '0')}",
+        "updated_at":
+            "${updatedAt!.year.toString().padLeft(4, '0')}-${updatedAt!.month.toString().padLeft(2, '0')}-${updatedAt!.day.toString().padLeft(2, '0')}",
+        "student_id": studentId,
         "teacher": teacher?.toJson(),
         "parent": parent?.toJson(),
+        "student": student,
       };
 }
 
 class Parent {
-  int? id;
-  String? firstName;
-  String? lastName;
-  dynamic gender;
-  String? email;
-  String? fcmId;
-  dynamic emailVerifiedAt;
-  dynamic mobile;
-  String? image;
-  dynamic dob;
-  dynamic currentAddress;
-  dynamic permanentAddress;
-  int? status;
-  int? resetRequest;
+  final int? id;
+  final String? title;
+  final String? firstName;
+  final String? lastName;
+  final String? gender;
+  final String? email;
+  final String? fcmId;
+  final DateTime? emailVerifiedAt;
+  final String? type;
+  final dynamic mobile;
+  final String? image;
+  final dynamic dob;
+  final dynamic currentAddress;
+  final dynamic permanentAddress;
+  final int? status;
+  final String? pincode;
+  final String? language;
+  final int? resetRequest;
+  final String? hearAboutUs;
+  final dynamic countryId;
 
   Parent({
     this.id,
+    this.title,
     this.firstName,
     this.lastName,
     this.gender,
     this.email,
     this.fcmId,
     this.emailVerifiedAt,
+    this.type,
     this.mobile,
     this.image,
     this.dob,
     this.currentAddress,
     this.permanentAddress,
     this.status,
+    this.pincode,
+    this.language,
     this.resetRequest,
+    this.hearAboutUs,
+    this.countryId,
   });
-
-  factory Parent.fromRawJson(String str) => Parent.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
 
   factory Parent.fromJson(Map<String, dynamic> json) => Parent(
         id: json["id"],
+        title: json["title"],
         firstName: json["first_name"],
         lastName: json["last_name"],
         gender: json["gender"],
         email: json["email"],
         fcmId: json["fcm_id"],
-        emailVerifiedAt: json["email_verified_at"],
+        emailVerifiedAt: json["email_verified_at"] == null
+            ? null
+            : DateTime.parse(json["email_verified_at"]),
+        type: json["type"],
         mobile: json["mobile"],
         image: json["image"],
         dob: json["dob"],
         currentAddress: json["current_address"],
         permanentAddress: json["permanent_address"],
         status: json["status"],
+        pincode: json["pincode"],
+        language: json["language"],
         resetRequest: json["reset_request"],
+        hearAboutUs: json["hear_about_us"],
+        countryId: json["country_id"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "title": title,
         "first_name": firstName,
         "last_name": lastName,
         "gender": gender,
         "email": email,
         "fcm_id": fcmId,
-        "email_verified_at": emailVerifiedAt,
+        "email_verified_at": emailVerifiedAt?.toIso8601String(),
+        "type": type,
         "mobile": mobile,
         "image": image,
         "dob": dob,
         "current_address": currentAddress,
         "permanent_address": permanentAddress,
         "status": status,
+        "pincode": pincode,
+        "language": language,
         "reset_request": resetRequest,
+        "hear_about_us": hearAboutUs,
+        "country_id": countryId,
       };
 }

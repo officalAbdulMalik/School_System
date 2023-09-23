@@ -2,12 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:school_system/views/bottom_bar_parent/scedule_meeting/add_participant_screen.dart';
+import 'package:school_system/Presentation/utils/app_images.dart';
+import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
+import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/views/bottom_bar_techer/calendar_view/teacher_add_participants.dart';
-import 'package:school_system/views/utils/custom_widget/my_text_field.dart';
-
-import '../../utils/app_images.dart';
-import '../../utils/custom_widget/my_text.dart';
 
 class TeacherScheduleMeeting extends StatefulWidget {
   const TeacherScheduleMeeting({Key? key}) : super(key: key);
@@ -65,7 +63,9 @@ class _TeacherScheduleMeetingState extends State<TeacherScheduleMeeting> {
                         child: Image.asset(AppImages.glassesStarBig)),
                   ],
                 ),
-                SizedBox(height: 25.sp,),
+                SizedBox(
+                  height: 25.sp,
+                ),
                 MyTextField(
                   controller: meetingName,
                   hintText: 'Meeting Name',
@@ -74,84 +74,126 @@ class _TeacherScheduleMeetingState extends State<TeacherScheduleMeeting> {
                 SizedBox(
                   height: 10.sp,
                 ),
-
                 InkWell(
-                  onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const TeacherAddParticipantScreen()));
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            const TeacherAddParticipantScreen()));
                   },
                   child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 20.sp),
                       height: 45.sp,
                       decoration: BoxDecoration(
                           border: Border.all(color: Color(0xff3DAEF5)),
-                          borderRadius: BorderRadius.circular(12.sp)
-                      ),
+                          borderRadius: BorderRadius.circular(12.sp)),
                       child: Center(
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             SvgPicture.asset(AppImages.profilePlus),
-                            SizedBox(width: 4.sp,),
-                            MyText('Add Participants',color: Color(0xff3DAEF5),fontSize: 14.sp,),
+                            SizedBox(
+                              width: 4.sp,
+                            ),
+                            MyText(
+                              'Add Participants',
+                              color: Color(0xff3DAEF5),
+                              fontSize: 14.sp,
+                            ),
                           ],
                         ),
-                      )
-                  ),
+                      )),
                 ),
                 SizedBox(
                   height: 10.sp,
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 15.sp),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 15.sp, vertical: 15.sp),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.sp),
                     color: const Color(0xFFF3F4F6),
-
                   ),
                   child: Column(
                     children: [
-
                       Row(
                         children: [
-                          Expanded(child: MyText('All Day',color: Color(0xff6B7280),fontSize: 14.sp,),),
+                          Expanded(
+                            child: MyText(
+                              'All Day',
+                              color: Color(0xff6B7280),
+                              fontSize: 14.sp,
+                            ),
+                          ),
                           Transform.scale(
                             scale: 0.7,
                             child: CupertinoSwitch(
-
-                                value: isChecked, onChanged: (value){
-                              isChecked = value;
-                              setState(() {
-
-                              });
-                            }),
+                                value: isChecked,
+                                onChanged: (value) {
+                                  isChecked = value;
+                                  setState(() {});
+                                }),
                           ),
                         ],
                       ),
-
-                      SizedBox(height: 16.sp,),
+                      SizedBox(
+                        height: 16.sp,
+                      ),
                       Row(
                         children: [
-                          SizedBox(width: 24.sp,),
-
-                          Expanded(child: MyText('29 Aug 2023',fontSize: 14.sp,)),
-                          Expanded(child: MyText('11:30',fontSize: 14.sp,textAlign: TextAlign.right,))
+                          SizedBox(
+                            width: 24.sp,
+                          ),
+                          Expanded(
+                              child: MyText(
+                            '29 Aug 2023',
+                            fontSize: 14.sp,
+                          )),
+                          Expanded(
+                              child: MyText(
+                            '11:30',
+                            fontSize: 14.sp,
+                            textAlign: TextAlign.right,
+                          ))
                         ],
                       ),
-                      SizedBox(height: 16.sp,),
+                      SizedBox(
+                        height: 16.sp,
+                      ),
                       Row(
                         children: [
-                          SizedBox(width: 24.sp,),
-
-                          Expanded(child: MyText('29 Aug 2023',fontSize: 14.sp,)),
-                          Expanded(child: MyText('11:30',fontSize: 14.sp,textAlign: TextAlign.right,))
+                          SizedBox(
+                            width: 24.sp,
+                          ),
+                          Expanded(
+                              child: MyText(
+                            '29 Aug 2023',
+                            fontSize: 14.sp,
+                          )),
+                          Expanded(
+                              child: MyText(
+                            '11:30',
+                            fontSize: 14.sp,
+                            textAlign: TextAlign.right,
+                          ))
                         ],
                       ),
-                      SizedBox(height: 16.sp,),
+                      SizedBox(
+                        height: 16.sp,
+                      ),
                       Row(
                         children: [
-
-                          Expanded(child: MyText('29 Aug 2023',fontSize: 14.sp,color: Color(0xff6B7280),)),
-                          Expanded(child: MyText('11:30',fontSize: 14.sp,textAlign: TextAlign.right,))
+                          Expanded(
+                              child: MyText(
+                            '29 Aug 2023',
+                            fontSize: 14.sp,
+                            color: Color(0xff6B7280),
+                          )),
+                          Expanded(
+                              child: MyText(
+                            '11:30',
+                            fontSize: 14.sp,
+                            textAlign: TextAlign.right,
+                          ))
                         ],
                       )
                     ],
@@ -160,7 +202,6 @@ class _TeacherScheduleMeetingState extends State<TeacherScheduleMeeting> {
                 SizedBox(
                   height: 10.sp,
                 ),
-
                 MyTextField(
                   controller: descriptionController,
                   hintText: 'Description',
@@ -175,11 +216,18 @@ class _TeacherScheduleMeetingState extends State<TeacherScheduleMeeting> {
             height: 45.sp,
             decoration: BoxDecoration(
                 color: Color(0xff3DAEF5),
-                borderRadius: BorderRadius.circular(12.sp)
+                borderRadius: BorderRadius.circular(12.sp)),
+            child: Center(
+              child: MyText(
+                'Schedule Meeting',
+                color: Colors.white,
+                fontSize: 14.sp,
+              ),
             ),
-            child: Center(child: MyText('Schedule Meeting',color: Colors.white,fontSize: 14.sp,),),
           ),
-          SizedBox(height: 32.sp,),
+          SizedBox(
+            height: 32.sp,
+          ),
         ],
       ),
     );

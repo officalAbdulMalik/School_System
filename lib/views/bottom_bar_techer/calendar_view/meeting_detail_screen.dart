@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 
-import '../../utils/app_images.dart';
-import '../../utils/custom_widget/my_text.dart';
+import '../../../Presentation/utils/app_images.dart';
 
 class MeetingDetailScreen extends StatelessWidget {
   const MeetingDetailScreen({Key? key}) : super(key: key);
@@ -18,9 +18,7 @@ class MeetingDetailScreen extends StatelessWidget {
       ),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 20.sp),
-
         children: [
-
           Row(
             children: [
               Expanded(
@@ -51,23 +49,27 @@ class MeetingDetailScreen extends StatelessWidget {
                   child: Image.asset(AppImages.calendar)),
             ],
           ),
-          SizedBox(height: 25.sp,),
+          SizedBox(
+            height: 25.sp,
+          ),
           MyText(
             'Class A Meeting',
-              color: const Color(0xFF000600),
-              fontSize: 20.sp,
-              fontWeight: FontWeight.w500,
+            color: const Color(0xFF000600),
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w500,
           ),
-          SizedBox(height: 15.sp,),
+          SizedBox(
+            height: 15.sp,
+          ),
           MyText(
             'Thus Aug 31,2023',
-              color: const Color(0xFF000600),
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w400,
-
-          )  ,
-          SizedBox(height: 10.sp,),
-
+            color: const Color(0xFF000600),
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w400,
+          ),
+          SizedBox(
+            height: 10.sp,
+          ),
           Container(
             height: 30,
             child: Row(
@@ -81,14 +83,13 @@ class MeetingDetailScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-
                       SvgPicture.asset(AppImages.historyClock),
-                       SizedBox(width: 12.sp),
+                      SizedBox(width: 12.sp),
                       MyText(
                         '09:30 AM',
-                          color: Color(0xFF000600),
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w400,
+                        color: Color(0xFF000600),
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w400,
                       ),
                     ],
                   ),
@@ -112,14 +113,12 @@ class MeetingDetailScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SvgPicture.asset(AppImages.historyClock),
-
-                       SizedBox(width: 12.sp),
+                      SizedBox(width: 12.sp),
                       MyText(
                         '09:50AM',
-                          color: const Color(0xFF000600),
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w400,
-
+                        color: const Color(0xFF000600),
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w400,
                       ),
                     ],
                   ),
@@ -127,27 +126,27 @@ class MeetingDetailScreen extends StatelessWidget {
               ],
             ),
           ),
-
           const SizedBox(
             child: MyText(
               'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam bibendum metus est, ut commodo dui tristique eget. Etiam ut leo a leo luctus tincidunt sed eget diam.',
-                color: Color(0xFF6B7280),
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                letterSpacing: 0.75,
-
+              color: Color(0xFF6B7280),
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              letterSpacing: 0.75,
             ),
           ),
-          SizedBox(height: 20.sp,),
+          SizedBox(
+            height: 20.sp,
+          ),
           MyText(
             'Meeting Organizer',
-              color: Color(0xFF000600),
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w500,
-
+            color: Color(0xFF000600),
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w500,
           ),
-          SizedBox(height: 15.sp,),
-
+          SizedBox(
+            height: 15.sp,
+          ),
           Container(
             width: 343,
             height: 40,
@@ -203,11 +202,13 @@ class MeetingDetailScreen extends StatelessWidget {
                     letterSpacing: 0.75,
                   ),
                 ),
-
                 Container(
                   width: 16,
                   height: 16,
-                  child: Icon(Icons.more_vert,color: Colors.grey,),
+                  child: Icon(
+                    Icons.more_vert,
+                    color: Colors.grey,
+                  ),
                 ),
               ],
             ),
