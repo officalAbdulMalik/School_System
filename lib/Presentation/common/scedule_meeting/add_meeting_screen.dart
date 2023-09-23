@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:school_system/Presentation/bottom_bar_parent/scedule_meeting/show_school.dart';
+import 'package:school_system/Presentation/common/views/all_school_screen.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_date_picker.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_time_picker.dart';

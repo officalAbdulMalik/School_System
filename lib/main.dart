@@ -74,6 +74,7 @@ class MyApp extends StatelessWidget {
               BlocProvider(create: (context) => GetAllSchoolCubit()),
               BlocProvider(create: (context) => GetAllMeetingsCubit()),
               BlocProvider(create: (context) => SignUpCubit()),
+              BlocProvider(create: (context) => AcceptRejectMeetingsCubit()),
             ],
             child: MaterialApp(
               title: 'Flutter Demo',

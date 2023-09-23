@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:school_system/Presentation/bottom_bar_parent/scedule_meeting/add_meeting_screen.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/controllers/cubits/common_cubit/get_parents_teachers_cubit.dart';
@@ -14,6 +13,7 @@ import 'package:school_system/models/teacher_parents_data_model.dart';
 
 import '../../utils/app_images.dart';
 import '../../utils/custom_widget/my_text.dart';
+import 'add_meeting_screen.dart';
 
 class AddParticipantScreen extends StatefulWidget {
   AddParticipantScreen({Key? key, required this.schoolId}) : super(key: key);

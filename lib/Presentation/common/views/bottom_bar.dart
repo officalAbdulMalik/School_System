@@ -6,9 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_system/Presentation/bottom_bar_parent/scedule_meeting/calnder_screen.dart';
 import 'package:school_system/Presentation/bottom_bar_parent/show_report_sreen.dart';
 import 'package:school_system/Presentation/bottom_bar_techer/report_screen/teacher_report_screen.dart';
+import 'package:school_system/Presentation/common/scedule_meeting/calnder_screen.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
@@ -185,6 +185,8 @@ class BottomNavItems extends StatelessWidget {
           builder: (context, value, child) {
             return InkWell(
               onTap: () {
+                print(index);
+
                 pageController.jumpToPage(index);
                 indexListener.value = index;
               },
