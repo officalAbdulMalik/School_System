@@ -4,17 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/io_client.dart';
 import 'package:intl/intl.dart';
+import 'package:school_system/Data/app_const.dart';
 
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-
-String baseUrl = 'https://schoolsnow.parentteachermobile.com';
+import 'package:school_system/controllers/firebase_repos/firebase_notification.dart';
 
 class LoginApi {
-  static Future<int> createUser(
-      String email, String password, BuildContext context) async {
+  static Future<Map<String, dynamic>> login(
+      String email, String password) async {
+    String token = await FirebaseNotificationsService().getDeviceToken();
+
     var body = json.encode({
       'email': email,
       'password': password,
+      'fcm_id': token,
     });
     var headers = {'Content-Type': 'application/json'};
 
@@ -26,7 +29,7 @@ class LoginApi {
     try {
       var request = await http.post(
           Uri.parse(
-              'https://schoolsnow.parentteachermobile.com/api/auth/login'),
+              'https://www.dev.schoolsnow.parentteachermobile.com/api/auth/login'),
           body: body,
           headers: headers);
 
@@ -39,13 +42,13 @@ class LoginApi {
         String role = data['user']['type'];
         LoginApiShadePreference.preferences!.setString('api_token', token);
         LoginApiShadePreference.preferences!.setString('role', role);
-        return request.statusCode;
+        return jsonDecode(request.body);
       } else {
-        var data = jsonDecode(request.body);
-        var msg = data['message'];
-        print(msg);
-        Fluttertoast.showToast(msg: msg);
-        return request.statusCode;
+        // var data = jsonDecode(request.body);
+        // var msg = data['message'];
+        // print(msg);
+        // Fluttertoast.showToast(msg: msg);
+        return jsonDecode(request.body);
       }
     } catch (e) {
       rethrow;

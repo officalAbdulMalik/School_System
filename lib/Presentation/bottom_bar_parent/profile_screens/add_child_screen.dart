@@ -7,8 +7,8 @@ import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
 
-import '../../../controllers/apis_repo/parent_api/add_child_api.dart';
-import '../../../controllers/image_picking.dart';
+import '../../../Data/Repository/add_child_api.dart';
+import '../../../Data/image_picking.dart';
 import '../../utils/colors.dart';
 import '../../utils/custom_widget/container_decoration.dart';
 import '../../utils/custom_widget/custom_widgets.dart';
@@ -89,7 +89,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                   height: 10,
                 ),
                 MyTextField(
-                  controller: lastName,
+                  controller: dob,
                   hintText: 'Date Of Birth',
                   filledColor: kContainerColor,
                 ),
@@ -107,8 +107,11 @@ class _AddChildScreenState extends State<AddChildScreen> {
                           flex: 1,
                           child: Text(
                             gender,
-                            style: GoogleFonts.acme(
-                                color: Colors.black, fontSize: 11),
+                            style: GoogleFonts.poppins(
+                              fontSize: 14.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                            ),
                           )),
                       Spacer(
                         flex: 1,
@@ -127,8 +130,15 @@ class _AddChildScreenState extends State<AddChildScreen> {
                               'Female',
                             ].map((String value) {
                               return DropdownMenuItem<String>(
-                                child: Text(value),
                                 value: value,
+                                child: Text(
+                                  value,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 14.sp,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
                               );
                             }).toList(),
                             onChanged: (value) {
@@ -155,8 +165,11 @@ class _AddChildScreenState extends State<AddChildScreen> {
                           flex: 3,
                           child: Text(
                             relation,
-                            style: GoogleFonts.acme(
-                                color: Colors.black, fontSize: 11),
+                            style: GoogleFonts.poppins(
+                              fontSize: 14.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                            ),
                           )),
                       Expanded(
                         flex: 2,
@@ -173,7 +186,14 @@ class _AddChildScreenState extends State<AddChildScreen> {
                             ].map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
-                                child: Text(value),
+                                child: Text(
+                                  value,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 14.sp,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
                               );
                             }).toList(),
                             onChanged: (value) {

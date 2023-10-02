@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Presentation/bottom_bar_parent/profile_screens/show_children.dart';
 import 'package:school_system/Presentation/bottom_bar_techer/prifile_screen/teacher_add_clases.dart';
@@ -39,11 +40,7 @@ class _TeacherClassState extends State<TeacherClass> {
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(
             builder: (context) {
-              context.read<GetSectionCubit>().getSections();
-              return TeacherAddClass(
-                sectionId: '6',
-                schoolId: '5',
-              );
+              return TeacherAddClass();
             },
           ));
         },
@@ -91,7 +88,12 @@ class _TeacherClassState extends State<TeacherClass> {
           SizedBox(
             height: 20.h,
           ),
-          BlocBuilder<ShowTeacherClassCubit, ShowTeacherClassState>(
+          BlocConsumer<ShowTeacherClassCubit, ShowTeacherClassState>(
+            listener: (context, state) {
+              if (state is ShowTeacherClassError) {
+                Fluttertoast.showToast(msg: state.error!);
+              }
+            },
             builder: (context, state) {
               if (state is ShowTeacherClassLoading) {
                 return Column(
@@ -115,9 +117,9 @@ class _TeacherClassState extends State<TeacherClass> {
                               onTap: () {
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
-                                    return role == 'parent'
+                                    return role == 'Teacher'
                                         ? ClassDeatailsScreen(
-                                            data: state.model.data!,
+                                            data: state.model,
                                             index: index,
                                           )
                                         : ShowChildren(
@@ -242,101 +244,71 @@ class _TeacherClassState extends State<TeacherClass> {
                                                     ),
                                                   ),
                                                   const SizedBox(height: 4),
-                                                  Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Container(
-                                                            width: 6,
-                                                            height: 6,
-                                                            decoration:
-                                                                ShapeDecoration(
-                                                              color: const Color(
-                                                                  0xFF6B7280),
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            100),
+                                                  SizedBox(
+                                                    height: 20.h,
+                                                    width: 0.35.sw,
+                                                    child: ListView.builder(
+                                                      itemCount: state
+                                                          .model
+                                                          .data?[index]
+                                                          .allSubjects!
+                                                          .length,
+                                                      itemBuilder:
+                                                          (context, ind) {
+                                                        return Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Container(
+                                                              width: 6,
+                                                              height: 6,
+                                                              decoration:
+                                                                  ShapeDecoration(
+                                                                color: const Color(
+                                                                    0xFF6B7280),
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              100),
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                          const SizedBox(
-                                                              width: 4),
-                                                          const Flexible(
-                                                            child: MyText(
-                                                              'English',
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              color: Color(
-                                                                  0xFF6B7280),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      const SizedBox(width: 8),
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Container(
-                                                            width: 6,
-                                                            height: 6,
-                                                            decoration:
-                                                                ShapeDecoration(
-                                                              color: const Color(
-                                                                  0xFF6B7280),
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            100),
+                                                            const SizedBox(
+                                                                width: 4),
+                                                            Flexible(
+                                                              child: MyText(
+                                                                state
+                                                                        .model
+                                                                        .data?[
+                                                                            index]
+                                                                        .allSubjects?[
+                                                                            ind]
+                                                                        .subject!
+                                                                        .name ??
+                                                                    "",
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                color: Color(
+                                                                    0xFF6B7280),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
                                                               ),
                                                             ),
-                                                          ),
-                                                          const SizedBox(
-                                                              width: 4),
-                                                          const Flexible(
-                                                            child: MyText(
-                                                              'Sinhala',
-                                                              color: Color(
-                                                                  0xFF6B7280),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    ),
+                                                  )
                                                 ],
                                               ),
                                             ),
@@ -387,8 +359,13 @@ class _TeacherClassState extends State<TeacherClass> {
                                                         ),
                                                       ),
                                                       const SizedBox(width: 4),
-                                                      const MyText(
-                                                        '42 Students',
+                                                      MyText(
+                                                        state
+                                                            .model
+                                                            .data![index]
+                                                            .classSection!
+                                                            .studentsCount
+                                                            .toString(),
                                                         color:
                                                             Color(0xFF000600),
                                                         fontSize: 12,
@@ -421,8 +398,10 @@ class _TeacherClassState extends State<TeacherClass> {
                           fontSize: 20.sp,
                         ),
                       );
+              } else if (state is ShowTeacherClassError) {
+                return Center(child: Text(state.error!));
               } else {
-                return const Text('Data Issue');
+                return SizedBox();
               }
             },
           )

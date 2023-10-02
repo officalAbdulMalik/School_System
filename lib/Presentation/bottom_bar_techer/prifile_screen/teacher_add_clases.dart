@@ -1,24 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:school_system/Presentation/bottom_bar_parent/profile_screens/show_teahers_classes.dart';
 import 'package:school_system/Presentation/bottom_bar_techer/prifile_screen/show_class.dart';
+import 'package:school_system/Presentation/bottom_bar_techer/prifile_screen/teacher_create_subject.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
+import 'package:school_system/Presentation/utils/custom_widget/custom_dop_down.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
-import 'package:school_system/controllers/global_list.dart';
+import 'package:school_system/Data/global_list.dart';
+import 'package:school_system/controllers/cubits/common_cubit/get_all_school_cubit.dart';
+import 'package:school_system/controllers/cubits/teacher_cubit/get_section_cubit.dart';
+import 'package:school_system/controllers/cubits/teacher_cubit/get_subjects_cubit.dart';
+import 'package:school_system/controllers/cubits/teacher_cubit/get_teacher_subject_cubit.dart';
+import 'package:school_system/controllers/cubits/teacher_cubit/show_teacher_class_cubit.dart';
+import 'package:school_system/controllers/cubits/teacher_cubit/teacher_create_class_cubit.dart';
 
-import '../../../controllers/apis_repo/teacher_apis/teacher_create_class.dart';
+import '../../../Data/Repository/teacher_create_class.dart';
 import '../../utils/shade_prefrence.dart';
+import 'assign_subjects.dart';
+import 'create_new_section.dart';
+import 'create_new_subject.dart';
 
 class TeacherAddClass extends StatefulWidget {
-  TeacherAddClass({Key? key, required this.sectionId, required this.schoolId})
-      : super(key: key);
-
-  String sectionId;
-  String schoolId;
+  TeacherAddClass({Key? key}) : super(key: key);
 
   @override
   State<TeacherAddClass> createState() => _TeacherAddClassState();
@@ -29,8 +38,8 @@ ValueNotifier<bool> loading = ValueNotifier(false);
 String country = 'United Kingdomw';
 
 String selectedGrade = 'Select Grade';
-String selectedSection = 'Select Section';
-String selectedSubject = 'Select Subject';
+String selectedSection = '';
+String selectedSchool = '';
 
 String language = 'English';
 
@@ -60,34 +69,31 @@ List<String> usa = [
   "2nd Grade",
   "3rd Grade",
   "4th Grade",
-  " 5th Grade",
+  "5th Grade",
   "6th Grade",
   "7th Grade",
-  " 8th Grade",
+  "8th Grade",
   "9th Grade",
   "10th Grade",
   "Other",
 ];
 
-List<String> subject = [
-  "Maths",
-  "English",
-  "History",
-  "Science",
-  "English",
-  "Gerontocracy",
-  "Other",
-];
-
-List<String> section = [
-  'section1',
-  'section2',
-  'section3',
-  'section4',
-];
-
 class _TeacherAddClassState extends State<TeacherAddClass> {
   var country = LoginApiShadePreference.preferences!.get('country');
+
+  final formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    context.read<GetSectionCubit>().getSections();
+    context.read<GetSubjectsCubit>().getSubjects();
+    context
+        .read<GetAllSchoolCubit>()
+        .getAllSchool('/api/get/teacher/schools?name=');
+    print(country);
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +105,7 @@ class _TeacherAddClassState extends State<TeacherAddClass> {
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
               child: SingleChildScrollView(
                 child: Form(
-                  // key: _formKey,
+                  key: formKey,
                   child: Column(children: [
                     SizedBox(
                       height: 20.h,
@@ -129,45 +135,42 @@ class _TeacherAddClassState extends State<TeacherAddClass> {
                         color: kContainerColor,
                         borderRadius: BorderRadius.circular(15.sp),
                       ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              flex: 2,
-                              child: Text(
-                                selectedGrade,
-                                style: GoogleFonts.poppins(
-                                  color: Colors.black,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              )),
-                          const Spacer(
-                            flex: 1,
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: DropdownButton<String>(
-                              underline: SizedBox(),
-                              items: country == 'US'
-                                  ? usa.map((String item) {
-                                      return DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Text(item),
-                                      );
-                                    }).toList()
-                                  : uk.map((String item) {
-                                      return DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Text(item),
+                      child: BlocBuilder<GetSectionCubit, GetSectionState>(
+                        builder: (context, state) {
+                          if (state is GetSectionLoaded) {
+                            print(state.sections.length);
+                            return state.sections.isNotEmpty
+                                ? CustomDropDown(
+                                    hintText: 'Sections',
+                                    onChanged: (value) {
+                                      selectedSection = value.toString();
+                                    },
+                                    itemsMap: state.sections.map((e) {
+                                      return DropdownMenuItem(
+                                        value: e.id,
+                                        child: Text(
+                                          e.name!,
+                                        ),
                                       );
                                     }).toList(),
-                              onChanged: (value) {
-                                selectedGrade = value!;
-                                setState(() {});
-                              },
-                            ),
-                          ),
-                        ],
+                                  )
+                                : Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      'Sections not found',
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.black,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  );
+                          } else if (state is GetSectionError) {
+                            return Text(state.error!);
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
                       ),
                     ),
                     SizedBox(
@@ -181,69 +184,175 @@ class _TeacherAddClassState extends State<TeacherAddClass> {
                         color: kContainerColor,
                         borderRadius: BorderRadius.circular(15.sp),
                       ),
+                      child: BlocBuilder<GetAllSchoolCubit, GetAllSchoolState>(
+                        builder: (context, state) {
+                          if (state is GetAllSchoolLoaded) {
+                            print(state.model.data!.length);
+                            return state.model.data!.isNotEmpty
+                                ? CustomDropDown(
+                                    hintText: 'Schools',
+                                    onChanged: (value) {
+                                      print(value);
+                                      selectedSchool = value.toString();
+                                    },
+                                    itemsMap: state.model.data!.map((e) {
+                                      return DropdownMenuItem(
+                                        value: e.id,
+                                        child: Text(
+                                          e.schoolName!,
+                                        ),
+                                      );
+                                    }).toList(),
+                                  )
+                                : Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      'School not found',
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.black,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  );
+                          } else if (state is GetSectionError) {
+                            return const Text('state.error!');
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 10.sp),
+                      height: 40.h,
+                      width: 340.w,
+                      decoration: BoxDecoration(
+                        color: kContainerColor,
+                        borderRadius: BorderRadius.circular(15.sp),
+                      ),
+                      child: CustomDropDown(
+                        hintText: 'Grade',
+                        onChanged: (value) {
+                          print(value);
+                          selectedGrade = value.toString();
+                          setState(() {});
+                        },
+                        itemsMap: country == "US"
+                            ? usa.map((e) {
+                                return DropdownMenuItem(
+                                  value: e,
+                                  child: Text(
+                                    e,
+                                  ),
+                                );
+                              }).toList()
+                            : uk.map((e) {
+                                return DropdownMenuItem(
+                                  value: e,
+                                  child: Text(
+                                    e,
+                                  ),
+                                );
+                              }).toList(),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    SizedBox(
+                      height: 40.h,
                       child: Row(
                         children: [
                           Expanded(
-                              flex: 2,
-                              child: Text(
-                                selectedSubject,
-                                style: GoogleFonts.poppins(
-                                  color: Colors.black,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              )),
-                          const Spacer(
-                            flex: 1,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return CreateSection();
+                                  },
+                                ));
+                              },
+                              child: CustomWidgets.customButton('New Section',
+                                  fontSize: 12),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 7.w,
                           ),
                           Expanded(
-                            flex: 2,
-                            child: DropdownButton<String>(
-                              underline: SizedBox(),
-                              items: subject.map((String item) {
-                                return DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(item),
-                                );
-                              }).toList(),
-                              onChanged: (value) {
-                                selectedSubject = value!;
-                                setState(() {});
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return AssignSubjects();
+                                  },
+                                ));
                               },
+                              child: CustomWidgets.customButton(
+                                  'Assign Subjects',
+                                  fontSize: 12),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 7.w,
+                          ),
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return const CrateNewSubject();
+                                  },
+                                ));
+                              },
+                              child: CustomWidgets.customButton(
+                                  'Create Subject',
+                                  fontSize: 12),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
                     const SizedBox(height: 20),
-                    ValueListenableBuilder(
-                      valueListenable: loading,
-                      builder: (context, value, child) {
-                        if (value == false) {
+                    BlocConsumer<TeacherCreateClassCubit,
+                        TeacherCreateClassState>(
+                      listener: (context, state) {
+                        print(state);
+
+                        if (state is TeacherCreateClassError) {
+                          Fluttertoast.showToast(msg: state.error!);
+                        }
+                        if (state is TeacherCreateClassLoaded) {
+                          Navigator.pushReplacement(context, MaterialPageRoute(
+                            builder: (context) {
+                              return TeacherClass();
+                            },
+                          ));
+                        }
+                      },
+                      builder: (context, state) {
+                        if (state is TeacherCreateClassLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.blue,
+                            ),
+                          );
+                        } else {
                           return InkWell(
                             onTap: () {
-                              print(schoolName.text);
-                              loading.value = true;
-                              TeacherCreateClass.createClass('4', '5',
-                                      schoolName.text.trim(), selectedGrade)
-                                  .then((value) {
-                                loading.value = false;
-                                if (value == 200) {
-                                  Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) {
-                                      return TeacherClass();
-                                    },
-                                  ));
-                                }
-                              });
+                              if (formKey.currentState!.validate()) {
+                                context
+                                    .read<TeacherCreateClassCubit>()
+                                    .addClass(selectedSection, selectedSchool,
+                                        schoolName.text.trim(), selectedGrade);
+                              }
                             },
                             child: CustomWidgets.customButton('Save'),
                           );
-                        } else {
-                          return CustomWidgets.loadingIndicator();
                         }
                       },
                     ),

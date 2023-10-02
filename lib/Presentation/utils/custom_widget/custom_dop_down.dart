@@ -1,64 +1,104 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_system/Presentation/common/views/bottom_bar.dart';
+import 'package:school_system/Presentation/utils/custom_widget/container_decoration.dart';
 
-class CUstomDropDown extends StatefulWidget {
-  CUstomDropDown({Key? key, required this.item, required this.value1})
+class CustomDropDown extends StatefulWidget {
+  CustomDropDown(
+      {Key? key,
+      required this.itemsMap,
+      required this.onChanged,
+      required this.hintText})
       : super(key: key);
 
-  List<String> item;
-  String value1;
+  final List<DropdownMenuItem<Object>> itemsMap;
+  final ValueChanged onChanged;
+  String hintText;
 
   @override
-  State<CUstomDropDown> createState() => _CUstomDropDownState();
+  State<CustomDropDown> createState() => _CustomDropDownState();
 }
 
-class _CUstomDropDownState extends State<CUstomDropDown> {
+class _CustomDropDownState extends State<CustomDropDown> {
+  bool validation = false;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 10.sp),
-      height: 50.h,
-      width: 340.w,
-      decoration: BoxDecoration(
-        color: Colors.grey,
-        borderRadius: BorderRadius.circular(15.sp),
-        gradient: const LinearGradient(
-            colors: [
-              Color(0xFFC7CEF1),
-              Color(0xFF8C9BE3),
-            ],
-            begin: FractionalOffset(0.0, 0.0),
-            end: FractionalOffset(1.0, 0.0),
-            stops: [0.1, 1.0],
-            tileMode: TileMode.decal),
-      ),
-      child: Row(
+    return SizedBox(
+      height: validation == true ? 60.h : 45.h,
+      child: Column(
         children: [
           Expanded(
-              flex: 2,
-              child: Text(
-                widget.value1,
-                style: GoogleFonts.acme(color: Colors.black, fontSize: 11.sp),
-              )),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(right: 10.0.sp),
-              child: DropdownButton<String>(
-                underline: SizedBox(),
-                items: widget.item.map((String value) {
-                  return DropdownMenuItem<String>(
-                    child: Text(value),
-                    value: value,
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  widget.value1 = value!;
-                  setState(() {});
+            child: DecoratedContainer(
+              child: DropdownButtonFormField(
+                padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
+                borderRadius: BorderRadius.circular(10),
+                //autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (value) {
+                  if (value == null) {
+                    validation = true;
+                    setState(() {});
+                  } else {
+                    validation = false;
+                    setState(() {});
+                    return null;
+                  }
                 },
+
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  prefixIconConstraints: BoxConstraints(
+                    maxHeight: 60.w,
+                    maxWidth: 50.w,
+                    minHeight: 22.w,
+                    minWidth: 23.w,
+                  ),
+                  errorMaxLines: 1,
+
+                  // EdgeInsets.symmetric(
+                  //   vertical: 13,
+                  //   horizontal: prefixIcon != null ? 10 : 6,
+                  // ).r,
+                ),
+                hint: Text(
+                  widget.hintText,
+                  style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                icon: const Align(
+                  alignment: Alignment.centerRight,
+                  child: Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.black,
+                  ),
+                ),
+                iconSize: 28.r,
+                isExpanded: true,
+                // style: Styles.latoRegular(
+                //   context,
+                //   fontSize: 14.sp,
+                // ),
+                value: null,
+                onChanged: widget.onChanged,
+                items: widget.itemsMap,
               ),
             ),
           ),
+          validation == false
+              ? const SizedBox()
+              : Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '    field is required',
+                    style: GoogleFonts.poppins(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
         ],
       ),
     );

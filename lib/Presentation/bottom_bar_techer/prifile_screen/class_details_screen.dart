@@ -14,7 +14,7 @@ class ClassDeatailsScreen extends StatefulWidget {
   ClassDeatailsScreen({Key? key, required this.data, required this.index})
       : super(key: key);
 
-  List<TeacherClasses> data = [];
+  TeacherShowClass data;
   int index;
 
   @override
@@ -71,7 +71,7 @@ class _ClassDeatailsScreenState extends State<ClassDeatailsScreen> {
                             Expanded(
                               child: Center(
                                 child: MyText(
-                                  widget.data[widget.index].name!,
+                                  widget.data.data![widget.index].name!,
                                   color: Color(0xFF000600),
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
@@ -97,7 +97,7 @@ class _ClassDeatailsScreenState extends State<ClassDeatailsScreen> {
                             Expanded(
                               child: Center(
                                 child: MyText(
-                                  widget.data[widget.index].grade,
+                                  widget.data.data![widget.index].grade,
                                   color: Color(0xFF000600),
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
@@ -123,7 +123,9 @@ class _ClassDeatailsScreenState extends State<ClassDeatailsScreen> {
                             Expanded(
                               child: Center(
                                 child: MyText(
-                                  widget.data[widget.index].schoolId.toString(),
+                                  widget.data.data![widget.index].classSection!
+                                      .studentsCount
+                                      .toString(),
                                   color: Color(0xFF000600),
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
@@ -185,7 +187,10 @@ class _ClassDeatailsScreenState extends State<ClassDeatailsScreen> {
                               Expanded(
                                 child: Center(
                                   child: MyText(
-                                    "36",
+                                    widget.data.data![widget.index].classSection
+                                            ?.studentsCount
+                                            .toString() ??
+                                        "",
                                     color: Color(0xFF000600),
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w700,
@@ -195,7 +200,7 @@ class _ClassDeatailsScreenState extends State<ClassDeatailsScreen> {
                               Expanded(
                                 child: Center(
                                   child: MyText(
-                                    "Teachers",
+                                    "Total Students",
                                     color: kDescriptionColor,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w400,
@@ -232,10 +237,13 @@ class _ClassDeatailsScreenState extends State<ClassDeatailsScreen> {
                                 ),
                               ),
                             ),
-                            const Expanded(
+                            Expanded(
                               child: Center(
                                 child: MyText(
-                                  '18',
+                                  widget.data.data![widget.index].allSubjects!
+                                          .length
+                                          .toString() ??
+                                      "",
                                   color: Color(0xFF000600),
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,

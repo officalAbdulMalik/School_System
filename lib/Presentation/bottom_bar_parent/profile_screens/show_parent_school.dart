@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:school_system/Presentation/bottom_bar_parent/profile_screens/show_children.dart';
 import 'package:school_system/Presentation/common/views/add_school_screen.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget.dart';
@@ -14,7 +15,9 @@ import 'add_child_screen.dart';
 import 'show_teacher.dart';
 
 class ShowParentSchool extends StatefulWidget {
-  ShowParentSchool({Key? key}) : super(key: key);
+  ShowParentSchool({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<ShowParentSchool> createState() => _ShowParentSchoolState();
@@ -36,34 +39,30 @@ class _ShowParentSchoolState extends State<ShowParentSchool> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        bottomNavigationBar: InkWell(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(
-              builder: (context) {
-                return AddSchoolScreen();
-              },
-            ));
-          },
-          child: Container(
-            margin: EdgeInsets.only(
-                left: 10.sp, right: 10.sp, top: 10.sp, bottom: 10.sp),
-            height: 50.sp,
-            width: 140.sp,
-            decoration: BoxDecoration(
-              color: kPrimaryColor,
-              borderRadius: BorderRadius.circular(15.sp),
-            ),
-            child: Center(
-                child: Text(
-              'if want to add another School ! Click here',
-              style: GoogleFonts.poppins(
-                color: Colors.white,
-                fontSize: 15.h,
-                fontWeight: FontWeight.w400,
-              ),
-            )),
-          ),
-        ),
+        // bottomNavigationBar: InkWell(
+        //   onTap: () {
+        //
+        //   },
+        //   child: Container(
+        //     margin: EdgeInsets.only(
+        //         left: 10.sp, right: 10.sp, top: 10.sp, bottom: 10.sp),
+        //     height: 50.sp,
+        //     width: 140.sp,
+        //     decoration: BoxDecoration(
+        //       color: kPrimaryColor,
+        //       borderRadius: BorderRadius.circular(15.sp),
+        //     ),
+        //     child: Center(
+        //         child: Text(
+        //       'if want to add another School ! Click here',
+        //       style: GoogleFonts.poppins(
+        //         color: Colors.white,
+        //         fontSize: 15.h,
+        //         fontWeight: FontWeight.w400,
+        //       ),
+        //     )),
+        //   ),
+        // ),
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: ListView(
@@ -99,9 +98,17 @@ class _ShowParentSchoolState extends State<ShowParentSchool> {
                                 onTap: () {
                                   Navigator.push(context, MaterialPageRoute(
                                     builder: (context) {
-                                      return AddChildScreen();
+                                      return ShowChildren(
+                                        classId: state.model.data![index].id
+                                            .toString(),
+                                      );
                                     },
                                   ));
+                                  // Navigator.push(context, MaterialPageRoute(
+                                  //   builder: (context) {
+                                  //     return AddChildScreen();
+                                  //   },
+                                  // ));
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

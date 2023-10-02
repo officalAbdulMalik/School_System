@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_system/Presentation/utils/custom_widget/container_decoration.dart';
 
 class MyTextField extends StatefulWidget {
   final bool? enabled;
@@ -46,113 +47,76 @@ class _MyTextFieldState extends State<MyTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: TextFormField(
-        keyboardType: widget.keyboardType,
-        cursorColor: Colors.blue,
-        //  cursorHeight: 20.sp,
-        enabled: widget.enabled,
-        // autofocus: true,
+    return TextFormField(
+      keyboardType: widget.keyboardType,
+      cursorColor: Colors.blue,
+      //  cursorHeight: 20.sp,
+      enabled: widget.enabled,
+      // autofocus: true,
 
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        obscureText: widget.isPasswordField! ? showPassword : false,
-        controller: widget.controller,
-        maxLines: widget.maxLine ?? 1,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      obscureText: widget.isPasswordField! ? showPassword : false,
+      controller: widget.controller,
+      maxLines: widget.maxLine ?? 1,
 
-        validator: widget.isRequiredField == null
-            ? null
-            : (value) {
-                if (value == null || value.isEmpty) {
-                  return ' ${widget.label ?? widget.hintText} ${"is required"}';
-                }
+      validator: widget.isRequiredField == null
+          ? null
+          : (value) {
+              if (value == null || value.isEmpty) {
+                return ' ${widget.label ?? widget.hintText} ${"is required"}';
+              }
 
-                return null;
-              },
-        style: GoogleFonts.poppins(
-            color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w400),
-        decoration: InputDecoration(
-          filled: true,
-          errorMaxLines: 1,
-          isCollapsed: true,
-          //  isDense: true,
-          fillColor: widget.filledColor ?? Colors.white,
-          contentPadding: widget.contentPadding ??
-              EdgeInsets.only(
-                left: 15.sp,
-                right: 8.sp,
-                top: 15.sp,
-                bottom: 10.sp,
+              return null;
+            },
+      style: GoogleFonts.poppins(
+          color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w400),
+      decoration: InputDecoration(
+        filled: true,
+        errorMaxLines: 1,
+        isCollapsed: true,
+        //  isDense: true,
+        fillColor: widget.filledColor ?? Colors.white,
+        contentPadding: widget.contentPadding ??
+            EdgeInsets.only(
+              left: 15.sp,
+              right: 8.sp,
+              top: 15.sp,
+              bottom: 10.sp,
+            ),
+
+        errorStyle: TextStyle(
+          fontSize: 12.sp,
+          height: 0.2.sp,
+          color: Colors.red,
+        ),
+        hintStyle: GoogleFonts.poppins(
+          fontSize: 14.sp,
+          color: Colors.black,
+          fontWeight: FontWeight.w400,
+        ),
+        prefixIcon: widget.prefixIcon,
+        suffixIconConstraints:
+            BoxConstraints(maxHeight: 40.sp, maxWidth: 40.sp),
+        hintText: widget.hintText,
+        suffixIcon: widget.isPasswordField!
+            ? IconButton(
+                onPressed: () {
+                  setState(() {
+                    showPassword = !showPassword;
+                  });
+                },
+                icon: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Icon(showPassword == false
+                      ? Icons.visibility_off
+                      : Icons.visibility),
+                ))
+            : Center(
+                child: widget.suffixIcon,
               ),
-
-          errorStyle: TextStyle(
-            fontSize: 12.sp,
-            height: 0.2.sp,
-          ),
-          hintStyle: GoogleFonts.poppins(
-            fontSize: 14.sp,
-            color: Colors.black,
-            fontWeight: FontWeight.w400,
-          ),
-          prefixIcon: widget.prefixIcon,
-          suffixIconConstraints:
-              BoxConstraints(maxHeight: 40.sp, maxWidth: 40.sp),
-          hintText: widget.hintText,
-          suffixIcon: widget.isPasswordField!
-              ? IconButton(
-                  onPressed: () {
-                    setState(() {
-                      showPassword = !showPassword;
-                    });
-                  },
-                  icon: Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Icon(showPassword == false
-                        ? Icons.visibility_off
-                        : Icons.visibility),
-                  ))
-              : Center(
-                  child: widget.suffixIcon,
-                ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4.sp),
-            borderSide: BorderSide(
-              color: widget.borderColor ?? Colors.transparent,
-            ),
-          ),
-          disabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16.sp),
-            borderSide: BorderSide(
-              color: widget.borderColor ?? Colors.transparent,
-              width: 1,
-            ),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16.sp),
-            borderSide: const BorderSide(
-              color: Colors.redAccent,
-              width: 1,
-            ),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16.sp),
-            borderSide: const BorderSide(
-              color: Colors.red,
-              width: 1,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16.sp),
-            borderSide: BorderSide(
-              color: widget.borderColor ?? Colors.transparent,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16.sp),
-            borderSide: BorderSide(
-              color: widget.borderColor ?? Colors.transparent,
-            ),
-          ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15.sp),
+          borderSide: BorderSide.none,
         ),
       ),
     );

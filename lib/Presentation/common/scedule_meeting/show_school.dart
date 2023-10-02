@@ -11,14 +11,14 @@ import '../../utils/custom_widget/custom_row_widget.dart';
 import '../../utils/custom_widget/navigator_pop.dart';
 import 'add_participant_screen.dart';
 
-class SchoolListScreen extends StatefulWidget {
-  SchoolListScreen({Key? key}) : super(key: key);
+class ShowSchool extends StatefulWidget {
+  ShowSchool({Key? key}) : super(key: key);
 
   @override
-  State<SchoolListScreen> createState() => _SchoolListScreenState();
+  State<ShowSchool> createState() => _ShowSchoolState();
 }
 
-class _SchoolListScreenState extends State<SchoolListScreen> {
+class _ShowSchoolState extends State<ShowSchool> {
   final ValueNotifier<bool> showPassword = ValueNotifier(false);
 
   String type = '';

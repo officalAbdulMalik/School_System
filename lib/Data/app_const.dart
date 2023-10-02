@@ -1,3 +1,11 @@
+import 'package:school_system/Presentation/utils/shade_prefrence.dart';
+
 String baseUrl = 'https://www.dev.schoolsnow.parentteachermobile.com';
 
-String meetingUrl = '$baseUrl/api/get/meetings';
+class StaticValues {
+  String meetingUrl =
+      'https://www.dev.schoolsnow.parentteachermobile.com/api/get/meetings';
+
+  static String? userType =
+      LoginApiShadePreference.preferences!.getString('role');
+}

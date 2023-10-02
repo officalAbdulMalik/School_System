@@ -39,8 +39,10 @@ class _CalenderScreenState extends State<CalenderScreen> {
         child: FloatingActionButton(
           backgroundColor: Colors.blue,
           onPressed: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => AddMeetingScreen()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => AddMeetingScreen(
+                      ids: [],
+                    )));
           },
           child: const Icon(Icons.add),
         ),

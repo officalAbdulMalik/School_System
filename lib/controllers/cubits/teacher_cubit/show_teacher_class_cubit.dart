@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:school_system/Data/Repository/get_teacher_class.dart';
+import 'package:school_system/Data/app_const.dart';
+import 'package:school_system/Data/Repository/auth_apis.dart';
 
 import '../../../models/get_teacher_class_model.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
@@ -16,33 +19,16 @@ class ShowTeacherClassCubit extends Cubit<ShowTeacherClassState> {
 
     emit(ShowTeacherClassLoading());
 
-    print(LoginApiShadePreference.preferences!.getString("api_token"));
+    await GetClasses.getData().then((value) {
+      if (value['error'] != null && value['error'] == false) {
+        print(value);
 
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization':
-          'Bearer Bearer ${LoginApiShadePreference.preferences!.getString("api_token")}'
-    };
+        TeacherShowClass sections = TeacherShowClass.fromJson(value);
 
-    var url = Uri.parse(
-        'http://www.dev.schoolsnow.parentteachermobile.com/api/teacher/classes/fetch');
-    var response = await http.get(url, headers: headers);
-
-    print('status code is ${response.statusCode}');
-    print('settings body is ${response.body.toString()}');
-
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body.toString());
-
-      TeacherShowClass sections = TeacherShowClass.fromJson(data);
-
-      emit(ShowTeacherClassLoaded(model: sections));
-      // Get.snackbar('KASI', 'Settings get successfully');
-    } else {
-      emit(ShowTeacherClassError());
-      print('error');
-      // var data = jsonDecode(response.body.toString());
-      // print(data['message']);
-    }
+        emit(ShowTeacherClassLoaded(model: sections));
+      } else {
+        emit(ShowTeacherClassError(error: value['message']));
+      }
+    });
   }
 }

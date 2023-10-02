@@ -1,16 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/io_client.dart';
+import 'package:http/http.dart' as http;
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
-class AddSchoolInOverInfo {
-  static Future<int> addSchool(int id) async {
-    final ioc = HttpClient();
-    ioc.badCertificateCallback =
-        (X509Certificate cert, String host, int port) => true;
-    final http = IOClient(ioc);
-
+class TeacherCreateClass {
+  static Future<Map<String, dynamic>> createClass(
+    String seId,
+    String shId,
+    String className,
+    String grade,
+  ) async {
     var headers = {
       'Content-Type': 'application/json',
       'Authorization':
@@ -18,22 +18,25 @@ class AddSchoolInOverInfo {
     };
 
     var body = json.encode({
-      "school_ids": [id]
+      "section_id": seId,
+      "school_id": shId,
+      "name": className,
+      "grade": grade,
     });
 
     var request = await http.post(
         Uri.parse(
-            'https://www.dev.schoolsnow.parentteachermobile.com/api/user/schools'),
+            'https://www.dev.schoolsnow.parentteachermobile.com/api/teacher/class/create'),
         body: body,
         headers: headers);
     print(request.statusCode);
     if (request.statusCode == 200) {
-      Fluttertoast.showToast(msg: 'School Added SuccessFul');
+      // Fluttertoast.showToast(msg: 'Class Added SuccessFul');
       print(request.body);
-      return request.statusCode;
+      return jsonDecode(request.body);
     } else {
       print(request.body);
-      return request.statusCode;
+      return jsonDecode(request.body);
     }
   }
 }

@@ -8,9 +8,13 @@ class GetSectionInitial extends GetSectionState {}
 class GetSectionLoading extends GetSectionState {}
 
 class GetSectionLoaded extends GetSectionState {
-  Sections model = Sections();
+  List<Sections> sections;
 
-  GetSectionLoaded({required this.model});
+  GetSectionLoaded({required this.sections});
 }
 
-class GetSectionError extends GetSectionState {}
+class GetSectionError extends GetSectionState {
+  String? error;
+
+  GetSectionError({this.error});
+}

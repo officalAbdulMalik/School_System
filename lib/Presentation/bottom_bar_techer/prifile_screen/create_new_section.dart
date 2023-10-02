@@ -5,18 +5,20 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
+import 'package:school_system/Presentation/utils/custom_widget/custom_dop_down.dart';
+import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget.dart';
+import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
+import 'package:school_system/controllers/cubits/common_cubit/add_metting_cubit.dart';
+import 'package:school_system/controllers/cubits/common_cubit/get_parents_teachers_cubit.dart';
+import 'package:school_system/controllers/cubits/teacher_cubit/add_section_cubit.dart';
 
-import '../../../controllers/apis_repo/teacher_apis/teacher_add_section.dart';
+import '../../../Data/Repository/teacher_add_section.dart';
 import '../../../controllers/cubits/common_cubit/get_all_school_cubit.dart';
 import '../../common/views/loginScreen.dart';
 import '../../utils/custom_widget/custom_widgets.dart';
 
 class CreateSection extends StatefulWidget {
-  CreateSection({Key? key, required this.schoolId, required this.sectionId})
-      : super(key: key);
-
-  String schoolId;
-  String sectionId;
+  CreateSection({Key? key}) : super(key: key);
 
   @override
   State<CreateSection> createState() => _CreateSectionState();
@@ -31,70 +33,120 @@ class _CreateSectionState extends State<CreateSection> {
 
   TextEditingController sectionName = TextEditingController();
 
+  String selectedSchool = '';
+  final formKey = GlobalKey<FormState>();
+
   ValueNotifier<bool> loading = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: true,
-          iconTheme: IconThemeData(color: Colors.white),
-          backgroundColor: const Color(0xFF2A3B5D),
-          centerTitle: true,
-          title: Text(
-            'Create Section',
-            style: GoogleFonts.acme(
-              color: Colors.white,
-              fontSize: 20.sp,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-        backgroundColor: kPrimaryColor,
-        resizeToAvoidBottomInset: false,
-        body: ListView(
+    return SafeArea(
+      child: Scaffold(
+          body: Form(
+        key: formKey,
+        child: ListView(
           padding: EdgeInsets.only(left: 20.sp, right: 20.sp),
           children: [
             SizedBox(
               height: 30.h,
             ),
-            CustomWidgets.customTextField(
-                hintText: 'Section Name', controller: sectionName),
+            CustomRowWidget(
+              text1: 'Add New Section',
+              text2: 'Add New section to over school',
+              image: 'add_s_star.png',
+            ),
             SizedBox(
               height: 20.h,
             ),
-            ValueListenableBuilder(
-              valueListenable: loading,
-              builder: (context, value, child) {
-                if (value == false) {
+            MyTextField(
+              hintText: 'Section Name',
+              controller: sectionName,
+              filledColor: kContainerColor,
+              isRequiredField: true,
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 10.sp),
+              height: 40.h,
+              width: 340.w,
+              decoration: BoxDecoration(
+                color: kContainerColor,
+                borderRadius: BorderRadius.circular(15.sp),
+              ),
+              child: BlocBuilder<GetAllSchoolCubit, GetAllSchoolState>(
+                builder: (context, state) {
+                  if (state is GetAllSchoolLoaded) {
+                    print(state.model.data!.length);
+                    return state.model.data!.isNotEmpty
+                        ? CustomDropDown(
+                            hintText: 'Schools',
+                            onChanged: (value) {
+                              print(value);
+                              selectedSchool = value.toString();
+                            },
+                            itemsMap: state.model.data!.map((e) {
+                              return DropdownMenuItem(
+                                value: e.id,
+                                child: Text(
+                                  e.schoolName!,
+                                ),
+                              );
+                            }).toList(),
+                          )
+                        : Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'School not found',
+                              style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          );
+                  } else if (state is GetAllSchoolError) {
+                    return Text(state.error!);
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              ),
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            BlocConsumer<AddSectionCubit, AddSectionState>(
+              listener: (context, state) {
+                if (state is AddSectionError) {
+                  Fluttertoast.showToast(msg: state.error!);
+                }
+                if (state is AddSectionLoaded) {}
+              },
+              builder: (context, state) {
+                if (state is AddSectionLoading) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.blue,
+                    ),
+                  );
+                } else {
                   return InkWell(
                     onTap: () {
-                      if (sectionName.text.isNotEmpty) {
-                        loading.value = true;
-                        TeacherAddSection.addSection(
-                                sectionName.text.trim(), widget.schoolId)
-                            .then((value) {
-                          if (value == 200) {
-                            loading.value = false;
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return LogInScreen();
-                              },
-                            ));
-                          }
-                        });
-                      } else {
-                        Fluttertoast.showToast(msg: 'All Fields are Required');
+                      if (formKey.currentState!.validate()) {
+                        context.read<AddSectionCubit>().getSections(
+                            sectionName.text.trim(), selectedSchool);
                       }
                     },
                     child: CustomWidgets.customButton('Save'),
                   );
-                } else {
-                  return CustomWidgets.loadingIndicator();
                 }
               },
             ),
           ],
-        ));
+        ),
+      )),
+    );
   }
 }

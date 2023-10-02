@@ -13,4 +13,8 @@ class ShowTeacherClassLoaded extends ShowTeacherClassState {
   ShowTeacherClassLoaded({required this.model});
 }
 
-class ShowTeacherClassError extends ShowTeacherClassState {}
+class ShowTeacherClassError extends ShowTeacherClassState {
+  String? error;
+
+  ShowTeacherClassError({this.error});
+}

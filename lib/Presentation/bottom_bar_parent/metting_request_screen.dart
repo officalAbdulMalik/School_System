@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/models/get_all_mettings.dart';
 
-import '../../controllers/apis_repo/add_mettings_api.dart';
+import '../../Data/Repository/add_mettings_api.dart';
 import '../../models/teacher_parents_data_model.dart';
 
 class MettingRequestScreen extends StatefulWidget {

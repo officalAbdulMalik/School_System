@@ -18,16 +18,14 @@ class GetAllMeetingsCubit extends Cubit<GetAllMeetingsState> {
     emit(GetAllMeetingsLoading());
     GetMeetings().getAllMeetings().then((value) {
       print("here is the meetings${value['data']}");
-      if (value['status'] == 400) {
-        emit(GetAllMeetingsError(value['error']));
-      } else if (value['status'] == 200) {
+      if (value['status'] != null && value['status'] == 200) {
         var data = value['data'];
         var meeting = List<GetAllMeetings>.from(
             data.map((x) => GetAllMeetings.fromJson(x)));
         emit(GetAllMeetingsLoaded(meetings: meeting));
       } else {
         print('error state');
-        emit(GetAllMeetingsError(value['error']));
+        emit(GetAllMeetingsError(value['message']));
       }
     });
   }

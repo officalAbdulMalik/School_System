@@ -5,12 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:school_system/Presentation/common/scedule_meeting/show_school.dart';
 import 'package:school_system/Presentation/common/views/all_school_screen.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_date_picker.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_time_picker.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/controllers/cubits/common_cubit/add_metting_cubit.dart';
+import 'package:school_system/controllers/firebase_repos/firebase_notification.dart';
 
 import '../../utils/app_images.dart';
 import '../../utils/custom_widget/my_text.dart';
@@ -36,6 +38,30 @@ class _AddMeetingScreenState extends State<AddMeetingScreen> {
   var isChecked = false;
   final formKey = GlobalKey<FormState>();
 
+  static String? dateVal(v) {
+    if (v.trim().isEmpty) {
+      return "Date Required";
+    }
+
+    return null;
+  }
+
+  static String? startTVal(v) {
+    if (v.trim().isEmpty) {
+      return "Date Required";
+    }
+
+    return null;
+  }
+
+  static String? endTVal(v) {
+    if (v.trim().isEmpty) {
+      return "Date Required";
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,13 +70,13 @@ class _AddMeetingScreenState extends State<AddMeetingScreen> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Form(
-              key: formKey,
+      body: Form(
+        key: formKey,
+        child: Column(
+          children: [
+            Expanded(
               child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                padding: EdgeInsets.symmetric(horizontal: 22.sp),
                 children: [
                   Row(
                     children: [
@@ -89,6 +115,7 @@ class _AddMeetingScreenState extends State<AddMeetingScreen> {
                     controller: meetingName,
                     hintText: 'Meeting Name',
                     filledColor: const Color(0xFFF3F4F6),
+                    isRequiredField: true,
                   ),
                   SizedBox(
                     height: 10.sp,
@@ -96,7 +123,7 @@ class _AddMeetingScreenState extends State<AddMeetingScreen> {
                   InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => SchoolListScreen()));
+                          builder: (context) => ShowSchool()));
                     },
                     child: Container(
                         margin: EdgeInsets.symmetric(horizontal: 20.sp),
@@ -172,9 +199,7 @@ class _AddMeetingScreenState extends State<AddMeetingScreen> {
                                   child: CustomDatePickerValidateWidget(
                                     hintText: 'Select Date',
                                     validationText: 'Date is required',
-                                    validator: (val) {
-                                      print('$val');
-                                    },
+                                    validator: dateVal,
                                     controller: dateController,
                                   ),
                                 )),
@@ -206,7 +231,7 @@ class _AddMeetingScreenState extends State<AddMeetingScreen> {
                             Expanded(
                               child: CustomTimePickerWithValidation(
                                 hintText: 'Start Time',
-                                validator: (String) {},
+                                validator: startTVal,
                                 controller: sTimeController,
                                 validationText: 'Start Time is required',
                               ),
@@ -217,7 +242,7 @@ class _AddMeetingScreenState extends State<AddMeetingScreen> {
                             Expanded(
                               child: CustomTimePickerWithValidation(
                                 hintText: 'End Time',
-                                validator: (String) {},
+                                validator: endTVal,
                                 controller: eTimeController,
                                 validationText: 'End Time is required',
                               ),
@@ -235,55 +260,68 @@ class _AddMeetingScreenState extends State<AddMeetingScreen> {
                     hintText: 'Description',
                     maxLine: 3,
                     filledColor: const Color(0xFFF3F4F6),
+                    isRequiredField: true,
                   ),
                 ],
               ),
             ),
-          ),
-          InkWell(
-            onTap: () {
-              if (formKey.currentState!.validate()) {
-                print('false');
+            InkWell(
+              onTap: () {
+                if (formKey.currentState!.validate()) {
+                  if (widget.ids!.isNotEmpty) {
+                    print(meetingName.text);
 
-                context.read<AddMettingCubit>().addMeetings(
-                    title: meetingName.text.trim(),
-                    id: ['widget.ids!'],
-                    stdId: '',
-                    date: dateController.text.trim(),
-                    sTime: sTimeController.text.trim(),
-                    eTime: eTimeController.text.trim(),
-                    desc: descriptionController.text.trim());
-              }
-            },
-            child: BlocBuilder<AddMettingCubit, AddMettingState>(
-              builder: (context, state) {
-                if (state is AddMettingLoading) {
-                  return CircularProgressIndicator(
-                    color: kPrimaryColor,
-                  );
-                } else {
-                  return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20.sp),
-                    height: 45.sp,
-                    decoration: BoxDecoration(
-                        color: Color(0xff3DAEF5),
-                        borderRadius: BorderRadius.circular(12.sp)),
-                    child: Center(
-                      child: MyText(
-                        'Schedule Meeting',
-                        color: Colors.white,
-                        fontSize: 14.sp,
-                      ),
-                    ),
-                  );
+                    print('false');
+                    context.read<AddMettingCubit>().addMeetings(
+                        title: meetingName.text.trim(),
+                        id: widget.ids ?? [],
+                        stdId: '',
+                        date: dateController.text.trim(),
+                        sTime: sTimeController.text.trim(),
+                        eTime: eTimeController.text.trim(),
+                        desc: descriptionController.text.trim());
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Add Participation please')));
+                  }
                 }
               },
+              child: BlocConsumer<AddMettingCubit, AddMettingState>(
+                listener: (context, state) {
+                  if (state is AddMettingLoaded) {
+                    FirebaseNotificationsService().showNotification(
+                        1, meetingName.text, 'Meeting Create Successful');
+                  }
+                },
+                builder: (context, state) {
+                  if (state is AddMettingLoading) {
+                    return const CircularProgressIndicator(
+                      color: kPrimaryColor,
+                    );
+                  } else {
+                    return Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20.sp),
+                      height: 45.sp,
+                      decoration: BoxDecoration(
+                          color: Color(0xff3DAEF5),
+                          borderRadius: BorderRadius.circular(12.sp)),
+                      child: Center(
+                        child: MyText(
+                          'Schedule Meeting',
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
-          ),
-          SizedBox(
-            height: 32.sp,
-          ),
-        ],
+            SizedBox(
+              height: 32.sp,
+            ),
+          ],
+        ),
       ),
     );
   }

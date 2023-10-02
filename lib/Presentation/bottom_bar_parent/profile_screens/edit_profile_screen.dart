@@ -9,8 +9,8 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
 
-import '../../../controllers/apis_repo/update_profile.dart';
-import '../../../controllers/image_picking.dart';
+import '../../../Data/Repository/update_profile.dart';
+import '../../../Data/image_picking.dart';
 import '../../../models/user_data_model.dart';
 import '../../utils/colors.dart';
 import '../../utils/custom_widget/container_decoration.dart';

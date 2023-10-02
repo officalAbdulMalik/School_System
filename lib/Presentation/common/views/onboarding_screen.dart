@@ -96,8 +96,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 InkWell(
                   onTap: () async {
                     LoginApiShadePreference.preferences!
-                        .setString('role', 'teacher');
-                    type = 'teacher';
+                        .setString('role', 'Teacher');
+                    type = 'Teacher';
 
                     setState(() {});
                     Navigator.push(context, MaterialPageRoute(
@@ -141,8 +141,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 InkWell(
                   onTap: () async {
                     LoginApiShadePreference.preferences!
-                        .setString('role', 'parents');
-                    type = 'parents';
+                        .setString('role', 'Parents');
+                    type = 'Parents';
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
                         return SelectCountry();

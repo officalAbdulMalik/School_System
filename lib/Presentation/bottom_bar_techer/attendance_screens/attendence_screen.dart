@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school_system/Presentation/bottom_bar_techer/attendance_screens/show_attendence_screen.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
@@ -7,6 +8,7 @@ import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
 import 'package:school_system/Presentation/utils/custom_widget/search_text_field.dart';
+import 'package:school_system/controllers/cubits/teacher_cubit/show_class_attendance_cubit.dart';
 import 'package:school_system/models/get_teacher_class_model.dart';
 
 import 'package:table_calendar/table_calendar.dart';
@@ -14,7 +16,7 @@ import 'package:table_calendar/table_calendar.dart';
 class AttendanceScreen extends StatefulWidget {
   AttendanceScreen({Key? key, required this.data}) : super(key: key);
 
-  List<TeacherClasses> data = [];
+  TeacherShowClass data;
 
   @override
   State<AttendanceScreen> createState() => _AttendanceScreenState();
@@ -39,6 +41,13 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
       'attend': 'absent',
     },
   ];
+
+  @override
+  void initState() {
+    context.read<ShowClassAttendanceCubit>().getAttendance();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

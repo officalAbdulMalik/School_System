@@ -12,3 +12,9 @@ class GetAllSchoolLoaded extends GetAllSchoolState {
 
   GetAllSchoolLoaded({required this.model});
 }
+
+class GetAllSchoolError extends GetAllSchoolState {
+  String? error;
+
+  GetAllSchoolError({this.error});
+}

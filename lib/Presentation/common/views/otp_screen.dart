@@ -8,8 +8,9 @@ import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
+import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
-import '../../../controllers/apis_repo/forget_password_api.dart';
+import '../../../Data/Repository/forget_password_api.dart';
 import '../../utils/custom_widget/custom_row_widget.dart';
 import '../../utils/custom_widget/custom_widgets.dart';
 import '../../utils/custom_widget/navigator_pop.dart';
@@ -31,6 +32,8 @@ class _OtpScreenState extends State<OtpScreen> {
   ValueNotifier<bool> loading = ValueNotifier(false);
 
   OtpFieldController otp = OtpFieldController();
+
+  String? email = LoginApiShadePreference.preferences!.getString('email');
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +97,7 @@ class _OtpScreenState extends State<OtpScreen> {
               ),
               InkWell(
                 onTap: () async {
-                  await ForgetPasswordApi.resendOtp();
+                  await ForgetPasswordApi.sendEmail(email!);
                   otpCode = '';
                   otp.clear();
                   setState(() {});
@@ -129,11 +132,10 @@ class _OtpScreenState extends State<OtpScreen> {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                            return widget.firstTime == true
-                                ? ForgetPassword()
-                                : CompleteScreen();
+                            return ForgetPassword();
                           },
                         ));
+
                         if (otpCode.isNotEmpty) {
                           loading.value = true;
 
@@ -147,7 +149,9 @@ class _OtpScreenState extends State<OtpScreen> {
                               print(value);
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) {
-                                  return ForgetPassword();
+                                  return widget.firstTime == true
+                                      ? ForgetPassword()
+                                      : CompleteScreen();
                                 },
                               ));
                             } else {

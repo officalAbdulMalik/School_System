@@ -146,7 +146,7 @@ class _BottomBarPagesState extends State<BottomBarPages> {
                       DashboardScreen(),
                       CalenderScreen(),
                       ChatScreen(),
-                      type != 'parent'
+                      type != 'Teacher'
                           ? ReportCardScreen()
                           : TeacherReportScreen(),
                       MenuScreen(),

@@ -10,8 +10,9 @@ import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dar
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 import 'package:school_system/controllers/cubits/common_cubit/sign_up_cubit.dart';
 
-import '../../../controllers/apis_repo/auth_apis.dart';
+import '../../../Data/Repository/auth_apis.dart';
 import '../../utils/colors.dart';
+import '../../utils/custom_widget/custom_dop_down.dart';
 import '../../utils/custom_widget/custom_row_widget.dart';
 import '../../utils/custom_widget/navigator_pop.dart';
 import 'all_school_screen.dart';
@@ -105,42 +106,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: 20.sp,
               ),
-              DecoratedContainer(
-                child: Row(
-                  children: [
-                    Expanded(
-                        flex: role == 'teacher' ? 2 : 1,
-                        child: Text(
-                          teacherM,
-                          style: CustomWidgets.style(),
-                        )),
-                    SizedBox(
-                      width: 30.w,
-                    ),
-                    Expanded(
-                      child: DropdownButton<String>(
-                        underline: SizedBox(),
-                        items: role == 'teacher'
-                            ? teacher.map((String item) {
-                                return DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(item),
-                                );
-                              }).toList()
-                            : parents.map((String item) {
-                                return DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(item),
-                                );
-                              }).toList(),
-                        onChanged: (value) {
-                          teacherM = value!;
-                          setState(() {});
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+              CustomDropDown(
+                hintText: 'Gender',
+                onChanged: (value) {
+                  print(value);
+                  teacherM = value!;
+                  setState(() {});
+                },
+                itemsMap: role == 'Teacher'
+                    ? teacher.map((e) {
+                        return DropdownMenuItem(
+                          value: e,
+                          child: Text(
+                            e,
+                            style: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        );
+                      }).toList()
+                    : parents.map((e) {
+                        return DropdownMenuItem(
+                          value: e,
+                          child: Text(
+                            e,
+                            style: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        );
+                      }).toList(),
               ),
               SizedBox(
                 height: 20.h,
@@ -206,9 +205,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 //     Icons.alternate_email, 'service@gmail.com', null),
               ),
               SizedBox(
-                height: role == 'parents' ? 20.h : 0,
+                height: role != 'Teacher' ? 20.h : 0,
               ),
-              role == 'parents'
+              role != 'Teacher'
                   ? MyTextField(
                       controller: phoneNumber,
                       maxLine: 1,
@@ -220,9 +219,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     )
                   : SizedBox(),
               SizedBox(
-                height: role == 'parents' ? 20.h : 0,
+                height: role == 'Teacher' ? 20.h : 0,
               ),
-              role == 'parents'
+              role != 'Teacher'
                   ? MyTextField(
                       controller: dob,
                       maxLine: 1,
@@ -239,7 +238,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               MyTextField(
                 controller: occupation,
                 maxLine: 1,
-                hintText: role == 'teacher' ? 'qualification' : 'occupation',
+                hintText: role == 'Teacher' ? 'qualification' : 'occupation',
                 filledColor: kContainerColor,
                 isRequiredField: true,
                 // decoration: textFieldIconDecoration(
@@ -249,121 +248,79 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 20.h,
               ),
               // buildTextFieldLabel('Password'),
-              DecoratedContainer(
-                child: Row(
-                  children: [
-                    Expanded(
-                        flex: 2,
-                        child: Text(
-                          language,
-                          style: CustomWidgets.style(),
-                        )),
-                    SizedBox(
-                      width: 30.sp,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 10.0.sp),
-                        child: DropdownButton<String>(
-                          underline: SizedBox(),
-                          items: <String>[
-                            'English',
-                            'Scots',
-                            'Welsh',
-                          ].map((String value) {
-                            return DropdownMenuItem<String>(
-                              child: Text(value),
-                              value: value,
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            language = value!;
-                            setState(() {});
-                          },
-                        ),
+              CustomDropDown(
+                hintText: 'Language',
+                onChanged: (value) {
+                  print(value);
+                  // selectedSchool = value.toString();
+                },
+                itemsMap: [
+                  'English',
+                  'Scots',
+                  'Welsh',
+                ].map((e) {
+                  return DropdownMenuItem(
+                    value: e,
+                    child: Text(
+                      e,
+                      style: GoogleFonts.poppins(
+                        color: Colors.black,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
-                  ],
-                ),
+                  );
+                }).toList(),
               ),
               SizedBox(
                 height: 20.h,
               ),
-              DecoratedContainer(
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        gender,
-                        style: CustomWidgets.style(),
+              CustomDropDown(
+                hintText: 'Gender',
+                onChanged: (value) {
+                  print(value);
+                  // selectedSchool = value.toString();
+                },
+                itemsMap: [
+                  'Male',
+                  'Female',
+                ].map((e) {
+                  return DropdownMenuItem(
+                    value: e,
+                    child: Text(
+                      e,
+                      style: GoogleFonts.poppins(
+                        color: Colors.black,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
-                    SizedBox(
-                      width: 30.sp,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 10.0.sp),
-                        child: DropdownButton<String>(
-                          underline: SizedBox(),
-                          items: <String>[
-                            'Male',
-                            'Female',
-                          ].map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            gender = value!;
-                            setState(() {});
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  );
+                }).toList(),
               ),
               SizedBox(
                 height: 20.h,
               ),
               // buildTextFieldLabel('Password'),
-              DecoratedContainer(
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Text(
-                        abou,
-                        style: CustomWidgets.style(),
+              CustomDropDown(
+                hintText: 'How did you hear about us?',
+                onChanged: (value) {
+                  print(value);
+                  // selectedSchool = value.toString();
+                },
+                itemsMap: about.map((e) {
+                  return DropdownMenuItem(
+                    value: e,
+                    child: Text(
+                      e,
+                      style: GoogleFonts.poppins(
+                        color: Colors.black,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
-                    SizedBox(
-                      width: 30.w,
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 10.0.sp),
-                        child: DropdownButton<String>(
-                          underline: SizedBox(),
-                          items: about.map((String item) {
-                            return DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(item),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            abou = value!;
-                            setState(() {});
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  );
+                }).toList(),
               ),
               SizedBox(
                 height: 5.h,
@@ -413,29 +370,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       onTap: () async {
                         LoginApiShadePreference.preferences!
                             .setString('email', email.text);
-
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return SchoolListScreen();
-                          },
-                        ));
                         if (formKey.currentState!.validate()) {
-                          context
-                              .read<SignUpCubit>()
-                              .createUser(
-                                  firstName.text.trim(),
-                                  lastName.text.trim(),
-                                  email.text.trim(),
-                                  password.text.trim(),
-                                  teacherM,
-                                  language,
-                                  abou,
-                                  occupation.text.trim(),
-                                  phoneNumber.text.trim(),
-                                  gender,
-                                  dob.text.trim(),
-                                  context)
-                              .then((value) {});
+                          context.read<SignUpCubit>().createUser(
+                              firstName.text.trim(),
+                              lastName.text.trim(),
+                              email.text.trim(),
+                              password.text.trim(),
+                              teacherM,
+                              language,
+                              abou,
+                              occupation.text.trim(),
+                              phoneNumber.text.trim(),
+                              gender,
+                              dob.text.trim(),
+                              context);
                         }
                       },
                       child: CustomWidgets.customButton('Sign Up'),

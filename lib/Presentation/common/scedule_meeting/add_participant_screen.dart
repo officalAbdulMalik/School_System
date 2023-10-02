@@ -297,7 +297,9 @@ class _AddParticipantScreenState extends State<AddParticipantScreen> {
                       onTap: () {
                         Navigator.pushReplacement(context, MaterialPageRoute(
                           builder: (context) {
-                            return AddMeetingScreen();
+                            return AddMeetingScreen(
+                              ids: listofParticipent,
+                            );
                           },
                         ));
                       },
@@ -313,7 +315,7 @@ class _AddParticipantScreenState extends State<AddParticipantScreen> {
                 ),
               );
             } else if (state is GetSchoolTeacherError) {
-              return Center(child: Text('error' ?? ''));
+              return const Center(child: Text('error' ?? ''));
             } else {
               return SizedBox();
             }

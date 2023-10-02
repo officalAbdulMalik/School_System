@@ -6,7 +6,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
-import 'package:school_system/controllers/apis_repo/forget_password_api.dart';
+import 'package:school_system/Data/Repository/forget_password_api.dart';
 
 import 'complete_screen.dart';
 import 'forget_password_screen.dart';

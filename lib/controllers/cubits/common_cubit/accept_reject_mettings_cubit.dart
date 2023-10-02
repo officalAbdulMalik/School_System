@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:school_system/controllers/apis_repo/accept_reject_metting.dart';
+import 'package:school_system/Data/Repository/accept_reject_metting.dart';
 
 part 'accept_reject_mettings_state.dart';
 

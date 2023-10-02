@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:school_system/Presentation/bottom_bar_parent/profile_screens/show_children.dart';
+import 'package:school_system/Presentation/bottom_bar_parent/profile_screens/show_parent_school.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/common/resources/loading_dialog.dart';
 import 'package:school_system/Presentation/common/resources/shimmer_loadinf.dart';
@@ -181,9 +183,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               MaterialPageRoute(
                                   builder: (context) => role == 'Teacher'
                                       ? TeacherClass()
-                                      : AddChildScreen(
+                                      : ShowChildren(
+                                          classId: '',
                                           // classId: '',
-                                          )));
+                                        )));
                         },
                         child: Container(
                           height: 136.sp,

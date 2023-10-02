@@ -10,7 +10,7 @@ import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.da
 import 'package:school_system/Presentation/utils/custom_widget/custome_botton_details_screen.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
-import 'package:school_system/controllers/apis_repo/accept_reject_metting.dart';
+import 'package:school_system/Data/Repository/accept_reject_metting.dart';
 import 'package:school_system/controllers/cubits/common_cubit/accept_reject_mettings_cubit.dart';
 import 'package:school_system/controllers/cubits/common_cubit/get_all_meetings_cubit.dart';
 import 'package:school_system/models/get_all_mettings.dart';
@@ -58,7 +58,7 @@ class _MeetingsDetailsState extends State<MeetingsDetails> {
                       await context
                           .read<AcceptRejectMeetingsCubit>()
                           .acceptRejectMeetings(
-                              widget.meetings!.id.toString(), 'accepted');
+                              widget.meetings!.id.toString(), 'rejected');
                     },
                     child: CustomWidgets.customButton('Reject',
                         buttonColor: kDescriptionColor),
@@ -72,7 +72,7 @@ class _MeetingsDetailsState extends State<MeetingsDetails> {
                       context
                           .read<AcceptRejectMeetingsCubit>()
                           .acceptRejectMeetings(
-                              widget.meetings!.id.toString(), 'rejected');
+                              widget.meetings!.id.toString(), 'accepted');
                     },
                     child: CustomWidgets.customButton(
                       'Accept',

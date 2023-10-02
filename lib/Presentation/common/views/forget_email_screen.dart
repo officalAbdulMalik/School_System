@@ -7,7 +7,7 @@ import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
 
-import '../../../controllers/apis_repo/forget_password_api.dart';
+import '../../../Data/Repository/forget_password_api.dart';
 import '../../utils/custom_widget/custom_row_widget.dart';
 import '../../utils/custom_widget/navigator_pop.dart';
 import 'otp_screen.dart';
@@ -94,31 +94,24 @@ class _ForgetPasswordEmailScreenState extends State<ForgetPasswordEmailScreen> {
                 } else {
                   return InkWell(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return OtpScreen(
-                            firstTime: true,
-                          );
-                        },
-                      ));
-                      // if (email.text.isNotEmpty) {
-                      //   loading.value = true;
-                      //   ForgetPasswordApi.sendEmail(email.text.trim())
-                      //       .then((value) {
-                      //     loading.value = false;
-                      //     if (value == 200) {
-                      //       Navigator.push(context, MaterialPageRoute(
-                      //         builder: (context) {
-                      //           return OtpScreen(
-                      //             firstTime: true,
-                      //           );
-                      //         },
-                      //       ));
-                      //     }
-                      //   });
-                      // } else {
-                      //   Fluttertoast.showToast(msg: 'Enter Your Email');
-                      // }
+                      if (email.text.isNotEmpty) {
+                        loading.value = true;
+                        ForgetPasswordApi.sendEmail(email.text.trim())
+                            .then((value) {
+                          loading.value = false;
+                          if (value == 200) {
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return OtpScreen(
+                                  firstTime: true,
+                                );
+                              },
+                            ));
+                          }
+                        });
+                      } else {
+                        Fluttertoast.showToast(msg: 'Enter Your Email');
+                      }
                     },
                     child: CustomWidgets.customButton('Send Code'),
                   );

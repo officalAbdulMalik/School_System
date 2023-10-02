@@ -14,6 +14,7 @@ import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dar
 import 'package:school_system/controllers/cubits/teacher_cubit/get_class_student_cubit.dart';
 
 import '../../../controllers/cubits/teacher_cubit/show_teacher_class_cubit.dart';
+import 'add_child_screen.dart';
 
 class ShowChildren extends StatefulWidget {
   ShowChildren({Key? key, required this.classId}) : super(key: key);
@@ -40,14 +41,14 @@ class _ShowChildrenState extends State<ShowChildren> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.blue,
-          child: Icon(
+          child: const Icon(
             Icons.add,
             color: Colors.white,
           ),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(
               builder: (context) {
-                return ShowParentSchool();
+                return AddChildScreen();
               },
             ));
           },
@@ -112,12 +113,12 @@ class _ShowChildrenState extends State<ShowChildren> {
                     ],
                   );
                 } else if (state is GetClassStudentLoaded) {
-                  return state.model.data!.isEmpty
+                  return state.model.data!.isNotEmpty
                       ? SizedBox(
                           height: MediaQuery.of(context).size.height,
                           width: 400.w,
                           child: ListView.separated(
-                            itemCount: 2,
+                            itemCount: state.model.data!.length,
                             // itemCount: state.model.data!.length,
                             itemBuilder: (context, index) {
                               return InkWell(
@@ -139,14 +140,25 @@ class _ShowChildrenState extends State<ShowChildren> {
                                   child: ListTile(
                                     leading: CircleAvatar(
                                       radius: 40.sp,
-                                      backgroundImage: state.model.data != null
-                                          ? NetworkImage('')
-                                          : AssetImage('images/prof.png')
-                                              as ImageProvider,
+                                      backgroundImage:
+                                          state.model.data?[index].image != null
+                                              ? NetworkImage(state.model
+                                                      .data?[index].image ??
+                                                  '')
+                                              : AssetImage('images/prof.png')
+                                                  as ImageProvider,
                                     ),
-                                    title: Text("111"),
-                                    subtitle: Text("s"),
-                                    trailing: Text("state"),
+                                    title: Text(state
+                                            .model.data?[index].firstName
+                                            .toString() ??
+                                        ""),
+                                    subtitle: Text(state
+                                            .model.data?[index].lastName
+                                            .toString() ??
+                                        ""),
+                                    trailing: Text(state.model.data?[index].id
+                                            .toString() ??
+                                        ""),
                                   ),
                                 ),
                               );
@@ -156,15 +168,14 @@ class _ShowChildrenState extends State<ShowChildren> {
                                 height: 10.h,
                               );
                             },
-                          ),
-                        )
+                          ))
                       : Center(
                           child: Text(
                             'No Student Found',
                             style: GoogleFonts.poppins(
-                              color: kPrimaryColor,
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         );

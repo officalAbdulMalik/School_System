@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 class TeacherAddSection {
-  static Future<int> addSection(
+  static Future<Map<String, dynamic>> addSection(
     String sectionName,
     String schoolId,
   ) async {
@@ -27,12 +27,11 @@ class TeacherAddSection {
         headers: headers);
     print(request.statusCode);
     if (request.statusCode == 200) {
-      Fluttertoast.showToast(msg: 'Section Added SuccessFul');
-      print(request.body);
-      return request.statusCode;
+      //
+      return jsonDecode(request.body);
     } else {
       print(request.body);
-      return request.statusCode;
+      return jsonDecode(request.body);
     }
   }
 }

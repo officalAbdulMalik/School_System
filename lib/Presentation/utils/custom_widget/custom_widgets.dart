@@ -59,7 +59,7 @@ class CustomWidgets {
     );
   }
 
-  static customButton(String text, {Color? buttonColor}) {
+  static customButton(String text, {Color? buttonColor, double? fontSize}) {
     return Container(
       height: 45.h,
       width: 340.w,
@@ -72,7 +72,7 @@ class CustomWidgets {
         text,
         style: GoogleFonts.poppins(
           color: Colors.white,
-          fontSize: 16.h,
+          fontSize: fontSize ?? 16.h,
           fontWeight: FontWeight.w500,
         ),
       )),

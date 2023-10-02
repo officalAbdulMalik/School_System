@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -6,8 +7,9 @@ import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
+import 'package:school_system/controllers/cubits/common_cubit/login_cubit.dart';
 
-import '../../../controllers/apis_repo/auth_apis.dart';
+import '../../../Data/Repository/auth_apis.dart';
 import 'bottom_bar.dart';
 import 'forget_email_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -140,34 +142,38 @@ class _LogInScreenState extends State<LogInScreen> {
                     SizedBox(
                       height: 30.h,
                     ),
-                    ValueListenableBuilder(
-                      valueListenable: loading,
-                      builder: (context, value, child) {
-                        if (value == true) {
-                          return CustomWidgets.loadingIndicator();
+                    BlocConsumer<LoginCubit, LoginState>(
+                      listener: (context, state) {
+                        print(state);
+
+                        if (state is LoginLoaded) {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return LoginApiShadePreference.preferences!
+                                          .getString('role') ==
+                                      'parent'
+                                  ? BottomBarPages()
+                                  : BottomBarPages();
+                            },
+                          ));
+                        }
+                        if (state is LoginError) {
+                          Fluttertoast.showToast(msg: state.error!);
+                        }
+                      },
+                      builder: (context, state) {
+                        if (state is LoginLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(
+                              color: kPrimaryColor,
+                            ),
+                          );
                         } else {
                           return InkWell(
                             onTap: () {
                               if (formKey.currentState!.validate()) {
-                                print('if');
-                                loading.value = true;
-                                LoginApi.createUser(email.text.trim(),
-                                        pass.text.trim(), context)
-                                    .then((value) {
-                                  loading.value = false;
-                                  if (value == 200) {
-                                    Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) {
-                                        return LoginApiShadePreference
-                                                    .preferences!
-                                                    .getString('role') ==
-                                                'parent'
-                                            ? BottomBarPages()
-                                            : BottomBarPages();
-                                      },
-                                    ));
-                                  }
-                                });
+                                context.read<LoginCubit>().loginUser(
+                                    email.text.trim(), pass.text.trim());
                               }
                             },
                             child: CustomWidgets.customButton('Login'),

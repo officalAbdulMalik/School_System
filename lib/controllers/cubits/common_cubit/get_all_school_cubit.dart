@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 
 import '../../../models/get_all_school_model.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-import '../../apis_repo/auth_apis.dart';
+import '../../../Data/Repository/auth_apis.dart';
 import 'package:http/http.dart' as http;
 part 'get_all_school_state.dart';
 
@@ -36,6 +36,8 @@ class GetAllSchoolCubit extends Cubit<GetAllSchoolState> {
       schools = GetAllSchools.fromJson(data);
       emit(GetAllSchoolLoaded(model: schools));
       // Get.snackbar('KASI', 'Settings get successfully');
+    } else {
+      emit(GetAllSchoolError(error: 'error'));
     }
   }
 }

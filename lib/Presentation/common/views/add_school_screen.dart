@@ -11,8 +11,8 @@ import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
-import '../../../controllers/apis_repo/add_school_api.dart';
-import '../../../controllers/image_picking.dart';
+import '../../../Data/Repository/add_school_api.dart';
+import '../../../Data/image_picking.dart';
 import '../../utils/custom_widget/custom_widgets.dart';
 import '../../utils/custom_widget/navigator_pop.dart';
 import 'all_school_screen.dart';

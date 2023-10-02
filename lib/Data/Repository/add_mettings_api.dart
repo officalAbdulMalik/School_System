@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:http/http.dart' as http;
+import 'package:school_system/Data/app_const.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 import 'auth_apis.dart';
@@ -15,16 +16,27 @@ class AddMeetings {
       String sTime,
       String eTime,
       String desc) async {
+    String? userType = StaticValues.userType;
+
+    print(id);
+
     var body = json.encode({
       "title": title,
       "meeting_date": date,
       "meeting_time": sTime,
       "meeting_end_time": eTime,
-      "student_id": '16',
-      "parent_id":
-          jsonEncode(id), // if you are a parent, send parent_id as empty.
-      "teacher_id":
-          jsonEncode(id), // if you are a teacher, send teacher_id as empty.
+      "student_parent_ids": [
+        // body is required
+        {
+          "parent_id": userType != 'Teacher'
+              ? jsonEncode(id)
+              : [], // if you are a parent, send parent_id as empty.
+          "student_id": null // student_id can be null.
+        }
+      ],
+      "teacher_id": userType == 'Teacher'
+          ? jsonEncode(id)
+          : [], // if you are a teacher, send teacher_id as empty.
       "description": desc,
     });
 
