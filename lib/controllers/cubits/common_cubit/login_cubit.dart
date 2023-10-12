@@ -24,9 +24,11 @@ class LoginCubit extends Cubit<LoginState> {
         }
       }).catchError((e) {
         emit(LoginError(error: 'Some Thing Wrong'));
+        throw e;
       });
     } catch (e) {
       emit(LoginError(error: e.toString()));
+      rethrow;
     }
   }
 }

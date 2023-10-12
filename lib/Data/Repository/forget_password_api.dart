@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:school_system/Data/app_const.dart';
 
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 class ForgetPasswordApi {
-  static Future<int> sendEmail(String email) async {
+  static Future<Map<String, dynamic>> sendEmail(String email) async {
     var body = json.encode({
       'email': email,
     });
@@ -24,34 +25,33 @@ class ForgetPasswordApi {
       if (request.statusCode == 200) {
         var data = jsonDecode(request.body);
         Fluttertoast.showToast(msg: 'Password Send Success');
-        return request.statusCode;
+        return data;
 
         print(request.body);
       } else {
         var data = jsonDecode(request.body);
         var msg = data['message'];
         Fluttertoast.showToast(msg: msg);
-        return request.statusCode;
+        return data;
       }
     } catch (E) {
       print(E.toString());
 
-      return 300;
+      return {
+        "status": '300',
+        "message": E.toString(),
+      };
     }
   }
 
-  static Future<Map<String, dynamic>> verifyOtp(String otp) async {
-    var body = json.encode({
-      'pincode': otp,
-    });
+  static Future<Map<String, dynamic>> verifyOtp(
+      String otp, String email) async {
+    var body = json.encode({'email': email, 'otp': otp});
     var headers = {
       'Content-Type': 'application/json',
-      'Authorization':
-          'Bearer ${LoginApiShadePreference.preferences!.getString('api_token')}'
     };
     http.Response request = await http.post(
-        Uri.parse(
-            'https://schoolsnow.parentteachermobile.com/api/verify/pincode'),
+        Uri.parse('$baseUrl/api/verify-otp'),
         body: body,
         headers: headers);
 
@@ -59,30 +59,30 @@ class ForgetPasswordApi {
     print(request.body);
     if (request.statusCode == 200) {
       var data = jsonDecode(request.body);
-
       return data;
     } else {
       var data = jsonDecode(request.body);
-      var msg = data['error'];
-      Fluttertoast.showToast(msg: msg);
       return data;
     }
   }
 
-  static Future<int> setPassword(String password, String repPassowrd) async {
+  static Future<Map<String, dynamic>> setPassword(
+      String password, String repPassowrd, String email) async {
     print(password);
     print(repPassowrd);
 
-    var body = json
-        .encode({'password': password, 'password_confirmation': repPassowrd});
     var headers = {
       'Content-Type': 'application/json',
-      'Authorization':
-          'Bearer ${LoginApiShadePreference.preferences!.getString('api_token')}'
     };
+
+    var body = json.encode({
+      'new_password': password,
+      'new_confirm_password': repPassowrd,
+      'email': email
+    });
+
     http.Response request = await http.post(
-        Uri.parse(
-            'https://schoolsnow.parentteachermobile.com/api/reset/password'),
+        Uri.parse('$baseUrl/api/set-password'),
         body: body,
         headers: headers);
 
@@ -90,14 +90,12 @@ class ForgetPasswordApi {
     print(request.body);
     if (request.statusCode == 200) {
       var data = jsonDecode(request.body);
-      Fluttertoast.showToast(msg: 'Password Change Success');
-      return request.statusCode;
+      return data;
       print(request.body);
     } else {
       var data = jsonDecode(request.body);
-      var msg = data['message'];
-      Fluttertoast.showToast(msg: msg);
-      return request.statusCode;
+
+      return data;
     }
   }
 }

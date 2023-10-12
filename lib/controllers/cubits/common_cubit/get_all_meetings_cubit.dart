@@ -14,20 +14,29 @@ class GetAllMeetingsCubit extends Cubit<GetAllMeetingsState> {
   GetAllMeetingsCubit() : super(GetAllMeetingsInitial());
 
   Future getAllMettings() async {
-    print('Get call');
+    await Future.delayed(Duration(microseconds: 10));
+
     emit(GetAllMeetingsLoading());
-    GetMeetings().getAllMeetings().then((value) {
-      print("here is the meetings${value['data']}");
-      if (value['status'] != null && value['status'] == 200) {
-        var data = value['data'];
-        var meeting = List<GetAllMeetings>.from(
-            data.map((x) => GetAllMeetings.fromJson(x)));
-        emit(GetAllMeetingsLoaded(meetings: meeting));
-      } else {
-        print('error state');
-        emit(GetAllMeetingsError(value['message']));
-      }
-    });
+    try {
+      GetMeetings().getAllMeetings().then((value) {
+        print("here is the meetings${value['data']}");
+        if (value['status'] != null && value['status'] == 200) {
+          var data = value['data'];
+          var meeting = List<GetAllMeetings>.from(
+              data.map((x) => GetAllMeetings.fromJson(x)));
+          emit(GetAllMeetingsLoaded(meetings: meeting));
+        } else {
+          print('error state');
+          emit(GetAllMeetingsError(value['message']));
+        }
+      }).catchError((e) {
+        emit(GetAllMeetingsError('Some Thing Wrong'));
+        throw e;
+      });
+    } catch (e) {
+      emit(GetAllMeetingsError(e.toString()));
+      rethrow;
+    }
   }
 
   Future search(String search) async {

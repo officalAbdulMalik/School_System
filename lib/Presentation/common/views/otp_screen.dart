@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,8 +10,10 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
+import 'package:school_system/controllers/cubits/common_cubit/verify_otp_cubit.dart';
 
 import '../../../Data/Repository/forget_password_api.dart';
 import '../../utils/custom_widget/custom_row_widget.dart';
@@ -19,9 +24,11 @@ import 'complete_screen.dart';
 import 'forget_password_screen.dart';
 
 class OtpScreen extends StatefulWidget {
-  OtpScreen({Key? key, required this.firstTime}) : super(key: key);
+  OtpScreen({Key? key, required this.firstTime, required this.email})
+      : super(key: key);
 
   bool firstTime;
+  String email;
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -97,7 +104,7 @@ class _OtpScreenState extends State<OtpScreen> {
               ),
               InkWell(
                 onTap: () async {
-                  await ForgetPasswordApi.sendEmail(email!);
+                  await ForgetPasswordApi.sendEmail(widget.email);
                   otpCode = '';
                   otp.clear();
                   setState(() {});
@@ -124,59 +131,68 @@ class _OtpScreenState extends State<OtpScreen> {
               SizedBox(
                 height: 150.h,
               ),
-              ValueListenableBuilder(
-                valueListenable: loading,
-                builder: (context, value, child) {
-                  if (value == false) {
-                    return InkWell(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return ForgetPassword();
-                          },
-                        ));
-
-                        if (otpCode.isNotEmpty) {
-                          loading.value = true;
-
-                          ForgetPasswordApi.verifyOtp(otpCode).then((value) {
-                            otp.clear();
-                            loading.value = false;
-
-                            String message = value['message'];
-                            print(message);
-                            if (message != 'Invalid Pincode') {
-                              print(value);
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return widget.firstTime == true
-                                      ? ForgetPassword()
-                                      : CompleteScreen();
-                                },
-                              ));
-                            } else {
-                              Fluttertoast.showToast(msg: message);
-                            }
-                          });
-                        } else {
-                          Fluttertoast.showToast(msg: 'Enter Otp Code');
-                        }
-
-                        // Navigator.push(context, MaterialPageRoute(
-                        //   builder: (context) {
-                        //     return LoginApiShadePreference.preferences!
-                        //                 .getString('role') ==
-                        //             'teacher'
-                        //         ? TeacherAddSchool()
-                        //         : SchoolListScreen();
-                        //   },
-                        // ));
-                      },
-                      child: CustomWidgets.customButton('Verify Email'),
-                    );
-                  } else {
-                    return CustomWidgets.loadingIndicator();
+              BlocConsumer<VerifyOtpCubit, VerifyOtpState>(
+                listener: (context, state) {
+                  if (state is VerifyOtpLoading) {
+                    LoadingDialog.showLoadingDialog(context);
                   }
+                  if (state is VerifyOtpError) {
+                    Navigator.of(context).pop(true);
+                    Fluttertoast.showToast(msg: state.error!);
+                  }
+                  if (state is VerifyOtpLoaded) {
+                    Navigator.of(context).pop(true);
+                    if (widget.firstTime == true) {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return ForgetPassword(
+                            email: widget.email,
+                          );
+                        },
+                      ));
+                    } else {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return const CompleteScreen();
+                        },
+                      ));
+                    }
+                  }
+                },
+                builder: (context, state) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return ForgetPassword(
+                            email: widget.email,
+                          );
+                        },
+                      ));
+
+                      if (otpCode.isNotEmpty) {
+                        context
+                            .read<VerifyOtpCubit>()
+                            .verifyOTp(otpCode, widget.email);
+                        otpCode = "";
+
+                        otp.clear();
+                      } else {
+                        Fluttertoast.showToast(msg: 'Enter Otp Code');
+                      }
+
+                      // Navigator.push(context, MaterialPageRoute(
+                      //   builder: (context) {
+                      //     return LoginApiShadePreference.preferences!
+                      //                 .getString('role') ==
+                      //             'teacher'
+                      //         ? TeacherAddSchool()
+                      //         : SchoolListScreen();
+                      //   },
+                      // ));
+                    },
+                    child: CustomWidgets.customButton('Verify Email'),
+                  );
                 },
               )
             ],

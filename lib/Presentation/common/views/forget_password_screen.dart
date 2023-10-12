@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/Data/Repository/forget_password_api.dart';
+import 'package:school_system/controllers/cubits/common_cubit/new_password_cubit.dart';
 
 import 'complete_screen.dart';
 import 'forget_password_screen.dart';
 
 class ForgetPassword extends StatefulWidget {
-  ForgetPassword({Key? key}) : super(key: key);
+  ForgetPassword({Key? key, required this.email}) : super(key: key);
+
+  String email;
 
   @override
   State<ForgetPassword> createState() => _ForgetPasswordState();
@@ -114,37 +119,39 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   SizedBox(
                     height: 130.h,
                   ),
-                  ValueListenableBuilder(
-                    valueListenable: loading,
-                    builder: (context, value, child) {
-                      if (value == false) {
-                        return InkWell(
-                          onTap: () {
-                            if (password.text.isNotEmpty &&
-                                password.text == confirm.text) {
-                              loading.value = true;
-                              ForgetPasswordApi.setPassword(
-                                      password.text, confirm.text)
-                                  .then((value) {
-                                loading.value = false;
-                                if (value == 200) {
-                                  Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) {
-                                      return CompleteScreen();
-                                    },
-                                  ));
-                                }
-                              });
-                            } else {
-                              Fluttertoast.showToast(
-                                  msg: 'check Your Password');
-                            }
-                          },
-                          child: CustomWidgets.customButton('Reset Password'),
-                        );
-                      } else {
-                        return Center(child: CustomWidgets.loadingIndicator());
+                  BlocConsumer<NewPasswordCubit, NewPasswordState>(
+                    listener: (context, state) {
+                      if (state is NewPasswordLoading) {
+                        LoadingDialog.showLoadingDialog(context);
                       }
+                      if (state is NewPasswordError) {
+                        Fluttertoast.showToast(msg: state.error!);
+                        // Navigator.of(context).pop(true);
+                      }
+                      if (state is NewPasswordLoaded) {
+                        // Navigator.of(context).pop(true);
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return CompleteScreen();
+                          },
+                        ));
+                      }
+                    },
+                    builder: (context, state) {
+                      return InkWell(
+                        onTap: () {
+                          if (password.text.isNotEmpty &&
+                              confirm.text == confirm.text) {
+                            context.read<NewPasswordCubit>().sendOtpTOEmail(
+                                password.text.trim(),
+                                confirm.text.trim(),
+                                widget.email);
+                          } else {
+                            Fluttertoast.showToast(msg: 'check Your Password');
+                          }
+                        },
+                        child: CustomWidgets.customButton('Reset Password'),
+                      );
                     },
                   ),
                 ],

@@ -63,7 +63,7 @@ class _MeetingAllScreenState extends State<MeetingAllScreen>
               SizedBox(
                 height: 10.h,
               ),
-              NavigatorPop(),
+              const NavigatorPop(),
               SizedBox(
                 height: 10.h,
               ),

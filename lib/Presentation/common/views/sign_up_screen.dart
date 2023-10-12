@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/custom_widget/container_decoration.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
@@ -107,7 +108,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 20.sp,
               ),
               CustomDropDown(
-                hintText: 'Gender',
+                hintText: 'Select Title',
                 onChanged: (value) {
                   print(value);
                   teacherM = value!;
@@ -218,6 +219,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       //     Icons.alternate_email, 'service@gmail.com', null),
                     )
                   : SizedBox(),
+              SizedBox(
+                height: 20.h,
+              ),
               SizedBox(
                 height: role == 'Teacher' ? 20.h : 0,
               ),
@@ -354,6 +358,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               BlocConsumer<SignUpCubit, SignUpState>(
                 listener: (context, state) {
+                  if (state is SignUpLoading) {
+                    LoadingDialog.showLoadingDialog(context);
+                  }
                   if (state is SignUpLoaded) {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
@@ -363,32 +370,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   }
                 },
                 builder: (context, state) {
-                  if (state is SignUpLoading) {
-                    return CustomWidgets.loadingIndicator();
-                  } else {
-                    return InkWell(
-                      onTap: () async {
-                        LoginApiShadePreference.preferences!
-                            .setString('email', email.text);
-                        if (formKey.currentState!.validate()) {
-                          context.read<SignUpCubit>().createUser(
-                              firstName.text.trim(),
-                              lastName.text.trim(),
-                              email.text.trim(),
-                              password.text.trim(),
-                              teacherM,
-                              language,
-                              abou,
-                              occupation.text.trim(),
-                              phoneNumber.text.trim(),
-                              gender,
-                              dob.text.trim(),
-                              context);
-                        }
-                      },
-                      child: CustomWidgets.customButton('Sign Up'),
-                    );
-                  }
+                  return InkWell(
+                    onTap: () async {
+                      LoginApiShadePreference.preferences!
+                          .setString('email', email.text);
+                      if (formKey.currentState!.validate()) {
+                        context.read<SignUpCubit>().createUser(
+                            firstName.text.trim(),
+                            lastName.text.trim(),
+                            email.text.trim(),
+                            password.text.trim(),
+                            teacherM,
+                            language,
+                            abou,
+                            occupation.text.trim(),
+                            phoneNumber.text.trim(),
+                            gender,
+                            dob.text.trim(),
+                            context);
+                      }
+                    },
+                    child: CustomWidgets.customButton('Sign Up'),
+                  );
                 },
               ),
               SizedBox(

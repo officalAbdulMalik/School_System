@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:school_system/Presentation/bottom_bar_techer/add_report/teacher_add_report.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_app_bar.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
@@ -9,9 +10,11 @@ import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dar
 import 'package:school_system/controllers/cubits/teacher_cubit/get_teacher_subject_cubit.dart';
 
 class TeacherReportDetail extends StatefulWidget {
-  TeacherReportDetail({Key? key, required this.id}) : super(key: key);
+  TeacherReportDetail({Key? key, required this.id, required this.className})
+      : super(key: key);
 
   String? id;
+  String className;
 
   @override
   State<TeacherReportDetail> createState() => _TeacherReportDetailState();
@@ -32,7 +35,16 @@ class _TeacherReportDetailState extends State<TeacherReportDetail> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return TeacherAddReport(
+                id: widget.id!,
+                className: widget.className,
+              );
+            },
+          ));
+        },
         child: const Icon(Icons.add),
       ),
       appBar: const CustomAppBar(),

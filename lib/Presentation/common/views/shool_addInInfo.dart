@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Data/Repository/forget_password_api.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
@@ -84,45 +85,43 @@ class _SchoolAddInInfoState extends State<SchoolAddInInfo> {
                 height: 90.h,
               ),
               BlocConsumer<ConnectSchoolWithUsCubit, ConnectSchoolWithUsState>(
-                listener: (context, state) {
-                  if (state is ConnectSchoolWithUsError) {
-                    Fluttertoast.showToast(msg: state.error!);
-                  }
-                  if (state is ConnectSchoolWithUsLoaded) {
-                    String? email =
-                        LoginApiShadePreference.preferences!.getString('email');
+                  listener: (context, state) {
+                if (state is ConnectSchoolLoading) {
+                  LoadingDialog.showLoadingDialog(context);
+                }
+                if (state is ConnectSchoolWithUsError) {
+                  Fluttertoast.showToast(msg: state.error!);
+                }
+                if (state is ConnectSchoolWithUsLoaded) {
+                  String? email =
+                      LoginApiShadePreference.preferences!.getString('email');
 
-                    ForgetPasswordApi.sendEmail(email!);
+                  ForgetPasswordApi.sendEmail(email!);
 
-                    Navigator.pushReplacement(context, MaterialPageRoute(
-                      builder: (context) {
-                        return OtpScreen(
-                          firstTime: false,
-                        );
-                      },
-                    ));
-                  }
-                },
-                builder: (context, state) {
-                  if (state is ConnectSchoolLoading) {
-                    return CustomWidgets.loadingIndicator();
-                  } else {
-                    return InkWell(
-                      onTap: () {
-                        context
-                            .read<ConnectSchoolWithUsCubit>()
-                            .assignSchool(widget.data[widget.index].id!);
-                      },
-                      child: Container(
-                        height: 50.h,
-                        width: 30.w,
-                        margin: EdgeInsets.only(left: 20.sp, right: 20.sp),
-                        child: CustomWidgets.customButton('Continue'),
-                      ),
-                    );
-                  }
-                },
-              )
+                  Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (context) {
+                      return OtpScreen(
+                        firstTime: false,
+                        email: email,
+                      );
+                    },
+                  ));
+                }
+              }, builder: (context, state) {
+                return InkWell(
+                  onTap: () {
+                    context
+                        .read<ConnectSchoolWithUsCubit>()
+                        .assignSchool(widget.data[widget.index].id!);
+                  },
+                  child: Container(
+                    height: 50.h,
+                    width: 30.w,
+                    margin: EdgeInsets.only(left: 20.sp, right: 20.sp),
+                    child: CustomWidgets.customButton('Continue'),
+                  ),
+                );
+              })
             ],
           )),
     );

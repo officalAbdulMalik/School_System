@@ -2,12 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:school_system/Presentation/bottom_bar_parent/show_report_sreen.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../utils/app_images.dart';
 import '../utils/custom_widget/my_text.dart';
 
+class StudentMark {
+  final String subject;
+  final double marks;
+
+  StudentMark(this.subject, this.marks);
+}
+
 class ReportDetailParent extends StatelessWidget {
-  const ReportDetailParent({Key? key}) : super(key: key);
+  ReportDetailParent({Key? key}) : super(key: key);
+
+  final List<StudentMark> studentData = [
+    StudentMark('s 1', 85),
+    StudentMark('Student 2', 78),
+    StudentMark('Student 3', 92),
+    StudentMark('Student 4', 68),
+    StudentMark('Student 1', 85),
+    StudentMark('Student 2', 78),
+    StudentMark('Student 3', 92),
+    // Add more students and their scores as needed
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +96,36 @@ class ReportDetailParent extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                     textAlign: TextAlign.right,
                   ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SfCartesianChart(
+              primaryXAxis: CategoryAxis(
+                labelRotation: -45,
+                arrangeByIndex: true,
+              ),
+              series: <ChartSeries<StudentMark, String>>[
+                ColumnSeries<StudentMark, String>(
+                  dataSource: studentData,
+                  xValueMapper: (StudentMark mark, _) => mark.subject,
+                  yValueMapper: (StudentMark mark, _) => mark.marks,
+                  name: 'Marks',
+                  pointColorMapper: (StudentMark mark, _) {
+                    // Customize the color based on the marks here
+                    if (mark.marks >= 90) {
+                      return Colors.green; // Color for marks >= 90
+                    } else if (mark.marks >= 70) {
+                      return Colors.orange; // Color for marks >= 70
+                    } else {
+                      return Colors.red; // Color for marks < 70
+                    }
+                  },
                 ),
               ],
             ),

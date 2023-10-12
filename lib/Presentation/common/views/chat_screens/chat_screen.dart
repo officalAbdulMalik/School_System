@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
+import 'package:school_system/Presentation/utils/custom_widget/custom_time_picker.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
+import 'package:school_system/Presentation/utils/custom_widget/search_text_field.dart';
 
 import '../../../utils/colors.dart';
 import 'chat_details_screen.dart';
@@ -14,6 +16,8 @@ class ChatScreen extends StatefulWidget {
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
+
+  TextEditingController textEditingController = TextEditingController();
 
   List teachers = [
     'john',
@@ -71,152 +75,24 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               ),
               SizedBox(
-                height: 10.sp,
-              ),
-              Container(
-                padding: EdgeInsets.all(3.sp),
-                margin: EdgeInsets.symmetric(horizontal: 10.sp),
-                decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                  BoxShadow(color: Colors.grey.withAlpha(50), blurRadius: 5)
-                ]),
-                height: 62.sp,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        child: Column(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Center(
-                                child: Container(
-                                  width: 32,
-                                  height: 32,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(AppImages.message),
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: MyText(
-                                'Personal Chats',
-                                color: Color(0xFF3DAEF5),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        child: Column(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Center(
-                                child: Container(
-                                  width: 32,
-                                  height: 32,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(AppImages.groupChat),
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: MyText(
-                                'Group Chats',
-                                color: Color(0xFF3DAEF5),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        child: Column(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Center(
-                                child: Container(
-                                  width: 32,
-                                  height: 32,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(AppImages.publicList),
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: MyText(
-                                'Public Lists',
-                                color: Color(0xFF3DAEF5),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
                 height: 10,
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: MyText(
-                  'Personal Chats',
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              Container(
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    prefixIconConstraints: BoxConstraints(
-                      maxWidth: 100.sp,
-                      maxHeight: 100.sp,
-                    ),
-                    isCollapsed: true,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 8.sp, vertical: 10.sp),
-                    filled: true,
-                    fillColor: Color(0xFFF3F4F6),
-                    hintText: 'Search',
-                    hintStyle: TextStyle(color: Colors.black, fontSize: 12),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.transparent)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.transparent)),
-                    prefixIcon: Icon(Icons.search),
-                  ),
+              // Align(
+              //   alignment: Alignment.centerLeft,
+              //   child: MyText(
+              //     'Personal Chats',
+              //     color: Colors.black,
+              //     fontSize: 16,
+              //     fontWeight: FontWeight.w500,
+              //   ),
+              // ),
+              SearchTextField(
+                filledColor: kContainerColor,
+                controller: widget.textEditingController, hintText: 'Search',
+                callBack: (val) {},
 
-                  cursorColor: kPrimaryColor,
-                  // decoration: textFieldIconDecoration(
-                  //     Icons.alternate_email, 'service@gmail.com', null),
-                ),
+                // decoration: textFieldIconDecoration(
+                //     Icons.alternate_email, 'service@gmail.com', null),
               ),
               SizedBox(
                 height: 10,
@@ -247,7 +123,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               Container(
                                 width: 46.sp,
                                 height: 46.sp,
-                                decoration: ShapeDecoration(
+                                decoration: const ShapeDecoration(
                                   image: DecorationImage(
                                     image: AssetImage('images/prof.png'),
                                     fit: BoxFit.fill,

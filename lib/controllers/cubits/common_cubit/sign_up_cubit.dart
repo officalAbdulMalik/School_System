@@ -57,7 +57,7 @@ class SignUpCubit extends Cubit<SignUpState> {
 
     print(type);
 
-    type == 'parents'
+    type == 'Parents'
         ? makePostRequest(
             'https://www.dev.schoolsnow.parentteachermobile.com/api/auth/register',
             bodyP)
@@ -78,6 +78,10 @@ class SignUpCubit extends Cubit<SignUpState> {
     );
     print(response.statusCode);
     if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+
+      LoginApiShadePreference.preferences!
+          .setString("api_token", data['token']);
       emit(SignUpLoaded());
       Fluttertoast.showToast(msg: "User Created Successful");
       print(response.body);

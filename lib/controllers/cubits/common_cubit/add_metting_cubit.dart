@@ -26,7 +26,7 @@ class AddMettingCubit extends Cubit<AddMettingState> {
         if (value['status'] != null && value['status'] == 200) {
           emit(AddMettingLoaded());
         } else {
-          emit(AddMettingError(error: value['error']));
+          emit(AddMettingError(error: value['message']));
         }
       }).catchError((e) {
         emit(AddMettingError(error: e.toString()));

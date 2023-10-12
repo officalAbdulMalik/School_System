@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Presentation/bottom_bar_techer/attendance_screens/attendence_screen.dart';
+import 'package:school_system/Presentation/bottom_bar_techer/attendance_screens/show_all_attendance.dart';
+import 'package:school_system/Presentation/bottom_bar_techer/attendance_screens/show_student_attendance.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget.dart';
@@ -116,7 +118,7 @@ class _ClassDeatailsScreenState extends State<ClassDeatailsScreen> {
                             ),
                           ],
                         )),
-                        VerticalDivider(),
+                        const VerticalDivider(),
                         Expanded(
                             child: Column(
                           children: [
@@ -276,8 +278,9 @@ class _ClassDeatailsScreenState extends State<ClassDeatailsScreen> {
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return AttendanceScreen(
+                        return ShowAllAttendanceScreen(
                           data: widget.data,
+                          index: widget.index,
                         );
                       },
                     ));

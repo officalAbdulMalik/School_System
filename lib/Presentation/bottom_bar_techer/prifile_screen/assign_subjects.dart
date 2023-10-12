@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/container_decoration.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_dop_down.dart';
@@ -65,7 +66,15 @@ class _AssignSubjectsState extends State<AssignSubjects> {
             SizedBox(
               height: 20.h,
             ),
-            BlocBuilder<GetSubjectsCubit, GetSubjectsState>(
+            BlocConsumer<GetSubjectsCubit, GetSubjectsState>(
+              listener: (context, state) {
+                if (state is GetSubjectsLoaded) {
+                  LoadingDialog.showLoadingDialog(context);
+                }
+                if (state is GetAllSchoolLoaded) {
+                  Navigator.of(context).pop(true);
+                }
+              },
               builder: (context, state) {
                 print(state);
                 if (state is GetSubjectsLoaded) {
@@ -97,9 +106,32 @@ class _AssignSubjectsState extends State<AssignSubjects> {
                           ),
                         );
                 } else if (state is GetSubjectsError) {
-                  return Text(state.error!);
+                  return Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Subject not found',
+                      style: GoogleFonts.poppins(
+                        color: Colors.black,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  );
                 } else {
-                  return const SizedBox();
+                  return CustomDropDown(
+                    hintText: 'Subject',
+                    onChanged: (value) {
+                      selectedSubject = value.toString();
+                    },
+                    itemsMap: [].map((e) {
+                      return DropdownMenuItem(
+                        value: e.id,
+                        child: Text(
+                          e.name!,
+                        ),
+                      );
+                    }).toList(),
+                  );
                 }
               },
             ),
@@ -140,7 +172,21 @@ class _AssignSubjectsState extends State<AssignSubjects> {
                 } else if (state is ShowTeacherClassError) {
                   return Text(state.error!);
                 } else {
-                  return const SizedBox();
+                  return CustomDropDown(
+                    hintText: 'Classes',
+                    onChanged: (value) {
+                      print(value);
+                      selectedSchool = value.toString();
+                    },
+                    itemsMap: [].map((e) {
+                      return DropdownMenuItem(
+                        value: e.id,
+                        child: Text(
+                          e.name!,
+                        ),
+                      );
+                    }).toList(),
+                  );
                 }
               },
             ),
@@ -152,13 +198,12 @@ class _AssignSubjectsState extends State<AssignSubjects> {
                 if (state is AddSectionError) {
                   Fluttertoast.showToast(msg: state.error!);
                 }
-                if (state is AddSectionLoaded) {}
-              },
-              builder: (context, state) {
-                if (state is AddMettingLoaded) {
+                if (state is AddSectionLoaded) {
                   Navigator.pop(context);
                   Navigator.pop(context);
                 }
+              },
+              builder: (context, state) {
                 if (state is AddSectionLoading) {
                   return Center(
                     child: CircularProgressIndicator(

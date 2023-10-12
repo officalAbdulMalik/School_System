@@ -8,8 +8,8 @@ import 'auth_apis.dart';
 
 class AcceptRejectMetting {
   static Future<Map<String, dynamic>> acceptReject(
-      String id, String status) async {
-    var body = json.encode({'meeting_id': id, 'status': status});
+      int id, String status) async {
+    var body = jsonEncode({'meeting_id': id, 'status': status});
 
     print(status);
 
@@ -23,7 +23,7 @@ class AcceptRejectMetting {
           Uri.parse('$baseUrl/api/update/meeting'),
           body: body,
           headers: headers);
-      var data = jsonDecode(request.body);
+
       print(request.statusCode);
       print(request.body);
       if (request.statusCode == 200) {

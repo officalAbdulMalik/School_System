@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Presentation/bottom_bar_parent/profile_screens/show_children.dart';
 import 'package:school_system/Presentation/bottom_bar_techer/prifile_screen/teacher_add_clases.dart';
+import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
@@ -90,20 +91,16 @@ class _TeacherClassState extends State<TeacherClass> {
           ),
           BlocConsumer<ShowTeacherClassCubit, ShowTeacherClassState>(
             listener: (context, state) {
+              if (state is GetSectionLoading) {
+                LoadingDialog.showLoadingDialog(context);
+              }
               if (state is ShowTeacherClassError) {
+                Navigator.pop(context);
                 Fluttertoast.showToast(msg: state.error!);
               }
             },
             builder: (context, state) {
-              if (state is ShowTeacherClassLoading) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CustomWidgets.loadingIndicator(),
-                  ],
-                );
-              } else if (state is ShowTeacherClassLoaded) {
+              if (state is ShowTeacherClassLoaded) {
                 return state.model.data!.isNotEmpty
                     ? SizedBox(
                         height: MediaQuery.of(context).size.height,
@@ -117,15 +114,12 @@ class _TeacherClassState extends State<TeacherClass> {
                               onTap: () {
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
-                                    return role == 'Teacher'
+                                    return role == 'teacher'
                                         ? ClassDeatailsScreen(
                                             data: state.model,
                                             index: index,
                                           )
-                                        : ShowChildren(
-                                            classId: state.model.data![index].id
-                                                .toString(),
-                                          );
+                                        : ShowChildren();
                                   },
                                 ));
                               },
@@ -181,7 +175,7 @@ class _TeacherClassState extends State<TeacherClass> {
                                                 children: [
                                                   Container(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 8,
                                                         vertical: 2),
                                                     decoration: ShapeDecoration(
@@ -244,69 +238,71 @@ class _TeacherClassState extends State<TeacherClass> {
                                                     ),
                                                   ),
                                                   const SizedBox(height: 4),
-                                                  SizedBox(
-                                                    height: 20.h,
-                                                    width: 0.35.sw,
-                                                    child: ListView.builder(
-                                                      itemCount: state
-                                                          .model
-                                                          .data?[index]
-                                                          .allSubjects!
-                                                          .length,
-                                                      itemBuilder:
-                                                          (context, ind) {
-                                                        return Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Container(
-                                                              width: 6,
-                                                              height: 6,
-                                                              decoration:
-                                                                  ShapeDecoration(
-                                                                color: const Color(
-                                                                    0xFF6B7280),
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              100),
+                                                  Expanded(
+                                                    child: SizedBox(
+                                                      height: 50.h,
+                                                      width: 0.35.sw,
+                                                      child: ListView.builder(
+                                                        itemCount: state
+                                                            .model
+                                                            .data?[index]
+                                                            .allSubjects!
+                                                            .length,
+                                                        itemBuilder:
+                                                            (context, ind) {
+                                                          return Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Container(
+                                                                width: 6,
+                                                                height: 6,
+                                                                decoration:
+                                                                    ShapeDecoration(
+                                                                  color: const Color(
+                                                                      0xFF6B7280),
+                                                                  shape:
+                                                                      RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            100),
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                            const SizedBox(
-                                                                width: 4),
-                                                            Flexible(
-                                                              child: MyText(
-                                                                state
-                                                                        .model
-                                                                        .data?[
-                                                                            index]
-                                                                        .allSubjects?[
-                                                                            ind]
-                                                                        .subject!
-                                                                        .name ??
-                                                                    "",
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                color: Color(
-                                                                    0xFF6B7280),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
+                                                              const SizedBox(
+                                                                  width: 4),
+                                                              Flexible(
+                                                                child: MyText(
+                                                                  state
+                                                                          .model
+                                                                          .data?[
+                                                                              index]
+                                                                          .allSubjects?[
+                                                                              ind]
+                                                                          .subject!
+                                                                          .name ??
+                                                                      "",
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  color: Color(
+                                                                      0xFF6B7280),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                ),
                                                               ),
-                                                            ),
-                                                          ],
-                                                        );
-                                                      },
+                                                            ],
+                                                          );
+                                                        },
+                                                      ),
                                                     ),
                                                   )
                                                 ],

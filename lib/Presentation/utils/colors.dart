@@ -11,6 +11,8 @@ const Color kTextFieldFillColor = Color(0xffFCFCFC);
 const Color kBoxColor = Color(0xffF2F2FF);
 const Color kUnselectedItemColor = Color(0xffA2A2A2);
 const Color kNotificationDotColor = Color(0xffA7F388);
+const Color kGreenColor = Color(0xff88EFCD);
+
 const Color kButtonBGColor = Color(0xffFCEAEA);
 const Color kDeleteBackgroundColor = Color(0xffFFE4E4);
 const Color kWhiteColor = Color(0xffffffff);

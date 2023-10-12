@@ -30,13 +30,7 @@ class _MeetingsDetailsState extends State<MeetingsDetails> {
     return SafeArea(
       child: BlocConsumer<AcceptRejectMeetingsCubit, AcceptRejectMeetingsState>(
         listener: (context, state) {
-          if (state is AcceptRejectMeetingsLoading) {
-            const Center(
-                child: CircularProgressIndicator(
-              color: Colors.blue,
-            ));
-            print('accepted');
-          } else if (state is AcceptRejectMeetingsLoaded) {
+          if (state is AcceptRejectMeetingsLoaded) {
             context.read<GetAllMeetingsCubit>().getAllMettings();
             Navigator.pushReplacement(context, MaterialPageRoute(
               builder: (context) {
@@ -47,39 +41,46 @@ class _MeetingsDetailsState extends State<MeetingsDetails> {
           // TODO: implement listener
         },
         builder: (context, state) {
+          print(state);
           return Scaffold(
             bottomNavigationBar: Padding(
               padding: EdgeInsets.all(10.0.sp),
-              child: Row(
-                children: [
-                  Expanded(
-                      child: InkWell(
-                    onTap: () async {
-                      await context
-                          .read<AcceptRejectMeetingsCubit>()
-                          .acceptRejectMeetings(
-                              widget.meetings!.id.toString(), 'rejected');
-                    },
-                    child: CustomWidgets.customButton('Reject',
-                        buttonColor: kDescriptionColor),
-                  )),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  Expanded(
-                      child: InkWell(
-                    onTap: () {
-                      context
-                          .read<AcceptRejectMeetingsCubit>()
-                          .acceptRejectMeetings(
-                              widget.meetings!.id.toString(), 'accepted');
-                    },
-                    child: CustomWidgets.customButton(
-                      'Accept',
+              child: state is AcceptRejectMeetingsLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.blue,
+                      ),
+                    )
+                  : Row(
+                      children: [
+                        Expanded(
+                            child: InkWell(
+                          onTap: () async {
+                            context
+                                .read<AcceptRejectMeetingsCubit>()
+                                .acceptRejectMeetings(
+                                    widget.meetings!.id!, 'rejected');
+                          },
+                          child: CustomWidgets.customButton('Reject',
+                              buttonColor: kDescriptionColor),
+                        )),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        Expanded(
+                            child: InkWell(
+                          onTap: () {
+                            context
+                                .read<AcceptRejectMeetingsCubit>()
+                                .acceptRejectMeetings(
+                                    widget.meetings!.id!, 'accepted');
+                          },
+                          child: CustomWidgets.customButton(
+                            'Accept',
+                          ),
+                        )),
+                      ],
                     ),
-                  )),
-                ],
-              ),
             ),
             body: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),

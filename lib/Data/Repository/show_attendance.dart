@@ -9,26 +9,25 @@ class ShowAttendance {
 
   static showAttendance(String classID, String date) async {
     try {
-      var body = {"class_id": classID, "date": date};
+      var url = Uri.parse(
+          'https://www.dev.schoolsnow.parentteachermobile.com/api/teacher/view-attendance/class?class_id=$classID&date=$date'); // Make sure to use the correct URL
 
       var headers = {
-        'Content-Type': 'application/json',
         'Authorization':
-            'Bearer Bearer ${LoginApiShadePreference.preferences!.getString("api_token")}'
+            'Bearer ${LoginApiShadePreference.preferences!.getString('api_token')}',
       };
 
-      var request = http.Request(
-          'GET', Uri.parse('$baseUrl/api/teacher/view-attendance/class'));
-      request.body = '''{\n    "class_id": 16,\n    "date": "2023-05-21"\n}''';
-
-      request.headers.addAll(headers);
-
-      http.StreamedResponse response = await request.send();
+      var response = await http.get(
+        url,
+        headers: headers,
+      );
 
       if (response.statusCode == 200) {
-        print(await response.stream.bytesToString());
+        print("here is body${response.body}");
+        return jsonDecode(response.body);
       } else {
         print(response.reasonPhrase);
+        return jsonDecode(response.body);
       }
     } catch (e) {
       rethrow;

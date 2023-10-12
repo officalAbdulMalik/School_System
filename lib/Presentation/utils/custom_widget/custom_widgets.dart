@@ -59,8 +59,10 @@ class CustomWidgets {
     );
   }
 
-  static customButton(String text, {Color? buttonColor, double? fontSize}) {
+  static customButton(String text,
+      {Color? buttonColor, double? fontSize, int? hight}) {
     return Container(
+      margin: EdgeInsets.only(top: 10.sp),
       height: 45.h,
       width: 340.w,
       decoration: BoxDecoration(
@@ -77,14 +79,6 @@ class CustomWidgets {
         ),
       )),
     );
-  }
-
-  static loadingIndicator() {
-    return Center(
-        child: LoadingAnimationWidget.fallingDot(
-      color: kPrimaryColor,
-      size: 50.sp,
-    ));
   }
 
   static style() {

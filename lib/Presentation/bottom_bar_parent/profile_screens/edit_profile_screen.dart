@@ -383,7 +383,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             ),
                           );
                         } else {
-                          return CustomWidgets.loadingIndicator();
+                          return const Center(
+                              child: CircularProgressIndicator(
+                            color: Colors.blue,
+                          ));
                         }
                       },
                     ),

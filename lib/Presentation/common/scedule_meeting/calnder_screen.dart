@@ -1,10 +1,13 @@
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_system/Presentation/common/views/dashboard_screen/all_mettings_screen.dart';
+import 'package:school_system/Presentation/common/views/dashboard_screen/components/event_card.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
-
+import 'package:school_system/controllers/cubits/common_cubit/get_all_meetings_cubit.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -48,61 +51,137 @@ class _CalenderScreenState extends State<CalenderScreen> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 20.sp),
-        children: [
-          SizedBox(
-            height: 10.sp,
-          ),
-          MyText(
-            'Calendar',
-            fontSize: 20.sp,
-            fontWeight: FontWeight.w600,
-          ),
-          SizedBox(
-            height: 4.sp,
-          ),
-          MyText(
-            'View your all events here.',
-            fontSize: 14.sp,
-            color: kDescriptionColor,
-            fontWeight: FontWeight.w600,
-          ),
-          SizedBox(
-            height: 20.sp,
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 6.sp),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.sp),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(color: Colors.grey.withAlpha(80), blurRadius: 2)
-                ]),
-            child: Column(
+      body: BlocBuilder<GetAllMeetingsCubit, GetAllMeetingsState>(
+        // listener: (context, state) {
+        //   print('state is $state');
+        //   if (state is GetAllMeetingsLoading) {
+        //     LoadingDialog.showLoadingDialog(context, barrierDismissible: true);
+        //   }
+        //   if (state is GetAllMeetingsError) {
+        //     CustomDialog.dialog(context, Text(state.error));
+        //   }
+        //   // TODO: implement listener
+        // },
+        builder: (context, state) {
+          if (state is GetAllMeetingsLoaded) {
+            return ListView(
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: 20.sp),
               children: [
-                TableCalendar(
-                  // headerStyle: HeaderStyle(
-                  //   leftChevronVisible: false,
-                  //   headerMargin: EdgeInsets.symmetric(horizontal: 20.sp,vertical: 5),
-                  //   rightChevronVisible: false,
-                  //   formatButtonVisible: false,
-                  //   formatButtonShowsNext: false,
-                  // ),
-                  startingDayOfWeek: StartingDayOfWeek.monday,
-                  calendarFormat: CalendarFormat.week,
-                  firstDay: DateTime.utc(2010, 10, 16),
-                  lastDay: DateTime.utc(2030, 3, 14),
-                  focusedDay: DateTime.now(),
-                ),
-                Divider(),
                 SizedBox(
-                  height: 12.sp,
+                  height: 10.sp,
+                ),
+                MyText(
+                  'Calendar',
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+                SizedBox(
+                  height: 4.sp,
+                ),
+                MyText(
+                  'View your all events here.',
+                  fontSize: 14.sp,
+                  color: kDescriptionColor,
+                  fontWeight: FontWeight.w600,
+                ),
+                SizedBox(
+                  height: 20.sp,
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 6.sp),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.sp),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey.withAlpha(80), blurRadius: 2)
+                      ]),
+                  child: Column(
+                    children: [
+                      TableCalendar(
+                        onDaySelected: (selectedDay, focusedDay) {
+                          setState(() {});
+                        },
+                        startingDayOfWeek: StartingDayOfWeek.monday,
+                        calendarFormat: CalendarFormat.week,
+                        firstDay: DateTime.utc(2010, 10, 16),
+                        currentDay: DateTime.now(),
+                        lastDay: DateTime.utc(2030, 3, 14),
+                        focusedDay: DateTime.now(),
+                      ),
+                      Divider(),
+                      SizedBox(
+                        height: 12.sp,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20.sp,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        child: MyText(
+                      "${state.meetings.length} Events",
+                      fontWeight: FontWeight.bold,
+                    )),
+                    Expanded(
+                        child: InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return MeetingAllScreen(
+                              meetings: state.meetings,
+                            );
+                          },
+                        ));
+                      },
+                      child: const MyText(
+                        'See All',
+                        color: kDescriptionColor,
+                        textAlign: TextAlign.right,
+                      ),
+                    )),
+                  ],
+                ),
+                SizedBox(
+                  height: 200,
+                  width: 1.sw,
+                  child: state.meetings.isNotEmpty
+                      ? ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: state.meetings.length,
+                          itemBuilder: (context, index) {
+                            return EventCard(
+                              cardColor: kGreenColor,
+                              data: state.meetings[index],
+                            );
+                          },
+                        )
+                      : Center(
+                          child: MyText('No have any meeting', fontSize: 18.sp),
+                        ),
                 ),
               ],
-            ),
-          ),
-        ],
+            );
+          } else if (state is GetAllMeetingsLoading) {
+            return const Center(
+                child: CircularProgressIndicator(
+              color: Colors.blue,
+            ));
+          } else if (state is GetAllMeetingsError) {
+            print(state.error);
+            return Center(
+              child: Text(state.error),
+            );
+          } else {
+            return const Center(
+              child: Text('Some Thing Wrong'),
+            );
+          }
+        },
       ),
     );
   }

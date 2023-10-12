@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/common/views/shool_addInInfo.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
@@ -83,7 +85,18 @@ class _SchoolListScreenState extends State<SchoolListScreen> {
                 SizedBox(
                   height: 15.h,
                 ),
-                BlocBuilder<GetAllSchoolCubit, GetAllSchoolState>(
+                BlocConsumer<GetAllSchoolCubit, GetAllSchoolState>(
+                  listener: (context, state) {
+                    if (state is GetAllSchoolLoading) {
+                      LoadingDialog.showLoadingDialog(context);
+                    }
+                    if (state is GetAllSchoolLoaded) {
+                      Navigator.pop(context);
+                    }
+                    if (state is GetAllSchoolError) {
+                      Fluttertoast.showToast(msg: state.error!);
+                    }
+                  },
                   builder: (context, state) {
                     if (state is GetAllSchoolLoaded) {
                       return SizedBox(
@@ -161,7 +174,7 @@ class _SchoolListScreenState extends State<SchoolListScreen> {
                               ),
                       );
                     } else {
-                      return CustomWidgets.loadingIndicator();
+                      return SizedBox();
                     }
                   },
                 ),

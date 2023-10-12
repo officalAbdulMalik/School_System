@@ -51,6 +51,13 @@ class _CrateNewSubjectState extends State<CrateNewSubject> {
   ValueNotifier<bool> loading = ValueNotifier(false);
 
   @override
+  void dispose() {
+    nameController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -160,13 +167,12 @@ class _CrateNewSubjectState extends State<CrateNewSubject> {
                 if (state is CreateSubjectsError) {
                   Fluttertoast.showToast(msg: state.error!);
                 }
-                if (state is CreateSubjectsLoaded) {}
-              },
-              builder: (context, state) {
                 if (state is CreateSubjectsLoaded) {
                   Navigator.pop(context);
                   Navigator.pop(context);
                 }
+              },
+              builder: (context, state) {
                 if (state is CreateSubjectsLoading) {
                   return const Center(
                     child: CircularProgressIndicator(

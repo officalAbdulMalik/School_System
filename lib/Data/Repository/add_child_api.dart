@@ -9,8 +9,7 @@ import 'package:mime/mime.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 class AddChildRepo {
-  static Future<int> addChild({
-    required BuildContext context,
+  static Future addChild({
     required String firstName,
     required String lastName,
     required String relation,
@@ -44,16 +43,16 @@ class AddChildRepo {
 
     http.StreamedResponse response = await request.send();
 
-    if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
+    print(response.statusCode);
+    print(response.reasonPhrase);
 
-      return response.statusCode;
+    if (response.statusCode == 200) {
+      print(response);
+      return 200;
     } else {
-      print(response.statusCode);
-      print(response.reasonPhrase);
       var data = await response.stream.bytesToString();
       print(data);
-      return response.statusCode;
+      return 300;
     }
   }
 }

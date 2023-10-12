@@ -288,6 +288,10 @@ class _AddMeetingScreenState extends State<AddMeetingScreen> {
               },
               child: BlocConsumer<AddMettingCubit, AddMettingState>(
                 listener: (context, state) {
+                  if (state is AddMettingError) {
+                    Fluttertoast.showToast(msg: state.error!);
+                  }
+
                   if (state is AddMettingLoaded) {
                     FirebaseNotificationsService().showNotification(
                         1, meetingName.text, 'Meeting Create Successful');

@@ -9,7 +9,7 @@ part 'add_section_state.dart';
 class AddSectionCubit extends Cubit<AddSectionState> {
   AddSectionCubit() : super(AddSectionInitial());
 
-  Future getSections(String schoolName, String schoolId) async {
+  Future addSection(String schoolName, String schoolId) async {
     emit(AddSectionLoading());
 
     try {
@@ -46,17 +46,14 @@ class AddSectionCubit extends Cubit<AddSectionState> {
 
     try {
       await AssignSubject().assign(subjectId, schoolId).then((value) {
-        log(value.toString());
-
         if (value['error'] != null && value['error'] != true) {
-          log(value);
-
           emit(AddSectionLoaded());
         } else {
           emit(AddSectionError(error: value['message']));
         }
       }).catchError((e) {
         emit(AddSectionError(error: 'Some Thing Wrong Try Again'));
+        throw e;
       });
     } catch (e) {
       emit(AddSectionError(error: e.toString()));

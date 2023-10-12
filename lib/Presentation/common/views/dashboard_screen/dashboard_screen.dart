@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:school_system/Presentation/bottom_bar_parent/profile_screens/show_children.dart';
-import 'package:school_system/Presentation/bottom_bar_parent/profile_screens/show_parent_school.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
-import 'package:school_system/Presentation/common/resources/loading_dialog.dart';
-import 'package:school_system/Presentation/common/resources/shimmer_loadinf.dart';
 import 'package:school_system/Presentation/common/views/events_scren.dart';
-import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 import 'package:school_system/controllers/cubits/common_cubit/get_all_meetings_cubit.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -48,20 +44,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
     print(role);
 
     return Scaffold(
-      body: BlocBuilder<GetAllMeetingsCubit, GetAllMeetingsState>(
-        // listener: (context, state) {
-        //   print('state is $state');
-        //   if (state is GetAllMeetingsLoading) {
-        //     LoadingDialog.showLoadingDialog(context, barrierDismissible: true);
-        //   }
-        //   if (state is GetAllMeetingsError) {
-        //     CustomDialog.dialog(context, Text(state.error));
-        //   }
-        //   // TODO: implement listener
-        // },
+      body: BlocConsumer<GetAllMeetingsCubit, GetAllMeetingsState>(
+        listener: (context, state) {
+          print('state is $state');
+          if (state is GetAllMeetingsLoading) {
+            LoadingDialog.showLoadingDialog(context);
+          }
+          if (state is GetAllMeetingsError) {
+            Navigator.pop(context);
+            // CustomDialog.dialog(context, Text(state.error));
+            Fluttertoast.showToast(msg: state.error);
+          }
+          if (state is GetAllMeetingsLoaded) {
+            Navigator.pop(context);
+          }
+          // TODO: implement listener
+        },
         builder: (context, state) {
-          print(role);
-          print(state);
           if (state is GetAllMeetingsLoaded) {
             return ListView(
               padding: EdgeInsets.symmetric(horizontal: 20.sp),
@@ -140,7 +139,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 },
                               ));
                             },
-                            child: MyText(
+                            child: const MyText(
                               'See All',
                               color: kDescriptionColor,
                               textAlign: TextAlign.right,
@@ -151,21 +150,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       SizedBox(
                         height: 200,
                         width: 1.sw,
-                        child: ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: state.meetings.length == 1 ? 1 : 1,
-                          itemBuilder: (context, index) {
-                            return state.meetings.isNotEmpty
-                                ? EventCard(
-                                    cardColor: Color(0xFFD6F4EA),
+                        child: state.meetings.isNotEmpty
+                            ? ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: state.meetings.length == 1 ? 1 : 2,
+                                itemBuilder: (context, index) {
+                                  return EventCard(
+                                    cardColor: kGreenColor,
                                     data: state.meetings[index],
-                                  )
-                                : Center(
-                                    child: MyText('No have any meeting',
-                                        fontSize: 18.sp),
                                   );
-                          },
-                        ),
+                                },
+                              )
+                            : Center(
+                                child: MyText('No have any meeting',
+                                    fontSize: 18.sp),
+                              ),
                       ),
                     ],
                   ),
@@ -181,12 +180,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => role == 'Teacher'
+                                  builder: (context) => role == 'teacher'
                                       ? TeacherClass()
-                                      : ShowChildren(
-                                          classId: '',
-                                          // classId: '',
-                                        )));
+                                      : ShowChildren()));
                         },
                         child: Container(
                           height: 136.sp,
@@ -212,7 +208,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               Expanded(
                                 child: Center(
                                   child: MyText(
-                                    role == 'Teacher'
+                                    role == 'teacher'
                                         ? 'My Classes'
                                         : "My Kids",
                                     color: Color(0xFF000600),
@@ -232,17 +228,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          // Navigator.push(context, MaterialPageRoute(
-                          //   builder: (context) {
-                          //     return NewsEventsPage();
-                          //   },
-                          // ));
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return NewsEventsPage();
+                            },
+                          ));
                         },
                         child: Container(
                           height: 136.sp,
                           padding: const EdgeInsets.all(16),
                           decoration: ShapeDecoration(
-                            color: const Color(0xFFE2F4FF),
+                            color: kGreenColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),
@@ -281,20 +277,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ],
             );
-          } else if (state is GetAllMeetingsLoading) {
-            return Center(
-                child: CircularProgressIndicator(
-              color: Colors.blue,
-            ));
           } else if (state is GetAllMeetingsError) {
             print(state.error);
             return Center(
               child: Text(state.error),
             );
           } else {
-            return const Center(
-              child: Text('Some Thing Wrong'),
-            );
+            return const SizedBox();
           }
         },
       ),

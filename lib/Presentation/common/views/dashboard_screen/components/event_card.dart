@@ -36,7 +36,7 @@ class EventCard extends StatelessWidget {
             child: Container(
               decoration: ShapeDecoration(
                 color: cardColor,
-                shape: RoundedRectangleBorder(
+                shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(16),
                     bottomLeft: Radius.circular(16),

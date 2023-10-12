@@ -231,7 +231,10 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                       if (value != true) {
                         return CustomWidgets.customButton('Continue');
                       } else {
-                        return CustomWidgets.loadingIndicator();
+                        return const Center(
+                            child: CircularProgressIndicator(
+                          color: Colors.blue,
+                        ));
                       }
                     },
                   ),

@@ -122,7 +122,9 @@ class _CreateSectionState extends State<CreateSection> {
                 if (state is AddSectionError) {
                   Fluttertoast.showToast(msg: state.error!);
                 }
-                if (state is AddSectionLoaded) {}
+                if (state is AddSectionLoaded) {
+                  Navigator.pop(context);
+                }
               },
               builder: (context, state) {
                 if (state is AddSectionLoading) {
@@ -135,7 +137,7 @@ class _CreateSectionState extends State<CreateSection> {
                   return InkWell(
                     onTap: () {
                       if (formKey.currentState!.validate()) {
-                        context.read<AddSectionCubit>().getSections(
+                        context.read<AddSectionCubit>().addSection(
                             sectionName.text.trim(), selectedSchool);
                       }
                     },

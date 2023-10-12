@@ -122,3 +122,79 @@ class _MyTextFieldState extends State<MyTextField> {
     );
   }
 }
+
+class ReportMyTextField extends StatefulWidget {
+  final bool? enabled;
+
+  final EdgeInsetsGeometry? contentPadding;
+  final TextEditingController? controller;
+
+  final String? hintText;
+
+  final Color? filledColor;
+  final Widget? prefixIcon;
+  final Function(String) callback;
+
+  const ReportMyTextField({
+    Key? key,
+    this.filledColor,
+    this.contentPadding,
+    required this.callback,
+    this.enabled = true,
+    this.prefixIcon,
+    required this.controller,
+    // required this.label,
+    this.hintText,
+  }) : super(key: key);
+
+  @override
+  State<ReportMyTextField> createState() => _ReportMyTextFieldState();
+}
+
+class _ReportMyTextFieldState extends State<ReportMyTextField> {
+  bool showPassword = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      onChanged: widget.callback,
+      cursorColor: Colors.blue,
+      //  cursorHeight: 20.sp,
+      enabled: widget.enabled,
+      // autofocus: true,
+
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+
+      controller: widget.controller,
+
+      style: GoogleFonts.poppins(fontSize: 12.sp, fontWeight: FontWeight.w300),
+      decoration: InputDecoration(
+        filled: true,
+        errorMaxLines: 1,
+        isCollapsed: true,
+        //  isDense: true,
+        fillColor: widget.filledColor ?? Colors.white,
+        contentPadding: widget.contentPadding ??
+            EdgeInsets.only(
+              left: 15.sp,
+              right: 8.sp,
+              top: 7.sp,
+              bottom: 7.sp,
+            ),
+        hintStyle: GoogleFonts.poppins(
+          fontSize: 12.sp,
+          color: Colors.black,
+          fontWeight: FontWeight.w300,
+        ),
+        prefixIcon: widget.prefixIcon,
+        suffixIconConstraints:
+            BoxConstraints(maxHeight: 40.sp, maxWidth: 40.sp),
+        hintText: widget.hintText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.r),
+          borderSide: BorderSide.none,
+        ),
+      ),
+    );
+  }
+}

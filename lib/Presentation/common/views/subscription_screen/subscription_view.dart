@@ -5,8 +5,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 
-class SubscriptionView extends StatelessWidget {
+class SubscriptionView extends StatefulWidget {
   const SubscriptionView({Key? key}) : super(key: key);
+
+  @override
+  State<SubscriptionView> createState() => _SubscriptionViewState();
+}
+
+class _SubscriptionViewState extends State<SubscriptionView> {
+  bool plan = false;
 
   @override
   Widget build(BuildContext context) {
@@ -242,23 +249,31 @@ class SubscriptionView extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: Container(
-                        height: 28.sp,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 6),
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFFF7D55C),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4)),
-                        ),
-                        child: Center(
-                          child: MyText(
-                            'Yearly',
-                            textAlign: TextAlign.center,
-                            color: const Color(0xFF000600),
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                            letterSpacing: 0.06,
+                      child: InkWell(
+                        onTap: () {
+                          plan = false;
+                          setState(() {});
+                        },
+                        child: Container(
+                          height: 28.sp,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 6),
+                          decoration: ShapeDecoration(
+                            color: plan == true
+                                ? const Color(0xFF9CA3AF)
+                                : const Color(0xFFF7D55C),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4)),
+                          ),
+                          child: Center(
+                            child: MyText(
+                              'Free Trail Plan',
+                              textAlign: TextAlign.center,
+                              color: const Color(0xFF000600),
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 0.06,
+                            ),
                           ),
                         ),
                       ),
@@ -267,23 +282,31 @@ class SubscriptionView extends StatelessWidget {
                       width: 15.sp,
                     ),
                     Expanded(
-                      child: Container(
-                        height: 28.sp,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 6),
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFF9CA3AF),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4)),
-                        ),
-                        child: Center(
-                          child: MyText(
-                            'Monthly',
-                            textAlign: TextAlign.center,
-                            color: Colors.white,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                            letterSpacing: 0.06,
+                      child: InkWell(
+                        onTap: () {
+                          plan = true;
+                          setState(() {});
+                        },
+                        child: Container(
+                          height: 28.sp,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 6),
+                          decoration: ShapeDecoration(
+                            color: plan == false
+                                ? const Color(0xFF9CA3AF)
+                                : const Color(0xFFF7D55C),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4)),
+                          ),
+                          child: Center(
+                            child: MyText(
+                              '5 Star Plan',
+                              textAlign: TextAlign.center,
+                              color: Colors.white,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 0.06,
+                            ),
                           ),
                         ),
                       ),
@@ -309,7 +332,7 @@ class SubscriptionView extends StatelessWidget {
                   ),
                   child: Center(
                     child: MyText(
-                      'Yearly Prime',
+                      plan == true ? "5 Star Plan" : 'Trail Plan',
                       textAlign: TextAlign.center,
                       color: Colors.white,
                       fontSize: 20.sp,
@@ -331,111 +354,19 @@ class SubscriptionView extends StatelessWidget {
                         height: 15.sp,
                       ),
                       MyText(
-                        'How many children in your family',
-                        color: Color(0xFF6B7280),
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 0.75,
-                      ),
-                      SizedBox(
-                        height: 8.sp,
-                      ),
-                      Container(
-                        width: 265,
-                        height: 64,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 14),
-                        decoration: ShapeDecoration(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Container(
-                                height: 36,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      width: 24.sp,
-                                      height: 24.sp,
-                                      child: const Icon(CupertinoIcons.minus),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 6),
-                                        decoration: ShapeDecoration(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                          ),
-                                        ),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              '1 Child',
-                                              style: TextStyle(
-                                                color: Color(0xFF000600),
-                                                fontSize: 15,
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w400,
-                                                height: 1.60,
-                                                letterSpacing: 0.75,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 24.sp,
-                                      height: 24.sp,
-                                      child: const Icon(Icons.add),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 32.sp,
-                      ),
-                      MyText(
-                        '\$39.99 / Year',
+                        plan == true ? '\$55 / Year' : '5 Days Only',
                         textAlign: TextAlign.center,
                         color: Colors.black,
                         fontSize: 24.sp,
                         fontWeight: FontWeight.w600,
                       ),
                       SizedBox(
-                        height: 10.sp,
-                      ),
-                      MyText(
-                        'Save 48.65% - \$3.33/MONTH/CHILD',
-                        textAlign: TextAlign.center,
-                        color: Colors.black,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
+                        height: 10.h,
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.sp),
                         child: const Divider(
+                          thickness: 1.5,
                           color: Color(0xFF3DAEF5),
                         ),
                       ),
@@ -444,14 +375,13 @@ class SubscriptionView extends StatelessWidget {
                         textAlign: TextAlign.center,
                         color: Colors.black,
                         fontSize: 18.sp,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                       ),
                       SizedBox(
                         height: 8.sp,
                       ),
                       Container(
                         width: 263.sp,
-                        height: 37.sp,
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 8),
                         decoration: ShapeDecoration(
@@ -462,8 +392,9 @@ class SubscriptionView extends StatelessWidget {
                         ),
                         child: Center(
                           child: MyText(
-                            'Support Klassly by subscribing',
-                            color: Color(0xFF000600),
+                            'Support Parent Teacher Mobile by Subscribing',
+                            textAlign: TextAlign.center,
+                            color: const Color(0xFF000600),
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500,
                           ),
@@ -516,7 +447,7 @@ class SubscriptionView extends StatelessWidget {
                           ),
                         ),
                         child: MyText(
-                          '5 Star Plan',
+                          plan == true ? '5 Star Plan' : "Trail Plan",
                           color: const Color(0xFF000600),
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
@@ -526,13 +457,22 @@ class SubscriptionView extends StatelessWidget {
                       SizedBox(
                         height: 20.sp,
                       ),
-                      getFeatures("2500 Video conferencing mobile"
-                          "minutes for up to 25 participants"
-                          " simultaneously."),
-                      getFeatures("Calendar"),
-                      getFeatures("Access to Report Cards"),
-                      getFeatures("School Notifications"),
-                      getFeatures("And so much more"),
+                      getFeatures(plan == true
+                          ? "2500 Video conferencing mobile"
+                              "minutes for up to 25 participants"
+                              " simultaneously."
+                          : "30 Free Video conferencing mobile minutes for up to 10 participants simultaneously"),
+                      getFeatures(
+                          plan == true ? "Calendar" : 'Access to Report Cards'),
+                      plan == true
+                          ? getFeatures("Access to Report Cards")
+                          : SizedBox(),
+                      plan == true
+                          ? getFeatures("School Notifications")
+                          : SizedBox(),
+                      plan == true
+                          ? getFeatures("And so much more")
+                          : SizedBox(),
                     ],
                   ),
                 ),
@@ -563,7 +503,7 @@ class SubscriptionView extends StatelessWidget {
           Flexible(
               child: MyText(
             title,
-            color: Color(0xFF131313),
+            color: const Color(0xFF131313),
             fontSize: 14.sp,
             fontWeight: FontWeight.w500,
           ))

@@ -5,9 +5,14 @@ import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
+import 'package:school_system/models/get_teacher_class_model.dart';
 
 class ShowAttendance extends StatefulWidget {
-  const ShowAttendance({Key? key}) : super(key: key);
+  ShowAttendance({Key? key, required this.data, required this.index})
+      : super(key: key);
+
+  TeacherShowClass data;
+  int? index;
 
   @override
   State<ShowAttendance> createState() => _ShowAttendanceState();

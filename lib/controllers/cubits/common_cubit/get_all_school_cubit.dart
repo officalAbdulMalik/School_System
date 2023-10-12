@@ -12,11 +12,12 @@ part 'get_all_school_state.dart';
 class GetAllSchoolCubit extends Cubit<GetAllSchoolState> {
   GetAllSchoolCubit() : super(GetAllSchoolInitial());
 
-  GetAllSchools schools = GetAllSchools();
   Future getAllSchool(String endPoint) async {
     print('call');
 
     print(LoginApiShadePreference.preferences!.getString("api_token"));
+
+    await Future.delayed(const Duration(microseconds: 10));
 
     emit(GetAllSchoolLoading());
     var headers = {
@@ -33,11 +34,12 @@ class GetAllSchoolCubit extends Cubit<GetAllSchoolState> {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body.toString());
-      schools = GetAllSchools.fromJson(data);
+      GetAllSchools schools = GetAllSchools.fromJson(data);
       emit(GetAllSchoolLoaded(model: schools));
       // Get.snackbar('KASI', 'Settings get successfully');
     } else {
-      emit(GetAllSchoolError(error: 'error'));
+      var data = jsonDecode(response.body.toString());
+      emit(GetAllSchoolError(error: data['message']));
     }
   }
 }

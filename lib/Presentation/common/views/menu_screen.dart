@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/Presentation/bottom_bar_parent/profile_screens/preferences_screen.dart';
 import 'package:school_system/Presentation/bottom_bar_parent/profile_screens/subscription_screen.dart';
+import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -35,7 +36,15 @@ class _MenuScreenState extends State<MenuScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColor,
-      body: BlocBuilder<GetUserDataCubit, GetUserDataState>(
+      body: BlocConsumer<GetUserDataCubit, GetUserDataState>(
+        listener: (context, state) {
+          if (state is GetUserDataLoading) {
+            LoadingDialog.showLoadingDialog(context);
+          }
+          if (state is GetUserDataLoaded) {
+            Navigator.of(context).pop(true);
+          }
+        },
         builder: (context, state) {
           if (state is GetUserDataLoaded) {
             return SingleChildScrollView(
@@ -98,422 +107,423 @@ class _MenuScreenState extends State<MenuScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10, left: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        LoginApiShadePreference.preferences!.get('role') ==
-                                'parents'
-                            ? InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => SchoolTeacher(
-                                                schoolId: state.model.user!.id
-                                                    .toString(),
-                                              )));
-                                },
-                                child: Container(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius: BorderRadius.circular(15),
-                                    gradient: const LinearGradient(
-                                        colors: [
-                                          Color(0xFFC7CEF1),
-                                          Color(0xFF8C9BE3),
-                                        ],
-                                        end: FractionalOffset(0.0, 0.0),
-                                        begin: FractionalOffset(1.0, 0.0),
-                                        stops: [0.1, 1.0],
-                                        tileMode: TileMode.decal),
-                                  ),
-                                  child: ListTile(
-                                    leading: Container(
-                                        height: 40,
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                            color: const Color(0xffdbeffe),
-                                            borderRadius:
-                                                BorderRadius.circular(50)),
-                                        child: Image.asset("images/users.png")),
-                                    title: Text(
-                                      "My Children",
-                                      style: GoogleFonts.acme(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    trailing: IconButton(
-                                        onPressed: () {},
-                                        icon: const Icon(
-                                            Icons.keyboard_arrow_right)),
-                                  ),
-                                ),
-                              )
-                            : SizedBox(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const TeacherClass()));
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(15),
-                              gradient: const LinearGradient(
-                                  colors: [
-                                    Color(0xFFC7CEF1),
-                                    Color(0xFF8C9BE3),
-                                  ],
-                                  end: FractionalOffset(0.0, 0.0),
-                                  begin: FractionalOffset(1.0, 0.0),
-                                  stops: [0.1, 1.0],
-                                  tileMode: TileMode.decal),
-                            ),
-                            child: ListTile(
-                              leading: Container(
-                                  height: 40,
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xffdbeffe),
-                                      borderRadius: BorderRadius.circular(50)),
-                                  child:
-                                      Image.asset("images/subscription.png")),
-                              title: Text(
-                                "My Classes",
-                                style: GoogleFonts.acme(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              trailing: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.keyboard_arrow_right)),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SubscriptionScreen()));
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(15),
-                              gradient: const LinearGradient(
-                                  colors: [
-                                    Color(0xFFC7CEF1),
-                                    Color(0xFF8C9BE3),
-                                  ],
-                                  end: FractionalOffset(0.0, 0.0),
-                                  begin: FractionalOffset(1.0, 0.0),
-                                  stops: [0.1, 1.0],
-                                  tileMode: TileMode.decal),
-                            ),
-                            child: ListTile(
-                              leading: Container(
-                                  height: 40,
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xffdbeffe),
-                                      borderRadius: BorderRadius.circular(50)),
-                                  child:
-                                      Image.asset("images/subscription.png")),
-                              title: Text(
-                                "My Subscription",
-                                style: GoogleFonts.acme(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              trailing: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.keyboard_arrow_right)),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const PreferencesScreen()));
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(15),
-                              gradient: const LinearGradient(
-                                  colors: [
-                                    Color(0xFFC7CEF1),
-                                    Color(0xFF8C9BE3),
-                                  ],
-                                  end: FractionalOffset(0.0, 0.0),
-                                  begin: FractionalOffset(1.0, 0.0),
-                                  stops: [0.1, 1.0],
-                                  tileMode: TileMode.decal),
-                            ),
-                            child: ListTile(
-                              leading: Container(
-                                  height: 40,
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xffdbeffe),
-                                      borderRadius: BorderRadius.circular(50)),
-                                  child: Image.asset("images/preferences.png")),
-                              title: Text(
-                                "Preferences",
-                                style: GoogleFonts.acme(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              trailing: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.keyboard_arrow_right)),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(15),
-                            gradient: const LinearGradient(
-                                colors: [
-                                  Color(0xFFC7CEF1),
-                                  Color(0xFF8C9BE3),
-                                ],
-                                end: FractionalOffset(0.0, 0.0),
-                                begin: FractionalOffset(1.0, 0.0),
-                                stops: [0.1, 1.0],
-                                tileMode: TileMode.decal),
-                          ),
-                          child: ListTile(
-                            leading: Container(
-                                height: 40,
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    color: const Color(0xffdbeffe),
-                                    borderRadius: BorderRadius.circular(50)),
-                                child: Image.asset("images/security.png")),
-                            title: Text(
-                              "Security",
-                              style: GoogleFonts.acme(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            trailing: IconButton(
-                                onPressed: () async {
-                                  if (!await launchUrl(
-                                    Uri.parse(
-                                        'http://parentteachermobile.com/PrivacyPolicy'),
-                                    mode: LaunchMode.externalApplication,
-                                  )) {
-                                    throw Exception(
-                                        'Could not launch http://parentteachermobile.com/PrivacyPolicy');
-                                  }
-                                },
-                                icon: const Icon(Icons.keyboard_arrow_right)),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                            height: 120,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: kButtonColor),
-                            child: Image.asset("images/education.png")),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.6),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: ListTile(
-                            leading: Container(
-                                height: 40,
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    color: const Color(0xffdbeffe),
-                                    borderRadius: BorderRadius.circular(50)),
-                                child: Image.asset("images/star.png")),
-                            title: Text(
-                              "Rate us on App Store",
-                              style: GoogleFonts.acme(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            trailing: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.keyboard_arrow_right)),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.6),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: ListTile(
-                            leading: Container(
-                                height: 40,
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    color: const Color(0xffdbeffe),
-                                    borderRadius: BorderRadius.circular(50)),
-                                child: Image.asset("images/help.png")),
-                            title: Text(
-                              "Help and assistance",
-                              style: GoogleFonts.acme(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            trailing: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.keyboard_arrow_right)),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.6),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: ListTile(
-                            leading: Container(
-                                height: 40,
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    color: const Color(0xffdbeffe),
-                                    borderRadius: BorderRadius.circular(50)),
-                                child: Image.asset("images/about.png")),
-                            title: Text(
-                              "About",
-                              style: GoogleFonts.acme(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            trailing: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.keyboard_arrow_right)),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            showDialog1(context, 'Are Your Sure to Sign Out');
-                          },
-                          child: Container(
-                            height: 50,
-                            width: 340,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              gradient: const LinearGradient(
-                                  colors: [
-                                    Color(0xFF2A3B5D),
-                                    Color(0xFF3D529B),
-                                  ],
-                                  end: FractionalOffset(0.0, 0.0),
-                                  begin: FractionalOffset(1.0, 0.0),
-                                  stops: [0.1, 1.0],
-                                  tileMode: TileMode.decal),
-                            ),
-                            child: Center(
-                                child: Text(
-                              'Sign Out',
-                              style: GoogleFonts.acme(
-                                  color: Colors.white, fontSize: 20),
-                            )),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            showDialog1(
-                                context, 'Are You Sure to Delete Account');
-                          },
-                          child: Container(
-                            height: 50,
-                            width: 340,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              gradient: const LinearGradient(
-                                  colors: [
-                                    Color(0xFF2A3B5D),
-                                    Color(0xFF3D529B),
-                                  ],
-                                  end: FractionalOffset(0.0, 0.0),
-                                  begin: FractionalOffset(1.0, 0.0),
-                                  stops: [0.1, 1.0],
-                                  tileMode: TileMode.decal),
-                            ),
-                            child: Center(
-                                child: Text(
-                              'Delete my account',
-                              style: GoogleFonts.acme(
-                                  color: Colors.white, fontSize: 20),
-                            )),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 90,
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(right: 10, left: 10),
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       LoginApiShadePreference.preferences!.get('role') ==
+                  //               'parents'
+                  //           ? InkWell(
+                  //               onTap: () {
+                  //                 Navigator.push(
+                  //                     context,
+                  //                     MaterialPageRoute(
+                  //                         builder: (context) => SchoolTeacher(
+                  //                               schoolId: state.model.user!.id
+                  //                                   .toString(),
+                  //                               studentId: '',
+                  //                             )));
+                  //               },
+                  //               child: Container(
+                  //                 padding:
+                  //                     const EdgeInsets.symmetric(horizontal: 5),
+                  //                 decoration: BoxDecoration(
+                  //                   color: Colors.grey,
+                  //                   borderRadius: BorderRadius.circular(15),
+                  //                   gradient: const LinearGradient(
+                  //                       colors: [
+                  //                         Color(0xFFC7CEF1),
+                  //                         Color(0xFF8C9BE3),
+                  //                       ],
+                  //                       end: FractionalOffset(0.0, 0.0),
+                  //                       begin: FractionalOffset(1.0, 0.0),
+                  //                       stops: [0.1, 1.0],
+                  //                       tileMode: TileMode.decal),
+                  //                 ),
+                  //                 child: ListTile(
+                  //                   leading: Container(
+                  //                       height: 40,
+                  //                       padding: const EdgeInsets.all(10),
+                  //                       decoration: BoxDecoration(
+                  //                           color: const Color(0xffdbeffe),
+                  //                           borderRadius:
+                  //                               BorderRadius.circular(50)),
+                  //                       child: Image.asset("images/users.png")),
+                  //                   title: Text(
+                  //                     "My Children",
+                  //                     style: GoogleFonts.acme(
+                  //                         color: Colors.black,
+                  //                         fontSize: 16,
+                  //                         fontWeight: FontWeight.w500),
+                  //                   ),
+                  //                   trailing: IconButton(
+                  //                       onPressed: () {},
+                  //                       icon: const Icon(
+                  //                           Icons.keyboard_arrow_right)),
+                  //                 ),
+                  //               ),
+                  //             )
+                  //           : SizedBox(),
+                  //       const SizedBox(
+                  //         height: 10,
+                  //       ),
+                  //       InkWell(
+                  //         onTap: () {
+                  //           Navigator.push(
+                  //               context,
+                  //               MaterialPageRoute(
+                  //                   builder: (context) =>
+                  //                       const TeacherClass()));
+                  //         },
+                  //         child: Container(
+                  //           padding: const EdgeInsets.symmetric(horizontal: 5),
+                  //           decoration: BoxDecoration(
+                  //             color: Colors.grey,
+                  //             borderRadius: BorderRadius.circular(15),
+                  //             gradient: const LinearGradient(
+                  //                 colors: [
+                  //                   Color(0xFFC7CEF1),
+                  //                   Color(0xFF8C9BE3),
+                  //                 ],
+                  //                 end: FractionalOffset(0.0, 0.0),
+                  //                 begin: FractionalOffset(1.0, 0.0),
+                  //                 stops: [0.1, 1.0],
+                  //                 tileMode: TileMode.decal),
+                  //           ),
+                  //           child: ListTile(
+                  //             leading: Container(
+                  //                 height: 40,
+                  //                 padding: const EdgeInsets.all(10),
+                  //                 decoration: BoxDecoration(
+                  //                     color: const Color(0xffdbeffe),
+                  //                     borderRadius: BorderRadius.circular(50)),
+                  //                 child:
+                  //                     Image.asset("images/subscription.png")),
+                  //             title: Text(
+                  //               "My Classes",
+                  //               style: GoogleFonts.acme(
+                  //                   color: Colors.black,
+                  //                   fontSize: 16,
+                  //                   fontWeight: FontWeight.w500),
+                  //             ),
+                  //             trailing: IconButton(
+                  //                 onPressed: () {},
+                  //                 icon: const Icon(Icons.keyboard_arrow_right)),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       const SizedBox(
+                  //         height: 10,
+                  //       ),
+                  //       InkWell(
+                  //         onTap: () {
+                  //           Navigator.push(
+                  //               context,
+                  //               MaterialPageRoute(
+                  //                   builder: (context) =>
+                  //                       const SubscriptionScreen()));
+                  //         },
+                  //         child: Container(
+                  //           padding: const EdgeInsets.symmetric(horizontal: 5),
+                  //           decoration: BoxDecoration(
+                  //             color: Colors.grey,
+                  //             borderRadius: BorderRadius.circular(15),
+                  //             gradient: const LinearGradient(
+                  //                 colors: [
+                  //                   Color(0xFFC7CEF1),
+                  //                   Color(0xFF8C9BE3),
+                  //                 ],
+                  //                 end: FractionalOffset(0.0, 0.0),
+                  //                 begin: FractionalOffset(1.0, 0.0),
+                  //                 stops: [0.1, 1.0],
+                  //                 tileMode: TileMode.decal),
+                  //           ),
+                  //           child: ListTile(
+                  //             leading: Container(
+                  //                 height: 40,
+                  //                 padding: const EdgeInsets.all(10),
+                  //                 decoration: BoxDecoration(
+                  //                     color: const Color(0xffdbeffe),
+                  //                     borderRadius: BorderRadius.circular(50)),
+                  //                 child:
+                  //                     Image.asset("images/subscription.png")),
+                  //             title: Text(
+                  //               "My Subscription",
+                  //               style: GoogleFonts.acme(
+                  //                   color: Colors.black,
+                  //                   fontSize: 16,
+                  //                   fontWeight: FontWeight.w500),
+                  //             ),
+                  //             trailing: IconButton(
+                  //                 onPressed: () {},
+                  //                 icon: const Icon(Icons.keyboard_arrow_right)),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       const SizedBox(
+                  //         height: 10,
+                  //       ),
+                  //       InkWell(
+                  //         onTap: () {
+                  //           Navigator.push(
+                  //               context,
+                  //               MaterialPageRoute(
+                  //                   builder: (context) =>
+                  //                       const PreferencesScreen()));
+                  //         },
+                  //         child: Container(
+                  //           padding: const EdgeInsets.symmetric(horizontal: 5),
+                  //           decoration: BoxDecoration(
+                  //             color: Colors.grey,
+                  //             borderRadius: BorderRadius.circular(15),
+                  //             gradient: const LinearGradient(
+                  //                 colors: [
+                  //                   Color(0xFFC7CEF1),
+                  //                   Color(0xFF8C9BE3),
+                  //                 ],
+                  //                 end: FractionalOffset(0.0, 0.0),
+                  //                 begin: FractionalOffset(1.0, 0.0),
+                  //                 stops: [0.1, 1.0],
+                  //                 tileMode: TileMode.decal),
+                  //           ),
+                  //           child: ListTile(
+                  //             leading: Container(
+                  //                 height: 40,
+                  //                 padding: const EdgeInsets.all(10),
+                  //                 decoration: BoxDecoration(
+                  //                     color: const Color(0xffdbeffe),
+                  //                     borderRadius: BorderRadius.circular(50)),
+                  //                 child: Image.asset("images/preferences.png")),
+                  //             title: Text(
+                  //               "Preferences",
+                  //               style: GoogleFonts.acme(
+                  //                   color: Colors.black,
+                  //                   fontSize: 16,
+                  //                   fontWeight: FontWeight.w500),
+                  //             ),
+                  //             trailing: IconButton(
+                  //                 onPressed: () {},
+                  //                 icon: const Icon(Icons.keyboard_arrow_right)),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       const SizedBox(
+                  //         height: 10,
+                  //       ),
+                  //       Container(
+                  //         padding: const EdgeInsets.symmetric(horizontal: 5),
+                  //         decoration: BoxDecoration(
+                  //           color: Colors.grey,
+                  //           borderRadius: BorderRadius.circular(15),
+                  //           gradient: const LinearGradient(
+                  //               colors: [
+                  //                 Color(0xFFC7CEF1),
+                  //                 Color(0xFF8C9BE3),
+                  //               ],
+                  //               end: FractionalOffset(0.0, 0.0),
+                  //               begin: FractionalOffset(1.0, 0.0),
+                  //               stops: [0.1, 1.0],
+                  //               tileMode: TileMode.decal),
+                  //         ),
+                  //         child: ListTile(
+                  //           leading: Container(
+                  //               height: 40,
+                  //               padding: const EdgeInsets.all(10),
+                  //               decoration: BoxDecoration(
+                  //                   color: const Color(0xffdbeffe),
+                  //                   borderRadius: BorderRadius.circular(50)),
+                  //               child: Image.asset("images/security.png")),
+                  //           title: Text(
+                  //             "Security",
+                  //             style: GoogleFonts.acme(
+                  //                 color: Colors.black,
+                  //                 fontSize: 16,
+                  //                 fontWeight: FontWeight.w500),
+                  //           ),
+                  //           trailing: IconButton(
+                  //               onPressed: () async {
+                  //                 if (!await launchUrl(
+                  //                   Uri.parse(
+                  //                       'http://parentteachermobile.com/PrivacyPolicy'),
+                  //                   mode: LaunchMode.externalApplication,
+                  //                 )) {
+                  //                   throw Exception(
+                  //                       'Could not launch http://parentteachermobile.com/PrivacyPolicy');
+                  //                 }
+                  //               },
+                  //               icon: const Icon(Icons.keyboard_arrow_right)),
+                  //         ),
+                  //       ),
+                  //       const SizedBox(
+                  //         height: 10,
+                  //       ),
+                  //       Container(
+                  //           height: 120,
+                  //           width: double.infinity,
+                  //           decoration: BoxDecoration(
+                  //               borderRadius: BorderRadius.circular(20),
+                  //               color: kButtonColor),
+                  //           child: Image.asset("images/education.png")),
+                  //       const SizedBox(
+                  //         height: 10,
+                  //       ),
+                  //       Container(
+                  //         padding: const EdgeInsets.symmetric(horizontal: 5),
+                  //         decoration: BoxDecoration(
+                  //           color: Colors.grey.withOpacity(0.6),
+                  //           borderRadius: BorderRadius.circular(15),
+                  //         ),
+                  //         child: ListTile(
+                  //           leading: Container(
+                  //               height: 40,
+                  //               padding: const EdgeInsets.all(10),
+                  //               decoration: BoxDecoration(
+                  //                   color: const Color(0xffdbeffe),
+                  //                   borderRadius: BorderRadius.circular(50)),
+                  //               child: Image.asset("images/star.png")),
+                  //           title: Text(
+                  //             "Rate us on App Store",
+                  //             style: GoogleFonts.acme(
+                  //                 color: Colors.black,
+                  //                 fontSize: 14,
+                  //                 fontWeight: FontWeight.w500),
+                  //           ),
+                  //           trailing: IconButton(
+                  //               onPressed: () {},
+                  //               icon: const Icon(Icons.keyboard_arrow_right)),
+                  //         ),
+                  //       ),
+                  //       const SizedBox(
+                  //         height: 10,
+                  //       ),
+                  //       Container(
+                  //         padding: const EdgeInsets.symmetric(horizontal: 5),
+                  //         decoration: BoxDecoration(
+                  //           color: Colors.grey.withOpacity(0.6),
+                  //           borderRadius: BorderRadius.circular(15),
+                  //         ),
+                  //         child: ListTile(
+                  //           leading: Container(
+                  //               height: 40,
+                  //               padding: const EdgeInsets.all(10),
+                  //               decoration: BoxDecoration(
+                  //                   color: const Color(0xffdbeffe),
+                  //                   borderRadius: BorderRadius.circular(50)),
+                  //               child: Image.asset("images/help.png")),
+                  //           title: Text(
+                  //             "Help and assistance",
+                  //             style: GoogleFonts.acme(
+                  //                 color: Colors.black,
+                  //                 fontSize: 14,
+                  //                 fontWeight: FontWeight.w500),
+                  //           ),
+                  //           trailing: IconButton(
+                  //               onPressed: () {},
+                  //               icon: const Icon(Icons.keyboard_arrow_right)),
+                  //         ),
+                  //       ),
+                  //       const SizedBox(
+                  //         height: 10,
+                  //       ),
+                  //       Container(
+                  //         padding: const EdgeInsets.symmetric(horizontal: 5),
+                  //         decoration: BoxDecoration(
+                  //           color: Colors.grey.withOpacity(0.6),
+                  //           borderRadius: BorderRadius.circular(15),
+                  //         ),
+                  //         child: ListTile(
+                  //           leading: Container(
+                  //               height: 40,
+                  //               padding: const EdgeInsets.all(10),
+                  //               decoration: BoxDecoration(
+                  //                   color: const Color(0xffdbeffe),
+                  //                   borderRadius: BorderRadius.circular(50)),
+                  //               child: Image.asset("images/about.png")),
+                  //           title: Text(
+                  //             "About",
+                  //             style: GoogleFonts.acme(
+                  //                 color: Colors.black,
+                  //                 fontSize: 14,
+                  //                 fontWeight: FontWeight.w500),
+                  //           ),
+                  //           trailing: IconButton(
+                  //               onPressed: () {},
+                  //               icon: const Icon(Icons.keyboard_arrow_right)),
+                  //         ),
+                  //       ),
+                  //       const SizedBox(
+                  //         height: 10,
+                  //       ),
+                  //       InkWell(
+                  //         onTap: () {
+                  //           showDialog1(context, 'Are Your Sure to Sign Out');
+                  //         },
+                  //         child: Container(
+                  //           height: 50,
+                  //           width: 340,
+                  //           decoration: BoxDecoration(
+                  //             borderRadius: BorderRadius.circular(25),
+                  //             gradient: const LinearGradient(
+                  //                 colors: [
+                  //                   Color(0xFF2A3B5D),
+                  //                   Color(0xFF3D529B),
+                  //                 ],
+                  //                 end: FractionalOffset(0.0, 0.0),
+                  //                 begin: FractionalOffset(1.0, 0.0),
+                  //                 stops: [0.1, 1.0],
+                  //                 tileMode: TileMode.decal),
+                  //           ),
+                  //           child: Center(
+                  //               child: Text(
+                  //             'Sign Out',
+                  //             style: GoogleFonts.acme(
+                  //                 color: Colors.white, fontSize: 20),
+                  //           )),
+                  //         ),
+                  //       ),
+                  //       const SizedBox(
+                  //         height: 10,
+                  //       ),
+                  //       InkWell(
+                  //         onTap: () {
+                  //           showDialog1(
+                  //               context, 'Are You Sure to Delete Account');
+                  //         },
+                  //         child: Container(
+                  //           height: 50,
+                  //           width: 340,
+                  //           decoration: BoxDecoration(
+                  //             borderRadius: BorderRadius.circular(25),
+                  //             gradient: const LinearGradient(
+                  //                 colors: [
+                  //                   Color(0xFF2A3B5D),
+                  //                   Color(0xFF3D529B),
+                  //                 ],
+                  //                 end: FractionalOffset(0.0, 0.0),
+                  //                 begin: FractionalOffset(1.0, 0.0),
+                  //                 stops: [0.1, 1.0],
+                  //                 tileMode: TileMode.decal),
+                  //           ),
+                  //           child: Center(
+                  //               child: Text(
+                  //             'Delete my account',
+                  //             style: GoogleFonts.acme(
+                  //                 color: Colors.white, fontSize: 20),
+                  //           )),
+                  //         ),
+                  //       ),
+                  //       const SizedBox(
+                  //         height: 90,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
             );
           } else {
-            return CustomWidgets.loadingIndicator();
+            return SizedBox();
           }
         },
       ),

@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
+import 'package:school_system/Data/Repository/show_class_student.dart';
 import '../../../models/get_class_student_model.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
@@ -14,40 +16,33 @@ class GetClassStudentCubit extends Cubit<GetClassStudentState> {
   Future getStudent(String classId) async {
     print('data');
 
+    await Future.delayed(const Duration(microseconds: 10));
+
     emit(GetClassStudentLoading());
 
-    print(LoginApiShadePreference.preferences!.getString("api_token"));
+    try {
+      await ShowClassStudent.getData(classId).then((value) {
+        if (value['error'] != null && value['error'] == false) {
+          ClassStudents students = ClassStudents.fromJson(value);
+          emit(GetClassStudentLoaded(model: students));
 
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization':
-          'Bearer Bearer ${LoginApiShadePreference.preferences!.getString("api_token")}'
-    };
-
-    var body = json.encode({"class_id": classId});
-
-    var url = Uri.parse(
-        'http://www.dev.schoolsnow.parentteachermobile.com/api/teacher/class/students?first_name=&last_name=');
-    var response = await http.get(
-      url,
-      headers: headers,
-    );
-
-    print('status code is ${response.statusCode}');
-    print('settings body is ${response.body.toString()}');
-
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body.toString());
-
-      ClassStudents students = ClassStudents.fromJson(data);
-
-      emit(GetClassStudentLoaded(model: students));
-      // Get.snackbar('KASI', 'Settings get successfully');
-    } else {
-      emit(GetClassStudentError());
-      print('error');
-      // var data = jsonDecode(response.body.toString());
-      // print(data['message']);
+          log(value.toString());
+        } else {
+          emit(GetClassStudentError(error: value['message']));
+          print('error');
+        }
+      }).catchError((e) {
+        emit(GetClassStudentError(error: e.toString()));
+        throw e;
+      });
+    } catch (e) {
+      emit(GetClassStudentError(error: e.toString()));
+      rethrow;
     }
+
+    // Get.snackbar('KASI', 'Settings get successfully');
+
+    // var data = jsonDecode(response.body.toString());
+    // print(data['message']);
   }
 }

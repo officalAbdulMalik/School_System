@@ -7,6 +7,14 @@ class ShowClassAttendanceInitial extends ShowClassAttendanceState {}
 
 class ShowClassAttendanceLoading extends ShowClassAttendanceState {}
 
-class ShowClassAttendanceLoaded extends ShowClassAttendanceState {}
+class ShowClassAttendanceLoaded extends ShowClassAttendanceState {
+  List<AttendanceModel>? model;
 
-class ShowClassAttendanceError extends ShowClassAttendanceState {}
+  ShowClassAttendanceLoaded({this.model});
+}
+
+class ShowClassAttendanceError extends ShowClassAttendanceState {
+  String? error;
+
+  ShowClassAttendanceError({this.error});
+}

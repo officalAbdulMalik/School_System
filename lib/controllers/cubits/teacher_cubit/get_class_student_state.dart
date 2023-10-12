@@ -8,9 +8,13 @@ class GetClassStudentInitial extends GetClassStudentState {}
 class GetClassStudentLoading extends GetClassStudentState {}
 
 class GetClassStudentLoaded extends GetClassStudentState {
-  ClassStudents model = ClassStudents();
+  ClassStudents model;
 
   GetClassStudentLoaded({required this.model});
 }
 
-class GetClassStudentError extends GetClassStudentState {}
+class GetClassStudentError extends GetClassStudentState {
+  String? error;
+
+  GetClassStudentError({this.error});
+}

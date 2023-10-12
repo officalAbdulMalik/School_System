@@ -13,4 +13,8 @@ class TeacherClassesLoaded extends TeacherClassesState {
   TeacherClassesLoaded(this.classes);
 }
 
-class TeacherClassesError extends TeacherClassesState {}
+class TeacherClassesError extends TeacherClassesState {
+  String? error;
+
+  TeacherClassesError({this.error});
+}

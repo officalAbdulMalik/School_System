@@ -40,8 +40,12 @@ class LoginApi {
         var data = jsonDecode(request.body);
         String token = data['token'];
         String role = data['user']['type'];
+        String userId = data['user']['id'].toString();
+
         LoginApiShadePreference.preferences!.setString('api_token', token);
         LoginApiShadePreference.preferences!.setString('role', role);
+        LoginApiShadePreference.preferences!.setString('user_id', userId);
+
         return jsonDecode(request.body);
       } else {
         // var data = jsonDecode(request.body);

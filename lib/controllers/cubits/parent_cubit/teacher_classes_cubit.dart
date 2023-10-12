@@ -14,6 +14,8 @@ class TeacherClassesCubit extends Cubit<TeacherClassesState> {
   Future getTeacherClasses(String teacherID) async {
     print('data');
 
+    await Future.delayed(Duration.zero);
+
     emit(TeacherClassesLoading());
 
     print(LoginApiShadePreference.preferences!.getString("api_token"));
@@ -42,7 +44,8 @@ class TeacherClassesCubit extends Cubit<TeacherClassesState> {
       emit(TeacherClassesLoaded(classes));
       // Get.snackbar('KASI', 'Settings get successfully');
     } else {
-      emit(TeacherClassesError());
+      var data = jsonDecode(response.body.toString());
+      emit(TeacherClassesError(error: data['error']));
       print('error');
       // var data = jsonDecode(response.body.toString());
       // print(data['message']);

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
@@ -143,44 +144,37 @@ class _LogInScreenState extends State<LogInScreen> {
                       height: 30.h,
                     ),
                     BlocConsumer<LoginCubit, LoginState>(
-                      listener: (context, state) {
-                        print(state);
+                        listener: (context, state) {
+                      print(state);
+                      if (state is LoginLoading) {
+                        LoadingDialog.showLoadingDialog(context);
+                      }
 
-                        if (state is LoginLoaded) {
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return LoginApiShadePreference.preferences!
-                                          .getString('role') ==
-                                      'parent'
-                                  ? BottomBarPages()
-                                  : BottomBarPages();
-                            },
-                          ));
-                        }
-                        if (state is LoginError) {
-                          Fluttertoast.showToast(msg: state.error!);
-                        }
-                      },
-                      builder: (context, state) {
-                        if (state is LoginLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              color: kPrimaryColor,
-                            ),
-                          );
-                        } else {
-                          return InkWell(
-                            onTap: () {
-                              if (formKey.currentState!.validate()) {
-                                context.read<LoginCubit>().loginUser(
-                                    email.text.trim(), pass.text.trim());
-                              }
-                            },
-                            child: CustomWidgets.customButton('Login'),
-                          );
-                        }
-                      },
-                    ),
+                      if (state is LoginLoaded) {
+                        Navigator.pop(context);
+
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return BottomBarPages();
+                          },
+                        ));
+                      }
+                      if (state is LoginError) {
+                        Fluttertoast.showToast(msg: state.error!);
+                        Navigator.pop(context);
+                      }
+                    }, builder: (context, state) {
+                      return InkWell(
+                        onTap: () {
+                          if (formKey.currentState!.validate()) {
+                            context
+                                .read<LoginCubit>()
+                                .loginUser(email.text.trim(), pass.text.trim());
+                          }
+                        },
+                        child: CustomWidgets.customButton('Login'),
+                      );
+                    }),
                     SizedBox(
                       height: 30.h,
                     ),

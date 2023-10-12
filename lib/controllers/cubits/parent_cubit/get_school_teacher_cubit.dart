@@ -14,6 +14,8 @@ class GetSchoolTeacherCubit extends Cubit<GetSchoolTeacherState> {
   Future getTeacher(String schoolId) async {
     print('data');
 
+    await Future.delayed(Duration.zero);
+
     emit(GetSchoolTeacherLoading());
 
     print(LoginApiShadePreference.preferences!.getString("api_token"));

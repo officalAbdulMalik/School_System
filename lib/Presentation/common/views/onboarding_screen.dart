@@ -116,7 +116,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     width: 340.w,
                     decoration: BoxDecoration(
                       color: kBorderColor.withOpacity(0.2),
-                      border: type == "teacher"
+                      border: type == "Teacher"
                           ? Border.all(color: kPrimaryColor)
                           : Border.all(color: Colors.white),
                       borderRadius: BorderRadius.circular(15.sp),
@@ -157,7 +157,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     width: 340.w,
                     decoration: BoxDecoration(
                       color: kBorderColor.withOpacity(0.2),
-                      border: type == "parents"
+                      border: type == "Parents"
                           ? Border.all(color: kPrimaryColor)
                           : Border.all(color: Colors.white),
                       borderRadius: BorderRadius.circular(15.sp),

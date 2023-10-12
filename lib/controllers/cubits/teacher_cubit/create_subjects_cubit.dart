@@ -24,7 +24,7 @@ class CreateSubjectsCubit extends Cubit<CreateSubjectsState> {
         if (value['error'] != null && value['error'] != true) {
           emit(CreateSubjectsLoaded());
         } else {
-          emit(CreateSubjectsError(error: value[0]['message']));
+          emit(CreateSubjectsError(error: value['message']));
         }
       }).catchError((e) {
         emit(CreateSubjectsError(error: 'Some Thing Wrong Try Again'));

@@ -1,11 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_system/Presentation/bottom_bar_parent/profile_screens/show_children.dart';
+import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
+import 'package:school_system/controllers/cubits/parent_cubit/add_child_cubit.dart';
 
 import '../../../Data/Repository/add_child_api.dart';
 import '../../../Data/image_picking.dart';
@@ -76,11 +80,13 @@ class _AddChildScreenState extends State<AddChildScreen> {
                   controller: firstName,
                   hintText: 'First Name',
                   filledColor: kContainerColor,
+                  isRequiredField: true,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 MyTextField(
+                  isRequiredField: true,
                   controller: lastName,
                   hintText: 'Last Name',
                   filledColor: kContainerColor,
@@ -89,6 +95,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                   height: 10,
                 ),
                 MyTextField(
+                  isRequiredField: true,
                   controller: dob,
                   hintText: 'Date Of Birth',
                   filledColor: kContainerColor,
@@ -209,33 +216,37 @@ class _AddChildScreenState extends State<AddChildScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                ValueListenableBuilder(
-                  valueListenable: loading,
-                  builder: (context, value, child) {
-                    if (value == false) {
-                      return InkWell(
-                        onTap: () {
-                          bool val = validate();
-                          if (val == true) {
-                            loading.value = true;
-                            AddChildRepo.addChild(
-                                    context: context,
-                                    firstName: firstName.text.trim(),
-                                    lastName: lastName.text.trim(),
-                                    relation: relation,
-                                    dob: dob.text.trim(),
-                                    gender: gender,
-                                    image: image1!.path)
-                                .then((value) {
-                              loading.value = false;
-                            });
-                          }
-                        },
-                        child: CustomWidgets.customButton('Add Child'),
-                      );
-                    } else {
-                      return CustomWidgets.loadingIndicator();
+                BlocConsumer<AddChildCubit, AddChildState>(
+                  listener: (context, state) {
+                    if (state is AddChildLoading) {
+                      LoadingDialog.showLoadingDialog(context);
                     }
+                    if (state is AddChildError) {
+                      Navigator.of(context).pop(true);
+                      Fluttertoast.showToast(msg: state.error!);
+                    }
+                    if (state is AddChildLoaded) {
+                      Navigator.pop(context);
+                      Navigator.pushReplacement(context, MaterialPageRoute(
+                        builder: (context) {
+                          return ShowChildren();
+                        },
+                      ));
+                    }
+                  },
+                  builder: (context, state) {
+                    return InkWell(
+                      onTap: () {
+                        context.read<AddChildCubit>().addChild(
+                            firstName: firstName.text.trim(),
+                            lastName: lastName.text.trim(),
+                            relation: relation,
+                            dob: dob.text.trim(),
+                            gender: gender,
+                            image: image1!.path);
+                      },
+                      child: CustomWidgets.customButton('Add Child'),
+                    );
                   },
                 ),
               ],

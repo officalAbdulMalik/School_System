@@ -4,9 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:school_system/Presentation/bottom_bar_parent/profile_screens/show_teahers_classes.dart';
 import 'package:school_system/Presentation/bottom_bar_techer/prifile_screen/show_class.dart';
 import 'package:school_system/Presentation/bottom_bar_techer/prifile_screen/teacher_create_subject.dart';
+import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_dop_down.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget.dart';
@@ -127,68 +127,74 @@ class _TeacherAddClassState extends State<TeacherAddClass> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left: 10.sp),
-                      height: 40.h,
-                      width: 340.w,
-                      decoration: BoxDecoration(
-                        color: kContainerColor,
-                        borderRadius: BorderRadius.circular(15.sp),
-                      ),
-                      child: BlocBuilder<GetSectionCubit, GetSectionState>(
-                        builder: (context, state) {
-                          if (state is GetSectionLoaded) {
-                            print(state.sections.length);
-                            return state.sections.isNotEmpty
-                                ? CustomDropDown(
-                                    hintText: 'Sections',
-                                    onChanged: (value) {
-                                      selectedSection = value.toString();
-                                    },
-                                    itemsMap: state.sections.map((e) {
-                                      return DropdownMenuItem(
-                                        value: e.id,
-                                        child: Text(
-                                          e.name!,
-                                        ),
-                                      );
-                                    }).toList(),
-                                  )
-                                : Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      'Sections not found',
-                                      style: GoogleFonts.poppins(
-                                        color: Colors.black,
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w400,
+                    BlocBuilder<GetSectionCubit, GetSectionState>(
+                      builder: (context, state) {
+                        if (state is GetSectionLoaded) {
+                          print(state.sections.length);
+                          return state.sections.isNotEmpty
+                              ? CustomDropDown(
+                                  hintText: 'Sections',
+                                  onChanged: (value) {
+                                    selectedSection = value.toString();
+                                  },
+                                  itemsMap: state.sections.map((e) {
+                                    return DropdownMenuItem(
+                                      value: e.id,
+                                      child: Text(
+                                        e.name!,
                                       ),
+                                    );
+                                  }).toList(),
+                                )
+                              : Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Sections not found',
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.black,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w400,
                                     ),
-                                  );
-                          } else if (state is GetSectionError) {
-                            return Text(state.error!);
-                          } else {
-                            return const SizedBox();
-                          }
-                        },
-                      ),
+                                  ),
+                                );
+                        } else if (state is GetSectionError) {
+                          return Text(state.error!);
+                        } else {
+                          return CustomDropDown(
+                            hintText: 'Sections',
+                            onChanged: (value) {
+                              selectedSection = value.toString();
+                            },
+                            itemsMap: [].map((e) {
+                              return DropdownMenuItem(
+                                value: e.id,
+                                child: Text(
+                                  e.name!,
+                                ),
+                              );
+                            }).toList(),
+                          );
+                        }
+                      },
                     ),
                     SizedBox(
                       height: 20.h,
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left: 10.sp),
-                      height: 40.h,
-                      width: 340.w,
-                      decoration: BoxDecoration(
-                        color: kContainerColor,
-                        borderRadius: BorderRadius.circular(15.sp),
-                      ),
-                      child: BlocBuilder<GetAllSchoolCubit, GetAllSchoolState>(
-                        builder: (context, state) {
-                          if (state is GetAllSchoolLoaded) {
-                            print(state.model.data!.length);
-                            return state.model.data!.isNotEmpty
+                    BlocConsumer<GetAllSchoolCubit, GetAllSchoolState>(
+                      listener: (context, state) {
+                        if (state is GetAllSchoolLoading) {
+                          LoadingDialog.showLoadingDialog(context);
+                        }
+                        if (state is GetAllSchoolLoaded) {
+                          Navigator.of(context).pop(true);
+                        }
+                        if (state is GetAllSchoolError) {
+                          Fluttertoast.showToast(msg: state.error!);
+                        }
+                      },
+                      builder: (context, state) {
+                        return state is GetAllSchoolLoaded
+                            ? state.model.data!.isNotEmpty
                                 ? CustomDropDown(
                                     hintText: 'Schools',
                                     onChanged: (value) {
@@ -214,51 +220,51 @@ class _TeacherAddClassState extends State<TeacherAddClass> {
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
+                                  )
+                            : CustomDropDown(
+                                hintText: 'Schools',
+                                onChanged: (value) {
+                                  print(value);
+                                  selectedSchool = value.toString();
+                                },
+                                itemsMap: [].map((e) {
+                                  return DropdownMenuItem(
+                                    value: e.id,
+                                    child: Text(
+                                      e.schoolName!,
+                                    ),
                                   );
-                          } else if (state is GetSectionError) {
-                            return const Text('state.error!');
-                          } else {
-                            return const SizedBox();
-                          }
-                        },
-                      ),
+                                }).toList(),
+                              );
+                      },
                     ),
                     SizedBox(
                       height: 20.h,
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left: 10.sp),
-                      height: 40.h,
-                      width: 340.w,
-                      decoration: BoxDecoration(
-                        color: kContainerColor,
-                        borderRadius: BorderRadius.circular(15.sp),
-                      ),
-                      child: CustomDropDown(
-                        hintText: 'Grade',
-                        onChanged: (value) {
-                          print(value);
-                          selectedGrade = value.toString();
-                          setState(() {});
-                        },
-                        itemsMap: country == "US"
-                            ? usa.map((e) {
-                                return DropdownMenuItem(
-                                  value: e,
-                                  child: Text(
-                                    e,
-                                  ),
-                                );
-                              }).toList()
-                            : uk.map((e) {
-                                return DropdownMenuItem(
-                                  value: e,
-                                  child: Text(
-                                    e,
-                                  ),
-                                );
-                              }).toList(),
-                      ),
+                    CustomDropDown(
+                      hintText: 'Grade',
+                      onChanged: (value) {
+                        print(value);
+                        selectedGrade = value.toString();
+                        setState(() {});
+                      },
+                      itemsMap: country == "US"
+                          ? usa.map((e) {
+                              return DropdownMenuItem(
+                                value: e,
+                                child: Text(
+                                  e,
+                                ),
+                              );
+                            }).toList()
+                          : uk.map((e) {
+                              return DropdownMenuItem(
+                                value: e,
+                                child: Text(
+                                  e,
+                                ),
+                              );
+                            }).toList(),
                     ),
                     SizedBox(
                       height: 20.h,

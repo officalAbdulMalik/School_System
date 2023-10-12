@@ -89,7 +89,7 @@ class ReportCard extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          shadows: [
+          shadows: const [
             BoxShadow(
               color: Color(0x19303133),
               blurRadius: 30,
@@ -144,7 +144,7 @@ class ReportCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        Text(
+                        const Text(
                           'Harward School',
                           style: TextStyle(
                             color: Color(0xFF6B7280),

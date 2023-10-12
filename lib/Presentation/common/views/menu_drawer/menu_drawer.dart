@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:school_system/Data/Repository/delete_account.dart';
+import 'package:school_system/Presentation/common/resources/dailog.dart';
+import 'package:school_system/Presentation/common/views/loginScreen.dart';
+import 'package:school_system/Presentation/common/views/sign_up_screen.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
+import 'package:school_system/Presentation/utils/shade_prefrence.dart';
+import 'package:school_system/controllers/cubits/common_cubit/delate_account_cubit.dart';
 
 import '../subscription_screen/subscription_view.dart';
 import 'components/drawer_cards.dart';
@@ -65,7 +72,7 @@ class MenuDrawerScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return SubscriptionView();
+                        return const SubscriptionView();
                       }));
                     },
                   ),
@@ -98,12 +105,37 @@ class MenuDrawerScreen extends StatelessWidget {
             ),
             DrawerCard(
               title: 'Sign Out',
-              onTap: () {},
+              onTap: () {
+                LoginApiShadePreference.preferences!.remove('api_token');
+                Navigator.pushReplacement(context, MaterialPageRoute(
+                  builder: (context) {
+                    return LogInScreen();
+                  },
+                ));
+              },
             ),
-            DrawerCard(
-              title: 'Delete Account',
-              onTap: () {},
-              color: Colors.red,
+            BlocListener<DelateAccountCubit, DelateAccountState>(
+              listener: (context, state) {
+                if (state is DelateAccountLoading) {
+                  LoadingDialog.showLoadingDialog(context);
+                }
+                if (state is DelateAccountLoaded) {
+                  Navigator.pop(context);
+                  Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (context) {
+                      return SignUpScreen();
+                    },
+                  ));
+                }
+                // TODO: implement listener
+              },
+              child: DrawerCard(
+                title: 'Delete Account',
+                onTap: () {
+                  context.read<DelateAccountCubit>().deleteAccount();
+                },
+                color: Colors.red,
+              ),
             ),
             SizedBox(
               height: 10.sp,

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
+import 'package:school_system/controllers/cubits/common_cubit/send_email_otp_cubit.dart';
 
 import '../../../Data/Repository/forget_password_api.dart';
 import '../../utils/custom_widget/custom_row_widget.dart';
@@ -86,36 +89,38 @@ class _ForgetPasswordEmailScreenState extends State<ForgetPasswordEmailScreen> {
             SizedBox(
               height: 130.h,
             ),
-            ValueListenableBuilder(
-              valueListenable: loading,
-              builder: (context, value, child) {
-                if (value == true) {
-                  return Center(child: CustomWidgets.loadingIndicator());
-                } else {
-                  return InkWell(
-                    onTap: () {
-                      if (email.text.isNotEmpty) {
-                        loading.value = true;
-                        ForgetPasswordApi.sendEmail(email.text.trim())
-                            .then((value) {
-                          loading.value = false;
-                          if (value == 200) {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return OtpScreen(
-                                  firstTime: true,
-                                );
-                              },
-                            ));
-                          }
-                        });
-                      } else {
-                        Fluttertoast.showToast(msg: 'Enter Your Email');
-                      }
-                    },
-                    child: CustomWidgets.customButton('Send Code'),
-                  );
+            BlocConsumer<SendEmailOtpCubit, SendEmailOtpState>(
+              listener: (context, state) {
+                if (state is SendEmailOtpLoading) {
+                  LoadingDialog.showLoadingDialog(context);
                 }
+                if (state is SendEmailOtpLoaded) {
+                  Navigator.of(context).pop(true);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return OtpScreen(
+                      firstTime: true,
+                      email: email.text,
+                    );
+                  }));
+                }
+                if (state is SendEmailOtpError) {
+                  Navigator.of(context).pop(true);
+                  Fluttertoast.showToast(msg: state.error!);
+                }
+              },
+              builder: (context, state) {
+                return InkWell(
+                  onTap: () {
+                    if (email.text.isNotEmpty) {
+                      context
+                          .read<SendEmailOtpCubit>()
+                          .sendOtpTOEmail(email.text.trim());
+                    } else {
+                      Fluttertoast.showToast(msg: 'Enter Your Email');
+                    }
+                  },
+                  child: CustomWidgets.customButton('Send Code'),
+                );
               },
             ),
           ],

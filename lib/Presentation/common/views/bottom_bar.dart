@@ -22,7 +22,6 @@ import '../../utils/custom_widget/custom_app_bar.dart';
 import 'dashboard_screen/dashboard_screen.dart';
 import 'menu_screen.dart';
 import 'chat_screens/chat_screen.dart';
-import '../../bottom_bar_parent/class_screen.dart';
 import 'events_scren.dart';
 
 ValueNotifier indexListener = ValueNotifier(0);
@@ -35,8 +34,6 @@ class BottomBarPages extends StatefulWidget {
 }
 
 int bottomIndex = 0;
-
-PageController controller = PageController();
 
 bool photos = false;
 
@@ -78,10 +75,13 @@ class _BottomBarPagesState extends State<BottomBarPages> {
   @override
   void initState() {
     context.read<GetUserDataCubit>().getParentsTeachers('');
+    LoginApiShadePreference.preferences!.setString('role', 'parents');
 
     // TODO: implement initState
     super.initState();
   }
+
+  PageController _controller = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -109,25 +109,25 @@ class _BottomBarPagesState extends State<BottomBarPages> {
             child: Row(
               children: [
                 BottomNavItems(
-                  pageController: controller,
+                  pageController: _controller,
                   icon: AppImages.homeIcon,
                   index: 0,
                   title: 'Home',
                 ),
                 BottomNavItems(
-                  pageController: controller,
+                  pageController: _controller,
                   icon: AppImages.calenderIcon,
                   index: 1,
                   title: 'Calendar',
                 ),
                 BottomNavItems(
-                  pageController: controller,
+                  pageController: _controller,
                   icon: AppImages.chatIcon,
                   index: 2,
                   title: 'Chat',
                 ),
                 BottomNavItems(
-                  pageController: controller,
+                  pageController: _controller,
                   icon: AppImages.reportIcon,
                   index: 3,
                   title: 'Reports',
@@ -141,16 +141,14 @@ class _BottomBarPagesState extends State<BottomBarPages> {
               children: [
                 Expanded(
                   child: PageView(
-                    controller: controller,
+                    controller: _controller,
                     children: [
                       DashboardScreen(),
                       CalenderScreen(),
                       ChatScreen(),
-                      type != 'Teacher'
-                          ? ReportCardScreen()
-                          : TeacherReportScreen(),
-                      MenuScreen(),
-                      ClassScreen(),
+                      ReportCardScreen(),
+                      // const MenuScreen(),
+                      NewsEventsPage(),
                     ],
                   ),
                 )

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:school_system/Presentation/bottom_bar_techer/report_screen/report_detail/teacher_report_detail.dart';
+import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_app_bar.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
@@ -50,17 +52,20 @@ class _TeacherReportScreenState extends State<TeacherReportScreen> {
           SizedBox(
             height: 15.sp,
           ),
-          BlocBuilder<ShowTeacherClassCubit, ShowTeacherClassState>(
-            builder: (context, state) {
+          BlocConsumer<ShowTeacherClassCubit, ShowTeacherClassState>(
+            listener: (context, state) {
               if (state is ShowTeacherClassLoading) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CustomWidgets.loadingIndicator(),
-                  ],
-                );
-              } else if (state is ShowTeacherClassLoaded) {
+                LoadingDialog.showLoadingDialog(context);
+              }
+              if (state is ShowTeacherClassLoaded) {
+                Navigator.pop(context);
+              }
+              if (state is ShowTeacherClassError) {
+                Fluttertoast.showToast(msg: state.error!);
+              }
+            },
+            builder: (context, state) {
+              if (state is ShowTeacherClassLoaded) {
                 return Column(
                   children: [
                     Row(
@@ -106,6 +111,9 @@ class _TeacherReportScreenState extends State<TeacherReportScreen> {
                                   builder: (context) {
                                     return TeacherReportDetail(
                                       id: state.model.data?[index].id
+                                              .toString() ??
+                                          "",
+                                      className: state.model.data?[index].name
                                               .toString() ??
                                           "",
                                     );
