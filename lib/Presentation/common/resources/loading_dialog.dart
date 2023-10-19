@@ -28,7 +28,8 @@ class LoadingDialog {
             'images/loading.json',
             height: 100,
             width: 100,
-            //  color: Colors.transparent,
+
+             // color: kPrimaryColor,
             //frameRate: 30, // default is 15 FPS
           ),
     );

@@ -4,20 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/io_client.dart';
 import 'package:intl/intl.dart';
+import 'package:school_system/Controllers/FirebaseRepos/firebase_notification.dart';
 import 'package:school_system/Data/app_const.dart';
 
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-import 'package:school_system/controllers/firebase_repos/firebase_notification.dart';
+import 'package:school_system/models/user_data_model.dart';
 
 class LoginApi {
   static Future<Map<String, dynamic>> login(
       String email, String password) async {
-    String token = await FirebaseNotificationsService().getDeviceToken();
+    String fcmToken = await FirebaseNotificationsService().getDeviceToken();
 
     var body = json.encode({
       'email': email,
       'password': password,
-      'fcm_id': token,
+      'fcm_id': fcmToken,
     });
     var headers = {'Content-Type': 'application/json'};
 
@@ -41,10 +42,18 @@ class LoginApi {
         String token = data['token'];
         String role = data['user']['type'];
         String userId = data['user']['id'].toString();
+        String profileImage = data['user']['image'] ?? "";
 
         LoginApiShadePreference.preferences!.setString('api_token', token);
-        LoginApiShadePreference.preferences!.setString('role', role);
+        LoginApiShadePreference.preferences!.setString('type', role);
         LoginApiShadePreference.preferences!.setString('user_id', userId);
+        LoginApiShadePreference.preferences!.setString('image', profileImage);
+
+        print(LoginApiShadePreference.preferences!.getString('type'));
+        print(userId);
+        print(profileImage);
+
+        // UserModel.fromJson(data['user']);
 
         return jsonDecode(request.body);
       } else {

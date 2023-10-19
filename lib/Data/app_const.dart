@@ -7,5 +7,5 @@ class StaticValues {
       'https://www.dev.schoolsnow.parentteachermobile.com/api/get/meetings';
 
   static String? userType =
-      LoginApiShadePreference.preferences!.getString('role');
+      LoginApiShadePreference.preferences!.getString('type');
 }

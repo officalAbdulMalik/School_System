@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../bottom_bar_parent/profile_screens/subscription_screen.dart';
 import 'container_decoration.dart';
 
 class MenuCustomTab {

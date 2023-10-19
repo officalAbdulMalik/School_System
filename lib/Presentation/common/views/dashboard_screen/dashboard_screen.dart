@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:school_system/Presentation/bottom_bar_parent/profile_screens/show_children.dart';
+import 'package:school_system/Controllers/Cubits/CommonCubit/get_all_meetings_cubit.dart';
+import 'package:school_system/Presentation/BottomBarParent/profile_screens/show_children.dart';
+import 'package:school_system/Presentation/BottomBarTeacher/prifile_screen/show_class.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/common/views/events_scren.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-import 'package:school_system/controllers/cubits/common_cubit/get_all_meetings_cubit.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../../../bottom_bar_parent/profile_screens/add_child_screen.dart';
-import '../../../bottom_bar_techer/prifile_screen/show_class.dart';
 import '../../../utils/app_images.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/custom_widget/my_text.dart';
@@ -24,7 +23,7 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  String? role = LoginApiShadePreference.preferences!.getString('role');
+  String? role = LoginApiShadePreference.preferences!.getString('type');
 
   DateTime selectedTime = DateTime.now();
 
@@ -181,7 +180,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => role == 'teacher'
-                                      ? TeacherClass()
+                                      ? const TeacherClass()
                                       : ShowChildren()));
                         },
                         child: Container(

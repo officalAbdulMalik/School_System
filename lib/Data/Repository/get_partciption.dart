@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:school_system/Data/app_const.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 import 'package:http/http.dart' as http;
 import 'package:school_system/models/teacher_parents_data_model.dart';
 
 class GetParticipation {
-  static Future<Map<String, dynamic>> getData() async {
+  static Future<Map<String, dynamic>> getData(String endPoint) async {
     try {
       var headers = {
         'Content-Type': 'application/json',
@@ -13,8 +14,10 @@ class GetParticipation {
             'Bearer Bearer ${LoginApiShadePreference.preferences!.getString("api_token")}'
       };
 
-      var url = Uri.parse(
-          'https://schoolsnow.parentteachermobile.com/api/get/parents');
+      var url = Uri.parse('$baseUrl$endPoint');
+
+      print(url);
+
       var response = await http.get(url, headers: headers);
 
       print('status code is ${response.statusCode}');

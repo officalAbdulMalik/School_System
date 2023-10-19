@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:school_system/Data/app_const.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
@@ -8,12 +9,13 @@ class AddAttendance {
   static Future addValue({
     required String date,
     required String classId,
-    required List<int>? present,
-    required List<int>? absent,
+    required List<String>? present,
+    required List<String>? absent,
   }) async {
+    debugPrint(classId);
     var data = {
-      "present_student_ids": [94],
-      "absence_student_id": [],
+      "present_student_ids": jsonEncode(present),
+      "absence_student_id": jsonEncode(absent),
       "date": date.toString(),
       "holiday": null,
       "class_id": classId,
@@ -28,8 +30,8 @@ class AddAttendance {
 
     try {
       http.Response request = await http.post(
-          Uri.parse('$baseUrl/api/teacher/create/student-report'),
-          body: json.encode(data),
+          Uri.parse('$baseUrl/api/teacher/mark-attendance'),
+          body: jsonEncode(data),
           headers: headers);
 
       print(request.statusCode);

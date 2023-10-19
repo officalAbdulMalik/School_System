@@ -7,8 +7,7 @@ import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 import 'auth_apis.dart';
 
 class UpdateProfile {
-  static Future<int> updateProfile({
-    required BuildContext context,
+  static Future<Map<String, dynamic>> updateProfile({
     required String firstName,
     required String lastName,
     required String email,
@@ -43,20 +42,27 @@ class UpdateProfile {
       'dob': dob,
       'gender': gender,
     });
-    request.files.add(await http.MultipartFile.fromPath('image', image));
+    image.isNotEmpty
+        ? request.files.add(await http.MultipartFile.fromPath('image', image))
+        : null;
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
-
-      return response.statusCode;
-    } else {
-      print(response.statusCode);
       var data = await response.stream.bytesToString();
       print(data);
-      return response.statusCode;
+      return {
+        'status': 200,
+        'data': data,
+      };
+    } else {
+      print(response.statusCode);
+
+      return {
+        'status': 400,
+        'data': '',
+      };
     }
   }
 }

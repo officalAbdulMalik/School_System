@@ -19,6 +19,7 @@ class MyTextField extends StatefulWidget {
   final Color? borderColor;
   final Color? filledColor;
   final Widget? prefixIcon;
+  final Function(String)? onCanaged;
 
   const MyTextField({
     Key? key,
@@ -32,6 +33,7 @@ class MyTextField extends StatefulWidget {
     this.suffixIcon,
     this.isPasswordField = false,
     required this.controller,
+    this.onCanaged,
     // required this.label,
     this.hintText,
     this.maxLine,
@@ -53,7 +55,7 @@ class _MyTextFieldState extends State<MyTextField> {
       //  cursorHeight: 20.sp,
       enabled: widget.enabled,
       // autofocus: true,
-
+      onChanged: widget.onCanaged,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       obscureText: widget.isPasswordField! ? showPassword : false,
       controller: widget.controller,
@@ -63,7 +65,7 @@ class _MyTextFieldState extends State<MyTextField> {
           ? null
           : (value) {
               if (value == null || value.isEmpty) {
-                return ' ${widget.label ?? widget.hintText} ${"is required"}';
+                return '${widget.label ?? widget.hintText} ${"is required"}';
               }
 
               return null;
@@ -81,7 +83,7 @@ class _MyTextFieldState extends State<MyTextField> {
               left: 15.sp,
               right: 8.sp,
               top: 15.sp,
-              bottom: 10.sp,
+              bottom: 15.sp,
             ),
 
         errorStyle: TextStyle(
@@ -115,7 +117,7 @@ class _MyTextFieldState extends State<MyTextField> {
                 child: widget.suffixIcon,
               ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15.sp),
+          borderRadius: BorderRadius.circular(10.sp),
           borderSide: BorderSide.none,
         ),
       ),

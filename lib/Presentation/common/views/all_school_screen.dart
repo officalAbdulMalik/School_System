@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_system/Controllers/Cubits/CommonCubit/get_all_school_cubit.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/common/views/shool_addInInfo.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
-import 'package:school_system/controllers/cubits/common_cubit/get_all_school_cubit.dart';
+import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
+import 'package:school_system/models/get_all_school_model.dart';
 
 import '../../utils/custom_widget/custom_row_widget.dart';
 import '../../utils/custom_widget/navigator_pop.dart';
@@ -22,6 +24,11 @@ class SchoolListScreen extends StatefulWidget {
 
 class _SchoolListScreenState extends State<SchoolListScreen> {
   final ValueNotifier<bool> showPassword = ValueNotifier(false);
+
+  TextEditingController searchController = TextEditingController();
+
+  List<Schools>? searchList = [];
+  List<Schools>? dataList = [];
 
   String type = '';
 
@@ -40,7 +47,7 @@ class _SchoolListScreenState extends State<SchoolListScreen> {
           onTap: () {
             Navigator.push(context, MaterialPageRoute(
               builder: (context) {
-                return AddSchoolScreen();
+                return const AddSchoolScreen();
               },
             ));
           },
@@ -67,7 +74,7 @@ class _SchoolListScreenState extends State<SchoolListScreen> {
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
             child: Column(
@@ -82,6 +89,24 @@ class _SchoolListScreenState extends State<SchoolListScreen> {
                   text2: 'Select Your school from here...',
                   image: 'add_s_star.png',
                 ),
+                MyTextField(
+                  controller: searchController,
+                  filledColor: kContainerColor,
+                  hintText: 'Search',
+                  prefixIcon: const Icon(Icons.search),
+                  onCanaged: (val) {
+                    if (val.isNotEmpty) {
+                      searchList = searchList!
+                          .where((player) => player.schoolName!
+                              .toLowerCase()
+                              .contains(val.toLowerCase()))
+                          .toList();
+                    } else {
+                      searchList = dataList;
+                    }
+                    setState(() {});
+                  },
+                ),
                 SizedBox(
                   height: 15.h,
                 ),
@@ -91,6 +116,8 @@ class _SchoolListScreenState extends State<SchoolListScreen> {
                       LoadingDialog.showLoadingDialog(context);
                     }
                     if (state is GetAllSchoolLoaded) {
+                      searchList = state.model;
+                      dataList = state.model;
                       Navigator.pop(context);
                     }
                     if (state is GetAllSchoolError) {
@@ -102,14 +129,14 @@ class _SchoolListScreenState extends State<SchoolListScreen> {
                       return SizedBox(
                         height: 500.h,
                         width: 500.w,
-                        child: state.model.data!.isNotEmpty
+                        child: searchList!.isNotEmpty
                             ? ListView.separated(
                                 separatorBuilder: (context, index) {
                                   return SizedBox(
                                     height: 10.h,
                                   );
                                 },
-                                itemCount: state.model.data!.length,
+                                itemCount: searchList!.length,
                                 itemBuilder: (context, index) {
                                   return Container(
                                     decoration: BoxDecoration(
@@ -120,18 +147,17 @@ class _SchoolListScreenState extends State<SchoolListScreen> {
                                     child: ListTile(
                                       leading: CircleAvatar(
                                         backgroundImage: NetworkImage(
-                                            state.model.data![index].image ??
-                                                ''),
+                                            searchList![index].image ?? ''),
                                       ),
                                       title: Text(
-                                        state.model.data![index].schoolName!,
+                                        searchList![index].schoolName!,
                                         style: CustomWidgets.textStyle(
                                             color: Colors.black,
                                             size: 16,
                                             weight: FontWeight.w600),
                                       ),
                                       subtitle: Text(
-                                        state.model.data![index].address!,
+                                        searchList![index].address!,
                                         style: CustomWidgets.textStyle(
                                             color: kDescriptionColor,
                                             size: 15,
@@ -146,7 +172,7 @@ class _SchoolListScreenState extends State<SchoolListScreen> {
                                                 MaterialPageRoute(
                                               builder: (context) {
                                                 return SchoolAddInInfo(
-                                                  data: state.model.data!,
+                                                  data: searchList!,
                                                   index: index,
                                                 );
                                               },
@@ -174,7 +200,7 @@ class _SchoolListScreenState extends State<SchoolListScreen> {
                               ),
                       );
                     } else {
-                      return SizedBox();
+                      return const SizedBox();
                     }
                   },
                 ),

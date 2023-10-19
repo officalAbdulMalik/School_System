@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:school_system/Controllers/Cubits/CommonCubit/delate_account_cubit.dart';
 import 'package:school_system/Data/Repository/delete_account.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/common/views/loginScreen.dart';
@@ -9,7 +10,6 @@ import 'package:school_system/Presentation/common/views/sign_up_screen.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-import 'package:school_system/controllers/cubits/common_cubit/delate_account_cubit.dart';
 
 import '../subscription_screen/subscription_view.dart';
 import 'components/drawer_cards.dart';

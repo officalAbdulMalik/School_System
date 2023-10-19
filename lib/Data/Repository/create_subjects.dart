@@ -1,8 +1,4 @@
-import 'dart:convert';
 import 'dart:developer';
-import 'package:http/http.dart' as http;
-import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-import 'package:school_system/controllers/cubits/common_cubit/login_cubit.dart';
 import 'package:school_system/controllers/services/apis.dart';
 
 class CreateSubjectsRepo {

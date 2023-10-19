@@ -13,8 +13,8 @@ import 'package:otp_text_field/style.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-import 'package:school_system/controllers/cubits/common_cubit/verify_otp_cubit.dart';
 
+import '../../../Controllers/Cubits/CommonCubit/verify_otp_cubit.dart';
 import '../../../Data/Repository/forget_password_api.dart';
 import '../../utils/custom_widget/custom_row_widget.dart';
 import '../../utils/custom_widget/custom_widgets.dart';

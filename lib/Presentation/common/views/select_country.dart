@@ -5,7 +5,6 @@ import 'package:school_system/Presentation/common/views/sign_up_screen.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
-import '../../../controllers/firebase_repos/firebase_notification.dart';
 import '../../utils/custom_widget/custom_row_widget.dart';
 import '../../utils/custom_widget/navigator_pop.dart';
 
@@ -22,15 +21,15 @@ class _SelectCountryState extends State<SelectCountry> {
   final ValueNotifier<bool> showPassword = ValueNotifier(false);
 
   String country = '';
-
-  getToken() async {
-    String token = await FirebaseNotificationsService().getDeviceToken();
-    LoginApiShadePreference.preferences!.setString('device_token', token);
-  }
+  //
+  // getToken() async {
+  //   String token = await FirebaseNotificationsService().getDeviceToken();
+  //   LoginApiShadePreference.preferences!.setString('device_token', token);
+  // }
 
   @override
   void initState() {
-    getToken();
+    // getToken();
     // TODO: implement initState
     super.initState();
   }

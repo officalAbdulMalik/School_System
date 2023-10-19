@@ -1,13 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:school_system/Presentation/bottom_bar_techer/prifile_screen/profile_detail_screen.dart';
+import 'package:school_system/Controllers/Cubits/CommonCubit/get_user_data_cubit.dart';
+import 'package:school_system/Presentation/BottomBarTeacher/prifile_screen/profile_detail_screen.dart';
 import 'package:school_system/Presentation/common/views/menu_drawer/menu_drawer.dart';
-
-import '../../../controllers/cubits/common_cubit/get_user_data_cubit.dart';
-import '../../bottom_bar_parent/profile_screens/edit_profile_screen.dart';
-import '../app_images.dart';
-import 'my_text.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
@@ -82,7 +80,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ProfileDetailScreen(
-                                    data: state.model.user,
+                                    data: state.model,
                                   )));
                     },
                     child: Center(
@@ -93,7 +91,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                             shape: BoxShape.circle,
                             color: Colors.white,
                             image: DecorationImage(
-                                image: AssetImage(AppImages.userImage)),
+                              image: state.model!.image == null
+                                  ? const AssetImage("images/users.png")
+                                  : NetworkImage(state.model!.image!)
+                                      as ImageProvider,
+                              fit: BoxFit.cover,
+                            ),
                             boxShadow: [
                               BoxShadow(
                                   color: Colors.grey.withAlpha(80),

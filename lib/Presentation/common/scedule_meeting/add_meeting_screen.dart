@@ -5,15 +5,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:school_system/Controllers/Cubits/CommonCubit/add_metting_cubit.dart';
+import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/common/scedule_meeting/show_school.dart';
 import 'package:school_system/Presentation/common/views/all_school_screen.dart';
+import 'package:school_system/Presentation/common/views/bottom_bar.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_date_picker.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_time_picker.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
-import 'package:school_system/controllers/cubits/common_cubit/add_metting_cubit.dart';
-import 'package:school_system/controllers/firebase_repos/firebase_notification.dart';
 
+import '../../../Controllers/FirebaseRepos/firebase_notification.dart';
 import '../../utils/app_images.dart';
 import '../../utils/custom_widget/my_text.dart';
 import 'add_participant_screen.dart';
@@ -76,6 +78,7 @@ class _AddMeetingScreenState extends State<AddMeetingScreen> {
           children: [
             Expanded(
               child: ListView(
+                physics: const BouncingScrollPhysics(),
                 padding: EdgeInsets.symmetric(horizontal: 22.sp),
                 children: [
                   Row(
@@ -123,7 +126,8 @@ class _AddMeetingScreenState extends State<AddMeetingScreen> {
                   InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ShowSchool()));
+                          builder: (context) =>
+                              AddParticipantScreen(schoolId: '')));
                     },
                     child: Container(
                         margin: EdgeInsets.symmetric(horizontal: 20.sp),
@@ -262,6 +266,9 @@ class _AddMeetingScreenState extends State<AddMeetingScreen> {
                     filledColor: const Color(0xFFF3F4F6),
                     isRequiredField: true,
                   ),
+                  SizedBox(
+                    height: 30.h,
+                  ),
                 ],
               ),
             ),
@@ -281,43 +288,50 @@ class _AddMeetingScreenState extends State<AddMeetingScreen> {
                         eTime: eTimeController.text.trim(),
                         desc: descriptionController.text.trim());
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Add Participation please')));
+                    Fluttertoast.showToast(msg: 'Add Participation please');
                   }
                 }
               },
               child: BlocConsumer<AddMettingCubit, AddMettingState>(
                 listener: (context, state) {
+                  if (state is AddMettingLoading) {
+                    LoadingDialog.showLoadingDialog(context);
+                  }
                   if (state is AddMettingError) {
                     Fluttertoast.showToast(msg: state.error!);
+                    Navigator.pop(context);
                   }
-
                   if (state is AddMettingLoaded) {
-                    FirebaseNotificationsService().showNotification(
-                        1, meetingName.text, 'Meeting Create Successful');
+                    Navigator.pop(context);
+
+                    Fluttertoast.showToast(msg: 'Meeting Created Successful');
+
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute<dynamic>(
+                          builder: (BuildContext context) =>
+                              const BottomBarPages(),
+                        ),
+                        (route) => false);
+
+                    clear();
                   }
                 },
                 builder: (context, state) {
-                  if (state is AddMettingLoading) {
-                    return const CircularProgressIndicator(
-                      color: kPrimaryColor,
-                    );
-                  } else {
-                    return Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.sp),
-                      height: 45.sp,
-                      decoration: BoxDecoration(
-                          color: Color(0xff3DAEF5),
-                          borderRadius: BorderRadius.circular(12.sp)),
-                      child: Center(
-                        child: MyText(
-                          'Schedule Meeting',
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                        ),
+                  return Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20.sp),
+                    height: 45.sp,
+                    decoration: BoxDecoration(
+                        color: Color(0xff3DAEF5),
+                        borderRadius: BorderRadius.circular(12.sp)),
+                    child: Center(
+                      child: MyText(
+                        'Schedule Meeting',
+                        color: Colors.white,
+                        fontSize: 14.sp,
                       ),
-                    );
-                  }
+                    ),
+                  );
                 },
               ),
             ),
@@ -328,5 +342,14 @@ class _AddMeetingScreenState extends State<AddMeetingScreen> {
         ),
       ),
     );
+  }
+
+  clear() {
+    dateController.clear();
+    sTimeController.clear();
+    eTimeController.clear();
+    descriptionController.clear();
+    widget.ids!.clear();
+    meetingName.clear();
   }
 }

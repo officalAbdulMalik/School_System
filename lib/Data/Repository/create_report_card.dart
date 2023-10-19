@@ -14,27 +14,25 @@ class CreateCard {
     required List<Map<String, dynamic>>? data1,
   }) async {
     var data = {
-      "quarter_id": 'ee77a95a64b33e49dc9fb0320b765149',
-      "class_id": "25",
-      "subject_id": "2",
-      "session_year_id": '1',
-      "reports": data1,
+      "quarter_id": querterIO,
+      "class_id": classId,
+      "subject_id": subjectID,
+      "session_year_id": sessionID,
+      "reports": jsonEncode(data1),
     };
 
-    log("data is Here${data.toString()}");
+    print("data is Here${data}");
 
     var headers = {
-      'Authorization': 'Bearer 388|ftUXlkAj0qvMee1uzNQUdFw6eE2VuWRFPI085UB9'
+      'Authorization':
+          'Bearer ${LoginApiShadePreference.preferences!.getString('api_token')}',
     };
 
     try {
       http.Response request = await http.post(
           Uri.parse('$baseUrl/api/teacher/create/student-report'),
-          body: json.encode(data),
+          body: jsonEncode(data),
           headers: headers);
-
-      print(request.statusCode);
-      print(request.body);
       log("request body ${request.body}");
       if (request.statusCode == 200) {
         log(request.body);

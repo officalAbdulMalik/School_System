@@ -1,26 +1,19 @@
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
-import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
-import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:school_system/Presentation/bottom_bar_parent/show_report_sreen.dart';
-import 'package:school_system/Presentation/bottom_bar_techer/report_screen/teacher_report_screen.dart';
+import 'package:school_system/Controllers/Cubits/CommonCubit/get_user_data_cubit.dart';
+import 'package:school_system/Presentation/BottomBarParent/profile_screens/show_report_sreen.dart';
+import 'package:school_system/Presentation/BottomBarTeacher/report_screen/show_teacher_class.dart';
 import 'package:school_system/Presentation/common/scedule_meeting/calnder_screen.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-
-import 'package:stylish_bottom_bar/model/bar_items.dart';
-import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
-
-import '../../../controllers/cubits/common_cubit/get_user_data_cubit.dart';
 import '../../utils/custom_widget/custom_app_bar.dart';
 import 'dashboard_screen/dashboard_screen.dart';
-import 'menu_screen.dart';
 import 'chat_screens/chat_screen.dart';
 import 'events_scren.dart';
 
@@ -37,7 +30,7 @@ int bottomIndex = 0;
 
 bool photos = false;
 
-int slectIndex = 0;
+// int slectIndex = 0;
 int visit = 0;
 
 List<TabItem> items = [
@@ -72,20 +65,20 @@ List<TabItem> items = [
 ];
 
 class _BottomBarPagesState extends State<BottomBarPages> {
+  final PageController _controller = PageController();
+
   @override
   void initState() {
     context.read<GetUserDataCubit>().getParentsTeachers('');
-    LoginApiShadePreference.preferences!.setString('role', 'parents');
 
     // TODO: implement initState
     super.initState();
   }
 
-  PageController _controller = PageController();
-
   @override
   Widget build(BuildContext context) {
-    String? type = LoginApiShadePreference.preferences!.getString('role');
+    String? type = LoginApiShadePreference.preferences!.getString('type');
+    print(type);
 
     return SafeArea(
       child: WillPopScope(
@@ -95,7 +88,7 @@ class _BottomBarPagesState extends State<BottomBarPages> {
           return Future.value(true);
         },
         child: Scaffold(
-          appBar: CustomAppBar(),
+          appBar: const CustomAppBar(),
           extendBody: true,
           bottomNavigationBar: Container(
             padding: EdgeInsets.only(top: 5.sp),
@@ -103,7 +96,7 @@ class _BottomBarPagesState extends State<BottomBarPages> {
               BoxShadow(
                   color: Colors.grey.withAlpha(60),
                   blurRadius: 5,
-                  offset: Offset(5, 0))
+                  offset: const Offset(5, 0))
             ]),
             height: 75.sp,
             child: Row(
@@ -146,8 +139,9 @@ class _BottomBarPagesState extends State<BottomBarPages> {
                       DashboardScreen(),
                       CalenderScreen(),
                       ChatScreen(),
-                      ReportCardScreen(),
-                      // const MenuScreen(),
+                      type == 'parent'
+                          ? ReportCardScreen()
+                          : TeacherReportScreen(),
                       NewsEventsPage(),
                     ],
                   ),
@@ -183,8 +177,6 @@ class BottomNavItems extends StatelessWidget {
           builder: (context, value, child) {
             return InkWell(
               onTap: () {
-                print(index);
-
                 pageController.jumpToPage(index);
                 indexListener.value = index;
               },
@@ -193,12 +185,12 @@ class BottomNavItems extends StatelessWidget {
                   Expanded(
                       child: SvgPicture.asset(
                     icon,
-                    color: index == value ? Colors.blue : Colors.grey,
+                    color: value == index ? Colors.blue : Colors.grey,
                   )),
                   Expanded(
                       child: MyText(
                     title,
-                    color: index == value ? Colors.blue : Colors.grey,
+                    color: value == index ? Colors.blue : Colors.grey,
                   ))
                 ],
               ),

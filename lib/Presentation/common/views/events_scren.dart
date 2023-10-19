@@ -1,9 +1,15 @@
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_system/Controllers/Cubits/CommonCubit/events_newz_cubit.dart';
+import 'package:school_system/Presentation/common/resources/loading_dialog.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
+import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
+import 'package:school_system/models/news_events_model.dart';
 
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -30,28 +36,18 @@ class NewsEventsPage extends StatefulWidget {
 }
 
 class _NewsEventsPageState extends State<NewsEventsPage> {
-  final List<EventScreeen> newsList = [
-    EventScreeen(
-      title: 'Children\'s Day Celebration',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    ),
-    EventScreeen(
-      title: 'International Day of Education',
-      description:
-          'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    ),
-    EventScreeen(
-      title: 'Children\'s Day Celebration',
-      description:
-          'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
-    ),
-  ];
-
   EventController eventController = EventController();
   SideEventArranger slideEvent = SideEventArranger();
 
+  TextEditingController searchController = TextEditingController();
+
+  List<NewsEvents>? allData = [];
+  List<NewsEvents>? searchList = [];
+
   @override
   void initState() {
+    context.read<EventsNewsCubit>().getEventsNews();
+
     // eventController.add(CalendarEventData(
     //   date: DateTime.now().add(Duration(hours: 1)),
     //   endDate: DateTime.now().add(Duration(hours: 2)),
@@ -94,45 +90,138 @@ class _NewsEventsPageState extends State<NewsEventsPage> {
             SizedBox(
               height: 20.sp,
             ),
-            containerWidget(newsList),
+            MyTextField(
+              controller: searchController,
+              filledColor: kContainerColor,
+              hintText: 'Search',
+              prefixIcon: Icon(Icons.search),
+              onCanaged: (val) {
+                if (val.isNotEmpty) {
+                  searchList = searchList!
+                      .where((player) => player.title!
+                          .toLowerCase()
+                          .contains(val.toLowerCase()))
+                      .toList();
+                } else {
+                  searchList = allData;
+                }
+                setState(() {});
+              },
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            BlocConsumer<EventsNewsCubit, EventsNewsState>(
+              listener: (context, state) {
+                if (state is EventsNewsLoading) {
+                  LoadingDialog.showLoadingDialog(context);
+                }
+                if (state is EventsNewsLoaded) {
+                  Navigator.pop(context);
+                  allData = state.newsEvents!;
+                  searchList = state.newsEvents!;
+                }
+                if (state is EventsNewsError) {
+                  Fluttertoast.showToast(msg: state.error!);
+                }
+                // TODO: implement listener
+              },
+              builder: (context, state) {
+                if (state is EventsNewsLoaded) {
+                  return SizedBox(
+                    height: 0.75.sh,
+                    width: 1.sw,
+                    child: searchList!.isNotEmpty
+                        ? ListView.separated(
+                            separatorBuilder: (context, index) {
+                              return SizedBox(
+                                height: 15.h,
+                              );
+                            },
+                            itemCount: searchList!.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                decoration: ShapeDecoration(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  shadows: const [
+                                    BoxShadow(
+                                      color: Color(0x19303133),
+                                      blurRadius: 10,
+                                      offset: Offset(2, 2),
+                                      spreadRadius: 1,
+                                    )
+                                  ],
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    getText(searchList?[index].title ?? "", 16,
+                                        FontWeight.w500, Colors.black),
+                                    getText(
+                                        searchList?[index].description ?? "",
+                                        14,
+                                        FontWeight.w400,
+                                        Colors.grey),
+                                    Container(
+                                        padding: EdgeInsets.only(
+                                            bottom: 10.sp,
+                                            top: 10.sp,
+                                            left: 5.sp,
+                                            right: 5.sp),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.r),
+                                          // boxShadow: const [
+                                          //   BoxShadow(
+                                          //     color: Color(0x19303133),
+                                          //     blurRadius: 30,
+                                          //     offset: Offset(2, 4),
+                                          //     spreadRadius: 0,
+                                          //   )
+                                          // ],
+                                        ),
+                                        child: Image.asset(
+                                          'images/event1.png',
+                                          fit: BoxFit.contain,
+                                        )),
+                                  ],
+                                ),
+                              );
+                            },
+                          )
+                        : Center(
+                            child: MyText(
+                              'Data not found',
+                              fontSize: 18.sp,
+                              color: Colors.black,
+                            ),
+                          ),
+                  );
+                } else if (state is EventsNewsError) {
+                  return Center(
+                    child: MyText(
+                      state.error!,
+                      fontSize: 18.sp,
+                      color: Colors.black,
+                    ),
+                  );
+                } else {
+                  return SizedBox();
+                }
+              },
+            ),
           ],
         ),
       ),
     );
   }
-}
-
-Container containerWidget(List<EventScreeen> events) {
-  return Container(
-    height: events.length * 200.h,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(12.sp),
-    ),
-    child: Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0.sp),
-      child: ListView.separated(
-        separatorBuilder: (context, index) {
-          return SizedBox(
-            height: 15.h,
-          );
-        },
-        itemCount: 3,
-        itemBuilder: (context, index) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              getText(events[index].title, 16, FontWeight.w500, Colors.black),
-              getText(
-                  events[index].description, 14, FontWeight.w400, Colors.grey),
-              Image.asset('images/event1.png'),
-            ],
-          );
-        },
-      ),
-    ),
-  );
 }
 
 getText(String title, int fontSize, FontWeight weight, Color color) {

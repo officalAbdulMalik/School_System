@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Presentation/common/views/bottom_bar.dart';
+import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/container_decoration.dart';
 
 class CustomDropDown extends StatefulWidget {
@@ -30,75 +31,84 @@ class _CustomDropDownState extends State<CustomDropDown> {
       child: Column(
         children: [
           Expanded(
-            child: DecoratedContainer(
-              child: DropdownButtonFormField(
-                padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
-                borderRadius: BorderRadius.circular(10),
-                //autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) {
-                  if (value == null) {
-                    validation = true;
-                    setState(() {});
-                  } else {
-                    validation = false;
-                    setState(() {});
-                    return null;
-                  }
-                },
+            child: DropdownButtonFormField(
+              borderRadius: BorderRadius.circular(10),
+              //autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) {
+                if (value == null) {
+                  return 'Field is required';
+                }
 
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  prefixIconConstraints: BoxConstraints(
-                    maxHeight: 60.w,
-                    maxWidth: 50.w,
-                    minHeight: 22.w,
-                    minWidth: 23.w,
-                  ),
-                  errorMaxLines: 1,
-
-                  // EdgeInsets.symmetric(
-                  //   vertical: 13,
-                  //   horizontal: prefixIcon != null ? 10 : 6,
-                  // ).r,
+                return null;
+              },
+              decoration: InputDecoration(
+                filled: true,
+                errorMaxLines: 1,
+                isCollapsed: true,
+                //  isDense: true,
+                fillColor: kContainerColor,
+                border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(10.r)),
+                prefixIconConstraints: BoxConstraints(
+                  maxHeight: 60.w,
+                  maxWidth: 50.w,
+                  minHeight: 22.w,
+                  minWidth: 23.w,
                 ),
-                hint: Text(
-                  widget.hintText,
-                  style: GoogleFonts.poppins(
-                    color: Colors.black,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
+                contentPadding: EdgeInsets.only(
+                    top: 10.sp, bottom: 10.sp, left: 10, right: 10),
+                errorStyle: TextStyle(
+                  fontSize: 12.sp,
+                  height: 0.2.sp,
+                  color: Colors.red,
                 ),
-                icon: const Align(
-                  alignment: Alignment.centerRight,
-                  child: Icon(
-                    Icons.arrow_drop_down,
-                    color: Colors.black,
-                  ),
+                hintStyle: GoogleFonts.poppins(
+                  fontSize: 14.sp,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
                 ),
-                iconSize: 28.r,
-                isExpanded: true,
-                // style: Styles.latoRegular(
-                //   context,
-                //   fontSize: 14.sp,
-                // ),
-                value: null,
-                onChanged: widget.onChanged,
-                items: widget.itemsMap,
+                suffixIconConstraints:
+                    BoxConstraints(maxHeight: 40.sp, maxWidth: 40.sp),
+                hintText: widget.hintText,
               ),
+              hint: Text(
+                widget.hintText,
+                style: GoogleFonts.poppins(
+                  color: Colors.black,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              icon: const Align(
+                alignment: Alignment.centerRight,
+                child: Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.black,
+                ),
+              ),
+              iconSize: 28.r,
+              isExpanded: true,
+              // style: Styles.latoRegular(
+              //   context,
+              //   fontSize: 14.sp,
+              // ),
+              value: null,
+              onChanged: widget.onChanged,
+              items: widget.itemsMap,
             ),
           ),
-          validation == false
-              ? const SizedBox()
-              : Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    '    field is required',
-                    style: GoogleFonts.poppins(
-                      color: Colors.red,
-                    ),
-                  ),
-                ),
+          // validation == false
+          //     ? const SizedBox()
+          //     : Align(
+          //         alignment: Alignment.centerLeft,
+          //         child: Text(
+          //           '    field is required',
+          //           style: GoogleFonts.poppins(
+          //             color: Colors.red,
+          //           ),
+          //         ),
+          //       ),
         ],
       ),
     );

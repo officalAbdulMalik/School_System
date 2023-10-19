@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:school_system/Controllers/Cubits/CommonCubit/login_cubit.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-import 'package:school_system/controllers/cubits/common_cubit/login_cubit.dart';
 
 import '../../../Data/Repository/auth_apis.dart';
 import 'bottom_bar.dart';
@@ -153,9 +153,9 @@ class _LogInScreenState extends State<LogInScreen> {
                       if (state is LoginLoaded) {
                         Navigator.pop(context);
 
-                        Navigator.push(context, MaterialPageRoute(
+                        Navigator.pushReplacement(context, MaterialPageRoute(
                           builder: (context) {
-                            return BottomBarPages();
+                            return const BottomBarPages();
                           },
                         ));
                       }

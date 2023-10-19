@@ -20,23 +20,21 @@ class AddMeetings {
 
     print(id);
 
+    List ids = [];
+
+    for (int i = 0; i < id.length; i++) {
+      ids.add({"parent_id": id[i], "student_id": null});
+    }
+
     var body = json.encode({
       "title": title,
       "meeting_date": date,
       "meeting_time": sTime,
       "meeting_end_time": eTime,
-      "student_parent_ids": [
-        // body is required
-        {
-          "parent_id": userType != 'Teacher'
-              ? jsonEncode(id)
-              : [], // if you are a parent, send parent_id as empty.
-          "student_id": null // student_id can be null.
-        }
-      ],
-      "teacher_id": userType == 'Teacher'
+      "student_parent_ids": userType == 'teacher' ? ids : null,
+      "teacher_id": userType != 'teacher'
           ? jsonEncode(id)
-          : [], // if you are a teacher, send teacher_id as empty.
+          : null, // if you are a teacher, send teacher_id as empty.
       "description": desc,
     });
 

@@ -4,14 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:school_system/Controllers/Cubits/CommonCubit/sign_up_cubit.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/custom_widget/container_decoration.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-import 'package:school_system/controllers/cubits/common_cubit/sign_up_cubit.dart';
-
-import '../../../Data/Repository/auth_apis.dart';
 import '../../utils/colors.dart';
 import '../../utils/custom_widget/custom_dop_down.dart';
 import '../../utils/custom_widget/custom_row_widget.dart';
@@ -76,7 +74,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return 'Field is required';
   }
 
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   bool checkBox = false;
 
@@ -89,7 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: Form(
-          key: formKey,
+          key: _formKey,
           child: ListView(
             padding: EdgeInsets.only(left: 20.sp, right: 20.sp),
             children: [
@@ -143,7 +141,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       }).toList(),
               ),
               SizedBox(
-                height: 20.h,
+                height: 10.h,
               ),
               MyTextField(
                 controller: firstName,
@@ -155,7 +153,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 //     Icons.alternate_email, 'service@gmail.com', null),
               ),
               SizedBox(
-                height: 20.h,
+                height: 10.h,
               ),
               MyTextField(
                 controller: lastName,
@@ -167,7 +165,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 //     Icons.alternate_email, 'service@gmail.com', null),
               ),
               SizedBox(
-                height: 20.h,
+                height: 10.h,
               ),
               MyTextField(
                 controller: email,
@@ -179,7 +177,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 //     Icons.alternate_email, 'service@gmail.com', null),
               ),
               SizedBox(
-                height: 20.h,
+                height: 10.h,
               ),
               MyTextField(
                 controller: password,
@@ -193,7 +191,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
 
               SizedBox(
-                height: 20.h,
+                height: 10.h,
               ),
               MyTextField(
                 controller: confirmPassword,
@@ -220,10 +218,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     )
                   : SizedBox(),
               SizedBox(
-                height: 20.h,
-              ),
-              SizedBox(
-                height: role == 'Teacher' ? 20.h : 0,
+                height: role == 'Teacher' ? 10.h : 0,
               ),
               role != 'Teacher'
                   ? MyTextField(
@@ -237,7 +232,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     )
                   : SizedBox(),
               SizedBox(
-                height: 20.h,
+                height: 10.h,
               ),
               MyTextField(
                 controller: occupation,
@@ -249,7 +244,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 //     Icons.alternate_email, 'service@gmail.com', null),
               ),
               SizedBox(
-                height: 20.h,
+                height: 10.h,
               ),
               // buildTextFieldLabel('Password'),
               CustomDropDown(
@@ -277,7 +272,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 }).toList(),
               ),
               SizedBox(
-                height: 20.h,
+                height: 10.h,
               ),
               CustomDropDown(
                 hintText: 'Gender',
@@ -303,7 +298,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 }).toList(),
               ),
               SizedBox(
-                height: 20.h,
+                height: 10.h,
               ),
               // buildTextFieldLabel('Password'),
               CustomDropDown(
@@ -374,7 +369,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     onTap: () async {
                       LoginApiShadePreference.preferences!
                           .setString('email', email.text);
-                      if (formKey.currentState!.validate()) {
+                      if (_formKey.currentState!.validate()) {
                         context.read<SignUpCubit>().createUser(
                             firstName.text.trim(),
                             lastName.text.trim(),

@@ -4,11 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:school_system/Controllers/Cubits/CommonCubit/connect_school_with_us_cubit.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Data/Repository/forget_password_api.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-import 'package:school_system/controllers/cubits/common_cubit/connect_school_with_us_cubit.dart';
 import 'package:school_system/models/get_all_school_model.dart';
 
 import '../../../Data/Repository/school_in_info.dart';
@@ -20,7 +20,7 @@ class SchoolAddInInfo extends StatefulWidget {
   SchoolAddInInfo({Key? key, required this.data, required this.index})
       : super(key: key);
 
-  List<Data> data = [];
+  List<Schools> data = [];
   int index;
 
   @override

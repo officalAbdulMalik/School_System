@@ -2,12 +2,14 @@ import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_system/Controllers/Cubits/CommonCubit/get_all_meetings_cubit.dart';
+import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/common/views/dashboard_screen/all_mettings_screen.dart';
 import 'package:school_system/Presentation/common/views/dashboard_screen/components/event_card.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
-import 'package:school_system/controllers/cubits/common_cubit/get_all_meetings_cubit.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -51,17 +53,24 @@ class _CalenderScreenState extends State<CalenderScreen> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: BlocBuilder<GetAllMeetingsCubit, GetAllMeetingsState>(
+      body: BlocConsumer<GetAllMeetingsCubit, GetAllMeetingsState>(
         // listener: (context, state) {
-        //   print('state is $state');
-        //   if (state is GetAllMeetingsLoading) {
-        //     LoadingDialog.showLoadingDialog(context, barrierDismissible: true);
-        //   }
-        //   if (state is GetAllMeetingsError) {
-        //     CustomDialog.dialog(context, Text(state.error));
-        //   }
-        //   // TODO: implement listener
+        //
         // },
+        listener: (context, state) {
+          print('state is $state');
+          if (state is GetAllMeetingsLoading) {
+            LoadingDialog.showLoadingDialog(context, barrierDismissible: true);
+          }
+          if (state is GetAllMeetingsError) {
+            Navigator.pop(context);
+            Fluttertoast.showToast(msg: state.error);
+          }
+          if (state is GetAllMeetingsLoaded) {
+            Navigator.pop(context);
+          }
+          // TODO: implement listener
+        },
         builder: (context, state) {
           if (state is GetAllMeetingsLoaded) {
             return ListView(
@@ -147,7 +156,7 @@ class _CalenderScreenState extends State<CalenderScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: 200,
+                  height: 0.50.sh,
                   width: 1.sw,
                   child: state.meetings.isNotEmpty
                       ? ListView.builder(
@@ -166,20 +175,13 @@ class _CalenderScreenState extends State<CalenderScreen> {
                 ),
               ],
             );
-          } else if (state is GetAllMeetingsLoading) {
-            return const Center(
-                child: CircularProgressIndicator(
-              color: Colors.blue,
-            ));
           } else if (state is GetAllMeetingsError) {
             print(state.error);
             return Center(
               child: Text(state.error),
             );
           } else {
-            return const Center(
-              child: Text('Some Thing Wrong'),
-            );
+            return const SizedBox();
           }
         },
       ),

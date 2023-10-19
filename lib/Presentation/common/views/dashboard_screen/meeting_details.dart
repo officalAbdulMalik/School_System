@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_system/Controllers/Cubits/CommonCubit/accept_reject_mettings_cubit.dart';
+import 'package:school_system/Controllers/Cubits/CommonCubit/get_all_meetings_cubit.dart';
 import 'package:school_system/Presentation/common/views/bottom_bar.dart';
 import 'package:school_system/Presentation/common/views/dashboard_screen/dashboard_screen.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
@@ -11,8 +13,6 @@ import 'package:school_system/Presentation/utils/custom_widget/custome_botton_de
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
 import 'package:school_system/Data/Repository/accept_reject_metting.dart';
-import 'package:school_system/controllers/cubits/common_cubit/accept_reject_mettings_cubit.dart';
-import 'package:school_system/controllers/cubits/common_cubit/get_all_meetings_cubit.dart';
 import 'package:school_system/models/get_all_mettings.dart';
 
 class MeetingsDetails extends StatefulWidget {

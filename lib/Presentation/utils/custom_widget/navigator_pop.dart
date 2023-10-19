@@ -11,7 +11,7 @@ class NavigatorPop extends StatelessWidget {
         onTap: () {
           Navigator.pop(context);
         },
-        child: Icon(
+        child: const Icon(
           Icons.arrow_back,
           color: Colors.black,
         ),

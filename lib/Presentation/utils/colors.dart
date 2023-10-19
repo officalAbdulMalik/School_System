@@ -12,6 +12,7 @@ const Color kBoxColor = Color(0xffF2F2FF);
 const Color kUnselectedItemColor = Color(0xffA2A2A2);
 const Color kNotificationDotColor = Color(0xffA7F388);
 const Color kGreenColor = Color(0xff88EFCD);
+const Color kDividerColor = Color(0xffF3F4F6);
 
 const Color kButtonBGColor = Color(0xffFCEAEA);
 const Color kDeleteBackgroundColor = Color(0xffFFE4E4);
@@ -24,7 +25,11 @@ const Color kReceiveChatColor = Color(0xffF9EEEE);
 const Color kCardBColor = Color(0xffE2F4FF);
 const Color kCardPColor = Color(0xffFFEEF6);
 const Color kCardGColor = Color(0xffEFE7FD);
-const Color kCardBLColor = Color(0xffD6F4EA);
+const Color kCardBLColor = Color(0xffB3DEF9);
 const Color kCardPLColor = Color(0xffEFE7FD);
+const Color kIndex2Color = Color(0xffF98898);
+const Color kIndex3Color = Color(0xffFF00FF);
+const Color kIndex4Color = Color(0xffF7D55C);
+const Color kIndex5Color = Color(0xff4A9B2B);
 
 const Color kRatingStarColor = Colors.amber;
