@@ -8,9 +8,11 @@ class ShowClassAttendanceInitial extends ShowClassAttendanceState {}
 class ShowClassAttendanceLoading extends ShowClassAttendanceState {}
 
 class ShowClassAttendanceLoaded extends ShowClassAttendanceState {
-  List<AttendanceModel>? model;
+  final String? absent;
+  final String? present;
 
-  ShowClassAttendanceLoaded({this.model});
+  final List<Attendance>? attendance;
+  ShowClassAttendanceLoaded({this.present, this.absent, this.attendance});
 }
 
 class ShowClassAttendanceError extends ShowClassAttendanceState {

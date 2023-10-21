@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -71,41 +70,10 @@ class _ShowAllAttendanceScreenState extends State<ShowAllAttendanceScreen> {
 
   List<bool> isPresent = [];
 
-  void addToPresent(int studentId) {
-    setState(() {
-      // If the student ID is already in the absent list, remove it
-      if (absentStudentIds.contains(studentId)) {
-        absentStudentIds.remove(studentId);
-      }
-      // Add the student ID to the present list
-      if (presentStudentIds.contains(studentId)) {
-      } else {
-        presentStudentIds.add(studentId);
-        log(presentStudentIds.toString());
-      }
-    });
-  }
-
-  void addToAbsent(int studentId) {
-    setState(() {
-      // If the student ID is already in the present list, remove it
-      if (presentStudentIds.contains(studentId)) {
-        presentStudentIds.remove(studentId);
-      }
-      // Add the student ID to the absent list
-      if (absentStudentIds.contains(studentId)) {
-      } else {
-        absentStudentIds.add(studentId);
-        log(absentStudentIds.toString());
-      }
-    });
-  }
-
   @override
   void initState() {
     context.read<ShowClassAttendanceCubit>().getAttendance(
-        widget.data.data![widget.index!].id.toString(),
-        DateTime.now().toString());
+        widget.data.data![widget.index!].id.toString(), "2023-10-08");
 
     // TODO: implement initState
     super.initState();
@@ -191,12 +159,12 @@ class _ShowAllAttendanceScreenState extends State<ShowAllAttendanceScreen> {
                             Row(
                               children: [
                                 Expanded(
-                                  child: customRow(
-                                      'Present', "", Colors.greenAccent),
+                                  child: customRow('Present',
+                                      state.present ?? "", Colors.greenAccent),
                                 ),
                                 Expanded(
-                                  child:
-                                      customRow('Absent', "", Colors.redAccent),
+                                  child: customRow('Absent', state.absent ?? "",
+                                      Colors.redAccent),
                                 ),
                               ],
                             ),
@@ -261,20 +229,20 @@ class _ShowAllAttendanceScreenState extends State<ShowAllAttendanceScreen> {
                       SizedBox(
                         height: 0.20.sh,
                         width: 1.sw,
-                        child: state.model!.isNotEmpty
+                        child: state.attendance!.isNotEmpty
                             ? ListView.separated(
-                                physics: BouncingScrollPhysics(),
+                                physics: const BouncingScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   return SizedBox(
                                     height: 60.h,
                                     child: showStudentRow(
-                                        attend, index, state.model ?? []),
+                                        index, state.attendance!),
                                   );
                                 },
                                 separatorBuilder: (context, index) {
                                   return Divider();
                                 },
-                                itemCount: state.model!.length)
+                                itemCount: state.attendance!.length)
                             : Center(
                                 child: MyText(
                                   "Attendance not found",
@@ -301,7 +269,7 @@ class _ShowAllAttendanceScreenState extends State<ShowAllAttendanceScreen> {
     );
   }
 
-  showStudentRow(List attend, int index, List<AttendanceModel> attendance) {
+  showStudentRow(int index, List<Attendance> attendance) {
     return Row(
       children: [
         Expanded(
@@ -311,13 +279,13 @@ class _ShowAllAttendanceScreenState extends State<ShowAllAttendanceScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               MyText(
-                "${attendance[0].attendance![index].date} ${attendance[0].attendance![index].studentId}",
+                "${attendance[index].date?.humanReadableDate} ${attendance[index].studentId}",
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
                 color: Colors.black,
               ),
               MyText(
-                '${attendance[0].attendance![index].classSectionId}',
+                '${attendance[index].classSectionId}',
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400,
                 color: Colors.black,
@@ -344,44 +312,33 @@ class _ShowAllAttendanceScreenState extends State<ShowAllAttendanceScreen> {
         ),
         Expanded(
             flex: 2,
-            child: InkWell(
-              onTap: () {
-                // isPresent[index] == true
-                //     ? addToPresent(students[index].id!)
-                //     : addToAbsent(students[index].id!);
-                // isPresent[index] = !isPresent[index];
-                setState(() {});
-              },
-              child: Row(
-                children: [
-                  Flexible(
-                    child: Image.asset(
-                      AppImages.attendIcon,
-                      color: attendance[0].attendance![index].type == 1
-                          ? Colors.greenAccent
-                          : Colors.redAccent,
-                      height: 25.sp,
-                      fit: BoxFit.contain,
-                    ),
+            child: Row(
+              children: [
+                Flexible(
+                  child: Image.asset(
+                    AppImages.attendIcon,
+                    color: attendance[index].type == 1
+                        ? Colors.greenAccent
+                        : Colors.redAccent,
+                    height: 25.sp,
+                    fit: BoxFit.contain,
                   ),
-                  SizedBox(
-                    width: 5.w,
+                ),
+                SizedBox(
+                  width: 5.w,
+                ),
+                Flexible(
+                  flex: 2,
+                  child: MyText(
+                    attendance[index].type == 1 ? "Present" : "Absent",
+                    fontSize: 12.sp,
+                    color: attendance[index].type == 1
+                        ? Colors.greenAccent
+                        : Colors.redAccent,
+                    fontWeight: FontWeight.w400,
                   ),
-                  Flexible(
-                    flex: 2,
-                    child: MyText(
-                      attendance[0].attendance![index].type == 1
-                          ? "Present"
-                          : "Absent",
-                      fontSize: 12.sp,
-                      color: attendance[0].attendance![index].type == 1
-                          ? Colors.greenAccent
-                          : Colors.redAccent,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             )),
       ],
     );

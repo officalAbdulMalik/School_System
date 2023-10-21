@@ -20,10 +20,12 @@ class ShowClassAttendanceCubit extends Cubit<ShowClassAttendanceState> {
         log(">>>>>>>>>>>>>>>>${value.toString()}");
 
         if (value['error'] != null && value['error'] == false) {
-          var attendance = List<AttendanceModel>.from(value['data']
-                  ['attendance']
-              .map((x) => AttendanceModel.fromMap(x)));
-          emit(ShowClassAttendanceLoaded(model: attendance));
+          var attendance = List<Attendance>.from(
+              value['data']['attendance'].map((x) => Attendance.fromMap(x)));
+          emit(ShowClassAttendanceLoaded(
+              attendance: attendance,
+              absent: value['data']['absent_count'].toString(),
+              present: value['data']['present_count'].toString()));
         } else {
           emit(ShowClassAttendanceError(error: value['message']));
         }

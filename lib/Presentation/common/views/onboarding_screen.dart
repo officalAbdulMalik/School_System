@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_system/Controllers/FirebaseRepos/firebase_notification.dart';
+import 'package:school_system/Controllers/firebase_repos/firebase_notification.dart';
 import 'package:school_system/Presentation/common/views/select_country.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';

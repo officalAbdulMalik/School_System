@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:school_system/Data/app_const.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 class TeacherCreateClass {
@@ -25,8 +26,7 @@ class TeacherCreateClass {
     });
 
     var request = await http.post(
-        Uri.parse(
-            'https://www.dev.schoolsnow.parentteachermobile.com/api/teacher/class/create'),
+        Uri.parse('$baseUrl/api/teacher/class/create'),
         body: body,
         headers: headers);
     print(request.statusCode);

@@ -29,7 +29,7 @@ class _ReportCardScreenState extends State<ReportCardScreen> {
   void initState() {
     context
         .read<GetClassStudentCubit>()
-        .getStudent('', '/api/students?class_id=&last_name=&first_name=');
+        .getStudent('/api/students?class_id=&last_name=&first_name=');
     // TODO: implement initState
     super.initState();
   }

@@ -37,36 +37,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 
   bool attendSat = true;
 
-  List<Map<String, dynamic>> attend = [
-    {
-      'attend': 'present',
-    },
-    {
-      'attend': 'present',
-    },
-    {
-      'attend': 'absent',
-    },
-    {
-      'attend': 'absent',
-    },
-  ];
-
-  List<Map<String, dynamic>> data = [
-    {
-      'attend': 'present',
-    },
-    {
-      'attend': 'present',
-    },
-    {
-      'attend': 'absent',
-    },
-    {
-      'attend': 'absent',
-    },
-  ];
-
   List<String> presentStudentIds = [];
   List<String> absentStudentIds = [];
 
@@ -107,8 +77,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   @override
   void initState() {
     context.read<GetClassStudentCubit>().getStudent(
-        widget.data.data![widget.index!].id.toString(),
-        '/api/teacher/class/students?class_id=16&first_name=&last_name=');
+        '/api/teacher/class/students?class_id=${widget.data.data![widget.index!].id}&first_name=&last_name=');
 
     // TODO: implement initState
     super.initState();
@@ -159,6 +128,9 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     }
                     if (state is AddAttendanceLoaded) {
                       Navigator.of(context).pop(true);
+                      Fluttertoast.showToast(msg: 'Data Success');
+                      Navigator.pop(context);
+                      Navigator.pop(context);
                     }
                     if (state is AddAttendanceError) {
                       Fluttertoast.showToast(msg: state.error!);
@@ -288,8 +260,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           itemBuilder: (context, index) {
                             return SizedBox(
                               height: 50.h,
-                              child:
-                                  showStudentRow(attend, index, state.model!),
+                              child: showStudentRow(index, state.model!),
                             );
                           },
                           separatorBuilder: (context, index) {
@@ -313,7 +284,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     );
   }
 
-  showStudentRow(List attend, int index, List<ClassStudents> students) {
+  showStudentRow(int index, List<ClassStudents> students) {
     return Row(
       children: [
         Expanded(

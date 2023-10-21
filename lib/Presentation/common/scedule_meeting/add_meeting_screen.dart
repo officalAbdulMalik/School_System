@@ -14,8 +14,6 @@ import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_date_picker.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_time_picker.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
-
-import '../../../Controllers/FirebaseRepos/firebase_notification.dart';
 import '../../utils/app_images.dart';
 import '../../utils/custom_widget/my_text.dart';
 import 'add_participant_screen.dart';
@@ -303,14 +301,13 @@ class _AddMeetingScreenState extends State<AddMeetingScreen> {
                   }
                   if (state is AddMettingLoaded) {
                     Navigator.pop(context);
-
                     Fluttertoast.showToast(msg: 'Meeting Created Successful');
 
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute<dynamic>(
                           builder: (BuildContext context) =>
-                              const BottomBarPages(),
+                              const BottomBarPages(index: 3),
                         ),
                         (route) => false);
 

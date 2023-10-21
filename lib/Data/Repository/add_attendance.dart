@@ -12,38 +12,40 @@ class AddAttendance {
     required List<String>? present,
     required List<String>? absent,
   }) async {
-    debugPrint(classId);
-    var data = {
-      "present_student_ids": jsonEncode(present),
-      "absence_student_id": jsonEncode(absent),
-      "date": date.toString(),
-      "holiday": null,
-      "class_id": classId,
-    };
-
-    log("data is Here${data.toString()}");
-
-    var headers = {
-      'Authorization':
-          'Bearer ${LoginApiShadePreference.preferences!.getString('api_token')}'
-    };
-
     try {
-      http.Response request = await http.post(
-          Uri.parse('$baseUrl/api/teacher/mark-attendance'),
-          body: jsonEncode(data),
-          headers: headers);
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization':
+            'Bearer ${LoginApiShadePreference.preferences!.getString('api_token')}'
+      };
+      var request = http.Request(
+          'POST', Uri.parse('$baseUrl/api/teacher/mark-attendance'));
+      request.body = json.encode({
+        "present_student_ids": present,
+        "absence_student_id": absent,
+        "date": date,
+        "holiday": null,
+        "class_id": classId,
+      });
+      request.headers.addAll(headers);
 
-      print(request.statusCode);
-      print(request.body);
-      log("request body ${request.body}");
-      if (request.statusCode == 200) {
-        log(request.body);
-        var data1 = jsonDecode(request.body);
-        return data1;
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        print(await response.stream.bytesToString());
+
+        return {
+          "success": true,
+          "status": response.statusCode,
+          "message": "Data Success",
+        };
       } else {
-        var data1 = jsonDecode(request.body);
-        return data1;
+        print(response.reasonPhrase);
+        return {
+          "success": false,
+          "status": response.statusCode,
+          "message": "Data Error"
+        };
       }
     } catch (e) {
       rethrow;

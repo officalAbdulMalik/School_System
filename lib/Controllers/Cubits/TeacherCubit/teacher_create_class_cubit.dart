@@ -9,13 +9,11 @@ class TeacherCreateClassCubit extends Cubit<TeacherCreateClassState> {
 
   Future addClass(
       String sectionId, String shId, String className, String grade) async {
-    print('data');
+    await Future.delayed(const Duration(microseconds: 20));
+
+    emit(TeacherCreateClassLoading());
 
     try {
-      await Future.delayed(const Duration(microseconds: 20));
-
-      emit(TeacherCreateClassLoading());
-
       await TeacherCreateClass.createClass(sectionId, shId, className, grade)
           .then((value) {
         if (value['status'] != null && value['status'] == 200) {

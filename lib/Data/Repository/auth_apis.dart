@@ -1,14 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/io_client.dart';
-import 'package:intl/intl.dart';
-import 'package:school_system/Controllers/FirebaseRepos/firebase_notification.dart';
-import 'package:school_system/Data/app_const.dart';
-
+import 'package:school_system/Controllers/firebase_repos/firebase_notification.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-import 'package:school_system/models/user_data_model.dart';
 
 class LoginApi {
   static Future<Map<String, dynamic>> login(

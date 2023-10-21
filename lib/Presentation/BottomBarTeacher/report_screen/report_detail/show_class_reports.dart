@@ -15,11 +15,12 @@ import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dar
 import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
 
 class TeacherReportDetail extends StatefulWidget {
-  TeacherReportDetail({Key? key, required this.id, required this.className})
+  const TeacherReportDetail(
+      {Key? key, required this.id, required this.className})
       : super(key: key);
 
-  String? id;
-  String className;
+  final String? id;
+  final String className;
 
   @override
   State<TeacherReportDetail> createState() => _TeacherReportDetailState();

@@ -29,10 +29,11 @@ class AddReportCubit extends Cubit<AddReportState> {
             comments: comments,
             data1: data)
         .then((value) {
-      if (value['error'] != null && value['error'] == true) {
-        emit(AddReportError(error: value['message']));
-      } else {
+      print(value);
+      if (value['success'] == true && value['status'] == 200) {
         emit(AddReportLoaded());
+      } else {
+        emit(AddReportError(error: value['message']));
       }
     }).catchError((e) {
       emit(AddReportError(error: e.toString()));

@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:school_system/Controllers/Cubits/TeacherCubit/add_report_cubit.dart';
 import 'package:school_system/Controllers/Cubits/TeacherCubit/get_class_student_cubit.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
+import 'package:school_system/Presentation/common/views/bottom_bar.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_time_picker.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
@@ -44,8 +45,8 @@ class _TeacherReportCardScreenState extends State<TeacherReportCardScreen> {
   @override
   void initState() {
     // context.read<ShowStudentsCubit>().getStudents(widget.id!);
-    context.read<GetClassStudentCubit>().getStudent(widget.id.toString(),
-        '/api/teacher/class/students?class_id=16&first_name=&last_name=');
+    context.read<GetClassStudentCubit>().getStudent(
+        '/api/teacher/class/students?class_id=${widget.id}&first_name=&last_name=');
 
     // TODO: implement initState
     super.initState();
@@ -73,6 +74,16 @@ class _TeacherReportCardScreenState extends State<TeacherReportCardScreen> {
         }
         if (state is AddReportLoaded) {
           Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+
+          // Navigator.pushAndRemoveUntil(
+          //     context,
+          // MaterialPageRoute<dynamic>(
+          //   builder: (BuildContext context) =>
+          //       const BottomBarPages(index: 3),
+          // ),
+          // (route) => false);
         }
       }, builder: (context, state) {
         return Padding(

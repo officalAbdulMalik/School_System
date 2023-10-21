@@ -20,7 +20,9 @@ import 'events_scren.dart';
 ValueNotifier indexListener = ValueNotifier(0);
 
 class BottomBarPages extends StatefulWidget {
-  const BottomBarPages({Key? key}) : super(key: key);
+  final int index;
+
+  const BottomBarPages({Key? key, required this.index}) : super(key: key);
 
   @override
   State<BottomBarPages> createState() => _BottomBarPagesState();
@@ -70,6 +72,8 @@ class _BottomBarPagesState extends State<BottomBarPages> {
   @override
   void initState() {
     context.read<GetUserDataCubit>().getParentsTeachers('');
+
+    bottomIndex = widget.index;
 
     // TODO: implement initState
     super.initState();
@@ -134,6 +138,7 @@ class _BottomBarPagesState extends State<BottomBarPages> {
               children: [
                 Expanded(
                   child: PageView(
+                    physics: const NeverScrollableScrollPhysics(),
                     controller: _controller,
                     children: [
                       DashboardScreen(),

@@ -10,7 +10,7 @@ class ShowAttendance {
   static Future showTeacherClassAttendance(String classID, String date) async {
     try {
       var url = Uri.parse(
-          'https://www.dev.schoolsnow.parentteachermobile.com/api/teacher/view-attendance/class?class_id=$classID&date=$date'); // Make sure to use the correct URL
+          '$baseUrl/api/teacher/view-attendance/class?class_id=$classID&date=$date'); // Make sure to use the correct URL
 
       var headers = {
         'Authorization':

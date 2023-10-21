@@ -34,7 +34,9 @@ class _MeetingsDetailsState extends State<MeetingsDetails> {
             context.read<GetAllMeetingsCubit>().getAllMettings();
             Navigator.pushReplacement(context, MaterialPageRoute(
               builder: (context) {
-                return const BottomBarPages();
+                return const BottomBarPages(
+                  index: 1,
+                );
               },
             ));
           }

@@ -13,7 +13,7 @@ part 'get_class_student_state.dart';
 class GetClassStudentCubit extends Cubit<GetClassStudentState> {
   GetClassStudentCubit() : super(GetClassStudentInitial());
 
-  Future getStudent(String classId, String url) async {
+  Future getStudent(String url) async {
     print('data');
 
     await Future.delayed(const Duration(microseconds: 10));
@@ -21,7 +21,12 @@ class GetClassStudentCubit extends Cubit<GetClassStudentState> {
     emit(GetClassStudentLoading());
 
     try {
-      await ShowClassStudent.getData(classId).then((value) {
+      print(url);
+      await ShowClassStudent.getData(
+        url,
+      ).then((value) {
+        print(url);
+
         if (value['error'] != null && value['error'] == false) {
           var students = List<ClassStudents>.from(
               value['data'].map((x) => ClassStudents.fromMap(x)));

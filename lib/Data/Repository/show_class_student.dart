@@ -5,7 +5,7 @@ import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 import 'package:http/http.dart' as http;
 
 class ShowClassStudent {
-  static Future<Map<String, dynamic>> getData(String id) async {
+  static Future<Map<String, dynamic>> getData(String url1) async {
     try {
       var headers = {
         'Content-Type': 'application/json',
@@ -13,8 +13,7 @@ class ShowClassStudent {
             'Bearer Bearer ${LoginApiShadePreference.preferences!.getString("api_token")}'
       };
 
-      var url =
-          Uri.parse('$baseUrl/api/students?class_id=&last_name=&first_name=');
+      var url = Uri.parse('$baseUrl$url1');
       var response = await http.get(url, headers: headers);
 
       print('status code is ${response.statusCode}');

@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:school_system/Controllers/firebase_repos/firebase_notification.dart';
 
 import 'Controllers/Cubits/CommonCubit/accept_reject_mettings_cubit.dart';
 import 'Controllers/Cubits/CommonCubit/add_metting_cubit.dart';
@@ -39,13 +41,15 @@ import 'Controllers/Cubits/TeacherCubit/get_teacher_subject_cubit.dart';
 import 'Controllers/Cubits/TeacherCubit/show_class_attendance_cubit.dart';
 import 'Controllers/Cubits/TeacherCubit/show_teacher_class_cubit.dart';
 import 'Controllers/Cubits/TeacherCubit/teacher_create_class_cubit.dart';
-import 'Controllers/FirebaseRepos/firebase_notification.dart';
 import 'Presentation/common/views/all_school_screen.dart';
 import 'Presentation/common/views/bottom_bar.dart';
 import 'Presentation/common/views/loginScreen.dart';
 import 'Presentation/utils/shade_prefrence.dart';
 
 import 'package:timezone/standalone.dart' as tz;
+
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -62,8 +66,7 @@ void main() async {
   await Firebase.initializeApp();
   await LoginApiShadePreference.getInit();
   // await tz.initializeTimeZone();
-  FirebaseNotificationsService().initNotification();
-
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   HttpOverrides.global = MyHttpOverrides();
 
   runApp(MyApp());
@@ -127,7 +130,9 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               ),
-              home: userExist!.isEmpty ? LogInScreen() : BottomBarPages(),
+              home: userExist!.isEmpty
+                  ? LogInScreen()
+                  : const BottomBarPages(index: 0),
             ),
           );
         });

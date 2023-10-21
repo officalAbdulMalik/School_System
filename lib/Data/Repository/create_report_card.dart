@@ -13,37 +13,38 @@ class CreateCard {
     required String comments,
     required List<Map<String, dynamic>>? data1,
   }) async {
-    var data = {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Bearer ${LoginApiShadePreference.preferences!.getString('api_token')}'
+    };
+    var request = http.Request(
+        'POST', Uri.parse('$baseUrl/api/teacher/create/student-report'));
+    request.body = json.encode({
       "quarter_id": querterIO,
       "class_id": classId,
       "subject_id": subjectID,
       "session_year_id": sessionID,
-      "reports": jsonEncode(data1),
-    };
+      "reports": data1,
+    });
+    request.headers.addAll(headers);
 
-    print("data is Here${data}");
+    http.StreamedResponse response = await request.send();
 
-    var headers = {
-      'Authorization':
-          'Bearer ${LoginApiShadePreference.preferences!.getString('api_token')}',
-    };
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
 
-    try {
-      http.Response request = await http.post(
-          Uri.parse('$baseUrl/api/teacher/create/student-report'),
-          body: jsonEncode(data),
-          headers: headers);
-      log("request body ${request.body}");
-      if (request.statusCode == 200) {
-        log(request.body);
-        var data1 = jsonDecode(request.body);
-        return data1;
-      } else {
-        var data1 = jsonDecode(request.body);
-        return data1;
-      }
-    } catch (e) {
-      rethrow;
+      return {
+        "success": true,
+        'status': response.statusCode,
+        "message": 'Data Success'
+      };
+    } else {
+      return {
+        "success": false,
+        'status': response.statusCode,
+        "message": 'Data Not Added'
+      };
     }
   }
 }

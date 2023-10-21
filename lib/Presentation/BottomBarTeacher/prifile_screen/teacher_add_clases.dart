@@ -325,6 +325,9 @@ class _TeacherAddClassState extends State<TeacherAddClass> {
                         TeacherCreateClassState>(
                       listener: (context, state) {
                         print(state);
+                        if (state is TeacherCreateClassLoading) {
+                          LoadingDialog.showLoadingDialog(context);
+                        }
 
                         if (state is TeacherCreateClassError) {
                           Fluttertoast.showToast(msg: state.error!);
@@ -338,25 +341,18 @@ class _TeacherAddClassState extends State<TeacherAddClass> {
                         }
                       },
                       builder: (context, state) {
-                        if (state is TeacherCreateClassLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.blue,
-                            ),
-                          );
-                        } else {
-                          return InkWell(
-                            onTap: () {
-                              if (formKey.currentState!.validate()) {
-                                context
-                                    .read<TeacherCreateClassCubit>()
-                                    .addClass(selectedSection, selectedSchool,
-                                        schoolName.text.trim(), selectedGrade);
-                              }
-                            },
-                            child: CustomWidgets.customButton('Save'),
-                          );
-                        }
+                        return InkWell(
+                          onTap: () {
+                            if (formKey.currentState!.validate()) {
+                              context.read<TeacherCreateClassCubit>().addClass(
+                                  selectedSection,
+                                  selectedSchool,
+                                  schoolName.text.trim(),
+                                  selectedGrade);
+                            }
+                          },
+                          child: CustomWidgets.customButton('Save'),
+                        );
                       },
                     ),
                   ]),
