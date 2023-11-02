@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:school_system/Controllers/Cubits/ParentCubit/student_attendance_cubit.dart';
+import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
 import 'package:school_system/Presentation/common/resources/Extension/extension.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
@@ -54,151 +55,157 @@ class _StudentAttendanceState extends State<StudentAttendance> {
       child: Scaffold(
         body: Padding(
           padding: EdgeInsets.only(left: 20.0.sp, right: 20.sp),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 10.h,
-              ),
-              const NavigatorPop(),
-              SizedBox(
-                height: 20.h,
-              ),
-              CustomRowWidget(
-                text1: 'Attendance Report',
-                text2: 'View your students attendance report details.',
-                dotButton: true,
-                imageIs: false,
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(color: Colors.grey.withAlpha(80), blurRadius: 2)
-                  ],
-                  borderRadius: BorderRadius.circular(10.sp),
+          child: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 10.h,
                 ),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 40.sp,
-                    backgroundImage: AssetImage(AppImages.userImage),
-                    // state.model[index].image != null
-                    //     ? NetworkImage(
-                    //     state.model.data![index].image!)
-                    //     : AssetImage('images/prof.png')
-                    // as ImageProvider,
-                  ),
-                  title: MyText(
-                    '${widget.data.firstName}${widget.data.lastName}',
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  subtitle: MyText(
-                    'school Name',
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  trailing: Container(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 5.sp, horizontal: 7.sp),
-                      decoration: BoxDecoration(
-                        color: kContainerColor,
-                        borderRadius: BorderRadius.circular(15.sp),
-                      ),
-                      child: MyText(
-                        widget.data.gender!,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.blueAccent,
-                      )),
+                const NavigatorPop(),
+                SizedBox(
+                  height: 20.h,
                 ),
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 8.sp, horizontal: 8.sp),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.sp),
-                  color: kContainerColor,
+                CustomRowWidget(
+                  text1: 'Attendance Report',
+                  text2: 'View your students attendance report details.',
+                  dotButton: true,
+                  imageIs: false,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    MyText(
-                      'Year 2022',
-                      fontSize: 14.sp,
+                SizedBox(
+                  height: 10.h,
+                ),
+                const ShowAds(),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(color: Colors.grey.withAlpha(80), blurRadius: 2)
+                    ],
+                    borderRadius: BorderRadius.circular(10.sp),
+                  ),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 40.sp,
+                      backgroundImage: AssetImage(AppImages.userImage),
+                      // state.model[index].image != null
+                      //     ? NetworkImage(
+                      //     state.model.data![index].image!)
+                      //     : AssetImage('images/prof.png')
+                      // as ImageProvider,
+                    ),
+                    title: MyText(
+                      '${widget.data.firstName}${widget.data.lastName}',
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                     ),
-                    MyText(
-                      'Year 2022',
+                    subtitle: MyText(
+                      'school Name',
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w400,
                     ),
-                    MyText(
-                      'Year 2022',
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                    )
-                  ],
+                    trailing: Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 5.sp, horizontal: 7.sp),
+                        decoration: BoxDecoration(
+                          color: kContainerColor,
+                          borderRadius: BorderRadius.circular(15.sp),
+                        ),
+                        child: MyText(
+                          widget.data.gender!,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.blueAccent,
+                        )),
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 15.h,
-              ),
-              BlocConsumer<StudentAttendanceCubit, StudentAttendanceState>(
-                listener: (context, state) {
-                  if (state is StudentAttendanceLoading) {
-                    LoadingDialog.showLoadingDialog(context);
-                  }
-                  if (state is StudentAttendanceLoaded) {
-                    Navigator.pop(context);
-                  }
-                  if (state is StudentAttendanceError) {
-                    Fluttertoast.showToast(msg: state.error!);
-                    Navigator.pop(context);
-                  }
-                  // TODO: implement listener
-                },
-                builder: (context, state) {
-                  if (state is StudentAttendanceLoaded) {
-                    return SizedBox(
-                      height: 0.5.sh,
-                      width: 1.sw,
-                      child: state.attendance!.isNotEmpty
-                          ? ListView.separated(
-                              physics: const BouncingScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return SizedBox(
-                                  height: 60.h,
-                                  child:
-                                      showStudentRow(state.attendance, index),
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return const Divider();
-                              },
-                              itemCount: state.attendance!.length)
-                          : Center(
-                              child: MyText(
-                                'Attendance not found',
-                                fontSize: 18.sp,
-                                color: Colors.black,
+                SizedBox(
+                  height: 10.h,
+                ),
+                // Container(
+                //   padding:
+                //       EdgeInsets.symmetric(vertical: 8.sp, horizontal: 8.sp),
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(12.sp),
+                //     color: kContainerColor,
+                //   ),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       MyText(
+                //         'Year 2022',
+                //         fontSize: 14.sp,
+                //         fontWeight: FontWeight.w500,
+                //       ),
+                //       MyText(
+                //         'Year 2022',
+                //         fontSize: 14.sp,
+                //         fontWeight: FontWeight.w500,
+                //       ),
+                //       MyText(
+                //         'Year 2022',
+                //         fontSize: 14.sp,
+                //         fontWeight: FontWeight.w500,
+                //       )
+                //     ],
+                //   ),
+                // ),
+
+                BlocConsumer<StudentAttendanceCubit, StudentAttendanceState>(
+                  listener: (context, state) {
+                    if (state is StudentAttendanceLoading) {
+                      Dialogs.showLoadingDialog(context);
+                    }
+                    if (state is StudentAttendanceLoaded) {
+                      Navigator.pop(context);
+                    }
+                    if (state is StudentAttendanceError) {
+                      Fluttertoast.showToast(msg: state.error!);
+                      Navigator.pop(context);
+                    }
+                    // TODO: implement listener
+                  },
+                  builder: (context, state) {
+                    if (state is StudentAttendanceLoaded) {
+                      return SizedBox(
+                        height: 0.5.sh,
+                        width: 1.sw,
+                        child: state.attendance!.isNotEmpty
+                            ? ListView.separated(
+                                physics: const BouncingScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return SizedBox(
+                                    height: 60.h,
+                                    child:
+                                        showStudentRow(state.attendance, index),
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return const Divider();
+                                },
+                                itemCount: state.attendance!.length)
+                            : Center(
+                                child: MyText(
+                                  'Attendance not found',
+                                  fontSize: 18.sp,
+                                  color: Colors.black,
+                                ),
                               ),
-                            ),
-                    );
-                  } else if (state is StudentAttendanceError) {
-                    return Center(
-                      child: MyText(state.error!),
-                    );
-                  } else {
-                    return const SizedBox();
-                  }
-                },
-              ),
-            ],
+                      );
+                    } else if (state is StudentAttendanceError) {
+                      return Center(
+                        child: MyText(state.error!),
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -16,14 +16,14 @@ class AddMeetings {
       String sTime,
       String eTime,
       String desc) async {
-    String? userType = StaticValues.userType;
+    String? userType = LoginApiShadePreference.preferences!.getString('type');
 
-    print(id);
+    print(userType);
 
-    List ids = [];
+    List teacherIds = [];
 
     for (int i = 0; i < id.length; i++) {
-      ids.add({"parent_id": id[i], "student_id": null});
+      teacherIds.add({"parent_id": id[i], "student_id": null});
     }
 
     var body = json.encode({
@@ -31,9 +31,9 @@ class AddMeetings {
       "meeting_date": date,
       "meeting_time": sTime,
       "meeting_end_time": eTime,
-      "student_parent_ids": userType == 'teacher' ? ids : null,
+      "student_parent_ids": userType == 'teacher' ? teacherIds : [],
       "teacher_id": userType != 'teacher'
-          ? jsonEncode(id)
+          ? id.first
           : null, // if you are a teacher, send teacher_id as empty.
       "description": desc,
     });

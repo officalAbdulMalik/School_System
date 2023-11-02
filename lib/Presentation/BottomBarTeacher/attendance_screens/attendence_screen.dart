@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Controllers/Cubits/TeacherCubit/add_attendance_cubit.dart';
 import 'package:school_system/Controllers/Cubits/TeacherCubit/get_class_student_cubit.dart';
+import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
 import 'package:school_system/Presentation/common/resources/Extension/extension.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
@@ -124,7 +125,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 child: BlocListener<AddAttendanceCubit, AddAttendanceState>(
                   listener: (context, state) {
                     if (state is AddAttendanceLoading) {
-                      LoadingDialog.showLoadingDialog(context);
+                      Dialogs.showLoadingDialog(context);
                     }
                     if (state is AddAttendanceLoaded) {
                       Navigator.of(context).pop(true);
@@ -176,7 +177,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           child: BlocConsumer<GetClassStudentCubit, GetClassStudentState>(
             listener: (context, state) {
               if (state is GetClassStudentLoading) {
-                LoadingDialog.showLoadingDialog(context);
+                Dialogs.showLoadingDialog(context);
               }
               if (state is GetClassStudentLoaded) {
                 Navigator.of(context).pop(true);
@@ -206,7 +207,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                       flex: 10,
                     ),
                     SizedBox(
-                      height: 20.h,
+                      height: 10.h,
+                    ),
+                    const ShowAds(),
+                    SizedBox(
+                      height: 10.h,
                     ),
                     Container(
                       padding: EdgeInsets.only(left: 10.sp, right: 10.sp),

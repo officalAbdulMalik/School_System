@@ -120,10 +120,10 @@ class EventCard extends StatelessWidget {
 
 /// details meeting screen card
 class MeetingCard extends StatefulWidget {
-  MeetingCard({Key? key, this.meetings, this.index}) : super(key: key);
+  const MeetingCard({Key? key, this.meetings, this.index}) : super(key: key);
 
-  List<GetAllMeetings>? meetings;
-  int? index;
+  final List<GetAllMeetings>? meetings;
+  final int? index;
 
   @override
   State<MeetingCard> createState() => _MeetingCardState();
@@ -169,7 +169,7 @@ class _MeetingCardState extends State<MeetingCard> {
                       Expanded(
                         flex: 10,
                         child: Text(
-                          'Class A',
+                          widget.meetings![widget.index!].title ?? "",
                           style: GoogleFonts.poppins(
                             color: Color(0xFF000600),
                             fontSize: 14,
@@ -188,7 +188,7 @@ class _MeetingCardState extends State<MeetingCard> {
                       SizedBox(width: 4),
                       Flexible(
                         child: Text(
-                          '15',
+                          widget.meetings![widget.index!].id.toString() ?? "",
                           style: GoogleFonts.poppins(
                             color: kDescriptionColor,
                             fontSize: 14,
@@ -200,7 +200,9 @@ class _MeetingCardState extends State<MeetingCard> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    widget.meetings?[widget.index!].title ?? "",
+                    widget.meetings?[widget.index!].meetingDate
+                            ?.humanReadableDate ??
+                        "",
                     style: GoogleFonts.poppins(
                       color: kDescriptionColor,
                       fontSize: 14,
@@ -220,7 +222,7 @@ class _MeetingCardState extends State<MeetingCard> {
                       ),
                       Expanded(
                         child: Text(
-                          ' ${widget.meetings?[widget.index!].meetingTime ?? ""} - 11:00',
+                          ' ${widget.meetings?[widget.index!].meetingTime ?? ""}',
                           style: GoogleFonts.poppins(
                             color: kDescriptionColor,
                             fontSize: 14,
@@ -254,8 +256,10 @@ class _MeetingCardState extends State<MeetingCard> {
                               ),
                               const SizedBox(width: 4),
                               Text(
-                                widget.meetings?[widget.index!].status ??
-                                    "Pending",
+                                widget.meetings?[widget.index!].status == 'new'
+                                    ? "Pending"
+                                    : widget.meetings?[widget.index!].status ??
+                                        "",
                                 style: GoogleFonts.poppins(
                                   color: kDescriptionColor,
                                   fontSize: 12,

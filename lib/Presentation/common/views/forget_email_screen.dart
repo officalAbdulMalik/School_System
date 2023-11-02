@@ -88,7 +88,7 @@ class _ForgetPasswordEmailScreenState extends State<ForgetPasswordEmailScreen> {
             BlocConsumer<SendEmailOtpCubit, SendEmailOtpState>(
               listener: (context, state) {
                 if (state is SendEmailOtpLoading) {
-                  LoadingDialog.showLoadingDialog(context);
+                  Dialogs.showLoadingDialog(context);
                 }
                 if (state is SendEmailOtpLoaded) {
                   Navigator.of(context).pop(true);

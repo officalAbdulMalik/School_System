@@ -62,7 +62,7 @@ class _AssignSubjectsState extends State<AssignSubjects> {
             BlocConsumer<GetSubjectsCubit, GetSubjectsState>(
               listener: (context, state) {
                 if (state is GetSessionsLoading) {
-                  LoadingDialog.showLoadingDialog(context);
+                  Dialogs.showLoadingDialog(context);
                 }
                 if (state is GetSubjectsLoaded) {
                   Navigator.of(context).pop(true);

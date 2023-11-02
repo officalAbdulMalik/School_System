@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:school_system/Controllers/Cubits/TeacherCubit/show_teacher_class_cubit.dart';
+import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
 import 'package:school_system/Presentation/BottomBarTeacher/report_screen/report_detail/show_class_reports.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
@@ -49,12 +50,16 @@ class _TeacherReportScreenState extends State<TeacherReportScreen> {
             fontWeight: FontWeight.w500,
           ),
           SizedBox(
-            height: 15.sp,
+            height: 10.h,
+          ),
+          const ShowAds(),
+          SizedBox(
+            height: 10.h,
           ),
           BlocConsumer<ShowTeacherClassCubit, ShowTeacherClassState>(
             listener: (context, state) {
               if (state is ShowTeacherClassLoading) {
-                LoadingDialog.showLoadingDialog(context);
+                Dialogs.showLoadingDialog(context);
               }
               if (state is ShowTeacherClassLoaded) {
                 Navigator.pop(context);

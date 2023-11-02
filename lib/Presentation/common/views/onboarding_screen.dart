@@ -21,7 +21,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   String type = '';
 
   getToken() async {
-    String token = await FirebaseNotificationsService().getDeviceToken();
+    String token = await NotificationServices().getDeviceToken();
     LoginApiShadePreference.preferences!.setString('device_token', token);
   }
 
@@ -105,7 +105,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       },
                     ));
                     String token =
-                        await FirebaseNotificationsService().getDeviceToken();
+                        await NotificationServices().getDeviceToken();
                     LoginApiShadePreference.preferences!
                         .setString('device_token', token);
                   },

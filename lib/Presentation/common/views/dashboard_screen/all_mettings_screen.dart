@@ -8,9 +8,9 @@ import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dar
 import 'package:school_system/models/get_all_mettings.dart';
 
 class MeetingAllScreen extends StatefulWidget {
-  MeetingAllScreen({Key? key, this.meetings}) : super(key: key);
+  const MeetingAllScreen({Key? key, this.meetings}) : super(key: key);
 
-  List<GetAllMeetings>? meetings;
+  final List<GetAllMeetings>? meetings;
 
   @override
   State<MeetingAllScreen> createState() => _MeetingAllScreenState();
@@ -36,6 +36,8 @@ class _MeetingAllScreenState extends State<MeetingAllScreen>
 
   @override
   Widget build(BuildContext context) {
+    print(">>>>>>>>>>>>>>>>>>>>>>>${widget.meetings![0].status}");
+
     List<GetAllMeetings>? newMeetings = widget.meetings
         ?.where(
           (e) => e.status == 'new',

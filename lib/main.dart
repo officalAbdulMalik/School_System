@@ -1,14 +1,18 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:school_system/Controllers/firebase_repos/firebase_notification.dart';
-
+import 'Controllers/AgoraIntegration/agora_initlization.dart';
 import 'Controllers/Cubits/CommonCubit/accept_reject_mettings_cubit.dart';
 import 'Controllers/Cubits/CommonCubit/add_metting_cubit.dart';
 import 'Controllers/Cubits/CommonCubit/connect_school_with_us_cubit.dart';
+import 'Controllers/Cubits/CommonCubit/create_chat_cubit.dart';
 import 'Controllers/Cubits/CommonCubit/delate_account_cubit.dart';
 import 'Controllers/Cubits/CommonCubit/edit_profile_cubit.dart';
 import 'Controllers/Cubits/CommonCubit/events_newz_cubit.dart';
@@ -41,15 +45,31 @@ import 'Controllers/Cubits/TeacherCubit/get_teacher_subject_cubit.dart';
 import 'Controllers/Cubits/TeacherCubit/show_class_attendance_cubit.dart';
 import 'Controllers/Cubits/TeacherCubit/show_teacher_class_cubit.dart';
 import 'Controllers/Cubits/TeacherCubit/teacher_create_class_cubit.dart';
+import 'Controllers/firebase_repos/firebase_notification_meta.dart';
 import 'Presentation/common/views/all_school_screen.dart';
 import 'Presentation/common/views/bottom_bar.dart';
 import 'Presentation/common/views/loginScreen.dart';
 import 'Presentation/utils/shade_prefrence.dart';
-
+import 'dart:math' as dM;
 import 'package:timezone/standalone.dart' as tz;
 
 @pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  log("_messaging onBackgroundMessage: ${message.notification!.title!} ${message.notification!.body!}");
+  final id = dM.Random().nextInt(20000);
+  // var data = await e.notification!.body;
+  print("Running Background notification $message");
+  if (message.notification != null) {
+    //  String? title= e.notification.title;
+    NotificationServices().showNotification(
+        id,
+        message.notification!.title.toString(),
+        message.notification!.body.toString(),
+        payload: message.notification!.title);
+  }
+
+  return;
+}
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -66,17 +86,67 @@ void main() async {
   await Firebase.initializeApp();
   await LoginApiShadePreference.getInit();
   // await tz.initializeTimeZone();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await NotificationServices().initNotification();
+
+  await FlutterDownloader.initialize(
+      debug: true,
+      ignoreSsl:
+          true // option: set to false to disable working with http links (default: false)
+      );
+
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  final RemoteMessage? message =
+      await FirebaseMessaging.instance.getInitialMessage();
+
+  print(
+      "MESSAGE ${message?.notification?.title} ${message?.notification?.body}");
+  String? payloadData = message?.data['info'].toString();
+
   HttpOverrides.global = MyHttpOverrides();
 
-  runApp(MyApp());
+  runApp(const MyApp(
+      // payLoadData: payloadData,
+      ));
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
+class MyApp extends StatefulWidget {
+  final String? payLoadData;
 
-  String? userExist =
+  const MyApp({super.key, this.payLoadData});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final String? userExist =
       LoginApiShadePreference.preferences?.getString('api_token') ?? "";
+
+  Future<InitializationStatus> _initGoogleMobileAds() {
+    // TODO: Initialize Google Mobile Ads SDK
+    return MobileAds.instance.initialize();
+  }
+
+  @override
+  void initState() {
+    NotificationMetaServices.remoteMessageCheck.value = widget.payLoadData;
+    initiateAllNotifications();
+    _initGoogleMobileAds();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  void initiateAllNotifications() async {
+    //print(await NotificationServices.getFcm());
+    NotificationMetaServices().messagingInitiation();
+    NotificationMetaServices().foregroundNotificationHandler(context: context);
+    NotificationMetaServices()
+        .backgroundNotificationOnTapHandler(context: context);
+
+    NotificationMetaServices().terminatedFromOnTapStateHandler(
+        context: context, payLoadData: widget.payLoadData);
+    NotificationMetaServices().notificationPayload(context);
+  }
 
   // This widget is the root of your application.
   @override
@@ -124,17 +194,29 @@ class MyApp extends StatelessWidget {
               BlocProvider(create: (context) => EventsNewsCubit()),
               BlocProvider(create: (context) => ClassReportsCubit()),
               BlocProvider(create: (context) => GetParentsTeachersCubit()),
+              BlocProvider(create: (context) => CreateChatCubit()),
             ],
             child: MaterialApp(
-              title: 'Flutter Demo',
               theme: ThemeData(
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               ),
-              home: userExist!.isEmpty
-                  ? LogInScreen()
-                  : const BottomBarPages(index: 0),
+              home: const BottomBarPages(index: 0),
             ),
           );
         });
   }
 }
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(routes: {
+//       "/": (_) => const WebviewScaffold(
+//             url: "https://shashankpujari.com",
+// //        appBar: new AppBar(
+// //          title: new Text("WebView"),
+// //        ),// AppBar
+//           ) // WebviewScaffold
+//     }); // MaterialApp
+//   }
+// }

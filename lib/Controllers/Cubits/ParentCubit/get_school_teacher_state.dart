@@ -8,9 +8,13 @@ class GetSchoolTeacherInitial extends GetSchoolTeacherState {}
 class GetSchoolTeacherLoading extends GetSchoolTeacherState {}
 
 class GetSchoolTeacherLoaded extends GetSchoolTeacherState {
-  SchoolTeachers teachers = SchoolTeachers();
+  List<AllTeachers> teachers;
 
   GetSchoolTeacherLoaded({required this.teachers});
 }
 
-class GetSchoolTeacherError extends GetSchoolTeacherState {}
+class GetSchoolTeacherError extends GetSchoolTeacherState {
+  final String? error;
+
+  GetSchoolTeacherError({this.error});
+}

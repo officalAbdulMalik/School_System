@@ -3,7 +3,7 @@ import 'dart:convert';
 class SchoolTeachers {
   bool? error;
   String? message;
-  List<Datum>? data;
+  List<AllTeachers>? data;
   int? code;
 
   SchoolTeachers({
@@ -23,7 +23,8 @@ class SchoolTeachers {
         message: json["message"],
         data: json["data"] == null
             ? []
-            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+            : List<AllTeachers>.from(
+                json["data"]!.map((x) => AllTeachers.fromJson(x))),
         code: json["code"],
       );
 
@@ -37,7 +38,7 @@ class SchoolTeachers {
       };
 }
 
-class Datum {
+class AllTeachers {
   int? id;
   String? title;
   String? firstName;
@@ -58,7 +59,7 @@ class Datum {
   int? resetRequest;
   String? hearAboutUs;
 
-  Datum({
+  AllTeachers({
     this.id,
     this.title,
     this.firstName,
@@ -80,11 +81,12 @@ class Datum {
     this.hearAboutUs,
   });
 
-  factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
+  factory AllTeachers.fromRawJson(String str) =>
+      AllTeachers.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory AllTeachers.fromJson(Map<String, dynamic> json) => AllTeachers(
         id: json["id"],
         title: json["title"],
         firstName: json["first_name"],

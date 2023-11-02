@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/Controllers/Cubits/TeacherCubit/get_class_student_cubit.dart';
+import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
 import 'package:school_system/Presentation/BottomBarParent/profile_screens/show_parent_school.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
@@ -100,7 +101,11 @@ class _ShowChildrenState extends State<ShowChildren> {
               ],
             ),
             SizedBox(
-              height: 20.h,
+              height: 10.h,
+            ),
+            const ShowAds(),
+            SizedBox(
+              height: 10.h,
             ),
             MyTextField(
               controller: controller,
@@ -126,7 +131,7 @@ class _ShowChildrenState extends State<ShowChildren> {
             BlocConsumer<GetClassStudentCubit, GetClassStudentState>(
               listener: (context, state) {
                 if (state is GetClassStudentLoading) {
-                  LoadingDialog.showLoadingDialog(context);
+                  Dialogs.showLoadingDialog(context);
                 }
                 if (state is GetClassStudentLoaded) {
                   Navigator.pop(context);

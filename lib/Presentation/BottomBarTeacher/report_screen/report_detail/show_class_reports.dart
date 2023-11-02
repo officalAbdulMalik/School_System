@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:school_system/Controllers/Cubits/TeacherCubit/class_reports_cubit.dart';
 import 'package:school_system/Controllers/Cubits/TeacherCubit/get_teacher_subject_cubit.dart';
+import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
 import 'package:school_system/Presentation/BottomBarTeacher/add_report/teacher_subject_select.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
@@ -56,7 +57,7 @@ class _TeacherReportDetailState extends State<TeacherReportDetail> {
       body: BlocConsumer<ClassReportsCubit, ClassReportsState>(
         listener: (context, state) {
           if (state is ClassReportsLoading) {
-            LoadingDialog.showLoadingDialog(context);
+            Dialogs.showLoadingDialog(context);
           }
           if (state is ClassReportsLoaded) {
             Navigator.pop(context);
@@ -91,7 +92,11 @@ class _TeacherReportDetailState extends State<TeacherReportDetail> {
                   fontWeight: FontWeight.w500,
                 ),
                 SizedBox(
-                  height: 15.sp,
+                  height: 10.h,
+                ),
+                const ShowAds(),
+                SizedBox(
+                  height: 10.h,
                 ),
                 Row(
                   children: [

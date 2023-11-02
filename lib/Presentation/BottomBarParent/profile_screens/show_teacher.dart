@@ -33,7 +33,7 @@ class _SchoolTeacherState extends State<SchoolTeacher> {
   void initState() {
     context.read<GetSchoolTeacherCubit>().getTeacher(
         apiUrl: '/api/parent/school/teachers?school_id=${widget.schoolId}');
-    context.read<TeacherClassesCubit>().getTeacherClasses('');
+    // context.read<TeacherClassesCubit>().getTeacherClasses('');
 
     // TODO: implement initState
     super.initState();
@@ -88,7 +88,7 @@ class _SchoolTeacherState extends State<SchoolTeacher> {
               Navigator.of(context).pop(true);
             }
             if (state is GetSchoolTeacherError) {
-              Fluttertoast.showToast(msg: 'Some Thing Wrong');
+              Fluttertoast.showToast(msg: state.error!);
               Navigator.of(context).pop(true);
             }
           },
@@ -108,11 +108,11 @@ class _SchoolTeacherState extends State<SchoolTeacher> {
                 CustomDropDown(
                   hintText: 'Teachers',
                   onChanged: (value) {
-                    print(value);
+                    // print(value);
                     // slectedClass = value.toString();
                   },
                   itemsMap: state is GetSchoolTeacherLoaded
-                      ? state.teachers.data!.map((e) {
+                      ? state.teachers.map((e) {
                           return DropdownMenuItem(
                             value: e.id,
                             child: Text(

@@ -108,7 +108,7 @@ class _AddParticipantScreenState extends State<AddParticipantScreen> {
                           ShowTeacherClassState>(
                           listener: (context, state) {
                             if (state is ShowTeacherClassLoading) {
-                              LoadingDialog.showLoadingDialog(context);
+                              Dialogs.showLoadingDialog(context);
                             }
                             if (state is ShowTeacherClassLoaded) {
                               Navigator.pop(context);
@@ -199,7 +199,7 @@ class _AddParticipantScreenState extends State<AddParticipantScreen> {
                   BlocConsumer<GetParentsTeachersCubit, GetAllParentsState>(
                     listener: (context, state) {
                       if (state is GetAllParentsLoading) {
-                        LoadingDialog.showLoadingDialog(context);
+                        Dialogs.showLoadingDialog(context);
                       }
 
                       if (state is GetAllParentsLoaded) {
@@ -273,30 +273,44 @@ class _AddParticipantScreenState extends State<AddParticipantScreen> {
                                                                       .checkList[
                                                                   index],
                                                               onChanged: (val) {
-                                                                state.checkList[
-                                                                        index] =
-                                                                    !state.checkList[
-                                                                        index];
+                                                                if (type ==
+                                                                    'teacher') {
+                                                                  state.checkList[
+                                                                          index] =
+                                                                      !state.checkList[
+                                                                          index];
 
-                                                                if (listofParticipent
-                                                                    .contains(state
+                                                                  if (listofParticipent
+                                                                      .contains(state
+                                                                          .model[
+                                                                              index]
+                                                                          .id
+                                                                          .toString())) {
+                                                                    listofParticipent.remove(state
                                                                         .model[
                                                                             index]
                                                                         .id
-                                                                        .toString())) {
-                                                                  listofParticipent
-                                                                      .remove(state
-                                                                          .model[
-                                                                              index]
-                                                                          .id
-                                                                          .toString());
+                                                                        .toString());
+                                                                  } else {
+                                                                    listofParticipent.add(state
+                                                                        .model[
+                                                                            index]
+                                                                        .id
+                                                                        .toString());
+                                                                  }
                                                                 } else {
-                                                                  listofParticipent
-                                                                      .add(state
-                                                                          .model[
-                                                                              index]
-                                                                          .id
-                                                                          .toString());
+                                                                  state.checkList[
+                                                                          index] =
+                                                                      !state.checkList[
+                                                                          index];
+                                                                  listofParticipent =
+                                                                      [
+                                                                    state
+                                                                        .model[
+                                                                            index]
+                                                                        .id
+                                                                        .toString()
+                                                                  ];
                                                                 }
 
                                                                 // widget.list(list);

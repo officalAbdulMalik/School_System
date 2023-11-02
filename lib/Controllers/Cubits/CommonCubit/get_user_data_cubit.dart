@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:school_system/Data/app_const.dart';
 
 import '../../../models/user_data_model.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
@@ -24,8 +25,7 @@ class GetUserDataCubit extends Cubit<GetUserDataState> {
             'Bearer Bearer ${LoginApiShadePreference.preferences!.getString("api_token")}'
       };
 
-      var url = Uri.parse(
-          'https://www.dev.schoolsnow.parentteachermobile.com/api/auth/details');
+      var url = Uri.parse('$baseUrl/api/auth/details');
       var response = await http.get(url, headers: headers);
 
       print('status code is ${response.statusCode}');

@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/get_user_data_cubit.dart';
+import 'package:school_system/Controllers/Services/AdsServices/ads_banners.dart';
+import 'package:school_system/Controllers/firebase_repos/firebase_notification_meta.dart';
 import 'package:school_system/Presentation/BottomBarParent/profile_screens/show_report_sreen.dart';
 import 'package:school_system/Presentation/BottomBarTeacher/report_screen/show_teacher_class.dart';
 import 'package:school_system/Presentation/common/scedule_meeting/calnder_screen.dart';
@@ -72,11 +75,19 @@ class _BottomBarPagesState extends State<BottomBarPages> {
   @override
   void initState() {
     context.read<GetUserDataCubit>().getParentsTeachers('');
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      NotificationMetaServices.setContext(context);
+    });
     bottomIndex = widget.index;
-
     // TODO: implement initState
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _controller.dispose();
+    super.dispose();
   }
 
   @override

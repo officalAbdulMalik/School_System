@@ -34,7 +34,7 @@ class GetClassStudentCubit extends Cubit<GetClassStudentState> {
 
           log(value.toString());
         } else {
-          emit(GetClassStudentError(error: value['message']));
+          emit(GetClassStudentError(error: value['error']));
           print('error');
         }
       }).catchError((e) {

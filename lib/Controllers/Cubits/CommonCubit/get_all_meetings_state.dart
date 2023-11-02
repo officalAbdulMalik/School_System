@@ -8,13 +8,13 @@ class GetAllMeetingsInitial extends GetAllMeetingsState {}
 class GetAllMeetingsLoading extends GetAllMeetingsState {}
 
 class GetAllMeetingsLoaded extends GetAllMeetingsState {
-  List<GetAllMeetings> meetings;
+  final List<GetAllMeetings> meetings;
 
   GetAllMeetingsLoaded({required this.meetings});
 }
 
 class GetAllMeetingsError extends GetAllMeetingsState {
-  String error = '';
+  final String? error;
 
-  GetAllMeetingsError(this.error);
+  GetAllMeetingsError({this.error});
 }

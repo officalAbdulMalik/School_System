@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school_system/Controllers/Cubits/TeacherCubit/show_class_attendance_cubit.dart';
+import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
 import 'package:school_system/Presentation/common/resources/Extension/extension.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
@@ -89,7 +90,7 @@ class _ShowAllAttendanceScreenState extends State<ShowAllAttendanceScreen> {
               BlocConsumer<ShowClassAttendanceCubit, ShowClassAttendanceState>(
             listener: (context, state) {
               if (state is ShowClassAttendanceLoading) {
-                LoadingDialog.showLoadingDialog(context);
+                Dialogs.showLoadingDialog(context);
               }
               if (state is ShowClassAttendanceLoaded) {
                 // print(state.model![0].presentCount);
@@ -115,7 +116,11 @@ class _ShowAllAttendanceScreenState extends State<ShowAllAttendanceScreen> {
                         flex: 10,
                       ),
                       SizedBox(
-                        height: 20.h,
+                        height: 10.h,
+                      ),
+                      const ShowAds(),
+                      SizedBox(
+                        height: 10.h,
                       ),
                       Container(
                         padding: EdgeInsets.only(left: 10.sp, right: 10.sp),

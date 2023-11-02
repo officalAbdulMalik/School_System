@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/students_reports_cubit.dart';
+import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
 import 'package:school_system/Presentation/BottomBarParent/profile_screens/show_report_sreen.dart';
 import 'package:school_system/Presentation/common/resources/loading_dialog.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
@@ -82,7 +83,11 @@ class _ReportDetailParentState extends State<ReportDetailParent> {
                   ],
                 ),
                 SizedBox(
-                  height: 32.sp,
+                  height: 10.h,
+                ),
+                const ShowAds(),
+                SizedBox(
+                  height: 10.sp,
                 ),
                 ReportCard(
                   studentName: widget.studentName ?? "",

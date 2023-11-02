@@ -293,7 +293,7 @@ class _AddMeetingScreenState extends State<AddMeetingScreen> {
               child: BlocConsumer<AddMettingCubit, AddMettingState>(
                 listener: (context, state) {
                   if (state is AddMettingLoading) {
-                    LoadingDialog.showLoadingDialog(context);
+                    Dialogs.showLoadingDialog(context);
                   }
                   if (state is AddMettingError) {
                     Fluttertoast.showToast(msg: state.error!);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
 import 'package:school_system/Presentation/BottomBarParent/profile_screens/edit_profile_screen.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 
@@ -57,7 +58,11 @@ class ProfileDetailScreen extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: 15.sp,
+            height: 10.h,
+          ),
+          const ShowAds(),
+          SizedBox(
+            height: 10.h,
           ),
           Container(
             padding: EdgeInsets.symmetric(
@@ -243,7 +248,14 @@ class ProfileDetailScreen extends StatelessWidget {
                 ),
               ),
             ],
-          )
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          const ShowAds(),
+          SizedBox(
+            height: 10.h,
+          ),
         ],
       ),
     );

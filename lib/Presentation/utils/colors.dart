@@ -14,6 +14,8 @@ const Color kNotificationDotColor = Color(0xffA7F388);
 const Color kGreenColor = Color(0xff88EFCD);
 const Color kDividerColor = Color(0xffF3F4F6);
 
+const Color chatBubble = Color(0xffE5E7EB);
+
 const Color kButtonBGColor = Color(0xffFCEAEA);
 const Color kDeleteBackgroundColor = Color(0xffFFE4E4);
 const Color kWhiteColor = Color(0xffffffff);

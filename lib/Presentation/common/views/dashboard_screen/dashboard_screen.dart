@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/get_all_meetings_cubit.dart';
+import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
 import 'package:school_system/Presentation/BottomBarParent/profile_screens/show_children.dart';
 import 'package:school_system/Presentation/BottomBarTeacher/prifile_screen/show_class.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
@@ -34,6 +35,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     get();
+
     // TODO: implement initState
     super.initState();
   }
@@ -47,12 +49,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
         listener: (context, state) {
           print('state is $state');
           if (state is GetAllMeetingsLoading) {
-            LoadingDialog.showLoadingDialog(context);
+            Dialogs.showLoadingDialog(context);
           }
           if (state is GetAllMeetingsError) {
             Navigator.pop(context);
             // CustomDialog.dialog(context, Text(state.error));
-            Fluttertoast.showToast(msg: state.error);
+            Fluttertoast.showToast(msg: state.error!);
           }
           if (state is GetAllMeetingsLoaded) {
             Navigator.pop(context);
@@ -82,7 +84,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   fontWeight: FontWeight.w600,
                 ),
                 SizedBox(
-                  height: 20.sp,
+                  height: 20.h,
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 6.sp),
@@ -116,9 +118,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         lastDay: DateTime.utc(2030, 3, 14),
                         focusedDay: selectedTime,
                       ),
-                      Divider(),
+                      const Divider(),
                       SizedBox(
                         height: 12.sp,
+                      ),
+                      const ShowAds(),
+                      SizedBox(
+                        height: 10.sp,
                       ),
                       Row(
                         children: [
@@ -279,7 +285,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           } else if (state is GetAllMeetingsError) {
             print(state.error);
             return Center(
-              child: Text(state.error),
+              child: Text(state.error!),
             );
           } else {
             return const SizedBox();

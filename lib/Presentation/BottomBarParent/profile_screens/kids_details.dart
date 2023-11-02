@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
 import 'package:school_system/Presentation/BottomBarParent/profile_screens/report_detail_parent.dart';
 import 'package:school_system/Presentation/BottomBarParent/profile_screens/show_student_attendace.dart';
 
@@ -53,7 +54,11 @@ class _KidsDetailsScreenState extends State<KidsDetailsScreen> {
                   dotButton: true,
                 ),
                 SizedBox(
-                  height: 20.h,
+                  height: 10.h,
+                ),
+                const ShowAds(),
+                SizedBox(
+                  height: 10.h,
                 ),
                 Container(
                   decoration: BoxDecoration(

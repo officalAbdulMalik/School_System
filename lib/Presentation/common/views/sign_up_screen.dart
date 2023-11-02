@@ -7,6 +7,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/sign_up_cubit.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/custom_widget/container_decoration.dart';
+import 'package:school_system/Presentation/utils/custom_widget/custom_date_picker.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
@@ -69,6 +70,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     'Doctor',
     'Ms.',
   ];
+
+  String? dateVal(v) {
+    if (v.trim().isEmpty) {
+      return "Birth Date Required";
+    }
+
+    return null;
+  }
 
   validator() {
     return 'Field is required';
@@ -218,17 +227,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     )
                   : SizedBox(),
               SizedBox(
-                height: role == 'Teacher' ? 10.h : 0,
+                height: role != 'Teacher' ? 10.h : 0.h,
               ),
               role != 'Teacher'
-                  ? MyTextField(
+                  ? CustomDatePickerValidateWidget(
+                      hintText: 'Select Birth Date',
+                      validationText: 'Date is required',
+                      validator: dateVal,
                       controller: dob,
-                      maxLine: 1,
-                      hintText: 'Date Of Birth',
-                      filledColor: kContainerColor,
-                      isRequiredField: true,
-                      // decoration: textFieldIconDecoration(
-                      //     Icons.alternate_email, 'service@gmail.com', null),
                     )
                   : SizedBox(),
               SizedBox(
@@ -354,7 +360,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               BlocConsumer<SignUpCubit, SignUpState>(
                 listener: (context, state) {
                   if (state is SignUpLoading) {
-                    LoadingDialog.showLoadingDialog(context);
+                    Dialogs.showLoadingDialog(context);
                   }
                   if (state is SignUpLoaded) {
                     Navigator.push(context, MaterialPageRoute(
@@ -370,19 +376,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       LoginApiShadePreference.preferences!
                           .setString('email', email.text);
                       if (_formKey.currentState!.validate()) {
-                        context.read<SignUpCubit>().createUser(
-                            firstName.text.trim(),
-                            lastName.text.trim(),
-                            email.text.trim(),
-                            password.text.trim(),
-                            teacherM,
-                            language,
-                            abou,
-                            occupation.text.trim(),
-                            phoneNumber.text.trim(),
-                            gender,
-                            dob.text.trim(),
-                            context);
+                        bool valEmail = isEmailValid(email.text);
+                        if (valEmail == true) {
+                          context.read<SignUpCubit>().createUser(
+                              firstName.text.trim(),
+                              lastName.text.trim(),
+                              email.text.trim(),
+                              password.text.trim(),
+                              teacherM,
+                              language,
+                              abou,
+                              occupation.text.trim(),
+                              phoneNumber.text.trim(),
+                              gender,
+                              dob.text.trim(),
+                              context);
+                        } else {
+                          Fluttertoast.showToast(
+                              msg: "The email format is not correct.");
+                        }
                       }
                     },
                     child: CustomWidgets.customButton('Sign Up'),
@@ -396,7 +408,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'You have accoun,  ',
+                    'You have account,  ',
                     style: GoogleFonts.poppins(
                       color: kDescriptionColor,
                       fontWeight: FontWeight.w500,

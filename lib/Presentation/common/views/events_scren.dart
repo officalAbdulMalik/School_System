@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/events_newz_cubit.dart';
+import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
 import 'package:school_system/Presentation/common/resources/loading_dialog.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
@@ -88,7 +89,11 @@ class _NewsEventsPageState extends State<NewsEventsPage> {
               fontWeight: FontWeight.w600,
             ),
             SizedBox(
-              height: 20.sp,
+              height: 10.h,
+            ),
+            const ShowAds(),
+            SizedBox(
+              height: 10.h,
             ),
             MyTextField(
               controller: searchController,

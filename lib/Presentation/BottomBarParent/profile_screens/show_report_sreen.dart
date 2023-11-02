@@ -4,12 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Controllers/Cubits/TeacherCubit/get_class_student_cubit.dart';
+import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
 import 'package:school_system/Presentation/BottomBarParent/profile_screens/report_detail_parent.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
-import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
 import 'package:school_system/models/get_class_student_model.dart';
-
 import '../../common/resources/loading_dialog.dart';
 import '../../utils/app_images.dart';
 import '../../utils/custom_widget/my_text.dart';
@@ -75,13 +74,17 @@ class _ReportCardScreenState extends State<ReportCardScreen> {
             ],
           ),
           SizedBox(
-            height: 20.h,
+            height: 10.h,
+          ),
+          const ShowAds(),
+          SizedBox(
+            height: 10.h,
           ),
           MyTextField(
             controller: controller,
             filledColor: kContainerColor,
             hintText: 'Search',
-            prefixIcon: Icon(Icons.search),
+            prefixIcon: const Icon(Icons.search),
             onCanaged: (val) {
               if (val.isNotEmpty) {
                 searchList = searchList!
@@ -109,6 +112,7 @@ class _ReportCardScreenState extends State<ReportCardScreen> {
                 searchList = state.model!;
               }
               if (state is GetClassStudentError) {
+                Navigator.of(context).pop(true);
                 Fluttertoast.showToast(msg: state.error!);
               }
             },
@@ -145,8 +149,12 @@ class _ReportCardScreenState extends State<ReportCardScreen> {
                           ),
                         ),
                       );
+              } else if (state is GetClassStudentError) {
+                return Center(
+                  child: Text(state.error!),
+                );
               } else {
-                return SizedBox();
+                return const SizedBox();
               }
             },
           )
@@ -285,22 +293,22 @@ class ReportCard extends StatelessWidget {
     );
   }
 
-  Color _getGradeColor(String grade) {
-    switch (grade) {
-      case 'A+':
-        return Colors.green;
-      case 'A':
-        return Colors.blue;
-      case 'A-':
-        return Colors.lightBlue;
-      case 'B+':
-        return Colors.yellow;
-      case 'B':
-        return Colors.orange;
-      case 'C':
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
-  }
+  // Color _getGradeColor(String grade) {
+  //   switch (grade) {
+  //     case 'A+':
+  //       return Colors.green;
+  //     case 'A':
+  //       return Colors.blue;
+  //     case 'A-':
+  //       return Colors.lightBlue;
+  //     case 'B+':
+  //       return Colors.yellow;
+  //     case 'B':
+  //       return Colors.orange;
+  //     case 'C':
+  //       return Colors.red;
+  //     default:
+  //       return Colors.grey;
+  //   }
+  // }
 }

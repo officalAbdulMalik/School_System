@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/get_all_school_cubit.dart';
+import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 
 import 'package:school_system/Presentation/utils/colors.dart';
@@ -67,6 +68,13 @@ class _ShowParentSchoolState extends State<ShowParentSchool> {
                   text2: 'Select Your school from here...',
                   image: 'add_s_star.png',
                 ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                const ShowAds(),
+                SizedBox(
+                  height: 10.h,
+                ),
                 MyTextField(
                   controller: searchController,
                   filledColor: kContainerColor,
@@ -91,7 +99,7 @@ class _ShowParentSchoolState extends State<ShowParentSchool> {
                 BlocConsumer<GetAllSchoolCubit, GetAllSchoolState>(
                   listener: (context, state) {
                     if (state is GetAllSchoolLoading) {
-                      LoadingDialog.showLoadingDialog(context);
+                      Dialogs.showLoadingDialog(context);
                     }
                     if (state is GetAllSchoolLoaded) {
                       searchList = state.model;
@@ -117,10 +125,21 @@ class _ShowParentSchoolState extends State<ShowParentSchool> {
                                 itemCount: searchList!.length,
                                 itemBuilder: (context, index) {
                                   return Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.shade100,
-                                      borderRadius:
-                                          BorderRadius.circular(15.sp),
+                                    margin: EdgeInsets.only(bottom: 5.sp),
+                                    height: 70.sp,
+                                    decoration: ShapeDecoration(
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      shadows: const [
+                                        BoxShadow(
+                                          color: Color(0x19303133),
+                                          blurRadius: 30,
+                                          offset: Offset(0, 4),
+                                          spreadRadius: 0,
+                                        )
+                                      ],
                                     ),
                                     child: ListTile(
                                       leading: CircleAvatar(

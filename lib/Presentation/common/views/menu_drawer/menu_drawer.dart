@@ -107,17 +107,19 @@ class MenuDrawerScreen extends StatelessWidget {
               title: 'Sign Out',
               onTap: () {
                 LoginApiShadePreference.preferences!.remove('api_token');
-                Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (context) {
-                    return LogInScreen();
-                  },
-                ));
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        LogInScreen(), // Replace with your login page widget
+                  ),
+                  (Route<dynamic> route) => false, // Remove all previous routes
+                );
               },
             ),
             BlocListener<DelateAccountCubit, DelateAccountState>(
               listener: (context, state) {
                 if (state is DelateAccountLoading) {
-                  LoadingDialog.showLoadingDialog(context);
+                  Dialogs.showLoadingDialog(context);
                 }
                 if (state is DelateAccountLoaded) {
                   Navigator.pop(context);

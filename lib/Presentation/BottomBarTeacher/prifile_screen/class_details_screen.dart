@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
 import 'package:school_system/Presentation/BottomBarTeacher/attendance_screens/show_all_attendance.dart';
 import 'package:school_system/Presentation/BottomBarTeacher/report_screen/report_detail/show_class_reports.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
@@ -12,11 +13,11 @@ import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dar
 import 'package:school_system/models/get_teacher_class_model.dart';
 
 class ClassDeatailsScreen extends StatefulWidget {
-  ClassDeatailsScreen({Key? key, required this.data, required this.index})
+  const ClassDeatailsScreen({Key? key, required this.data, required this.index})
       : super(key: key);
 
-  TeacherShowClass data;
-  int index;
+  final TeacherShowClass data;
+  final int index;
 
   @override
   State<ClassDeatailsScreen> createState() => _ClassDeatailsScreenState();
@@ -50,7 +51,11 @@ class _ClassDeatailsScreenState extends State<ClassDeatailsScreen> {
                   dotButton: true,
                 ),
                 SizedBox(
-                  height: 20.h,
+                  height: 10.h,
+                ),
+                const ShowAds(),
+                SizedBox(
+                  height: 10.h,
                 ),
                 Container(
                     padding: EdgeInsets.only(

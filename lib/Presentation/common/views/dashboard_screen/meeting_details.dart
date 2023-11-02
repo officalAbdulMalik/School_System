@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/accept_reject_mettings_cubit.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/get_all_meetings_cubit.dart';
+import 'package:school_system/Presentation/common/resources/Extension/extension.dart';
 import 'package:school_system/Presentation/common/views/bottom_bar.dart';
 import 'package:school_system/Presentation/common/views/dashboard_screen/dashboard_screen.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
@@ -13,6 +14,7 @@ import 'package:school_system/Presentation/utils/custom_widget/custome_botton_de
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
 import 'package:school_system/Data/Repository/accept_reject_metting.dart';
+import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 import 'package:school_system/models/get_all_mettings.dart';
 
 class MeetingsDetails extends StatefulWidget {
@@ -25,8 +27,13 @@ class MeetingsDetails extends StatefulWidget {
 }
 
 class _MeetingsDetailsState extends State<MeetingsDetails> {
+  String? userId = LoginApiShadePreference.preferences!.getString('user_id');
+
   @override
   Widget build(BuildContext context) {
+    print("here is Id${widget.meetings!.userId}");
+    print(userId);
+
     return SafeArea(
       child: BlocConsumer<AcceptRejectMeetingsCubit, AcceptRejectMeetingsState>(
         listener: (context, state) {
@@ -45,45 +52,47 @@ class _MeetingsDetailsState extends State<MeetingsDetails> {
         builder: (context, state) {
           print(state);
           return Scaffold(
-            bottomNavigationBar: Padding(
-              padding: EdgeInsets.all(10.0.sp),
-              child: state is AcceptRejectMeetingsLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.blue,
-                      ),
-                    )
-                  : Row(
-                      children: [
-                        Expanded(
-                            child: InkWell(
-                          onTap: () async {
-                            context
-                                .read<AcceptRejectMeetingsCubit>()
-                                .acceptRejectMeetings(
-                                    widget.meetings!.id!, 'rejected');
-                          },
-                          child: CustomWidgets.customButton('Reject',
-                              buttonColor: kDescriptionColor),
-                        )),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        Expanded(
-                            child: InkWell(
-                          onTap: () {
-                            context
-                                .read<AcceptRejectMeetingsCubit>()
-                                .acceptRejectMeetings(
-                                    widget.meetings!.id!, 'accepted');
-                          },
-                          child: CustomWidgets.customButton(
-                            'Accept',
+            bottomNavigationBar: widget.meetings!.userId.toString() != userId
+                ? Padding(
+                    padding: EdgeInsets.all(10.0.sp),
+                    child: state is AcceptRejectMeetingsLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.blue,
+                            ),
+                          )
+                        : Row(
+                            children: [
+                              Expanded(
+                                  child: InkWell(
+                                onTap: () async {
+                                  context
+                                      .read<AcceptRejectMeetingsCubit>()
+                                      .acceptRejectMeetings(
+                                          widget.meetings!.id!, 'rejected');
+                                },
+                                child: CustomWidgets.customButton('Reject',
+                                    buttonColor: kDescriptionColor),
+                              )),
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              Expanded(
+                                  child: InkWell(
+                                onTap: () {
+                                  context
+                                      .read<AcceptRejectMeetingsCubit>()
+                                      .acceptRejectMeetings(
+                                          widget.meetings!.id!, 'accepted');
+                                },
+                                child: CustomWidgets.customButton(
+                                  'Accept',
+                                ),
+                              )),
+                            ],
                           ),
-                        )),
-                      ],
-                    ),
-            ),
+                  )
+                : SizedBox(),
             body: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
               child: Column(
@@ -115,7 +124,7 @@ class _MeetingsDetailsState extends State<MeetingsDetails> {
                     height: 10.h,
                   ),
                   MyText(
-                    "${widget.meetings?.meetingTime}  ${widget.meetings?.meetingDate.toString()}",
+                    "${widget.meetings?.meetingTime}  ${widget.meetings!.meetingDate!.humanReadableDate}",
                     fontWeight: FontWeight.w400,
                     fontSize: 17.sp,
                   ),

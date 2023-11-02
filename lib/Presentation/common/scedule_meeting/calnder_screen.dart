@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/get_all_meetings_cubit.dart';
+import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/common/views/dashboard_screen/all_mettings_screen.dart';
 import 'package:school_system/Presentation/common/views/dashboard_screen/components/event_card.dart';
@@ -60,11 +61,11 @@ class _CalenderScreenState extends State<CalenderScreen> {
         listener: (context, state) {
           print('state is $state');
           if (state is GetAllMeetingsLoading) {
-            LoadingDialog.showLoadingDialog(context, barrierDismissible: true);
+            Dialogs.showLoadingDialog(context, barrierDismissible: true);
           }
           if (state is GetAllMeetingsError) {
             Navigator.pop(context);
-            Fluttertoast.showToast(msg: state.error);
+            Fluttertoast.showToast(msg: state.error!);
           }
           if (state is GetAllMeetingsLoaded) {
             Navigator.pop(context);
@@ -119,6 +120,10 @@ class _CalenderScreenState extends State<CalenderScreen> {
                         lastDay: DateTime.utc(2030, 3, 14),
                         focusedDay: DateTime.now(),
                       ),
+                      SizedBox(
+                        height: 12.sp,
+                      ),
+                      const ShowAds(),
                       Divider(),
                       SizedBox(
                         height: 12.sp,
@@ -178,7 +183,7 @@ class _CalenderScreenState extends State<CalenderScreen> {
           } else if (state is GetAllMeetingsError) {
             print(state.error);
             return Center(
-              child: Text(state.error),
+              child: Text(state.error!),
             );
           } else {
             return const SizedBox();

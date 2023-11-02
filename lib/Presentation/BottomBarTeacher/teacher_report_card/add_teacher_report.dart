@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:school_system/Controllers/Cubits/TeacherCubit/add_report_cubit.dart';
 import 'package:school_system/Controllers/Cubits/TeacherCubit/get_class_student_cubit.dart';
+import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/common/views/bottom_bar.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
@@ -70,7 +71,7 @@ class _TeacherReportCardScreenState extends State<TeacherReportCardScreen> {
           Navigator.pop(context);
         }
         if (state is AddReportLoading) {
-          LoadingDialog.showLoadingDialog(context);
+          Dialogs.showLoadingDialog(context);
         }
         if (state is AddReportLoaded) {
           Navigator.pop(context);
@@ -199,7 +200,11 @@ class _TeacherReportCardScreenState extends State<TeacherReportCardScreen> {
             ],
           ),
           SizedBox(
-            height: 20.sp,
+            height: 10.h,
+          ),
+          const ShowAds(),
+          SizedBox(
+            height: 10.h,
           ),
           SizedBox(
             width: 343,
@@ -263,7 +268,7 @@ class _TeacherReportCardScreenState extends State<TeacherReportCardScreen> {
           BlocConsumer<GetClassStudentCubit, GetClassStudentState>(
               listener: (context, state) {
             if (state is GetClassStudentLoading) {
-              LoadingDialog.showLoadingDialog(context);
+              Dialogs.showLoadingDialog(context);
             }
             if (state is GetClassStudentLoaded) {
               Navigator.pop(context);

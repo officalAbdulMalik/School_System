@@ -23,18 +23,18 @@ class GetAllMeetingsCubit extends Cubit<GetAllMeetingsState> {
         if (value['status'] != null && value['status'] == 200) {
           var data = value['data'];
           var meeting = List<GetAllMeetings>.from(
-              data.map((x) => GetAllMeetings.fromJson(x)));
+              data.map((x) => GetAllMeetings.fromMap(x)));
           emit(GetAllMeetingsLoaded(meetings: meeting));
         } else {
           print('error state');
-          emit(GetAllMeetingsError(value['error']));
+          emit(GetAllMeetingsError(error: value['error']));
         }
       }).catchError((e) {
-        emit(GetAllMeetingsError('Some Thing Wrong'));
+        emit(GetAllMeetingsError(error: 'Some Thing Wrong'));
         throw e;
       });
     } catch (e) {
-      emit(GetAllMeetingsError(e.toString()));
+      emit(GetAllMeetingsError(error: e.toString()));
       rethrow;
     }
   }
@@ -64,13 +64,13 @@ class GetAllMeetingsCubit extends Cubit<GetAllMeetingsState> {
             data.map((x) => GetAllMeetings.fromJson(x)));
         emit(GetAllMeetingsLoaded(meetings: meetings));
       } else {
-        emit(GetAllMeetingsError('No Data'));
+        emit(GetAllMeetingsError(error: 'No Data'));
         print('error');
         // var data = jsonDecode(response.body.toString());
         // print(data['message']);
       }
     } catch (e) {
-      emit(GetAllMeetingsError(e.toString()));
+      emit(GetAllMeetingsError(error: e.toString()));
       // Get.snackbar('KASI', 'Exception is $e');
     }
   }

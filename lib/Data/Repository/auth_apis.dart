@@ -8,7 +8,7 @@ import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 class LoginApi {
   static Future<Map<String, dynamic>> login(
       String email, String password) async {
-    String fcmToken = await FirebaseNotificationsService().getDeviceToken();
+    String fcmToken = await NotificationServices().getDeviceToken();
 
     var body = json.encode({
       'email': email,

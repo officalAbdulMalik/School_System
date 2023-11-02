@@ -16,6 +16,7 @@ import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/Data/global_list.dart';
+import 'package:school_system/models/get_all_school_model.dart';
 
 import '../../../Data/Repository/teacher_create_class.dart';
 import '../../utils/shade_prefrence.dart';
@@ -80,6 +81,8 @@ class _TeacherAddClassState extends State<TeacherAddClass> {
 
   final formKey = GlobalKey<FormState>();
 
+  List<Schools>? schools;
+
   @override
   void initState() {
     context.read<GetSectionCubit>().getSections();
@@ -124,7 +127,12 @@ class _TeacherAddClassState extends State<TeacherAddClass> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    BlocBuilder<GetSectionCubit, GetSectionState>(
+                    BlocConsumer<GetSectionCubit, GetSectionState>(
+                      listener: (context, state) {
+                        if (state is GetSectionError) {
+                          Fluttertoast.showToast(msg: state.error!);
+                        }
+                      },
                       builder: (context, state) {
                         if (state is GetSectionLoaded) {
                           print(state.sections.length);
@@ -154,8 +162,6 @@ class _TeacherAddClassState extends State<TeacherAddClass> {
                                     ),
                                   ),
                                 );
-                        } else if (state is GetSectionError) {
-                          return Text(state.error!);
                         } else {
                           return CustomDropDown(
                             hintText: 'Sections',
@@ -180,59 +186,32 @@ class _TeacherAddClassState extends State<TeacherAddClass> {
                     BlocConsumer<GetAllSchoolCubit, GetAllSchoolState>(
                       listener: (context, state) {
                         if (state is GetAllSchoolLoading) {
-                          LoadingDialog.showLoadingDialog(context);
+                          Dialogs.showLoadingDialog(context);
                         }
                         if (state is GetAllSchoolLoaded) {
                           Navigator.of(context).pop(true);
+                          schools = state.model;
                         }
                         if (state is GetAllSchoolError) {
                           Fluttertoast.showToast(msg: state.error!);
                         }
                       },
                       builder: (context, state) {
-                        return state is GetAllSchoolLoaded
-                            ? state.model.isNotEmpty
-                                ? CustomDropDown(
-                                    hintText: 'Schools',
-                                    onChanged: (value) {
-                                      print(value);
-                                      selectedSchool = value.toString();
-                                    },
-                                    itemsMap: state.model.map((e) {
-                                      return DropdownMenuItem(
-                                        value: e.id,
-                                        child: Text(
-                                          e.schoolName!,
-                                        ),
-                                      );
-                                    }).toList(),
-                                  )
-                                : Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      'School not found',
-                                      style: GoogleFonts.poppins(
-                                        color: Colors.black,
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  )
-                            : CustomDropDown(
-                                hintText: 'Schools',
-                                onChanged: (value) {
-                                  print(value);
-                                  selectedSchool = value.toString();
-                                },
-                                itemsMap: [].map((e) {
-                                  return DropdownMenuItem(
-                                    value: e.id,
-                                    child: Text(
-                                      e.schoolName!,
-                                    ),
-                                  );
-                                }).toList(),
-                              );
+                        return CustomDropDown(
+                          hintText: 'Schools',
+                          onChanged: (value) {
+                            print(value);
+                            selectedSchool = value.toString();
+                          },
+                          itemsMap: schools!.map((e) {
+                            return DropdownMenuItem(
+                              value: e.id,
+                              child: Text(
+                                e.schoolName!,
+                              ),
+                            );
+                          }).toList(),
+                        );
                       },
                     ),
                     SizedBox(
@@ -326,7 +305,7 @@ class _TeacherAddClassState extends State<TeacherAddClass> {
                       listener: (context, state) {
                         print(state);
                         if (state is TeacherCreateClassLoading) {
-                          LoadingDialog.showLoadingDialog(context);
+                          Dialogs.showLoadingDialog(context);
                         }
 
                         if (state is TeacherCreateClassError) {

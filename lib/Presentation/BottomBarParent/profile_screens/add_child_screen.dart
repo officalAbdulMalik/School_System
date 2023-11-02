@@ -219,7 +219,7 @@ class _AddChildScreenState extends State<AddChildScreen> {
                 BlocConsumer<AddChildCubit, AddChildState>(
                   listener: (context, state) {
                     if (state is AddChildLoading) {
-                      LoadingDialog.showLoadingDialog(context);
+                      Dialogs.showLoadingDialog(context);
                     }
                     if (state is AddChildError) {
                       Navigator.of(context).pop(true);

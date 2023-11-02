@@ -113,7 +113,7 @@ class _SchoolListScreenState extends State<SchoolListScreen> {
                 BlocConsumer<GetAllSchoolCubit, GetAllSchoolState>(
                   listener: (context, state) {
                     if (state is GetAllSchoolLoading) {
-                      LoadingDialog.showLoadingDialog(context);
+                      Dialogs.showLoadingDialog(context);
                     }
                     if (state is GetAllSchoolLoaded) {
                       searchList = state.model;
