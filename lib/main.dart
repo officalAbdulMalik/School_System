@@ -8,7 +8,6 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:school_system/Controllers/firebase_repos/firebase_notification.dart';
-import 'Controllers/AgoraIntegration/agora_initlization.dart';
 import 'Controllers/Cubits/CommonCubit/accept_reject_mettings_cubit.dart';
 import 'Controllers/Cubits/CommonCubit/add_metting_cubit.dart';
 import 'Controllers/Cubits/CommonCubit/connect_school_with_us_cubit.dart';
@@ -46,12 +45,10 @@ import 'Controllers/Cubits/TeacherCubit/show_class_attendance_cubit.dart';
 import 'Controllers/Cubits/TeacherCubit/show_teacher_class_cubit.dart';
 import 'Controllers/Cubits/TeacherCubit/teacher_create_class_cubit.dart';
 import 'Controllers/firebase_repos/firebase_notification_meta.dart';
-import 'Presentation/common/views/all_school_screen.dart';
 import 'Presentation/common/views/bottom_bar.dart';
 import 'Presentation/common/views/loginScreen.dart';
 import 'Presentation/utils/shade_prefrence.dart';
 import 'dart:math' as dM;
-import 'package:timezone/standalone.dart' as tz;
 
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -104,9 +101,7 @@ void main() async {
 
   HttpOverrides.global = MyHttpOverrides();
 
-  runApp(const MyApp(
-      // payLoadData: payloadData,
-      ));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {

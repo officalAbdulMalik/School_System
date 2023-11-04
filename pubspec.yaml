@@ -84,6 +84,9 @@ dependencies:
   path_provider: ^2.1.1
   webview_flutter_plus: ^0.3.0+2
   google_mobile_ads: ^2.4.0
+  pay: ^1.1.2
+  connectivity_plus: ^5.0.1
+  page_transition: ^2.1.0
 
 
 dev_dependencies:

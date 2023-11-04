@@ -48,42 +48,40 @@ class Dialogs {
   static logOutDialog(BuildContext context) {
     return iosDialog(
         context,
-        SizedBox(
-          height: 50.h,
-          // width: 130.w,
-          child: Column(
-            // physics: const NeverScrollableScrollPhysics(),
-            //shrinkWrap: true,
-            children: [
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(vertical: 10).h,
-              //   child: Text(
-              //     'Logout',
-              //     style: Styles.latoBold(context, fontSize: 22.sp),
-              //   ),
-              // ),
-              SizedBox(
-                height: 5.h,
-              ),
-              //Divider(color: AppColors.primaryColor,height: 2.sp,thickness: 1,),
-              SizedBox(
-                height: 2.h,
-              ),
-              Expanded(
-                child: Row(
+        Material(
+          color: Colors.transparent,
+          child: SizedBox(
+            // width: 130.w,
+            child: Column(
+              // physics: const NeverScrollableScrollPhysics(),
+              //shrinkWrap: true,
+              children: [
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(vertical: 10).h,
+                //   child: Text(
+                //     'Logout',
+                //     style: Styles.latoBold(context, fontSize: 22.sp),
+                //   ),
+                // ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Row(
                   //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     //   SizedBox(width: 40.sp,),
                     Expanded(
                         child: InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: CustomWidgets.customButton(
-                        "Cancel",
-                        buttonColor: kDescriptionColor,
-                      ),
-                    )),
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              height: 10.h,
+                              width: 40.w,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15.sp),
+                              ),
+                            ))),
 
                     SizedBox(
                       width: 5.sp,
@@ -108,9 +106,9 @@ class Dialogs {
                       ),
                     )),
                   ],
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
         'Are you sure to logout  account?');
@@ -119,59 +117,63 @@ class Dialogs {
   static deleteAccountDialog(BuildContext context, String? id) {
     return iosDialog(
         context,
-        SizedBox(
-          height: 50.h,
-          // width: 130.w,
-          child: Column(
-            // physics: const NeverScrollableScrollPhysics(),
-            //shrinkWrap: true,
-            children: [
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(vertical: 10).h,
-              //   child: Text(
-              //     'Logout',
-              //     style: Styles.latoBold(context, fontSize: 22.sp),
-              //   ),
-              // ),
-              SizedBox(
-                height: 5.h,
-              ),
-              //Divider(color: AppColors.primaryColor,height: 2.sp,thickness: 1,),
-              SizedBox(
-                height: 2.h,
-              ),
-              Expanded(
-                child: Row(
-                  //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    //   SizedBox(width: 40.sp,),
-                    Expanded(
-                        child: InkWell(
-                      onTap: () {
-                        context.read<DelateAccountCubit>().deleteAccount();
-                      },
-                      child: CustomWidgets.customButton(
-                        "Cancel",
-                        buttonColor: kDescriptionColor,
-                      ),
-                    )),
-
-                    SizedBox(
-                      width: 5.sp,
-                    ),
-                    //  SizedBox(width: 10,),
-                    Expanded(
-                        child: InkWell(
-                      onTap: () {},
-                      child: CustomWidgets.customButton(
-                        "Confirm",
-                        buttonColor: kPrimaryColor,
-                      ),
-                    )),
-                  ],
+        Material(
+          child: SizedBox(
+            height: 50.h,
+            // width: 130.w,
+            child: Column(
+              // physics: const NeverScrollableScrollPhysics(),
+              //shrinkWrap: true,
+              children: [
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(vertical: 10).h,
+                //   child: Text(
+                //     'Logout',
+                //     style: Styles.latoBold(context, fontSize: 22.sp),
+                //   ),
+                // ),
+                SizedBox(
+                  height: 5.h,
                 ),
-              )
-            ],
+                //Divider(color: AppColors.primaryColor,height: 2.sp,thickness: 1,),
+                SizedBox(
+                  height: 2.h,
+                ),
+                Expanded(
+                  child: Row(
+                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      //   SizedBox(width: 40.sp,),
+                      Expanded(
+                          child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).pop(true);
+                        },
+                        child: CustomWidgets.customButton(
+                          "Cancel",
+                          buttonColor: kDescriptionColor,
+                        ),
+                      )),
+
+                      SizedBox(
+                        width: 5.sp,
+                      ),
+                      //  SizedBox(width: 10,),
+                      Expanded(
+                          child: InkWell(
+                        onTap: () {
+                          context.read<DelateAccountCubit>().deleteAccount();
+                        },
+                        child: CustomWidgets.customButton(
+                          "Confirm",
+                          buttonColor: kPrimaryColor,
+                        ),
+                      )),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
         'Are you sure want to delete account?');
