@@ -24,11 +24,11 @@ import 'complete_screen.dart';
 import 'forget_password_screen.dart';
 
 class OtpScreen extends StatefulWidget {
-  OtpScreen({Key? key, required this.firstTime, required this.email})
+  const OtpScreen({Key? key, required this.firstTime, required this.email})
       : super(key: key);
 
-  bool firstTime;
-  String email;
+  final bool firstTime;
+  final String email;
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -153,7 +153,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     } else {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return const CompleteScreen();
+                          return SchoolListScreen();
                         },
                       ));
                     }

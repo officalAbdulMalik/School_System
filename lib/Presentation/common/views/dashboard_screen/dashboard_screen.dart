@@ -4,10 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/get_all_meetings_cubit.dart';
 import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
+import 'package:school_system/Data/app_const.dart';
 import 'package:school_system/Presentation/BottomBarParent/profile_screens/show_children.dart';
 import 'package:school_system/Presentation/BottomBarTeacher/prifile_screen/show_class.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/common/views/events_scren.dart';
+import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../../utils/app_images.dart';
@@ -166,10 +168,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   );
                                 },
                               )
-                            : Center(
-                                child: MyText('No have any meeting',
-                                    fontSize: 18.sp),
-                              ),
+                            : CustomWidgets.errorText(noDataString),
                       ),
                     ],
                   ),

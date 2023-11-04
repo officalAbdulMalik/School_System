@@ -5,11 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/get_user_data_cubit.dart';
 import 'package:school_system/Controllers/Services/AdsServices/ads_banners.dart';
+import 'package:school_system/Controllers/Services/Connection/internet_conneection.dart';
 import 'package:school_system/Controllers/firebase_repos/firebase_notification_meta.dart';
 import 'package:school_system/Presentation/BottomBarParent/profile_screens/show_report_sreen.dart';
 import 'package:school_system/Presentation/BottomBarTeacher/report_screen/show_teacher_class.dart';
+import 'package:school_system/Presentation/common/Connection/internet_connection_screen.dart';
 import 'package:school_system/Presentation/common/scedule_meeting/calnder_screen.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
@@ -78,9 +81,33 @@ class _BottomBarPagesState extends State<BottomBarPages> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       NotificationMetaServices.setContext(context);
     });
+    initiateAllNotifications();
     bottomIndex = widget.index;
+
+    AppConnectivity.connectionChanged(onDisconnected: () {
+      print('disconnect');
+
+      Navigator.push(
+          context,
+          PageTransition(
+              type: PageTransitionType.topToBottom,
+              child: const ConnectivityScreen()));
+    });
+
     // TODO: implement initState
     super.initState();
+  }
+
+  void initiateAllNotifications() async {
+    //print(await NotificationServices.getFcm());
+    NotificationMetaServices().messagingInitiation();
+    NotificationMetaServices().foregroundNotificationHandler(context: context);
+    NotificationMetaServices()
+        .backgroundNotificationOnTapHandler(context: context);
+
+    NotificationMetaServices()
+        .terminatedFromOnTapStateHandler(context: context, payLoadData: "");
+    NotificationMetaServices().notificationPayload(context);
   }
 
   @override

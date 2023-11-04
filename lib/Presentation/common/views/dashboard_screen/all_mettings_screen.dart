@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:school_system/Models/get_all_mettings.dart';
 import 'package:school_system/Presentation/common/views/dashboard_screen/components/event_card.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
-import 'package:school_system/models/get_all_mettings.dart';
 
 class MeetingAllScreen extends StatefulWidget {
   const MeetingAllScreen({Key? key, this.meetings}) : super(key: key);
 
-  final List<GetAllMeetings>? meetings;
+  final List<AllMeetings>? meetings;
 
   @override
   State<MeetingAllScreen> createState() => _MeetingAllScreenState();
@@ -38,17 +38,17 @@ class _MeetingAllScreenState extends State<MeetingAllScreen>
   Widget build(BuildContext context) {
     print(">>>>>>>>>>>>>>>>>>>>>>>${widget.meetings![0].status}");
 
-    List<GetAllMeetings>? newMeetings = widget.meetings
+    List<AllMeetings>? newMeetings = widget.meetings
         ?.where(
           (e) => e.status == 'new',
         )
         .toList();
-    List<GetAllMeetings>? accepted = widget.meetings
+    List<AllMeetings>? accepted = widget.meetings
         ?.where(
           (e) => e.status == 'accepted',
         )
         .toList();
-    List<GetAllMeetings>? rejected = widget.meetings
+    List<AllMeetings>? rejected = widget.meetings
         ?.where(
           (e) => e.status == 'rejected',
         )

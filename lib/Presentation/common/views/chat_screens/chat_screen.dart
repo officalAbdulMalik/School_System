@@ -45,9 +45,9 @@ class ChatScreen extends StatefulWidget {
   ];
 }
 
-String? userID = LoginApiShadePreference.preferences!.getString('user_id');
-
 class _ChatScreenState extends State<ChatScreen> {
+  String? userID = LoginApiShadePreference.preferences!.getString('user_id');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

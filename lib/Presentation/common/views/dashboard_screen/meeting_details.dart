@@ -4,23 +4,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/accept_reject_mettings_cubit.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/get_all_meetings_cubit.dart';
+import 'package:school_system/Models/get_all_mettings.dart';
 import 'package:school_system/Presentation/common/resources/Extension/extension.dart';
+
 import 'package:school_system/Presentation/common/views/bottom_bar.dart';
-import 'package:school_system/Presentation/common/views/dashboard_screen/dashboard_screen.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
-import 'package:school_system/Presentation/utils/custom_widget/custome_botton_details_screen.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
-import 'package:school_system/Data/Repository/accept_reject_metting.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-import 'package:school_system/models/get_all_mettings.dart';
 
 class MeetingsDetails extends StatefulWidget {
-  MeetingsDetails({Key? key, this.meetings}) : super(key: key);
+  MeetingsDetails({Key? key, required this.meetings}) : super(key: key);
 
-  GetAllMeetings? meetings;
+  AllMeetings? meetings;
 
   @override
   State<MeetingsDetails> createState() => _MeetingsDetailsState();
@@ -92,9 +90,10 @@ class _MeetingsDetailsState extends State<MeetingsDetails> {
                             ],
                           ),
                   )
-                : SizedBox(),
+                : const SizedBox(),
             body: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,7 +101,7 @@ class _MeetingsDetailsState extends State<MeetingsDetails> {
                   SizedBox(
                     height: 10.h,
                   ),
-                  NavigatorPop(),
+                  const NavigatorPop(),
                   SizedBox(
                     height: 10.h,
                   ),

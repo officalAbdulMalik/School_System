@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/connect_school_with_us_cubit.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
+import 'package:school_system/Presentation/common/views/loginScreen.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Data/Repository/forget_password_api.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
@@ -100,10 +101,7 @@ class _SchoolAddInInfoState extends State<SchoolAddInInfo> {
 
                   Navigator.pushReplacement(context, MaterialPageRoute(
                     builder: (context) {
-                      return OtpScreen(
-                        firstTime: false,
-                        email: email,
-                      );
+                      return LogInScreen();
                     },
                   ));
                 }

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/get_all_school_cubit.dart';
+import 'package:school_system/Data/app_const.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/common/views/shool_addInInfo.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
@@ -191,13 +192,7 @@ class _SchoolListScreenState extends State<SchoolListScreen> {
                                   );
                                 },
                               )
-                            : Center(
-                                child: Text(
-                                  'No School found',
-                                  style: GoogleFonts.acme(
-                                      color: kPrimaryColor, fontSize: 20.sp),
-                                ),
-                              ),
+                            : CustomWidgets.errorText(noDataString),
                       );
                     } else {
                       return const SizedBox();

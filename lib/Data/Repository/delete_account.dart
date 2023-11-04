@@ -10,9 +10,9 @@ class DeleteAccount {
       'Authorization':
           'Bearer ${LoginApiShadePreference.preferences!.getString('api_token')}'
     };
+    String? userID = LoginApiShadePreference.preferences!.getString('user_id');
 
-    var body = json.encode(
-        {"id": LoginApiShadePreference.preferences!.getString('user_id')});
+    var body = json.encode({"id": userID});
 
     http.Response request = await http.delete(
         Uri.parse('$baseUrl/api/auth/delete'),

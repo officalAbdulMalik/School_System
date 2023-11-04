@@ -119,7 +119,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final String? userExist =
+  final String userExist =
       LoginApiShadePreference.preferences?.getString('api_token') ?? "";
 
   Future<InitializationStatus> _initGoogleMobileAds() {
@@ -157,52 +157,50 @@ class _MyAppState extends State<MyApp> {
         splitScreenMode: true,
         builder: (context, child) {
           return MultiBlocProvider(
-            providers: [
-              BlocProvider(create: (context) => GetTeacherSubjectCubit()),
-              BlocProvider(create: (context) => TeacherClassesCubit()),
-              BlocProvider(create: (context) => GetSchoolTeacherCubit()),
-              BlocProvider(create: (context) => GetClassStudentCubit()),
-              BlocProvider(create: (context) => GetSectionCubit()),
-              BlocProvider(create: (context) => ShowTeacherClassCubit()),
-              BlocProvider(create: (context) => GetUserDataCubit()),
-              // BlocProvider(create: (context) => GetParentsTeachersCubit()),
-              BlocProvider(create: (context) => GetAllSchoolCubit()),
-              BlocProvider(create: (context) => GetAllMeetingsCubit()),
-              BlocProvider(create: (context) => SignUpCubit()),
-              BlocProvider(create: (context) => AcceptRejectMeetingsCubit()),
-              BlocProvider(create: (context) => AddMettingCubit()),
-              BlocProvider(create: (context) => ConnectSchoolWithUsCubit()),
-              BlocProvider(create: (context) => LoginCubit()),
-              BlocProvider(create: (context) => TeacherCreateClassCubit()),
-              BlocProvider(create: (context) => AddSectionCubit()),
-              BlocProvider(create: (context) => GetSubjectsCubit()),
-              BlocProvider(create: (context) => CreateSubjectsCubit()),
-              BlocProvider(create: (context) => ShowClassAttendanceCubit()),
-              BlocProvider(create: (context) => GetQuertersCubit()),
-              BlocProvider(create: (context) => GetSessionsCubit()),
-              BlocProvider(create: (context) => AddReportCubit()),
-              BlocProvider(create: (context) => AddAttendanceCubit()),
-              BlocProvider(create: (context) => VerifyOtpCubit()),
-              BlocProvider(create: (context) => SendEmailOtpCubit()),
-              BlocProvider(create: (context) => NewPasswordCubit()),
-              BlocProvider(create: (context) => DelateAccountCubit()),
-              BlocProvider(create: (context) => StudentsReportsCubit()),
-              BlocProvider(create: (context) => AddChildCubit()),
-              BlocProvider(create: (context) => AssignChildToClassCubit()),
-              BlocProvider(create: (context) => StudentAttendanceCubit()),
-              BlocProvider(create: (context) => EditProfileCubit()),
-              BlocProvider(create: (context) => EventsNewsCubit()),
-              BlocProvider(create: (context) => ClassReportsCubit()),
-              BlocProvider(create: (context) => GetParentsTeachersCubit()),
-              BlocProvider(create: (context) => CreateChatCubit()),
-            ],
-            child: MaterialApp(
-              theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-              ),
-              home: const BottomBarPages(index: 0),
-            ),
-          );
+              providers: [
+                BlocProvider(create: (context) => GetTeacherSubjectCubit()),
+                BlocProvider(create: (context) => TeacherClassesCubit()),
+                BlocProvider(create: (context) => GetSchoolTeacherCubit()),
+                BlocProvider(create: (context) => GetClassStudentCubit()),
+                BlocProvider(create: (context) => GetSectionCubit()),
+                BlocProvider(create: (context) => ShowTeacherClassCubit()),
+                BlocProvider(create: (context) => GetUserDataCubit()),
+                BlocProvider(create: (context) => GetParentsTeachersCubit()),
+                BlocProvider(create: (context) => GetAllSchoolCubit()),
+                BlocProvider(create: (context) => GetAllMeetingsCubit()),
+                BlocProvider(create: (context) => SignUpCubit()),
+                BlocProvider(create: (context) => AcceptRejectMeetingsCubit()),
+                BlocProvider(create: (context) => AddMettingCubit()),
+                BlocProvider(create: (context) => ConnectSchoolWithUsCubit()),
+                BlocProvider(create: (context) => LoginCubit()),
+                BlocProvider(create: (context) => TeacherCreateClassCubit()),
+                BlocProvider(create: (context) => AddSectionCubit()),
+                BlocProvider(create: (context) => GetSubjectsCubit()),
+                BlocProvider(create: (context) => CreateSubjectsCubit()),
+                BlocProvider(create: (context) => ShowClassAttendanceCubit()),
+                BlocProvider(create: (context) => GetQuertersCubit()),
+                BlocProvider(create: (context) => GetSessionsCubit()),
+                BlocProvider(create: (context) => AddReportCubit()),
+                BlocProvider(create: (context) => AddAttendanceCubit()),
+                BlocProvider(create: (context) => VerifyOtpCubit()),
+                BlocProvider(create: (context) => SendEmailOtpCubit()),
+                BlocProvider(create: (context) => NewPasswordCubit()),
+                BlocProvider(create: (context) => DelateAccountCubit()),
+                BlocProvider(create: (context) => StudentsReportsCubit()),
+                BlocProvider(create: (context) => AddChildCubit()),
+                BlocProvider(create: (context) => AssignChildToClassCubit()),
+                BlocProvider(create: (context) => StudentAttendanceCubit()),
+                BlocProvider(create: (context) => EditProfileCubit()),
+                BlocProvider(create: (context) => EventsNewsCubit()),
+                BlocProvider(create: (context) => ClassReportsCubit()),
+                BlocProvider(create: (context) => GetParentsTeachersCubit()),
+                BlocProvider(create: (context) => CreateChatCubit()),
+              ],
+              child: MaterialApp(
+                home: userExist.isNotEmpty
+                    ? const BottomBarPages(index: 0)
+                    : LogInScreen(),
+              ));
         });
   }
 }

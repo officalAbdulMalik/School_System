@@ -5,7 +5,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/sign_up_cubit.dart';
+import 'package:school_system/Data/Repository/forget_password_api.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
+import 'package:school_system/Presentation/common/views/otp_screen.dart';
 import 'package:school_system/Presentation/utils/custom_widget/container_decoration.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_date_picker.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
@@ -225,7 +227,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       // decoration: textFieldIconDecoration(
                       //     Icons.alternate_email, 'service@gmail.com', null),
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
               SizedBox(
                 height: role != 'Teacher' ? 10.h : 0.h,
               ),
@@ -236,7 +238,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       validator: dateVal,
                       controller: dob,
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
               SizedBox(
                 height: 10.h,
               ),
@@ -363,6 +365,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Dialogs.showLoadingDialog(context);
                   }
                   if (state is SignUpLoaded) {
+                    ForgetPasswordApi.sendEmail(email.text.trim());
+                    Navigator.pushReplacement(context, MaterialPageRoute(
+                      builder: (context) {
+                        return OtpScreen(
+                          firstTime: false,
+                          email: email.text.trim(),
+                        );
+                      },
+                    ));
+
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
                         return SchoolListScreen();

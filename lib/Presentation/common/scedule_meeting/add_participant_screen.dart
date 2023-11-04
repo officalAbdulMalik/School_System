@@ -9,6 +9,7 @@ import 'package:school_system/Controllers/Cubits/CommonCubit/get_all_school_cubi
 import 'package:school_system/Controllers/Cubits/CommonCubit/get_parents_teachers_cubit.dart';
 import 'package:school_system/Controllers/Cubits/ParentCubit/get_school_teacher_cubit.dart';
 import 'package:school_system/Controllers/Cubits/TeacherCubit/show_teacher_class_cubit.dart';
+import 'package:school_system/Data/app_const.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_dop_down.dart';
@@ -116,39 +117,26 @@ class _AddParticipantScreenState extends State<AddParticipantScreen> {
                           },
                           builder: (context, state) {
                             if (state is ShowTeacherClassLoaded) {
-                              print(state.model.data!.length);
-                              return state.model.data!.isNotEmpty
-                                  ? CustomDropDown(
-                                      hintText: 'Classes',
-                                      onChanged: (value) {
-                                        log(value.toString());
-                                        context
-                                            .read<GetParentsTeachersCubit>()
-                                            .getParentsTeachers(
-                                                '/api/teacher/class/parents?class_id=$value');
-                                      },
-                                      itemsMap: state.model.data!.map((e) {
-                                        return DropdownMenuItem(
-                                          value: e.id,
-                                          child: Text(
-                                            e.name!,
-                                          ),
-                                        );
-                                      }).toList(),
-                                    )
-                                  : Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        'Class not found',
-                                        style: GoogleFonts.poppins(
-                                          color: Colors.black,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    );
+                              return CustomDropDown(
+                                hintText: 'Classes',
+                                onChanged: (value) {
+                                  log(value.toString());
+                                  context
+                                      .read<GetParentsTeachersCubit>()
+                                      .getParentsTeachers(
+                                          '/api/teacher/class/parents?class_id=$value');
+                                },
+                                itemsMap: state.model.data!.map((e) {
+                                  return DropdownMenuItem(
+                                    value: e.id,
+                                    child: Text(
+                                      e.name!,
+                                    ),
+                                  );
+                                }).toList(),
+                              );
                             } else if (state is ShowTeacherClassError) {
-                              return Text(state.error!);
+                              return CustomWidgets.errorText(state.error!);
                             } else {
                               return const SizedBox();
                             }
@@ -157,37 +145,25 @@ class _AddParticipantScreenState extends State<AddParticipantScreen> {
                       : BlocBuilder<GetAllSchoolCubit, GetAllSchoolState>(
                           builder: (context, state) {
                             if (state is GetAllSchoolLoaded) {
-                              return state.model.isNotEmpty
-                                  ? CustomDropDown(
-                                      hintText: 'School',
-                                      onChanged: (value) {
-                                        context
-                                            .read<GetParentsTeachersCubit>()
-                                            .getParentsTeachers(
-                                                '/api/parent/school/teachers?school_id=$value');
-                                      },
-                                      itemsMap: state.model.map((e) {
-                                        return DropdownMenuItem(
-                                          value: e.id,
-                                          child: Text(
-                                            e.schoolName!,
-                                          ),
-                                        );
-                                      }).toList(),
-                                    )
-                                  : Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        'School not found',
-                                        style: GoogleFonts.poppins(
-                                          color: Colors.black,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    );
+                              return CustomDropDown(
+                                hintText: 'School',
+                                onChanged: (value) {
+                                  context
+                                      .read<GetParentsTeachersCubit>()
+                                      .getParentsTeachers(
+                                          '/api/parent/school/teachers?school_id=$value');
+                                },
+                                itemsMap: state.model.map((e) {
+                                  return DropdownMenuItem(
+                                    value: e.id,
+                                    child: Text(
+                                      e.schoolName!,
+                                    ),
+                                  );
+                                }).toList(),
+                              );
                             } else if (state is GetAllSchoolError) {
-                              return Text(state.error!);
+                              return CustomWidgets.errorText(state.error!);
                             } else {
                               return const SizedBox();
                             }
@@ -414,22 +390,13 @@ class _AddParticipantScreenState extends State<AddParticipantScreen> {
                                       );
                                     }),
                               )
-                            : Center(
-                                child: Text(
-                                  "No Data Found",
-                                  style: GoogleFonts.acme(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16.sp,
-                                  ),
-                                ),
-                              );
-                      } else if (state is GetSchoolTeacherError) {
-                        return const Center(child: Text('error' ?? ''));
+                            : CustomWidgets.errorText(noDataString);
+                      } else if (state is GetAllParentsError) {
+                        return CustomWidgets.errorText(state.error!);
                       } else if (state is GetAllParentsFirstState) {
                         return const Center(child: Text('' ?? ''));
                       } else {
-                        return SizedBox();
+                        return const SizedBox();
                       }
                     },
                   ),

@@ -7,44 +7,16 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../colors.dart';
 
 class CustomWidgets {
-  static customTextField(
-      {required String hintText, required TextEditingController controller}) {
-    return Container(
-      padding: EdgeInsets.only(left: 10.sp),
-      height: 50.h,
-      width: 340.w,
-      decoration: BoxDecoration(
-        color: Colors.grey,
-        borderRadius: BorderRadius.circular(15.r),
-        gradient: LinearGradient(
-            colors: [
-              const Color(0xFFC7CEF1),
-              const Color(0xFF8C9BE3),
-            ],
-            begin: const FractionalOffset(0.0, 0.0),
-            end: const FractionalOffset(1.0, 0.0),
-            stops: [0.1, 1.0],
-            tileMode: TileMode.clamp),
-      ),
-      child: TextFormField(
-        controller: controller,
-        style: GoogleFonts.acme(color: Colors.black, fontSize: 13.sp),
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: TextStyle(color: Colors.black, fontSize: 13.sp),
-          border: InputBorder.none,
+  static errorText(String error) {
+    return Center(
+      child: Text(
+        error,
+        style: GoogleFonts.acme(
+          color: Colors.black,
+          fontWeight: FontWeight.w400,
+          fontSize: 14.sp,
         ),
-        cursorColor: kPrimaryColor,
-        // decoration: textFieldIconDecoration(
-        //     Icons.alternate_email, 'service@gmail.com', null),
       ),
-    );
-  }
-
-  static customText({required TextStyle fonts, required String text}) {
-    return Text(
-      text,
-      style: fonts,
     );
   }
 

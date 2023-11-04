@@ -4,8 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:school_system/Data/Repository/get_mettings.dart';
 import 'package:school_system/Data/app_const.dart';
-import '../../../models/get_all_mettings.dart';
-import '../../../models/get_all_school_model.dart';
+import 'package:school_system/Models/get_all_mettings.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 import 'package:http/http.dart' as http;
 part 'get_all_meetings_state.dart';
@@ -22,8 +21,8 @@ class GetAllMeetingsCubit extends Cubit<GetAllMeetingsState> {
         print("here is the meetings${value['data']}");
         if (value['status'] != null && value['status'] == 200) {
           var data = value['data'];
-          var meeting = List<GetAllMeetings>.from(
-              data.map((x) => GetAllMeetings.fromMap(x)));
+          var meeting =
+              List<AllMeetings>.from(data.map((x) => AllMeetings.fromMap(x)));
           emit(GetAllMeetingsLoaded(meetings: meeting));
         } else {
           print('error state');
@@ -60,8 +59,8 @@ class GetAllMeetingsCubit extends Cubit<GetAllMeetingsState> {
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body.toString());
-        var meetings = List<GetAllMeetings>.from(
-            data.map((x) => GetAllMeetings.fromJson(x)));
+        var meetings =
+            List<AllMeetings>.from(data.map((x) => AllMeetings.fromJson(x)));
         emit(GetAllMeetingsLoaded(meetings: meetings));
       } else {
         emit(GetAllMeetingsError(error: 'No Data'));

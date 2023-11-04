@@ -6,8 +6,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/events_newz_cubit.dart';
 import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
+import 'package:school_system/Data/app_const.dart';
 import 'package:school_system/Presentation/common/resources/loading_dialog.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
+import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
 import 'package:school_system/models/news_events_model.dart';
@@ -201,13 +203,7 @@ class _NewsEventsPageState extends State<NewsEventsPage> {
                               );
                             },
                           )
-                        : Center(
-                            child: MyText(
-                              'Data not found',
-                              fontSize: 18.sp,
-                              color: Colors.black,
-                            ),
-                          ),
+                        : CustomWidgets.errorText(noDataString),
                   );
                 } else if (state is EventsNewsError) {
                   return Center(

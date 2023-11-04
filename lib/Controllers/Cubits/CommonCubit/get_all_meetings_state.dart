@@ -8,7 +8,7 @@ class GetAllMeetingsInitial extends GetAllMeetingsState {}
 class GetAllMeetingsLoading extends GetAllMeetingsState {}
 
 class GetAllMeetingsLoaded extends GetAllMeetingsState {
-  final List<GetAllMeetings> meetings;
+  final List<AllMeetings> meetings;
 
   GetAllMeetingsLoaded({required this.meetings});
 }

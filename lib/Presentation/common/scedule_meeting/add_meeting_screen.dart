@@ -7,7 +7,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/add_metting_cubit.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
-import 'package:school_system/Presentation/common/scedule_meeting/show_school.dart';
 import 'package:school_system/Presentation/common/views/all_school_screen.dart';
 import 'package:school_system/Presentation/common/views/bottom_bar.dart';
 import 'package:school_system/Presentation/utils/colors.dart';

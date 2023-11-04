@@ -7,6 +7,8 @@ class MyTextField extends StatefulWidget {
   final bool? enabled;
 
   final bool? isPasswordField;
+  final bool? isEmailField;
+
   final EdgeInsetsGeometry? contentPadding;
   final TextEditingController? controller;
   final bool? isRequiredField;
@@ -25,6 +27,7 @@ class MyTextField extends StatefulWidget {
     Key? key,
     this.label,
     this.isRequiredField,
+    this.isEmailField,
     this.borderColor,
     this.filledColor,
     this.contentPadding,
@@ -47,6 +50,14 @@ class MyTextField extends StatefulWidget {
 class _MyTextFieldState extends State<MyTextField> {
   bool showPassword = true;
 
+  bool isEmailValid(String email) {
+    // Regular expression for a valid email address
+    final emailRegExp = RegExp(
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    );
+    return emailRegExp.hasMatch(email);
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -63,13 +74,19 @@ class _MyTextFieldState extends State<MyTextField> {
 
       validator: widget.isRequiredField == null
           ? null
-          : (value) {
-              if (value == null || value.isEmpty) {
-                return '${widget.label ?? widget.hintText} ${"is required"}';
-              }
-
-              return null;
-            },
+          : widget.isEmailField == null
+              ? (value) {
+                  if (value == null || value.isEmpty) {
+                    return '${widget.label ?? widget.hintText} ${"is required"}';
+                  }
+                  return null;
+                }
+              : (value) {
+                  if (isEmailValid(value!)) {
+                    return null;
+                  }
+                  return 'Email is not correct"';
+                },
       style: GoogleFonts.poppins(
           color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w400),
       decoration: InputDecoration(

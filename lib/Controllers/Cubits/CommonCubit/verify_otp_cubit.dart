@@ -8,7 +8,7 @@ class VerifyOtpCubit extends Cubit<VerifyOtpState> {
   VerifyOtpCubit() : super(VerifyOtpInitial());
 
   verifyOTp(String otp, String email) async {
-    await Future.delayed(Duration(microseconds: 19));
+    await Future.delayed(const Duration(microseconds: 19));
 
     emit(VerifyOtpLoading());
 

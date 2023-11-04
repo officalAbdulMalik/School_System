@@ -33,7 +33,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 onTap: () {
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
-                    return const MenuDrawerScreen();
+                    return MenuDrawerScreen();
                   }));
                 },
                 child: Container(

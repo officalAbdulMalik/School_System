@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class GetAllMeetings {
+class AllMeetings {
   final int? id;
   final String? title;
   final String? status;
@@ -18,7 +18,7 @@ class GetAllMeetings {
   final Teacher? teacher;
   final dynamic principal;
 
-  GetAllMeetings({
+  AllMeetings({
     this.id,
     this.title,
     this.status,
@@ -37,12 +37,12 @@ class GetAllMeetings {
     this.principal,
   });
 
-  factory GetAllMeetings.fromJson(String str) =>
-      GetAllMeetings.fromMap(json.decode(str));
+  factory AllMeetings.fromJson(String str) =>
+      AllMeetings.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory GetAllMeetings.fromMap(Map<String, dynamic> json) => GetAllMeetings(
+  factory AllMeetings.fromMap(Map<String, dynamic> json) => AllMeetings(
         id: json["id"],
         title: json["title"],
         status: json["status"],

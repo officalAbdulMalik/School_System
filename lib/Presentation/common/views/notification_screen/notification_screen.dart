@@ -15,20 +15,25 @@ class NotificationScreen extends StatefulWidget {
 class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 10,
+    return SafeArea(
+      child: Scaffold(
+        body: Padding(
+          padding: EdgeInsets.all(15.0.sp),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              const NavigatorPop(),
+              SizedBox(height: 5.h),
+              CustomRowWidget(
+                text1: 'Notifications',
+                text2: 'You can view your all notification from here...',
+                image: 'add_s_star.png',
+              ),
+            ],
           ),
-          const NavigatorPop(),
-          SizedBox(height: 5.h),
-          CustomRowWidget(
-            text1: 'Notifications',
-            text2: 'You can view your all notification from here...',
-            image: 'add_s_star.png',
-          ),
-        ],
+        ),
       ),
     );
   }

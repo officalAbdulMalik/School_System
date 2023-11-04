@@ -6,10 +6,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/get_all_meetings_cubit.dart';
 import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
+import 'package:school_system/Data/app_const.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/common/views/dashboard_screen/all_mettings_screen.dart';
 import 'package:school_system/Presentation/common/views/dashboard_screen/components/event_card.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
+import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -175,7 +177,7 @@ class _CalenderScreenState extends State<CalenderScreen> {
                           },
                         )
                       : Center(
-                          child: MyText('No have any meeting', fontSize: 18.sp),
+                          child: CustomWidgets.errorText(noDataString),
                         ),
                 ),
               ],

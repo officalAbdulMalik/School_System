@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_system/Data/app_const.dart';
+import 'package:school_system/Models/get_all_mettings.dart';
 import 'package:school_system/Presentation/common/views/dashboard_screen/meeting_details.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
-import 'package:school_system/models/get_all_mettings.dart';
 import 'package:school_system/Presentation/common/resources/Extension/extension.dart';
+import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 
 import '../../../../utils/app_images.dart';
 import '../../../../utils/custom_widget/my_text.dart';
 
 class EventCard extends StatelessWidget {
   final Color cardColor;
+  final AllMeetings? data;
 
-  GetAllMeetings? data;
-
-  EventCard({Key? key, required this.cardColor, this.data}) : super(key: key);
+  const EventCard({Key? key, required this.cardColor, this.data})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +124,7 @@ class EventCard extends StatelessWidget {
 class MeetingCard extends StatefulWidget {
   const MeetingCard({Key? key, this.meetings, this.index}) : super(key: key);
 
-  final List<GetAllMeetings>? meetings;
+  final List<AllMeetings>? meetings;
   final int? index;
 
   @override
@@ -283,14 +285,7 @@ class _MeetingCardState extends State<MeetingCard> {
                 SizedBox(
                   height: 1.sh / 3.5,
                 ),
-                Align(
-                  alignment: Alignment.center,
-                  child: MyText(
-                    'No have meetings',
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
+                CustomWidgets.errorText(noDataString),
               ],
             ),
     );

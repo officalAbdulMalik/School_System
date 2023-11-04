@@ -14,17 +14,30 @@ class MyText extends StatelessWidget {
   final TextOverflow? overflow;
   final int? maxLines;
 
-
-  const MyText(this.text,{Key? key,this.maxLines,this.overflow, this.fontWeight,this.letterSpacing, this.textAlign,this.fontSize,this.color,}) : super(key: key);
+  const MyText(
+    this.text, {
+    Key? key,
+    this.maxLines,
+    this.overflow,
+    this.fontWeight,
+    this.letterSpacing,
+    this.textAlign,
+    this.fontSize,
+    this.color,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Text(text, style: GoogleFonts.poppins(
-      fontSize: fontSize ?? 12.sp,
-      fontWeight: fontWeight,
-
-      letterSpacing: letterSpacing,
-      color: color,
-    ),textAlign: textAlign,overflow: overflow,);
+    return Text(
+      text,
+      style: GoogleFonts.poppins(
+        fontSize: fontSize ?? 12.sp,
+        fontWeight: fontWeight,
+        letterSpacing: letterSpacing,
+        color: color,
+      ),
+      textAlign: textAlign,
+      overflow: overflow,
+    );
   }
 }

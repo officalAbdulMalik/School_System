@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/delate_account_cubit.dart';
-import 'package:school_system/Data/Repository/delete_account.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
-import 'package:school_system/Presentation/common/views/loginScreen.dart';
+import 'package:school_system/Presentation/common/views/privacy_police.dart';
 import 'package:school_system/Presentation/common/views/sign_up_screen.dart';
+import 'package:school_system/Presentation/common/views/terms_condation.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-
 import '../subscription_screen/subscription_view.dart';
 import 'components/drawer_cards.dart';
 
 class MenuDrawerScreen extends StatelessWidget {
-  const MenuDrawerScreen({Key? key}) : super(key: key);
+  MenuDrawerScreen({Key? key}) : super(key: key);
+
+  final String? userID =
+      LoginApiShadePreference.preferences!.getString('user_id');
 
   @override
   Widget build(BuildContext context) {
@@ -94,11 +95,23 @@ class MenuDrawerScreen extends StatelessWidget {
                   ),
                   DrawerCard(
                     title: 'Privacy Policy',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return const PrivacyPolice();
+                        },
+                      ));
+                    },
                   ),
                   DrawerCard(
                     title: 'Terms & Conditions',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return const TermsCondation();
+                        },
+                      ));
+                    },
                   ),
                 ],
               ),
@@ -106,14 +119,7 @@ class MenuDrawerScreen extends StatelessWidget {
             DrawerCard(
               title: 'Sign Out',
               onTap: () {
-                LoginApiShadePreference.preferences!.remove('api_token');
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        LogInScreen(), // Replace with your login page widget
-                  ),
-                  (Route<dynamic> route) => false, // Remove all previous routes
-                );
+                Dialogs.logOutDialog(context);
               },
             ),
             BlocListener<DelateAccountCubit, DelateAccountState>(
@@ -123,18 +129,22 @@ class MenuDrawerScreen extends StatelessWidget {
                 }
                 if (state is DelateAccountLoaded) {
                   Navigator.pop(context);
-                  Navigator.pushReplacement(context, MaterialPageRoute(
-                    builder: (context) {
-                      return SignUpScreen();
-                    },
-                  ));
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return SignUpScreen();
+                      },
+                    ),
+                    (route) => false,
+                  );
                 }
                 // TODO: implement listener
               },
               child: DrawerCard(
                 title: 'Delete Account',
                 onTap: () {
-                  context.read<DelateAccountCubit>().deleteAccount();
+                  Dialogs.deleteAccountDialog(context, userID);
                 },
                 color: Colors.red,
               ),

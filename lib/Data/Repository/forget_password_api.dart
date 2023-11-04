@@ -15,8 +15,7 @@ class ForgetPasswordApi {
     try {
       var headers = {'Content-Type': 'application/json'};
       http.Response request = await http.post(
-          Uri.parse(
-              'https://schoolsnow.parentteachermobile.com/api/forgot/password'),
+          Uri.parse('$baseUrl/api/forgot/password'),
           body: body,
           headers: headers);
 
@@ -24,9 +23,7 @@ class ForgetPasswordApi {
       print(request.body);
       if (request.statusCode == 200) {
         var data = jsonDecode(request.body);
-        Fluttertoast.showToast(msg: 'Password Send Success');
         return data;
-
         print(request.body);
       } else {
         var data = jsonDecode(request.body);

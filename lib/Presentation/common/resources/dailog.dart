@@ -2,11 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:school_system/Controllers/Cubits/CommonCubit/delate_account_cubit.dart';
+import 'package:school_system/Presentation/common/views/loginScreen.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
+import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 class Dialogs {
   static Future<void> showLoadingDialog(BuildContext context,
@@ -72,7 +76,9 @@ class Dialogs {
                     //   SizedBox(width: 40.sp,),
                     Expanded(
                         child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
                       child: CustomWidgets.customButton(
                         "Cancel",
                         buttonColor: kDescriptionColor,
@@ -85,7 +91,17 @@ class Dialogs {
                     //  SizedBox(width: 10,),
                     Expanded(
                         child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        LoginApiShadePreference.preferences!
+                            .remove('api_token');
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                LogInScreen(), // Replace with your login page widget
+                          ),
+                          (route) => false, // Remove all previous routes
+                        );
+                      },
                       child: CustomWidgets.customButton(
                         "Confirm",
                         buttonColor: kPrimaryColor,
@@ -97,7 +113,7 @@ class Dialogs {
             ],
           ),
         ),
-        'Log out of your account?');
+        'Are you sure to logout  account?');
   }
 
   static deleteAccountDialog(BuildContext context, String? id) {
@@ -131,7 +147,9 @@ class Dialogs {
                     //   SizedBox(width: 40.sp,),
                     Expanded(
                         child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        context.read<DelateAccountCubit>().deleteAccount();
+                      },
                       child: CustomWidgets.customButton(
                         "Cancel",
                         buttonColor: kDescriptionColor,
@@ -189,6 +207,8 @@ class Dialogs {
             title,
             style: GoogleFonts.poppins(
               color: Colors.black,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w400,
             ),
           ),
           content: child,
@@ -209,11 +229,11 @@ class Dialogs {
       barrierDismissible: barr ?? true,
       builder: (BuildContext context) {
         if (autoDismiss != null) {
-          //timerDialog?.cancel();
-          //   Future.delayed(const Duration(seconds: 5), () {
-          //  // Navigator.of(buildContext).pop(); // close the dialog
-          //   Navigator.of(context).pop(); // navigate back to the previous page
-          // });
+          timerDialog?.cancel();
+          Future.delayed(const Duration(seconds: 5), () {
+            // Navigator.of(buildContext).pop(); // close the dialog
+            Navigator.of(context).pop(); // navigate back to the previous page
+          });
         }
         return Dialog(
           insetPadding: const EdgeInsets.all(15).r,
