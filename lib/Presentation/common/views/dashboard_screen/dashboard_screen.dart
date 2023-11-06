@@ -51,7 +51,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         listener: (context, state) {
           print('state is $state');
           if (state is GetAllMeetingsLoading) {
-            Dialogs.showLoadingDialog(context);
+            Dialogs.loadingDialog(context);
           }
           if (state is GetAllMeetingsError) {
             Navigator.pop(context);

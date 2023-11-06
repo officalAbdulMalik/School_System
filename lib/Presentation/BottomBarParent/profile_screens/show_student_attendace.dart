@@ -157,7 +157,7 @@ class _StudentAttendanceState extends State<StudentAttendance> {
                 BlocConsumer<StudentAttendanceCubit, StudentAttendanceState>(
                   listener: (context, state) {
                     if (state is StudentAttendanceLoading) {
-                      Dialogs.showLoadingDialog(context);
+                      Dialogs.loadingDialog(context);
                     }
                     if (state is StudentAttendanceLoaded) {
                       Navigator.pop(context);

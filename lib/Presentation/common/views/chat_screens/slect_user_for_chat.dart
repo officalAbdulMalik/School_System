@@ -55,7 +55,7 @@ class _SelectUserForChatState extends State<SelectUserForChat> {
       child: BlocListener<CreateChatCubit, CreateChatState>(
         listener: (context, state) {
           if (state is CreateChatLoading) {
-            Dialogs.showLoadingDialog(context);
+            Dialogs.loadingDialog(context);
           }
           if (state is CreateChatLoaded) {
             Navigator.pop(context);
@@ -109,7 +109,7 @@ class _SelectUserForChatState extends State<SelectUserForChat> {
                         ShowTeacherClassState>(
                         listener: (context, state) {
                           if (state is ShowTeacherClassLoading) {
-                            Dialogs.showLoadingDialog(context);
+                            Dialogs.loadingDialog(context);
                           }
                           if (state is ShowTeacherClassLoaded) {
                             Navigator.pop(context);
@@ -157,7 +157,7 @@ class _SelectUserForChatState extends State<SelectUserForChat> {
                     : BlocConsumer<GetClassStudentCubit, GetClassStudentState>(
                         listener: (context, state) {
                           if (state is GetClassStudentLoading) {
-                            Dialogs.showLoadingDialog(context);
+                            Dialogs.loadingDialog(context);
                           }
                           if (state is GetClassStudentLoaded) {
                             Navigator.pop(context);
@@ -208,7 +208,7 @@ class _SelectUserForChatState extends State<SelectUserForChat> {
                 BlocConsumer<GetParentsTeachersCubit, GetAllParentsState>(
                   listener: (context, state) {
                     if (state is GetAllParentsLoading) {
-                      Dialogs.showLoadingDialog(context);
+                      Dialogs.loadingDialog(context);
                     }
 
                     if (state is GetAllParentsLoaded) {

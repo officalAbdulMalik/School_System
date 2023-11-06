@@ -63,7 +63,7 @@ class _CalenderScreenState extends State<CalenderScreen> {
         listener: (context, state) {
           print('state is $state');
           if (state is GetAllMeetingsLoading) {
-            Dialogs.showLoadingDialog(context, barrierDismissible: true);
+            Dialogs.loadingDialog(context, barrierDismissible: true);
           }
           if (state is GetAllMeetingsError) {
             Navigator.pop(context);

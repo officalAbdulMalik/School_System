@@ -131,7 +131,7 @@ class _ShowChildrenState extends State<ShowChildren> {
             BlocConsumer<GetClassStudentCubit, GetClassStudentState>(
               listener: (context, state) {
                 if (state is GetClassStudentLoading) {
-                  Dialogs.showLoadingDialog(context);
+                  Dialogs.loadingDialog(context);
                 }
                 if (state is GetClassStudentLoaded) {
                   Navigator.pop(context);

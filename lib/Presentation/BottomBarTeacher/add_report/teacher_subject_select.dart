@@ -125,7 +125,7 @@ class _TeacherAddReportState extends State<TeacherAddReport> {
                         GetTeacherSubjectState>(
                       listener: (context, state) {
                         if (state is GetTeacherSubjectLoading) {
-                          Dialogs.showLoadingDialog(context);
+                          Dialogs.loadingDialog(context);
                         }
                         if (state is GetTeacherSubjectLoaded) {
                           Navigator.pop(context);

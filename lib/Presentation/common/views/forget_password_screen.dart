@@ -122,7 +122,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   BlocConsumer<NewPasswordCubit, NewPasswordState>(
                     listener: (context, state) {
                       if (state is NewPasswordLoading) {
-                        Dialogs.showLoadingDialog(context);
+                        Dialogs.loadingDialog(context);
                       }
                       if (state is NewPasswordError) {
                         Fluttertoast.showToast(msg: state.error!);

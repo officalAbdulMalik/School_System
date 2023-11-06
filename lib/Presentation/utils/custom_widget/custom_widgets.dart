@@ -11,7 +11,7 @@ class CustomWidgets {
     return Center(
       child: Text(
         error,
-        style: GoogleFonts.acme(
+        style: GoogleFonts.poppins(
           color: Colors.black,
           fontWeight: FontWeight.w400,
           fontSize: 14.sp,

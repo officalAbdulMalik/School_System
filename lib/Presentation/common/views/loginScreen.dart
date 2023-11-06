@@ -147,7 +147,7 @@ class _LogInScreenState extends State<LogInScreen> {
                         listener: (context, state) {
                       print(state);
                       if (state is LoginLoading) {
-                        Dialogs.showLoadingDialog(context);
+                        Dialogs.loadingDialog(context);
                       }
 
                       if (state is LoginLoaded) {

@@ -90,7 +90,7 @@ class _ShowAllAttendanceScreenState extends State<ShowAllAttendanceScreen> {
               BlocConsumer<ShowClassAttendanceCubit, ShowClassAttendanceState>(
             listener: (context, state) {
               if (state is ShowClassAttendanceLoading) {
-                Dialogs.showLoadingDialog(context);
+                Dialogs.loadingDialog(context);
               }
               if (state is ShowClassAttendanceLoaded) {
                 // print(state.model![0].presentCount);

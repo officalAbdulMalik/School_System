@@ -341,7 +341,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     child: BlocListener<EditProfileCubit, EditProfileState>(
                       listener: (context, state) {
                         if (state is EditProfileLoading) {
-                          Dialogs.showLoadingDialog(context);
+                          Dialogs.loadingDialog(context);
                         }
                         if (state is EditProfileLoaded) {
                           Navigator.pop(context);

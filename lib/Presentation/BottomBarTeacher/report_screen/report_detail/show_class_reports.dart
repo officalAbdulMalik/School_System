@@ -57,7 +57,7 @@ class _TeacherReportDetailState extends State<TeacherReportDetail> {
       body: BlocConsumer<ClassReportsCubit, ClassReportsState>(
         listener: (context, state) {
           if (state is ClassReportsLoading) {
-            Dialogs.showLoadingDialog(context);
+            Dialogs.loadingDialog(context);
           }
           if (state is ClassReportsLoaded) {
             Navigator.pop(context);

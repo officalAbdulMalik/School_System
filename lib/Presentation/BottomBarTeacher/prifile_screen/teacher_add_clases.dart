@@ -186,7 +186,7 @@ class _TeacherAddClassState extends State<TeacherAddClass> {
                     BlocConsumer<GetAllSchoolCubit, GetAllSchoolState>(
                       listener: (context, state) {
                         if (state is GetAllSchoolLoading) {
-                          Dialogs.showLoadingDialog(context);
+                          Dialogs.loadingDialog(context);
                         }
                         if (state is GetAllSchoolLoaded) {
                           Navigator.of(context).pop(true);
@@ -305,7 +305,7 @@ class _TeacherAddClassState extends State<TeacherAddClass> {
                       listener: (context, state) {
                         print(state);
                         if (state is TeacherCreateClassLoading) {
-                          Dialogs.showLoadingDialog(context);
+                          Dialogs.loadingDialog(context);
                         }
 
                         if (state is TeacherCreateClassError) {

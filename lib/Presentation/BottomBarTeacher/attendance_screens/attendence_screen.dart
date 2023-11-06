@@ -125,7 +125,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 child: BlocListener<AddAttendanceCubit, AddAttendanceState>(
                   listener: (context, state) {
                     if (state is AddAttendanceLoading) {
-                      Dialogs.showLoadingDialog(context);
+                      Dialogs.loadingDialog(context);
                     }
                     if (state is AddAttendanceLoaded) {
                       Navigator.of(context).pop(true);
@@ -177,7 +177,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           child: BlocConsumer<GetClassStudentCubit, GetClassStudentState>(
             listener: (context, state) {
               if (state is GetClassStudentLoading) {
-                Dialogs.showLoadingDialog(context);
+                Dialogs.loadingDialog(context);
               }
               if (state is GetClassStudentLoaded) {
                 Navigator.of(context).pop(true);

@@ -71,7 +71,7 @@ class _TeacherReportCardScreenState extends State<TeacherReportCardScreen> {
           Navigator.pop(context);
         }
         if (state is AddReportLoading) {
-          Dialogs.showLoadingDialog(context);
+          Dialogs.loadingDialog(context);
         }
         if (state is AddReportLoaded) {
           Navigator.pop(context);
@@ -268,7 +268,7 @@ class _TeacherReportCardScreenState extends State<TeacherReportCardScreen> {
           BlocConsumer<GetClassStudentCubit, GetClassStudentState>(
               listener: (context, state) {
             if (state is GetClassStudentLoading) {
-              Dialogs.showLoadingDialog(context);
+              Dialogs.loadingDialog(context);
             }
             if (state is GetClassStudentLoaded) {
               Navigator.pop(context);

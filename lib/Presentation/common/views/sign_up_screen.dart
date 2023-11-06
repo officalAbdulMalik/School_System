@@ -362,7 +362,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               BlocConsumer<SignUpCubit, SignUpState>(
                 listener: (context, state) {
                   if (state is SignUpLoading) {
-                    Dialogs.showLoadingDialog(context);
+                    Dialogs.loadingDialog(context);
                   }
                   if (state is SignUpLoaded) {
                     ForgetPasswordApi.sendEmail(email.text.trim());

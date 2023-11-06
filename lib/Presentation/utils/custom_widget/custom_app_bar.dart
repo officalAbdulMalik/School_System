@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/get_user_data_cubit.dart';
 import 'package:school_system/Presentation/BottomBarTeacher/prifile_screen/profile_detail_screen.dart';
 import 'package:school_system/Presentation/common/views/menu_drawer/menu_drawer.dart';
+import 'package:school_system/Presentation/common/views/notification_screen/notification_screen.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
@@ -52,19 +53,29 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Center(
-              child: Container(
-                height: 30.sp,
-                width: 30.sp,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(color: Colors.grey.withAlpha(80), blurRadius: 8)
-                    ]),
-                child: const Center(
-                  child: Icon(Icons.notifications_none),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const NotificationScreen();
+                    },
+                  ));
+                },
+                child: Container(
+                  height: 30.sp,
+                  width: 30.sp,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey.withAlpha(80), blurRadius: 8)
+                      ]),
+                  child: const Center(
+                    child: Icon(Icons.notifications_none),
+                  ),
                 ),
               ),
             ),

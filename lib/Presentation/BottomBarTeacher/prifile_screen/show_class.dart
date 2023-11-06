@@ -95,7 +95,7 @@ class _TeacherClassState extends State<TeacherClass> {
           BlocConsumer<ShowTeacherClassCubit, ShowTeacherClassState>(
             listener: (context, state) {
               if (state is ShowTeacherClassLoading) {
-                Dialogs.showLoadingDialog(context);
+                Dialogs.loadingDialog(context);
               }
               if (state is ShowTeacherClassError) {
                 Navigator.pop(context);

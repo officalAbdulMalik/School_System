@@ -99,7 +99,7 @@ class _ShowParentSchoolState extends State<ShowParentSchool> {
                 BlocConsumer<GetAllSchoolCubit, GetAllSchoolState>(
                   listener: (context, state) {
                     if (state is GetAllSchoolLoading) {
-                      Dialogs.showLoadingDialog(context);
+                      Dialogs.loadingDialog(context);
                     }
                     if (state is GetAllSchoolLoaded) {
                       searchList = state.model;

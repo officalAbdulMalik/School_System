@@ -125,7 +125,7 @@ class MenuDrawerScreen extends StatelessWidget {
             BlocListener<DelateAccountCubit, DelateAccountState>(
               listener: (context, state) {
                 if (state is DelateAccountLoading) {
-                  Dialogs.showLoadingDialog(context);
+                  Dialogs.loadingDialog(context);
                 }
                 if (state is DelateAccountLoaded) {
                   Navigator.pop(context);

@@ -88,7 +88,7 @@ class _SchoolAddInInfoState extends State<SchoolAddInInfo> {
               BlocConsumer<ConnectSchoolWithUsCubit, ConnectSchoolWithUsState>(
                   listener: (context, state) {
                 if (state is ConnectSchoolLoading) {
-                  Dialogs.showLoadingDialog(context);
+                  Dialogs.loadingDialog(context);
                 }
                 if (state is ConnectSchoolWithUsError) {
                   Fluttertoast.showToast(msg: state.error!);

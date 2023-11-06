@@ -13,7 +13,7 @@ import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.da
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 class Dialogs {
-  static Future<void> showLoadingDialog(BuildContext context,
+  static Future<void> loadingDialog(BuildContext context,
       {Widget? child, bool? barrierDismissible}) async {
     return showDialog<void>(
       context: context,

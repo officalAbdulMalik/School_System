@@ -134,7 +134,7 @@ class _OtpScreenState extends State<OtpScreen> {
               BlocConsumer<VerifyOtpCubit, VerifyOtpState>(
                 listener: (context, state) {
                   if (state is VerifyOtpLoading) {
-                    Dialogs.showLoadingDialog(context);
+                    Dialogs.loadingDialog(context);
                   }
                   if (state is VerifyOtpError) {
                     Navigator.of(context).pop(true);
