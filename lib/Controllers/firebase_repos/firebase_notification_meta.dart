@@ -8,6 +8,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:school_system/Controllers/AgoraIntegration/agora_initlization.dart';
+import 'package:school_system/Controllers/firebase_repos/palyodStream.dart';
 import 'package:school_system/Models/get_all_mettings.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/common/views/bottom_bar.dart';
@@ -15,7 +16,6 @@ import 'package:school_system/Presentation/common/views/dashboard_screen/meeting
 import 'package:school_system/Presentation/common/views/loginScreen.dart';
 import 'package:school_system/Presentation/common/views/notification_screen/notification_screen.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-import 'package:school_system/controllers/firebase_repos/payloadStram.dart';
 
 import 'firebase_notifications.dart';
 
@@ -405,8 +405,8 @@ class NotificationMetaServices {
 
   ///handling notification from foreground
   notificationPayload(
-      BuildContext context,
-      ) {
+    BuildContext context,
+  ) {
     PayloadStream.instance.getPayload.listen((event) {
       String caseCurrent = event.split('.').last;
       print("notification from tap$event");

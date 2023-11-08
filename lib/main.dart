@@ -8,7 +8,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/notifications_cubit.dart';
-import 'package:school_system/Controllers/firebase_repos/firebase_notification.dart';
+import 'package:school_system/Controllers/firebase_repos/firebase_notifications.dart';
 import 'Controllers/Cubits/CommonCubit/accept_reject_mettings_cubit.dart';
 import 'Controllers/Cubits/CommonCubit/add_metting_cubit.dart';
 import 'Controllers/Cubits/CommonCubit/connect_school_with_us_cubit.dart';

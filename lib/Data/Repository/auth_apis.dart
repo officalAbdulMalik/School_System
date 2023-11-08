@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/io_client.dart';
-import 'package:school_system/Controllers/firebase_repos/firebase_notification.dart';
+import 'package:school_system/Controllers/firebase_repos/firebase_notifications.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 class LoginApi {

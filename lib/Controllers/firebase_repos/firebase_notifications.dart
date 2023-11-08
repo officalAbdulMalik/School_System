@@ -1,6 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:school_system/controllers/firebase_repos/payloadStram.dart';
+import 'package:school_system/Controllers/firebase_repos/palyodStream.dart';
 
 // class FirebaseNotificationsService {
 //   final _firebaseMessaging = FirebaseMessaging.instance;
@@ -88,55 +88,55 @@ import 'package:school_system/controllers/firebase_repos/payloadStram.dart';
 
 class NotificationServices {
   static final NotificationServices _notificationService =
-  NotificationServices._internal();
+      NotificationServices._internal();
 
   factory NotificationServices() {
     return _notificationService;
   }
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   NotificationServices._internal();
 
   Future<void> permission() async {
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.requestPermission();
   }
 
   Future<void> initNotification() async {
     // Android initialization
     const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
     // ios initialization
     const DarwinInitializationSettings initializationSettingsIOS =
-    DarwinInitializationSettings(
+        DarwinInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
     );
 
     const InitializationSettings initializationSettings =
-    InitializationSettings(
-        android: initializationSettingsAndroid,
-        iOS: initializationSettingsIOS);
+        InitializationSettings(
+            android: initializationSettingsAndroid,
+            iOS: initializationSettingsIOS);
 
     // the initialization settings are initialized after they are set
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onDidReceiveNotificationResponse: (res) {
-          PayloadStream.instance.payload.sink.add(res.payload ?? 'Default');
-        });
+      PayloadStream.instance.payload.sink.add(res.payload ?? 'Default');
+    });
   }
 
   Future<void> showNotification(
-      int id,
-      String title,
-      String body, {
-        String? payload,
-      }) async {
+    int id,
+    String title,
+    String body, {
+    String? payload,
+  }) async {
     // tz.initializeTimeZones();
     // String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
     // tz.Location loc = tz.getLocation(currentTimeZone);
