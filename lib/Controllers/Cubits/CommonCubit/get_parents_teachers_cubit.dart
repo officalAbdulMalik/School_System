@@ -1,7 +1,7 @@
-import 'package:bloc/bloc.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_system/Data/Repository/get_partciption.dart';
-import '../../../Models/teacher_parents_data_model.dart';
+import 'package:school_system/Models/participations.dart';
 
 part 'get_parents_teachers_state.dart';
 
@@ -16,15 +16,15 @@ class GetParentsTeachersCubit extends Cubit<GetAllParentsState> {
     try {
       GetParticipation.getData(enPoint).then((value) {
         if (value['error'] == false) {
-          List<ParentsTeachers> data = List<ParentsTeachers>.from(
-              value['data'].map((x) => ParentsTeachers.fromMap(x)));
+          List<Participation> data = List<Participation>.from(
+              value['data'].map((x) => Participation.fromJson(x)));
 
           List<bool> checkboxStates = [];
 
           checkboxStates =
               List.generate(value['data'].length, (index) => false);
 
-          emit(GetAllParentsLoaded(model: data, checkList: checkboxStates));
+          emit(GetAllParentsLoaded(checkList: checkboxStates,model: data));
         } else {
           emit(GetAllParentsError(error: value['message']));
         }

@@ -1,19 +1,12 @@
-import 'dart:ffi';
-import 'dart:io';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:school_system/Presentation/utils/custom_widget/image_widget.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/create_chat_cubit.dart';
-import 'package:school_system/Controllers/Services/downloder_repos.dart';
-import 'package:school_system/Presentation/common/views/chat_screens/show_chat_file.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
 class ChatComponents {
   Future<void> pickFile(String docID, BuildContext context) async {
@@ -65,8 +58,7 @@ class ChatComponents {
       return result;
     } else {
       return null;
-      // User canceled the file picker
-      print('No file selected');
+
     }
   }
 
@@ -90,26 +82,20 @@ class ChatComponents {
                           },
                         ));
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: kPrimaryColor),
-                            borderRadius: BorderRadius.circular(10.sp),
-                            image: DecorationImage(
-                                image: NetworkImage(data[index]['file_path']),
-                                fit: BoxFit.cover)),
+                      child: CachedImage(
+                        containerRadius: 10.sp,
                         height: 100.h,
-                        width: 200,
-                      ),
-                    )
+                        width: 200.w,
+                        url: data[index]['file_path'],isCircle: false,))
                   : Container(
                       padding: EdgeInsets.all(10.sp),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15.sp),
+                            topRight: Radius.circular(15.sp),
                             bottomLeft: Radius.circular(15.sp),
                             bottomRight: Radius.circular(15.sp),
                           ),
-                          color: const Color(0xff3DAEF5)),
+                          color: kPrimaryColor),
                       child: Row(
                         children: [
                           MyText(
@@ -166,18 +152,10 @@ class ChatComponents {
           SizedBox(
             width: 7.w,
           ),
-          Container(
+          SizedBox(
             width: 40.sp,
             height: 40.sp,
-            decoration: ShapeDecoration(
-              image: DecorationImage(
-                image: userImage!.isNotEmpty
-                    ? NetworkImage(userImage!)
-                    : AssetImage('images/prof.png') as ImageProvider,
-                fit: BoxFit.fill,
-              ),
-              shape: OvalBorder(),
-            ),
+            child: CachedImage(url: userImage),
           ),
         ],
       ),
@@ -203,18 +181,10 @@ class ChatComponents {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
+          SizedBox(
             width: 40.sp,
             height: 40.sp,
-            decoration: ShapeDecoration(
-              image: DecorationImage(
-                image: userImage.isNotEmpty
-                    ? NetworkImage(userImage)
-                    : const AssetImage('images/prof.png') as ImageProvider,
-                fit: BoxFit.fill,
-              ),
-              shape: const OvalBorder(),
-            ),
+            child: CachedImage(url: userImage),
           ),
           SizedBox(
             width: 7.sp,
@@ -232,16 +202,13 @@ class ChatComponents {
                           },
                         ));
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: chatBubble),
-                            borderRadius: BorderRadius.circular(10.sp),
-                            image: DecorationImage(
-                                image: NetworkImage(data[index]['file_path']),
-                                fit: BoxFit.cover)),
+                      child: CachedImage(
+                        containerRadius: 10.sp,
                         height: 100.h,
-                        width: 200,
-                      ),
+                        width: 200.w,
+                        url: data[index]['file_path'],
+                        isCircle: false,
+                      )
                     )
                   : Container(
                       padding: EdgeInsets.all(10.sp),
@@ -356,7 +323,10 @@ class ShowFullImage extends StatelessWidget {
       child: Scaffold(
         body: Stack(
           children: <Widget>[
-            Image.network(
+           CachedImage(
+             height: 1.sh,
+             isCircle: false,
+             url:
               imageUrl!,
               fit: BoxFit.cover,
               width: 1.sw,

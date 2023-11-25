@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
+import 'package:school_system/Models/TeacherModels/teacher_classes.dart';
 import 'package:school_system/Presentation/BottomBarTeacher/attendance_screens/show_all_attendance.dart';
 import 'package:school_system/Presentation/BottomBarTeacher/report_screen/report_detail/show_class_reports.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
@@ -10,13 +11,12 @@ import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget
 import 'package:school_system/Presentation/utils/custom_widget/custome_botton_details_screen.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
-import 'package:school_system/models/get_teacher_class_model.dart';
 
 class ClassDeatailsScreen extends StatefulWidget {
   const ClassDeatailsScreen({Key? key, required this.data, required this.index})
       : super(key: key);
 
-  final TeacherShowClass data;
+  final List<Classes> data;
   final int index;
 
   @override
@@ -77,7 +77,7 @@ class _ClassDeatailsScreenState extends State<ClassDeatailsScreen> {
                             Expanded(
                               child: Center(
                                 child: MyText(
-                                  widget.data.data![widget.index].name!,
+                                  widget.data[widget.index].name!,
                                   color: Color(0xFF000600),
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
@@ -103,7 +103,7 @@ class _ClassDeatailsScreenState extends State<ClassDeatailsScreen> {
                             Expanded(
                               child: Center(
                                 child: MyText(
-                                  widget.data.data![widget.index].grade,
+                                  widget.data[widget.index].grade,
                                   color: Color(0xFF000600),
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
@@ -129,7 +129,7 @@ class _ClassDeatailsScreenState extends State<ClassDeatailsScreen> {
                             Expanded(
                               child: Center(
                                 child: MyText(
-                                  widget.data.data![widget.index].classSection!
+                                  widget.data[widget.index].classSection!
                                       .studentsCount
                                       .toString(),
                                   color: Color(0xFF000600),
@@ -193,7 +193,7 @@ class _ClassDeatailsScreenState extends State<ClassDeatailsScreen> {
                               Expanded(
                                 child: Center(
                                   child: MyText(
-                                    widget.data.data![widget.index].classSection
+                                    widget.data[widget.index].classSection
                                             ?.studentsCount
                                             .toString() ??
                                         "",
@@ -246,7 +246,7 @@ class _ClassDeatailsScreenState extends State<ClassDeatailsScreen> {
                             Expanded(
                               child: Center(
                                 child: MyText(
-                                  widget.data.data![widget.index].allSubjects!
+                                  widget.data[widget.index].allSubjects!
                                           .length
                                           .toString() ??
                                       "",
@@ -298,8 +298,8 @@ class _ClassDeatailsScreenState extends State<ClassDeatailsScreen> {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
                         return TeacherReportDetail(
-                          className: widget.data.data?[widget.index].name ?? "",
-                          id: widget.data.data![widget.index].id.toString(),
+                          className: widget.data[widget.index].name ?? "",
+                          id: widget.data[widget.index].id.toString(),
                         );
                       },
                     ));

@@ -55,7 +55,7 @@ class _ShowParentSchoolState extends State<ShowParentSchool> {
         body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Padding(
-            padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
+            padding: EdgeInsets.only(left: 16.sp, right: 16.sp),
             child: Column(
               children: [
                 const SizedBox(
@@ -63,10 +63,12 @@ class _ShowParentSchoolState extends State<ShowParentSchool> {
                 ),
                 const NavigatorPop(),
                 SizedBox(height: 5.h),
-                CustomRowWidget(
-                  text1: 'Find Your School',
+                 CustomRowWidget(
+                  text1: 'Find Your Kids School',
                   text2: 'Select Your school from here...',
-                  image: 'add_s_star.png',
+                  image: 'images/star_s.webp',
+                  height: 60.h,
+                  width: 60.w,
                 ),
                 SizedBox(
                   height: 10.h,
@@ -112,92 +114,86 @@ class _ShowParentSchoolState extends State<ShowParentSchool> {
                   },
                   builder: (context, state) {
                     if (state is GetAllSchoolLoaded) {
-                      return SizedBox(
-                        height: 500.h,
-                        width: 500.w,
-                        child: searchList!.isNotEmpty
-                            ? ListView.separated(
-                                separatorBuilder: (context, index) {
-                                  return SizedBox(
-                                    height: 10.h,
-                                  );
-                                },
-                                itemCount: searchList!.length,
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    margin: EdgeInsets.only(bottom: 5.sp),
-                                    height: 70.sp,
-                                    decoration: ShapeDecoration(
-                                      color: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      shadows: const [
-                                        BoxShadow(
-                                          color: Color(0x19303133),
-                                          blurRadius: 30,
-                                          offset: Offset(0, 4),
-                                          spreadRadius: 0,
-                                        )
-                                      ],
+                      return searchList!.isNotEmpty
+                          ? ListView.separated(
+                        physics: const BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                              separatorBuilder: (context, index) {
+                                return SizedBox(
+                                  height: 10.h,
+                                );
+                              },
+                              itemCount: searchList!.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  margin: EdgeInsets.only(bottom: 5.sp),
+                                  height: 70.sp,
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
                                     ),
-                                    child: ListTile(
-                                      leading: CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                            searchList![index].image ?? ''),
-                                      ),
-                                      title: Text(
-                                        searchList![index].schoolName!,
-                                        style: CustomWidgets.textStyle(
-                                            color: Colors.black,
-                                            size: 16,
-                                            weight: FontWeight.w600),
-                                      ),
-                                      subtitle: Text(
-                                        searchList![index].address!,
-                                        style: CustomWidgets.textStyle(
+                                    shadows: const [
+                                      BoxShadow(
+                                        color: Color(0x19303133),
+                                        blurRadius: 30,
+                                        offset: Offset(0, 4),
+                                        spreadRadius: 0,
+                                      )
+                                    ],
+                                  ),
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                          searchList![index].image ?? ''),
+                                    ),
+                                    title: Text(
+                                      searchList![index].schoolName!,
+                                      style: CustomWidgets.textStyle(
+                                          color: Colors.black,
+                                          size: 16,
+                                          weight: FontWeight.w600),
+                                    ),
+                                    subtitle: Text(
+                                      searchList![index].address!,
+                                      style: CustomWidgets.textStyle(
+                                          color: kDescriptionColor,
+                                          size: 15,
+                                          weight: FontWeight.w500),
+                                    ),
+                                    trailing: SizedBox(
+                                      height: 30,
+                                      width: 30,
+                                      child: InkWell(
+                                        onTap: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                            builder: (context) {
+                                              return SchoolTeacher(
+                                                schoolId: state
+                                                    .model[index].id
+                                                    .toString(),
+                                                studentId: widget.studentId,
+                                              );
+                                            },
+                                          ));
+                                        },
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.add,
+                                            size: 25.sp,
                                             color: kDescriptionColor,
-                                            size: 15,
-                                            weight: FontWeight.w500),
-                                      ),
-                                      trailing: SizedBox(
-                                        height: 30,
-                                        width: 30,
-                                        child: InkWell(
-                                          onTap: () {
-                                            Navigator.push(context,
-                                                MaterialPageRoute(
-                                              builder: (context) {
-                                                return SchoolTeacher(
-                                                  schoolId: state
-                                                      .model[index].id
-                                                      .toString(),
-                                                  studentId: widget.studentId,
-                                                );
-                                              },
-                                            ));
-                                          },
-                                          child: Center(
-                                            child: Icon(
-                                              Icons.add,
-                                              size: 25.sp,
-                                              color: kDescriptionColor,
-                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  );
-                                },
-                              )
-                            : Center(
-                                child: Text(
-                                  'No School found',
-                                  style: GoogleFonts.acme(
-                                      color: kPrimaryColor, fontSize: 20.sp),
-                                ),
-                              ),
-                      );
+                                  ),
+                                );
+                              },
+                            )
+                          : Center(
+                              child: CustomWidgets.errorText("Data Not Found"),
+                            );
                     } else {
                       return const SizedBox();
                     }

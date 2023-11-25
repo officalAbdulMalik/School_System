@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-
+import 'package:school_system/Presentation/utils/custom_widget/show_star_image.dart';
 import 'my_text.dart';
 
 class CustomRowWidget extends StatelessWidget {
-  String text1;
-  String text2;
-  int? size;
-  String? image;
-  int? flex;
-  bool? dotButton;
-  bool? imageIs;
-  CustomRowWidget(
+ final String text1;
+ final String text2;
+ final int? size;
+ final String? image;
+  final int? flex;
+ final  bool? dotButton;
+ final bool? imageIs;
+ final double? height;
+ final double? width;
+
+  const CustomRowWidget(
       {Key? key,
       required this.text1,
       required this.text2,
@@ -20,7 +22,10 @@ class CustomRowWidget extends StatelessWidget {
       this.dotButton,
       this.imageIs,
       this.size,
-      this.image})
+      this.image,
+     this.height,
+     this.width,
+      })
       : super(key: key);
 
   @override
@@ -36,14 +41,14 @@ class CustomRowWidget extends StatelessWidget {
               MyText(
                 text1,
                 fontSize: 20.sp,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
               ),
               SizedBox(
                 height: 6.sp,
               ),
               MyText(
                 text2,
-                color: Color(0xFF6B7280),
+                color: Colors.grey,
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
               )
@@ -53,13 +58,15 @@ class CustomRowWidget extends StatelessWidget {
         Expanded(
           child: dotButton == null
               ? Align(
-                  alignment: Alignment.centerRight,
-                  child: Image.asset(
-                    'images/${image ?? 'satar.png'}',
+                  alignment: Alignment.topRight,
+                  child: ShowStarsImage(
+                    width: width ??86,
+                    height: height??56,
+                    imageUrl: image,
                   ))
               : imageIs == true
-                  ? Icon(Icons.more_vert)
-                  : SizedBox(),
+                  ? const Icon(Icons.more_vert)
+                  : const SizedBox(),
         ),
       ],
     );

@@ -156,7 +156,9 @@ class _TeacherReportCardScreenState extends State<TeacherReportCardScreen> {
                 },
               );
             },
-            child: CustomWidgets.customButton('Continue'),
+            child: CustomWidgets.customButton('Continue', onTap: () {
+
+            }),
           ),
         );
       }),

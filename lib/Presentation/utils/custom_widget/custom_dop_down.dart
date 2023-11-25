@@ -36,9 +36,16 @@ class _CustomDropDownState extends State<CustomDropDown> {
               //autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) {
                 if (value == null) {
-                  return 'Field is required';
-                }
+                  validation = true;
+                  setState(() {
 
+                  });
+                  return '${widget.hintText} is required';
+                }
+                validation =false;
+                setState(() {
+
+                });
                 return null;
               },
               decoration: InputDecoration(
@@ -57,17 +64,14 @@ class _CustomDropDownState extends State<CustomDropDown> {
                   minWidth: 23.w,
                 ),
                 contentPadding: EdgeInsets.only(
-                    top: 10.sp, bottom: 10.sp, left: 10, right: 10),
-                errorStyle: TextStyle(
-                  fontSize: 12.sp,
-                  height: 0.2.sp,
+                    top: 10.sp, bottom: 10.sp, left: 15, right: 10),
+                errorStyle: GoogleFonts.poppins(
+                  fontSize: 11.sp,
+                  height: 0.8.sp,
                   color: Colors.red,
                 ),
-                hintStyle: GoogleFonts.poppins(
-                  fontSize: 14.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w400,
-                ),
+                hintStyle:  GoogleFonts.poppins(
+                    color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w400),
                 suffixIconConstraints:
                     BoxConstraints(maxHeight: 40.sp, maxWidth: 40.sp),
                 hintText: widget.hintText,

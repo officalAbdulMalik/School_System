@@ -64,11 +64,14 @@ class _SchoolAddInInfoState extends State<SchoolAddInInfo> {
                   SizedBox(
                     height: 60.h,
                     width: 55.w,
-                    child: CircleAvatar(
+                    child:widget.data[widget.index].image != null?  CircleAvatar(
                       radius: 60.sp,
                       backgroundImage:
                           NetworkImage(widget.data[widget.index].image!),
-                    ),
+                    ):CircleAvatar(
+                      radius: 60.sp,
+                      backgroundImage:
+                      const AssetImage('images/users.png'),),
                   ),
                   SizedBox(height: 10.sp),
                   customShowWidget(
@@ -108,15 +111,17 @@ class _SchoolAddInInfoState extends State<SchoolAddInInfo> {
               }, builder: (context, state) {
                 return InkWell(
                   onTap: () {
-                    context
-                        .read<ConnectSchoolWithUsCubit>()
-                        .assignSchool(widget.data[widget.index].id!);
+
                   },
                   child: Container(
                     height: 50.h,
                     width: 30.w,
                     margin: EdgeInsets.only(left: 20.sp, right: 20.sp),
-                    child: CustomWidgets.customButton('Continue'),
+                    child: CustomWidgets.customButton('Continue', onTap: () {
+                      context
+                          .read<ConnectSchoolWithUsCubit>()
+                          .assignSchool(widget.data[widget.index].id!);
+                    }),
                   ),
                 );
               })

@@ -7,8 +7,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:school_system/Controllers/Cubits/CommonCubit/add_new_school_cubit.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/notifications_cubit.dart';
 import 'package:school_system/Controllers/firebase_repos/firebase_notifications.dart';
+import 'package:school_system/Presentation/BottomBarParent/profile_screens/show_teacher.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'Controllers/Cubits/CommonCubit/accept_reject_mettings_cubit.dart';
 import 'Controllers/Cubits/CommonCubit/add_metting_cubit.dart';
 import 'Controllers/Cubits/CommonCubit/connect_school_with_us_cubit.dart';
@@ -81,16 +84,17 @@ class MyHttpOverrides extends HttpOverrides {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // AgoraInit().initAgora();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+  );
   await LoginApiShadePreference.getInit();
   // await tz.initializeTimeZone();
   await NotificationServices().initNotification();
 
-  await FlutterDownloader.initialize(
-      debug: true,
-      ignoreSsl:
-          true // option: set to false to disable working with http links (default: false)
-      );
+  // await FlutterDownloader.initialize(
+  //     debug: true,
+  //     ignoreSsl:
+  //         true // option: set to false to disable working with http links (default: false)
+  //     );
 
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   final RemoteMessage? message =
@@ -125,8 +129,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    NotificationMetaServices.remoteMessageCheck.value = widget.payLoadData;
-    initiateAllNotifications();
+    // NotificationMetaServices.remoteMessageCheck.value = widget.payLoadData;
+    // initiateAllNotifications();
     _initGoogleMobileAds();
     // TODO: implement initState
     super.initState();
@@ -193,11 +197,14 @@ class _MyAppState extends State<MyApp> {
                 BlocProvider(create: (context) => CreateChatCubit()),
                 BlocProvider<NotificationsCubit>(
                     create: (context) => NotificationsCubit()),
+                BlocProvider<AddNewSchoolCubit>(
+                    create: (context) => AddNewSchoolCubit()),
+
               ],
               child: MaterialApp(
                 home: userExist.isNotEmpty
-                    ? const BottomBarPages(index: 0)
-                    : LogInScreen(),
+                    ?   const BottomBarPages(index: 0,)
+                    :  const LogInScreen(),
               ));
         });
   }

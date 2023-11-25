@@ -128,15 +128,12 @@ class _CreateSectionState extends State<CreateSection> {
                     ),
                   );
                 } else {
-                  return InkWell(
-                    onTap: () {
-                      if (formKey.currentState!.validate()) {
-                        context.read<AddSectionCubit>().addSection(
-                            sectionName.text.trim(), selectedSchool);
-                      }
-                    },
-                    child: CustomWidgets.customButton('Save'),
-                  );
+                  return CustomWidgets.customButton('Save', onTap: () {
+                    if (formKey.currentState!.validate()) {
+                      context.read<AddSectionCubit>().addSection(
+                          sectionName.text.trim(), selectedSchool);
+                    }
+                  });
                 }
               },
             ),

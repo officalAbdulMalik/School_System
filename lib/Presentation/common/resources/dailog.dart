@@ -10,6 +10,7 @@ import 'package:school_system/Controllers/Cubits/CommonCubit/delate_account_cubi
 import 'package:school_system/Presentation/common/views/loginScreen.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
+import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 class Dialogs {
@@ -76,11 +77,14 @@ class Dialogs {
                               Navigator.pop(context);
                             },
                             child: Container(
-                              height: 10.h,
+                              height: 30.h,
                               width: 40.w,
                               decoration: BoxDecoration(
+                                color:
+                                kDefaultIconLightColor,
                                 borderRadius: BorderRadius.circular(15.sp),
                               ),
+                              child: const Center(child: MyText('Cancel',fontSize: 15,),),
                             ))),
 
                     SizedBox(
@@ -100,9 +104,14 @@ class Dialogs {
                           (route) => false, // Remove all previous routes
                         );
                       },
-                      child: CustomWidgets.customButton(
-                        "Confirm",
-                        buttonColor: kPrimaryColor,
+                      child: Container(
+                        height: 30.h,
+                        width: 40.w,
+                        decoration: BoxDecoration(
+                          color: kPrimaryColor,
+                          borderRadius: BorderRadius.circular(15.sp),
+                        ),
+                        child: const Center(child: MyText('Confirm',fontSize: 15,),),
                       ),
                     )),
                   ],
@@ -118,6 +127,7 @@ class Dialogs {
     return iosDialog(
         context,
         Material(
+          color: Colors.transparent,
           child: SizedBox(
             height: 50.h,
             // width: 130.w,
@@ -140,20 +150,25 @@ class Dialogs {
                   height: 2.h,
                 ),
                 Expanded(
-                  child: Row(
+                  child:   Row(
                     //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       //   SizedBox(width: 40.sp,),
                       Expanded(
                           child: InkWell(
-                        onTap: () {
-                          Navigator.of(context).pop(true);
-                        },
-                        child: CustomWidgets.customButton(
-                          "Cancel",
-                          buttonColor: kDescriptionColor,
-                        ),
-                      )),
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                height: 30.h,
+                                width: 40.w,
+                                decoration: BoxDecoration(
+                                  color:
+                                  kDefaultIconLightColor,
+                                  borderRadius: BorderRadius.circular(15.sp),
+                                ),
+                                child: const Center(child: MyText('Cancel',fontSize: 15,),),
+                              ))),
 
                       SizedBox(
                         width: 5.sp,
@@ -161,14 +176,19 @@ class Dialogs {
                       //  SizedBox(width: 10,),
                       Expanded(
                           child: InkWell(
-                        onTap: () {
-                          context.read<DelateAccountCubit>().deleteAccount();
-                        },
-                        child: CustomWidgets.customButton(
-                          "Confirm",
-                          buttonColor: kPrimaryColor,
-                        ),
-                      )),
+                            onTap: () {
+                              context.read<DelateAccountCubit>().deleteAccount();
+                            },
+                            child: Container(
+                              height: 30.h,
+                              width: 40.w,
+                              decoration: BoxDecoration(
+                                color: kPrimaryColor,
+                                borderRadius: BorderRadius.circular(15.sp),
+                              ),
+                              child: const Center(child: MyText('Confirm',fontSize: 15,),),
+                            ),
+                          )),
                     ],
                   ),
                 )

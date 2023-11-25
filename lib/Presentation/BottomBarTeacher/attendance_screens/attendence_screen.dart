@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Controllers/Cubits/TeacherCubit/add_attendance_cubit.dart';
 import 'package:school_system/Controllers/Cubits/TeacherCubit/get_class_student_cubit.dart';
 import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
+import 'package:school_system/Models/TeacherModels/teacher_classes.dart';
 import 'package:school_system/Presentation/common/resources/Extension/extension.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
@@ -18,7 +19,6 @@ import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
 import 'package:school_system/Presentation/utils/custom_widget/search_text_field.dart';
 import 'package:school_system/models/get_class_student_model.dart';
-import 'package:school_system/models/get_teacher_class_model.dart';
 
 import 'package:table_calendar/table_calendar.dart';
 
@@ -26,7 +26,7 @@ class AttendanceScreen extends StatefulWidget {
   AttendanceScreen({Key? key, required this.data, required this.index})
       : super(key: key);
 
-  TeacherShowClass data;
+  List<Classes> data;
   int? index;
 
   @override
@@ -78,7 +78,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   @override
   void initState() {
     context.read<GetClassStudentCubit>().getStudent(
-        '/api/teacher/class/students?class_id=${widget.data.data![widget.index!].id}&first_name=&last_name=');
+        '/api/teacher/class/students?class_id=${widget.data[widget.index!].id}&first_name=&last_name=');
 
     // TODO: implement initState
     super.initState();
@@ -143,7 +143,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     onTap: () {
                       context.read<AddAttendanceCubit>().addAttendanceCubit(
                           classId:
-                              widget.data.data![widget.index!].id.toString(),
+                              widget.data[widget.index!].id.toString(),
                           date: DateTime.now().humanReadableDate,
                           present: presentStudentIds,
                           absent: absentStudentIds);

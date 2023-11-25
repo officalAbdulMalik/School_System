@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:school_system/Data/api_const.dart';
 import 'package:school_system/Data/app_const.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
@@ -15,7 +16,7 @@ class DeleteAccount {
     var body = json.encode({"id": userID});
 
     http.Response request = await http.delete(
-        Uri.parse('$baseUrl/api/auth/delete'),
+        Uri.parse(AppApiUrls.deleteAccount),
         body: body,
         headers: headers);
 

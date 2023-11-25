@@ -82,15 +82,15 @@ class _CrateNewSubjectState extends State<CrateNewSubject> {
             BlocBuilder<ShowTeacherClassCubit, ShowTeacherClassState>(
               builder: (context, state) {
                 if (state is ShowTeacherClassLoaded) {
-                  print(state.model.data!.length);
-                  return state.model.data!.isNotEmpty
+                  print(state.clasess.length);
+                  return state.clasess.isNotEmpty
                       ? CustomDropDown(
                           hintText: 'Classes',
                           onChanged: (value) {
                             print(value);
                             slectedClass = value.toString();
                           },
-                          itemsMap: state.model.data!.map((e) {
+                          itemsMap: state.clasess.map((e) {
                             return DropdownMenuItem(
                               value: e.id,
                               child: Text(
@@ -172,19 +172,16 @@ class _CrateNewSubjectState extends State<CrateNewSubject> {
                     ),
                   );
                 } else {
-                  return InkWell(
-                    onTap: () {
-                      if (key.currentState!.validate()) {
-                        context.read<CreateSubjectsCubit>().addSubjectToClass(
-                              slectedClass,
-                              nameController.text.trim(),
-                              selectedType,
-                              codeT,
-                            );
-                      }
-                    },
-                    child: CustomWidgets.customButton('Save'),
-                  );
+                  return CustomWidgets.customButton('Save', onTap: () {
+                    if (key.currentState!.validate()) {
+                      context.read<CreateSubjectsCubit>().addSubjectToClass(
+                        slectedClass,
+                        nameController.text.trim(),
+                        selectedType,
+                        codeT,
+                      );
+                    }
+                  });
                 }
               },
             ),

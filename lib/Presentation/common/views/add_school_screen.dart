@@ -2,10 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:school_system/Controllers/Cubits/CommonCubit/add_new_school_cubit.dart';
+import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
@@ -36,7 +40,7 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
   TextEditingController schName = TextEditingController();
   TextEditingController address = TextEditingController();
   TextEditingController city = TextEditingController();
-  TextEditingController state = TextEditingController();
+  TextEditingController state1 = TextEditingController();
   TextEditingController zipCode = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController website = TextEditingController();
@@ -59,13 +63,16 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                   CustomRowWidget(
                     text1: 'Add New School',
                     text2: 'You can add new school from here...',
+                    image: 'images/star_c.webp',
+                    height: 80.h,
+                    width: 80.w,
                   ),
                   SizedBox(
                     height: 10.h,
                   ),
                   Align(
                     alignment: Alignment.center,
-                    child: InkWell(
+                    child: GestureDetector(
                       onTap: () async {
                         var image = await ImagePick.pickImageFromGallery();
                         if (image == null) {
@@ -81,12 +88,14 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                         child: CircleAvatar(
                           radius: 35,
                           backgroundColor: Colors.white,
-                          child: CircleAvatar(
+                          child:  image1==null? CircleAvatar(
                             radius: 28.sp,
                             backgroundColor: Colors.white,
-                            backgroundImage: image1 == null
-                                ? AssetImage('images/camra.png')
-                                : FileImage(image1!) as ImageProvider,
+                            child: SvgPicture.asset('images/add_image.svg',height: 30.sp),
+                          ):CircleAvatar(
+                            radius: 33.sp,
+                            backgroundColor: Colors.white,
+                            backgroundImage: FileImage(image1!),
                           ),
                         ),
                       ),
@@ -134,7 +143,7 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                     height: 10.h,
                   ),
                   MyTextField(
-                    controller: state,
+                    controller: state1,
                     isRequiredField: true,
                     filledColor: kContainerColor,
                     hintText:
@@ -194,52 +203,39 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                   SizedBox(
                     height: 20.h,
                   ),
-                  InkWell(
-                    onTap: () async {
-                      if (image1 != null) {
+                  BlocConsumer<AddNewSchoolCubit,AddNewSchoolState>(
+                   listener: (context, state) {
+if(state is AddNewSchoolLoading){
+  Dialogs.loadingDialog(context);
+}if(state is AddNewSchoolLoaded){
+  Navigator.of(context).pop(true);
+}if(state is AddNewSchoolError){
+  Navigator.of(context).pop(true);
+  Fluttertoast.showToast(msg: state.error??"error");
+}
+                   },
+                    builder: (context,  state) {
+                     return CustomWidgets.customButton('Continue', onTap: () {
                         if (_formKey.currentState!.validate()) {
                           loading.value = true;
-                          AddSchoolApi.addSchool(
-                                  context: context,
-                                  scName: schName.text.trim(),
-                                  email: email.text.trim(),
-                                  id: country,
-                                  address: address.text.trim(),
-                                  phNo: phone.text.trim(),
-                                  web: website.text.trim(),
-                                  local: city.text.trim(),
-                                  zip: zipCode.text.trim(),
-                                  postCode: state.text.trim(),
-                                  image: image1)
-                              .then((value) {
-                            if (value == 200) {
-                              loading.value = false;
-                              Navigator.pushReplacement(context,
-                                  MaterialPageRoute(
-                                builder: (context) {
-                                  return SchoolListScreen();
-                                },
-                              ));
-                            }
-                          });
-                        }
-                      } else {
-                        Fluttertoast.showToast(msg: 'Image is Required');
-                      }
+
+
+                          Map<String,String> data = {
+                            'country_id': country.toString(),
+                            'website': website.text.trim(),
+                            'school_name': schName.text.trim(),
+                            "email":email.text.trim(),
+
+                            'address':address.text.trim(),
+                            "phone":phone.text.trim(),
+                            "web":website.text.trim(),
+                            'locality': city.text.trim(),
+                            'post_town': zipCode.text.trim(),
+                            'post_code': state1.text.trim(),
+                          };
+                          context.read<AddNewSchoolCubit>().addSchool(data, image1);}
+                      });
                     },
-                    child: ValueListenableBuilder(
-                      valueListenable: loading,
-                      builder: (context, value, child) {
-                        if (value != true) {
-                          return CustomWidgets.customButton('Continue');
-                        } else {
-                          return const Center(
-                              child: CircularProgressIndicator(
-                            color: Colors.blue,
-                          ));
-                        }
-                      },
-                    ),
                   ),
                   SizedBox(
                     height: 20.h,

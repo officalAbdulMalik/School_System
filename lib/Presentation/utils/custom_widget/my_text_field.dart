@@ -88,7 +88,7 @@ class _MyTextFieldState extends State<MyTextField> {
                   return 'Email is not correct"';
                 },
       style: GoogleFonts.poppins(
-          color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.w400),
+          color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w400),
       decoration: InputDecoration(
         filled: true,
         errorMaxLines: 1,
@@ -104,8 +104,8 @@ class _MyTextFieldState extends State<MyTextField> {
             ),
 
         errorStyle: TextStyle(
-          fontSize: 12.sp,
-          height: 0.2.sp,
+          fontSize: 11.sp,
+          height: 0.8.sp,
           color: Colors.red,
         ),
         hintStyle: GoogleFonts.poppins(

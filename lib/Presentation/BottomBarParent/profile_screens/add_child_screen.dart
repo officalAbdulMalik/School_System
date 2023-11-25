@@ -2,11 +2,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Controllers/Cubits/ParentCubit/add_child_cubit.dart';
 import 'package:school_system/Presentation/BottomBarParent/profile_screens/show_children.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
+import 'package:school_system/Presentation/utils/custom_widget/custom_date_picker.dart';
+import 'package:school_system/Presentation/utils/custom_widget/custom_dop_down.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
@@ -34,6 +37,14 @@ class _AddChildScreenState extends State<AddChildScreen> {
   ValueNotifier<bool> loading = ValueNotifier(false);
   File? image1;
 
+
+  final _formKey = GlobalKey<FormState>();
+
+  String? dateVal(v) {
+    if (v.trim().isEmpty) {
+      return "Birth Date Required";
+    }}
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -42,214 +53,173 @@ class _AddChildScreenState extends State<AddChildScreen> {
         body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 21),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                NavigatorPop(),
-                CustomRowWidget(
-                  text1: 'Add New Kid!',
-                  text2: 'You can add new kids from here.',
-                  image: 'sign_star.png',
-                  flex: 6,
-                ),
-                SizedBox(height: 20.h),
-                InkWell(
-                  onTap: () async {
-                    var image = await ImagePick.pickImageFromGallery();
-                    image1 = image;
-                    setState(() {});
-                  },
-                  child: CircleAvatar(
-                    radius: 35,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  const NavigatorPop(),
+                  CustomRowWidget(
+                    text1: 'Add New Kid!',
+                    text2: 'You can add new kids from here.',
+                    image: 'images/star_e.webp',
+                    height: 70.h,
+                    width: 70.w,
+                  ),
+                  SizedBox(height: 20.h),
+                  InkWell(
+                    onTap: () async {
+                      var image = await ImagePick.pickImageFromGallery();
+                      image1 = image;
+                      setState(() {});
+                    },
                     child: CircleAvatar(
-                      backgroundColor: kButtonColor,
-                      backgroundImage: image1 == null
-                          ? AssetImage('images/prof.png')
-                          : FileImage(image1!) as ImageProvider,
-                      radius: 33,
+                      radius: 38,
+                      backgroundColor: Colors.amber,
+                      child: CircleAvatar(
+                        radius: 35,
+                        backgroundColor: Colors.white,
+                        child:  image1 ==null? CircleAvatar(
+                          radius: 28.sp,
+                          backgroundColor: Colors.white,
+                          child: SvgPicture.asset('images/add_image.svg',height: 30.sp),
+                        ):CircleAvatar(
+                          radius: 33.sp,
+                          backgroundColor: Colors.white,
+                          backgroundImage: FileImage(image1!),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                MyTextField(
-                  controller: firstName,
-                  hintText: 'First Name',
-                  filledColor: kContainerColor,
-                  isRequiredField: true,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                MyTextField(
-                  isRequiredField: true,
-                  controller: lastName,
-                  hintText: 'Last Name',
-                  filledColor: kContainerColor,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                MyTextField(
-                  isRequiredField: true,
-                  controller: dob,
-                  hintText: 'Date Of Birth',
-                  filledColor: kContainerColor,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  padding: const EdgeInsets.only(left: 10),
-                  height: 50,
-                  width: 340,
-                  decoration: ContinerDecoration.continerDecoration(),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          flex: 1,
-                          child: Text(
-                            gender,
-                            style: GoogleFonts.poppins(
-                              fontSize: 14.sp,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          )),
-                      Spacer(
-                        flex: 1,
-                      ),
-                      SizedBox(
-                        width: 35,
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 10.0),
-                          child: DropdownButton<String>(
-                            underline: const SizedBox(),
-                            items: <String>[
-                              'Male',
-                              'Female',
-                            ].map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14.sp,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              gender = value!;
-                              setState(() {});
-                            },
+                  SizedBox(height: 15.h,),
+                  CustomDropDown(
+                    hintText: relation,
+                    onChanged: (value) {
+                      print(value);
+                      relation = value!;
+                      setState(() {});
+                    },
+                    itemsMap: <String>[
+                      'Mother',
+                      'Father',
+                      'Brother',
+                      'Sister',
+                      'Grand Father',
+                    ].map((e) {
+                      return DropdownMenuItem(
+                        value: e,
+                        child: Text(
+                          e,
+                          style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
-                      ),
-                    ],
+                      );
+                    }).toList(),
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  padding: const EdgeInsets.only(left: 10),
-                  height: 50,
-                  width: 340,
-                  decoration: ContinerDecoration.continerDecoration(),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          flex: 3,
-                          child: Text(
-                            relation,
-                            style: GoogleFonts.poppins(
-                              fontSize: 14.sp,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          )),
-                      Expanded(
-                        flex: 2,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 10.0),
-                          child: DropdownButton<String>(
-                            underline: const SizedBox(),
-                            items: <String>[
-                              'Mother',
-                              'Father',
-                              'Brother',
-                              'Sister',
-                              'Grand Father',
-                            ].map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14.sp,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              relation = value!;
-                              setState(() {});
-                            },
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MyTextField(
+                    controller: firstName,
+                    hintText: 'First Name',
+                    filledColor: kContainerColor,
+                    isRequiredField: true,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MyTextField(
+                    isRequiredField: true,
+                    controller: lastName,
+                    hintText: 'Last Name',
+                    filledColor: kContainerColor,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CustomDatePickerValidateWidget(
+
+                    isBorderRequired: false,
+                    hintText: 'Select Birth Date',
+                    validationText: 'Date is required',
+                    controller: dob,
+
+                    validator: dateVal,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CustomDropDown(
+                    hintText: gender,
+                    onChanged: (value) {
+                      print(value);
+                      gender = value!;
+                      setState(() {});
+                    },
+                    itemsMap:<String>[
+                      'Male',
+                      'Female',
+                    ].map((e) {
+                      return DropdownMenuItem(
+                        value: e,
+                        child: Text(
+                          e,
+                          style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
-                      ),
-                    ],
+                      );
+                    }).toList(),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                BlocConsumer<AddChildCubit, AddChildState>(
-                  listener: (context, state) {
-                    if (state is AddChildLoading) {
-                      Dialogs.loadingDialog(context);
-                    }
-                    if (state is AddChildError) {
-                      Navigator.of(context).pop(true);
-                      Fluttertoast.showToast(msg: state.error!);
-                    }
-                    if (state is AddChildLoaded) {
-                      Navigator.pop(context);
-                      Navigator.pushReplacement(context, MaterialPageRoute(
-                        builder: (context) {
-                          return ShowChildren();
-                        },
-                      ));
-                    }
-                  },
-                  builder: (context, state) {
-                    return InkWell(
-                      onTap: () {
-                        context.read<AddChildCubit>().addChild(
-                            firstName: firstName.text.trim(),
-                            lastName: lastName.text.trim(),
-                            relation: relation,
-                            dob: dob.text.trim(),
-                            gender: gender,
-                            image: image1!.path);
-                      },
-                      child: CustomWidgets.customButton('Add Child'),
-                    );
-                  },
-                ),
-              ],
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  BlocConsumer<AddChildCubit, AddChildState>(
+                    listener: (context, state) {
+                      if (state is AddChildLoading) {
+                        Dialogs.loadingDialog(context);
+                      }
+                      if (state is AddChildError) {
+                        Navigator.of(context).pop(true);
+                        Fluttertoast.showToast(msg: state.error!);
+                      }
+                      if (state is AddChildLoaded) {
+                        Navigator.pop(context);
+                        Navigator.pushReplacement(context, MaterialPageRoute(
+                          builder: (context) {
+                            return ShowChildren();
+                          },
+                        ));
+                      }
+                    },
+                    builder: (context, state) {
+                      return CustomWidgets.customButton('Add Child', onTap: () {
+                        if(_formKey.currentState!.validate()){
+                          if(image1 != null) {
+                            context.read<AddChildCubit>().addChild(
+                                firstName: firstName.text.trim(),
+                                lastName: lastName.text.trim(),
+                                relation: relation,
+                                dob: dob.text.trim(),
+                                gender: gender,
+                                image: image1!.path);
+                          }else{
+                            Fluttertoast.showToast(msg: 'Add Image');
+                          }
+                        }
+                      });
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -257,24 +227,24 @@ class _AddChildScreenState extends State<AddChildScreen> {
     );
   }
 
-  validate() {
-    if (image1 == null) {
-      Fluttertoast.showToast(msg: 'Add Image');
-      return false;
-    } else if (firstName.text.isEmpty) {
-      Fluttertoast.showToast(msg: 'First name is required');
-      return false;
-    } else if (lastName.text.isEmpty) {
-      Fluttertoast.showToast(msg: 'Last  name is required');
-      return false;
-    } else if (gender == 'Gender*') {
-      Fluttertoast.showToast(msg: 'Select  Gender ');
-      return false;
-    } else if (relation == 'Relation') {
-      Fluttertoast.showToast(msg: 'Select  Relation');
-      return false;
-    } else {
-      return true;
-    }
-  }
+  // validate() {
+  //   if (image1 == null) {
+  //     Fluttertoast.showToast(msg: 'Add Image');
+  //     return false;
+  //   } else if (firstName.text.isEmpty) {
+  //     Fluttertoast.showToast(msg: 'First name is required');
+  //     return false;
+  //   } else if (lastName.text.isEmpty) {
+  //     Fluttertoast.showToast(msg: 'Last  name is required');
+  //     return false;
+  //   } else if (gender == 'Gender*') {
+  //     Fluttertoast.showToast(msg: 'Select  Gender ');
+  //     return false;
+  //   } else if (relation == 'Relation') {
+  //     Fluttertoast.showToast(msg: 'Select  Relation');
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
 }

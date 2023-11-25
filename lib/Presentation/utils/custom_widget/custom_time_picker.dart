@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
@@ -192,124 +193,102 @@ class CustomTextFieldWithOnTap extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          titleText!.isNotEmpty
-              ? Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 3).r,
-                      child: MyText(
-                        titleText!,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                  ],
-                )
-              : Container(),
-          Container(
-            decoration: BoxDecoration(
-                // boxShadow: isShadowRequired! ? [AppShadow.normal()] : [],
-                ),
-            child: TextFormField(
-              onTap: onTap,
-              readOnly: readOnly ?? false,
+          TextFormField(
+            onTap: onTap,
+            readOnly: readOnly ?? false,
 
-              //autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: isValid
-                  ? (v) {
-                      if (v!.trim().isEmpty) {
-                        return validateText;
-                      }
-                      return null;
+            //autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: isValid
+                ? (v) {
+                    if (v!.trim().isEmpty) {
+                      return validateText;
                     }
-                  : validator,
-              onChanged: onChanged,
-              keyboardType: textInputType,
-              obscureText: obscureText,
-              controller: controller,
-              maxLines: maxline,
-              cursorColor: kPrimaryColor,
-              decoration: InputDecoration(
-                fillColor: Colors.grey.shade200,
+                    return null;
+                  }
+                : validator,
+            onChanged: onChanged,
+            keyboardType: textInputType,
+            obscureText: obscureText,
+            controller: controller,
+            maxLines: maxline,
+            cursorColor: kPrimaryColor,
+            decoration: InputDecoration(
+              fillColor: kContainerColor,
 
-                filled: true,
-                hintText: hintText,
-                prefixIcon: prefixIcon != null
-                    ? SizedBox(
-                        width: 15.w,
-                        height: 15.w,
-                        child: Center(
-                          child: prefixIcon,
-                        ),
-                      )
-                    : null,
-                suffixIcon: suffixIcon != null
-                    ? SizedBox(
-                        width: suffixWidth ?? 20.sp,
-                        height: suffixHeight ?? 20.sp,
-                        child: Center(
-                          child: suffixIcon,
-                        ),
-                      )
-                    : null,
-                // hintStyle: Styles.latoRegular(
-                //   context,
-                //   color: AppColors.greyColor,
-                //   fontSize: 14.sp,
-                // ),
-                ///changess
-                contentPadding: contentPadding ??
-                    const EdgeInsets.symmetric(
-                      vertical: 18,
-                      horizontal: 10,
-                    ).r,
-                focusedErrorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(
-                    borderRadius.r,
-                  ),
-                  borderSide: BorderSide(
-                    color: isBorderRequired ? Colors.red : Colors.transparent,
-                  ),
+              filled: true,
+              hintText: hintText,
+              prefixIcon: prefixIcon != null
+                  ? SizedBox(
+                      width: 15.w,
+                      height: 15.w,
+                      child: Center(
+                        child: prefixIcon,
+                      ),
+                    )
+                  : null,
+              suffixIcon: suffixIcon != null
+                  ? SizedBox(
+                      width: suffixWidth ?? 20.sp,
+                      height: suffixHeight ?? 20.sp,
+                      child: Center(
+                        child: suffixIcon,
+                      ),
+                    )
+                  : null,
+
+              hintStyle: GoogleFonts.poppins(
+                  color: Colors.black, fontSize: 14.sp, fontWeight: FontWeight.w400),
+              ///changess
+              contentPadding: contentPadding ??
+                  const EdgeInsets.symmetric(
+                    vertical: 15,
+                    horizontal: 10,
+                  ).r,
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(
+                  borderRadius.r,
                 ),
-                errorBorder: isBorderRequired
-                    ? OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          borderRadius.r,
-                        ),
-                        borderSide: const BorderSide(
-                          color: Colors.red,
-                        ),
-                      )
-                    : outlineInputBorder(),
-                border: isBorderRequired
-                    ? OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          borderRadius.r,
-                        ),
-                      )
-                    : outlineInputBorder(),
-                focusedBorder: isBorderRequired
-                    ? OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          borderRadius.r,
-                        ),
-                        borderSide: const BorderSide(
-                          color: kPrimaryColor,
-                        ),
-                      )
-                    : outlineInputBorder(),
-                enabledBorder: isBorderRequired
-                    ? OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          borderRadius.r,
-                        ),
-                        borderSide: BorderSide(
-                          color: Colors.grey.shade400,
-                        ),
-                      )
-                    : outlineInputBorder(),
+                borderSide: BorderSide(
+                  color: isBorderRequired ? Colors.red : Colors.transparent,
+                ),
               ),
+              errorBorder: isBorderRequired
+                  ? OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        borderRadius.r,
+                      ),
+                      borderSide: const BorderSide(
+                        color: Colors.red,
+                      ),
+                    )
+                  : outlineInputBorder(),
+              border: isBorderRequired
+                  ? OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        borderRadius.r,
+                      ),
+                    )
+                  : outlineInputBorder(),
+              focusedBorder: isBorderRequired
+                  ? OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        borderRadius.r,
+                      ),
+                      borderSide: const BorderSide(
+                        color: kPrimaryColor,
+                      ),
+                    )
+                  : outlineInputBorder(),
+              enabledBorder: isBorderRequired
+                  ? OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        borderRadius.r,
+                      ),
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
+                      ),
+                    )
+                  : outlineInputBorder(),
             ),
           ),
         ],

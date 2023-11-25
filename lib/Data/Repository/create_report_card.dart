@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
+import 'package:school_system/Data/api_const.dart';
 import 'package:school_system/Data/app_const.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
@@ -19,7 +20,7 @@ class CreateCard {
           'Bearer ${LoginApiShadePreference.preferences!.getString('api_token')}'
     };
     var request = http.Request(
-        'POST', Uri.parse('$baseUrl/api/teacher/create/student-report'));
+        'POST', Uri.parse(AppApiUrls.createReport));
     request.body = json.encode({
       "quarter_id": querterIO,
       "class_id": classId,

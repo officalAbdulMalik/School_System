@@ -53,16 +53,13 @@ class CompleteScreen extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.only(left: 20.sp, right: 20.sp),
-            child: InkWell(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return LogInScreen();
-                  },
-                ));
-              },
-              child: CustomWidgets.customButton('Continue'),
-            ),
+            child: CustomWidgets.customButton('Continue', onTap: () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return LogInScreen();
+                },
+              ));
+            }),
           )
         ],
       ),

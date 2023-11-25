@@ -250,17 +250,14 @@ class _TeacherAddClassState extends State<TeacherAddClass> {
                       child: Row(
                         children: [
                           Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return CreateSection();
-                                  },
-                                ));
-                              },
-                              child: CustomWidgets.customButton('New Section',
-                                  fontSize: 12),
-                            ),
+                            child: CustomWidgets.customButton('New Section',
+                                fontSize: 12, onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return CreateSection();
+                                    },
+                                  ));
+                                }),
                           ),
                           SizedBox(
                             width: 7.w,
@@ -268,33 +265,32 @@ class _TeacherAddClassState extends State<TeacherAddClass> {
                           Expanded(
                             child: InkWell(
                               onTap: () {
+
+                              },
+                              child: CustomWidgets.customButton(
+                                  'Assign Subjects',
+                                  fontSize: 12, onTap: () {
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
                                     return AssignSubjects();
                                   },
                                 ));
-                              },
-                              child: CustomWidgets.customButton(
-                                  'Assign Subjects',
-                                  fontSize: 12),
+                              }),
                             ),
                           ),
                           SizedBox(
                             width: 7.w,
                           ),
                           Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return const CrateNewSubject();
-                                  },
-                                ));
-                              },
-                              child: CustomWidgets.customButton(
-                                  'Create Subject',
-                                  fontSize: 12),
-                            ),
+                            child: CustomWidgets.customButton(
+                                'Create Subject',
+                                fontSize: 12, onTap: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return const CrateNewSubject();
+                                },
+                              ));
+                            }),
                           ),
                         ],
                       ),
@@ -320,18 +316,15 @@ class _TeacherAddClassState extends State<TeacherAddClass> {
                         }
                       },
                       builder: (context, state) {
-                        return InkWell(
-                          onTap: () {
-                            if (formKey.currentState!.validate()) {
-                              context.read<TeacherCreateClassCubit>().addClass(
-                                  selectedSection,
-                                  selectedSchool,
-                                  schoolName.text.trim(),
-                                  selectedGrade);
-                            }
-                          },
-                          child: CustomWidgets.customButton('Save'),
-                        );
+                        return CustomWidgets.customButton('Save', onTap: () {
+                          if (formKey.currentState!.validate()) {
+                            context.read<TeacherCreateClassCubit>().addClass(
+                                selectedSection,
+                                selectedSchool,
+                                schoolName.text.trim(),
+                                selectedGrade);
+                          }
+                        });
                       },
                     ),
                   ]),

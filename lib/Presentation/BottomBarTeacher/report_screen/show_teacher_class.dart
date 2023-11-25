@@ -84,7 +84,7 @@ class _TeacherReportScreenState extends State<TeacherReportScreen> {
                         ),
                         Expanded(
                           child: MyText(
-                            state.model.data?.length.toString() ?? "0",
+                            state.clasess.length.toString() ?? "0",
                             color: const Color(0xFF6B7280),
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
@@ -96,12 +96,12 @@ class _TeacherReportScreenState extends State<TeacherReportScreen> {
                     SizedBox(
                       height: 15.sp,
                     ),
-                    state.model.data!.isNotEmpty
+                    state.clasess!.isNotEmpty
                         ? SizedBox(
                             height: 0.75.sh,
                             width: 1.sw,
                             child: GridView.builder(
-                                itemCount: state.model.data!.length,
+                                itemCount: state.clasess.length,
                                 shrinkWrap: true,
                                 primary: false,
                                 gridDelegate:
@@ -115,11 +115,10 @@ class _TeacherReportScreenState extends State<TeacherReportScreen> {
                                       Navigator.push(context, MaterialPageRoute(
                                         builder: (context) {
                                           return TeacherReportDetail(
-                                            id: state.model.data?[index].id
+                                            id: state.clasess[index].id
                                                     .toString() ??
                                                 "",
-                                            className: state
-                                                    .model.data?[index].name
+                                            className: state.clasess[index].name
                                                     .toString() ??
                                                 "",
                                           );
@@ -157,7 +156,7 @@ class _TeacherReportScreenState extends State<TeacherReportScreen> {
                                           ),
                                           Flexible(
                                             child: MyText(
-                                              state.model.data?[index].name! ??
+                                              state.clasess[index].name! ??
                                                   "",
                                               color: Colors.black,
                                               fontSize: 20.sp,
@@ -166,7 +165,7 @@ class _TeacherReportScreenState extends State<TeacherReportScreen> {
                                           ),
                                           Flexible(
                                             child: MyText(
-                                              state.model.data?[index].grade ??
+                                              state.clasess[index].grade ??
                                                   "",
                                               color: const Color(0xFF6B7280),
                                               fontSize: 14.sp,

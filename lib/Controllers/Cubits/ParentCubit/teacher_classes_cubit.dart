@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
-import '../../../models/show_teacher_classes.dart';
+import 'package:school_system/Models/TeacherModels/teacher_classes.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 part 'teacher_classes_state.dart';
@@ -39,9 +39,10 @@ class TeacherClassesCubit extends Cubit<TeacherClassesState> {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body.toString());
 
-      TeacherClasses classes = TeacherClasses.fromJson(data);
+      List<Classes> classes = List<Classes>.from(
+          data['data'].map((x) => Classes.fromJson(x)));
 
-      emit(TeacherClassesLoaded(classes));
+      emit(TeacherClassesLoaded(classes: classes));
       // Get.snackbar('KASI', 'Settings get successfully');
     } else {
       var data = jsonDecode(response.body.toString());

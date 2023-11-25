@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/login_cubit.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
-import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-
-import '../../../Data/Repository/auth_apis.dart';
+import 'package:school_system/Presentation/utils/custom_widget/show_star_image.dart';
 import 'bottom_bar.dart';
 import 'forget_email_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import 'onboarding_screen.dart';
 
 class LogInScreen extends StatefulWidget {
-  LogInScreen({Key? key}) : super(key: key);
+  const LogInScreen({Key? key}) : super(key: key);
 
   @override
   State<LogInScreen> createState() => _LogInScreenState();
@@ -52,15 +49,20 @@ class _LogInScreenState extends State<LogInScreen> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    Align(
-                        alignment: Alignment.center,
-                        child: SizedBox(
-                            height: 150.h,
-                            width: 300.w,
-                            child: Image.asset(
-                              'images/satar.png',
-                              fit: BoxFit.contain,
-                            ))),
+                    ShowStarsImage(
+                      width: 1.sw,
+                      height: 150.h,
+                      imageUrl: 'images/star_e.webp',
+                    ),
+                    // Align(
+                    //     alignment: Alignment.center,
+                    //     child: SizedBox(
+                    //         height: 150.h,
+                    //         width: 300.w,
+                    //         child: Image.asset(
+                    //           'images/star_e.jpg',
+                    //           fit: BoxFit.contain,
+                    //         ),),),
                     SizedBox(
                       height: 20.h,
                     ),
@@ -125,7 +127,7 @@ class _LogInScreenState extends State<LogInScreen> {
                           onTap: () {
                             Navigator.push(context, MaterialPageRoute(
                               builder: (context) {
-                                return ForgetPasswordEmailScreen();
+                                return const ForgetPasswordEmailScreen();
                               },
                             ));
                           },
@@ -162,20 +164,18 @@ class _LogInScreenState extends State<LogInScreen> {
                         ));
                       }
                       if (state is LoginError) {
+                        Navigator.of(context).pop(true);
                         Fluttertoast.showToast(msg: state.error!);
-                        Navigator.pop(context);
                       }
                     }, builder: (context, state) {
-                      return InkWell(
-                        onTap: () {
-                          if (formKey.currentState!.validate()) {
-                            context
-                                .read<LoginCubit>()
-                                .loginUser(email.text.trim(), pass.text.trim());
-                          }
-                        },
-                        child: CustomWidgets.customButton('Login'),
-                      );
+                      return CustomWidgets.customButton('Login', onTap: () {
+                        if (formKey.currentState!.validate()) {
+                          context
+                              .read<LoginCubit>()
+                              .loginUser(email.text.trim(), pass.text.trim());
+                        }
+
+                      });
                     }),
                     SizedBox(
                       height: 30.h,

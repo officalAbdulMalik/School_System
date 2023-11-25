@@ -91,7 +91,8 @@ class _CustomDatePickerValidateWidgetState
         isBorderRequired: widget.isBorderRequired,
         hintText: widget.hintText ?? "",
         validator: widget.validator,
-        textInputType: TextInputType.text);
+        textInputType: TextInputType.text,
+    );
   }
 
   // String getHumanReadableDateAndTime(String dt) {

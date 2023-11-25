@@ -13,16 +13,17 @@ import 'package:school_system/Presentation/utils/app_images.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_dop_down.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
+import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/custom_widget/custom_widgets.dart';
 import 'add_child_screen.dart';
 
 class SchoolTeacher extends StatefulWidget {
-  SchoolTeacher({super.key, required this.schoolId, required this.studentId});
+  const SchoolTeacher({super.key, required this.schoolId, required this.studentId});
 
-  String studentId;
-  String schoolId;
+ final String studentId;
+ final String schoolId;
 
   @override
   State<SchoolTeacher> createState() => _SchoolTeacherState();
@@ -67,14 +68,11 @@ class _SchoolTeacherState extends State<SchoolTeacher> {
               }
               // TODO: implement listener
             },
-            child: InkWell(
-              onTap: () {
-                context
-                    .read<AssignChildToClassCubit>()
-                    .assign(widget.studentId, classId!);
-              },
-              child: CustomWidgets.customButton('Add Class'),
-            ),
+            child: CustomWidgets.customButton('Add Class', onTap: () {
+              context
+                  .read<AssignChildToClassCubit>()
+                  .assign(widget.studentId, classId!);
+            }),
           ),
         ),
         backgroundColor: Colors.white,
@@ -97,10 +95,15 @@ class _SchoolTeacherState extends State<SchoolTeacher> {
               padding: EdgeInsets.only(left: 20.sp, right: 20.sp),
               children: [
                 SizedBox(height: 20.h),
+                const NavigatorPop(),
+                SizedBox(height: 10.h),
+
                 CustomRowWidget(
-                  text1: 'Select Class',
-                  text2: 'Select class from here...',
-                  image: 'add_s_star.png',
+                  text1: 'Add Your Kid to School',
+                  text2: 'You can add your kid to school from here.',
+                  image: 'images/star_e.webp',
+                  height: 80.h,
+                  width: 80.w,
                 ),
                 SizedBox(
                   height: 20.h,
@@ -158,7 +161,7 @@ class _SchoolTeacherState extends State<SchoolTeacher> {
                         // slectedClass = value.toString();
                       },
                       itemsMap: state is TeacherClassesLoaded
-                          ? state.classes.data!.map((e) {
+                          ? state.classes!.map((e) {
                               return DropdownMenuItem(
                                 value: e.id,
                                 child: Text(
@@ -171,8 +174,8 @@ class _SchoolTeacherState extends State<SchoolTeacher> {
                               );
                             }).toList()
                           : [].map((e) {
-                              return DropdownMenuItem(
-                                value: e.id,
+                              return const DropdownMenuItem(
+                                value: 'e.id',
                                 child: Text(
                                   "",
                                 ),

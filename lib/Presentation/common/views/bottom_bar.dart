@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/get_user_data_cubit.dart';
-import 'package:school_system/Controllers/Services/AdsServices/ads_banners.dart';
 import 'package:school_system/Controllers/Services/Connection/internet_conneection.dart';
 import 'package:school_system/Controllers/firebase_repos/firebase_notification_meta.dart';
 import 'package:school_system/Presentation/BottomBarParent/profile_screens/show_report_sreen.dart';
@@ -23,7 +21,6 @@ import 'dashboard_screen/dashboard_screen.dart';
 import 'chat_screens/chat_screen.dart';
 import 'events_scren.dart';
 
-ValueNotifier indexListener = ValueNotifier(0);
 
 class BottomBarPages extends StatefulWidget {
   final int index;
@@ -34,12 +31,14 @@ class BottomBarPages extends StatefulWidget {
   State<BottomBarPages> createState() => _BottomBarPagesState();
 }
 
+ValueNotifier indexListener = ValueNotifier(0);
+
 int bottomIndex = 0;
 
 bool photos = false;
 
 // int slectIndex = 0;
-int visit = 0;
+
 
 List<TabItem> items = [
   const TabItem(
@@ -83,6 +82,7 @@ class _BottomBarPagesState extends State<BottomBarPages> {
     });
     initiateAllNotifications();
     bottomIndex = widget.index;
+    indexListener.value = 0;
 
     AppConnectivity.connectionChanged(onDisconnected: () {
       print('disconnect');
@@ -125,7 +125,7 @@ class _BottomBarPagesState extends State<BottomBarPages> {
     return SafeArea(
       child: WillPopScope(
         onWillPop: () {
-          bottomIndex = 0;
+          indexListener.value = 0;
           setState(() {});
           return Future.value(true);
         },

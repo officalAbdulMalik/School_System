@@ -11,6 +11,7 @@ import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
+import 'package:school_system/Presentation/utils/custom_widget/image_widget.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
 import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
@@ -57,7 +58,7 @@ class _ShowChildrenState extends State<ShowChildren> {
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(
               builder: (context) {
-                return AddChildScreen();
+                return const AddChildScreen();
               },
             ));
           },
@@ -69,7 +70,7 @@ class _ShowChildrenState extends State<ShowChildren> {
             SizedBox(
               height: 20.h,
             ),
-            NavigatorPop(),
+            const NavigatorPop(),
             Row(
               children: [
                 Expanded(
@@ -146,8 +147,8 @@ class _ShowChildrenState extends State<ShowChildren> {
                 if (state is GetClassStudentLoaded) {
                   return searchList!.isNotEmpty
                       ? SizedBox(
-                          height: MediaQuery.of(context).size.height,
-                          width: 400.w,
+                          height: 0.70.sh,
+                          width: 1.sw,
                           child: ListView.separated(
                             itemCount: searchList!.length,
                             // itemCount: state.model.data!.length,
@@ -209,7 +210,7 @@ class CardTile extends StatelessWidget {
   // final Color color;
   // final Map<String, String> subjectGrades;
 
-  CardTile({
+ const CardTile({
     super.key,
     required this.studentName,
     required this.className,
@@ -233,30 +234,31 @@ class CardTile extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        shadows: const [
+        shadows:  [
           BoxShadow(
-            color: Color(0x19303133),
-            blurRadius: 30,
-            offset: Offset(0, 4),
+            color: Colors.grey.shade100,
+            blurRadius: 10.sp,
+            offset: const Offset(0, 4),
             spreadRadius: 0,
           )
         ],
       ),
       child: Row(
         children: [
-          Container(
-            width: 64,
-            height: 64,
-            decoration: ShapeDecoration(
-              image: DecorationImage(
-                image: profileImage.isNotEmpty
-                    ? NetworkImage(profileImage)
-                    : AssetImage(AppImages.userImage) as ImageProvider,
-                fit: BoxFit.fill,
-              ),
-              shape: const OvalBorder(),
-            ),
-          ),
+          CachedImage(url: profileImage,isCircle: true,radius: 25.sp,),
+          // Container(
+          //   width: 64,
+          //   height: 64,
+          //   decoration: ShapeDecoration(
+          //     image: DecorationImage(
+          //       image: profileImage.isNotEmpty
+          //           ? NetworkImage(profileImage)
+          //           : AssetImage(AppImages.userImage) as ImageProvider,
+          //       fit: BoxFit.fill,
+          //     ),
+          //     shape: const OvalBorder(),
+          //   ),
+          // ),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
@@ -283,7 +285,7 @@ class CardTile extends StatelessWidget {
                         width: 8,
                         height: 8,
                         decoration: ShapeDecoration(
-                          color: Color(0xFF6B7280),
+                          color: Colors.black,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
                           ),
@@ -292,13 +294,11 @@ class CardTile extends StatelessWidget {
                       const SizedBox(width: 8),
                       Text(
                         className,
-                        style: const TextStyle(
-                          color: Color(0xFF6B7280),
-                          fontSize: 14,
-                          fontFamily: 'Poppins',
+                        style:  GoogleFonts.poppins(
+                          color: Colors.grey,
+                          fontSize: 13.sp,
                           fontWeight: FontWeight.w400,
-                          letterSpacing: 0.75,
-                        ),
+                        )
                       ),
                     ],
                   ),
@@ -318,21 +318,15 @@ class CardTile extends StatelessWidget {
             },
             child: Container(
               width: 80.w,
-              height: 30.h,
+              height: 60.h,
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-              decoration: ShapeDecoration(
+              decoration: const ShapeDecoration(
                 color: kContainerColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                shape: CircleBorder(
                 ),
               ),
-              child: Center(
-                child: MyText(
-                  'Assign to class ',
-                  color: Colors.black,
-                  fontSize: 10.sp,
-                  fontWeight: FontWeight.w500,
-                ),
+              child: const Center(
+                child: Icon(Icons.add)
               ),
             ),
           ),

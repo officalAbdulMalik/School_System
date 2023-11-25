@@ -8,13 +8,13 @@ class TeacherClassesInitial extends TeacherClassesState {}
 class TeacherClassesLoading extends TeacherClassesState {}
 
 class TeacherClassesLoaded extends TeacherClassesState {
-  TeacherClasses classes = TeacherClasses();
+final  List<Classes>? classes;
 
-  TeacherClassesLoaded(this.classes);
+  TeacherClassesLoaded({this.classes});
 }
 
 class TeacherClassesError extends TeacherClassesState {
-  String? error;
+ final String? error;
 
   TeacherClassesError({this.error});
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:school_system/Data/api_const.dart';
 import 'package:school_system/Data/app_const.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 import 'package:http/http.dart' as http;
@@ -24,7 +25,7 @@ class AssignChild {
 
     try {
       http.Response request = await http.post(
-          Uri.parse('$baseUrl/api/student/assign/class'),
+          Uri.parse(AppApiUrls.assignStudentClass),
           body: json.encode(data),
           headers: headers);
 

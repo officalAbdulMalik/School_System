@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:school_system/Models/TeacherModels/teacher_classes.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
-import 'package:school_system/models/get_teacher_class_model.dart';
 
 class ShowAttendance extends StatefulWidget {
-  ShowAttendance({Key? key, required this.data, required this.index})
+  const ShowAttendance({Key? key, required this.data, required this.index})
       : super(key: key);
 
-  TeacherShowClass data;
-  int? index;
+ final List<Classes> data;
+ final int? index;
 
   @override
   State<ShowAttendance> createState() => _ShowAttendanceState();
@@ -47,11 +47,11 @@ class _ShowAttendanceState extends State<ShowAttendance> {
               SizedBox(
                 height: 10.h,
               ),
-              NavigatorPop(),
+              const NavigatorPop(),
               SizedBox(
                 height: 20.h,
               ),
-              CustomRowWidget(
+              const CustomRowWidget(
                 text1: 'Attendance Report',
                 text2: 'View your students attendance report details.',
                 dotButton: true,
@@ -140,7 +140,7 @@ class _ShowAttendanceState extends State<ShowAttendance> {
                 height: 0.5.sh,
                 width: 1.sw,
                 child: ListView.separated(
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return SizedBox(
                         height: 60.h,
@@ -148,7 +148,7 @@ class _ShowAttendanceState extends State<ShowAttendance> {
                       );
                     },
                     separatorBuilder: (context, index) {
-                      return Divider();
+                      return const Divider();
                     },
                     itemCount: 4),
               ),

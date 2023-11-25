@@ -10,11 +10,15 @@ import 'package:school_system/Controllers/Cubits/CommonCubit/get_parents_teacher
 import 'package:school_system/Controllers/Cubits/ParentCubit/get_school_teacher_cubit.dart';
 import 'package:school_system/Controllers/Cubits/TeacherCubit/show_teacher_class_cubit.dart';
 import 'package:school_system/Data/app_const.dart';
+import 'package:school_system/Models/TeacherModels/teacher_classes.dart';
+import 'package:school_system/Models/participations.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_dop_down.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_widgets.dart';
+import 'package:school_system/Presentation/utils/custom_widget/multi_item_picker.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
+import 'package:school_system/models/get_all_school_model.dart';
 
 import '../../utils/app_images.dart';
 import '../../utils/custom_widget/my_text.dart';
@@ -43,13 +47,25 @@ class _AddParticipantScreenState extends State<AddParticipantScreen> {
 
   var selectedSchool;
 
-  List? list;
+  List<Participation>? list;
+
+
+  List<Classes>? classes;
+  List<Schools>? schools;
+
+
+
+
+  List? selected;
 
   String selectedClass = '';
+
+
 
   var myValue = false;
 
   List<String> listofParticipent = [];
+
 
   String? type = LoginApiShadePreference.preferences!.getString('type');
 
@@ -58,22 +74,19 @@ class _AddParticipantScreenState extends State<AddParticipantScreen> {
     return SafeArea(
       child: Scaffold(
           bottomNavigationBar: Padding(
-            padding: EdgeInsets.all(8.0.sp),
-            child: InkWell(
-              onTap: () {
-                print(listofParticipent.toString());
-                Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (context) {
-                    return AddMeetingScreen(
-                      ids: listofParticipent,
-                    );
-                  },
-                ));
-              },
-              child: CustomWidgets.customButton(
-                'Continue',
-                buttonColor: kPrimaryColor,
-              ),
+            padding: EdgeInsets.symmetric(vertical:10.0.sp,horizontal: 10.sp),
+            child: CustomWidgets.customButton(
+              'Continue',
+              buttonColor: kPrimaryColor, onTap: () {
+              print(listofParticipent.toString());
+              Navigator.pushReplacement(context, MaterialPageRoute(
+                builder: (context) {
+                  return AddMeetingScreen(
+                    ids: listofParticipent,
+                  );
+                },
+              ));
+            },
             ),
           ),
           body: SingleChildScrollView(
@@ -113,60 +126,64 @@ class _AddParticipantScreenState extends State<AddParticipantScreen> {
                             }
                             if (state is ShowTeacherClassLoaded) {
                               Navigator.pop(context);
+                              classes = state.clasess;
                             }
                           },
                           builder: (context, state) {
-                            if (state is ShowTeacherClassLoaded) {
-                              return CustomDropDown(
-                                hintText: 'Classes',
-                                onChanged: (value) {
-                                  log(value.toString());
-                                  context
-                                      .read<GetParentsTeachersCubit>()
-                                      .getParentsTeachers(
-                                          '/api/teacher/class/parents?class_id=$value');
-                                },
-                                itemsMap: state.model.data!.map((e) {
-                                  return DropdownMenuItem(
-                                    value: e.id,
-                                    child: Text(
-                                      e.name!,
-                                    ),
-                                  );
-                                }).toList(),
-                              );
-                            } else if (state is ShowTeacherClassError) {
-                              return CustomWidgets.errorText(state.error!);
-                            } else {
-                              return const SizedBox();
-                            }
+                           return CustomDropDown(
+                              hintText: 'Classes',
+                              onChanged: (value) {
+                                log(value.toString());
+                                context
+                                    .read<GetParentsTeachersCubit>()
+                                    .getParentsTeachers(
+                                    '/api/teacher/class/parents?class_id=$value');
+                              },
+                              itemsMap: classes!.map((e) {
+                                return DropdownMenuItem(
+                                  value: e.id,
+                                  child: Text(
+                                    e.name!,
+                                  ),
+                                );
+                              }).toList(),
+                            );
                           },
                         )
-                      : BlocBuilder<GetAllSchoolCubit, GetAllSchoolState>(
+                      : BlocConsumer<GetAllSchoolCubit, GetAllSchoolState>(
+                    listener: (context, state) {
+
+                      print(state);
+
+                      if(state is GetAllSchoolLoading){
+                        Dialogs.loadingDialog(context);
+                      }
+                      if(state is GetAllSchoolLoaded){
+                        Navigator.of(context).pop(true);
+                        schools = state.model;
+                      }
+                      if(state is GetAllSchoolError){
+                        Fluttertoast.showToast(msg: state.error??"");
+                      }
+                    },
                           builder: (context, state) {
-                            if (state is GetAllSchoolLoaded) {
-                              return CustomDropDown(
-                                hintText: 'School',
-                                onChanged: (value) {
-                                  context
-                                      .read<GetParentsTeachersCubit>()
-                                      .getParentsTeachers(
-                                          '/api/parent/school/teachers?school_id=$value');
-                                },
-                                itemsMap: state.model.map((e) {
-                                  return DropdownMenuItem(
-                                    value: e.id,
-                                    child: Text(
-                                      e.schoolName!,
-                                    ),
-                                  );
-                                }).toList(),
-                              );
-                            } else if (state is GetAllSchoolError) {
-                              return CustomWidgets.errorText(state.error!);
-                            } else {
-                              return const SizedBox();
-                            }
+                            return schools != null? CustomDropDown(
+                              hintText: 'School',
+                              onChanged: (value) {
+                                context
+                                    .read<GetParentsTeachersCubit>()
+                                    .getParentsTeachers(
+                                    '/api/parent/school/teachers?school_id=$value');
+                              },
+                              itemsMap: schools!.map((e) {
+                                return DropdownMenuItem(
+                                  value: e.id,
+                                  child: Text(
+                                    e.schoolName!,
+                                  ),
+                                );
+                              }).toList(),
+                            ):const SizedBox();
                           },
                         ),
                   SizedBox(
@@ -189,215 +206,10 @@ class _AddParticipantScreenState extends State<AddParticipantScreen> {
                       }
                     },
                     builder: (context, state) {
-                      if (state is GetAllParentsLoaded) {
-                        print(state.model.length);
-
-                        return state.model.isNotEmpty
-                            ? SizedBox(
-                                height: 0.65.sh,
-                                width: 1.sw,
-                                child: ListView.builder(
-                                    physics: const BouncingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: state.model.length,
-                                    itemBuilder: (context, index) {
-                                      return Container(
-                                        margin: EdgeInsets.only(
-                                            top: 5.sp, bottom: 5.sp),
-                                        width: 343,
-                                        height: 52,
-                                        padding: const EdgeInsets.all(8),
-                                        decoration: ShapeDecoration(
-                                          color: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                          ),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Expanded(
-                                              child: SizedBox(
-                                                height: 36,
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    //const SizedBox(width: 12),
-                                                    Expanded(
-                                                      child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Checkbox(
-                                                              value: state
-                                                                      .checkList[
-                                                                  index],
-                                                              onChanged: (val) {
-                                                                if (type ==
-                                                                    'teacher') {
-                                                                  state.checkList[
-                                                                          index] =
-                                                                      !state.checkList[
-                                                                          index];
-
-                                                                  if (listofParticipent
-                                                                      .contains(state
-                                                                          .model[
-                                                                              index]
-                                                                          .id
-                                                                          .toString())) {
-                                                                    listofParticipent.remove(state
-                                                                        .model[
-                                                                            index]
-                                                                        .id
-                                                                        .toString());
-                                                                  } else {
-                                                                    listofParticipent.add(state
-                                                                        .model[
-                                                                            index]
-                                                                        .id
-                                                                        .toString());
-                                                                  }
-                                                                } else {
-                                                                  state.checkList[
-                                                                          index] =
-                                                                      !state.checkList[
-                                                                          index];
-                                                                  listofParticipent =
-                                                                      [
-                                                                    state
-                                                                        .model[
-                                                                            index]
-                                                                        .id
-                                                                        .toString()
-                                                                  ];
-                                                                }
-
-                                                                // widget.list(list);
-
-                                                                print(
-                                                                    'this is the value $listofParticipent');
-
-                                                                // newList = list;
-                                                                //
-                                                                // widget.list(list);
-                                                                //
-                                                                // myValue = !myValue;
-
-                                                                setState(() {});
-                                                              }),
-                                                          Container(
-                                                            width: 32,
-                                                            height: 32,
-                                                            decoration:
-                                                                ShapeDecoration(
-                                                              image:
-                                                                  DecorationImage(
-                                                                image: state
-                                                                            .model[
-                                                                                index]
-                                                                            .image !=
-                                                                        null
-                                                                    ? NetworkImage(state
-                                                                        .model[
-                                                                            index]
-                                                                        .image!)
-                                                                    : AssetImage(
-                                                                            AppImages.profile)
-                                                                        as ImageProvider,
-                                                                fit:
-                                                                    BoxFit.fill,
-                                                              ),
-                                                              shape:
-                                                                  const OvalBorder(),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                              width: 8),
-                                                          Expanded(
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Flexible(
-                                                                  child: MyText(
-                                                                    state.model[index]
-                                                                            .firstName! ??
-                                                                        "",
-                                                                    color: const Color(
-                                                                        0xFF000600),
-                                                                    fontSize:
-                                                                        14.sp,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                                ),
-                                                                Flexible(
-                                                                  child: MyText(
-                                                                    state.model[index]
-                                                                            .lastName! ??
-                                                                        "",
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontSize:
-                                                                        10.sp,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 8),
-                                            const Icon(
-                                              Icons.more_vert,
-                                              color: Colors.grey,
-                                            )
-                                          ],
-                                        ),
-                                      );
-                                    }),
-                              )
-                            : CustomWidgets.errorText(noDataString);
-                      } else if (state is GetAllParentsError) {
-                        return CustomWidgets.errorText(state.error!);
-                      } else if (state is GetAllParentsFirstState) {
-                        return const Center(child: Text('' ?? ''));
-                      } else {
-                        return const SizedBox();
-                      }
+                      return state is GetAllParentsLoaded?  MultiItemPicker(list: (list) {
+                        print(list);
+                        listofParticipent  = list.map((item) => item.id.toString()).toList();
+                      }, getList: list ?? [], hintText: 'Select Participation',isParentSide: type == "parent",):const SizedBox();
                     },
                   ),
                   SizedBox(

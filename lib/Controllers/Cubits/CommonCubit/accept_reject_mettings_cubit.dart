@@ -16,7 +16,7 @@ class AcceptRejectMeetingsCubit extends Cubit<AcceptRejectMeetingsState> {
 
     log('here is $id');
 
-    await AcceptRejectMetting.acceptReject(id, status).then((value) {
+    await AcceptRejectMeeting.acceptReject(id, status).then((value) {
       if (value['status'] != null && value['status'] == 200) {
         log("here is meeting${value.toString()}");
 

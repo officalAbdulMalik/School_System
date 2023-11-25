@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,9 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/add_metting_cubit.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
-import 'package:school_system/Presentation/common/views/all_school_screen.dart';
-import 'package:school_system/Presentation/common/views/bottom_bar.dart';
-import 'package:school_system/Presentation/utils/colors.dart';
+
 import 'package:school_system/Presentation/utils/custom_widget/custom_date_picker.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_time_picker.dart';
 import 'package:school_system/Presentation/utils/custom_widget/my_text_field.dart';
@@ -18,9 +15,9 @@ import '../../utils/custom_widget/my_text.dart';
 import 'add_participant_screen.dart';
 
 class AddMeetingScreen extends StatefulWidget {
-  AddMeetingScreen({Key? key, this.ids}) : super(key: key);
+  const AddMeetingScreen({Key? key, this.ids}) : super(key: key);
 
-  List<String>? ids;
+ final List<String>? ids;
 
   @override
   State<AddMeetingScreen> createState() => _AddMeetingScreenState();
@@ -285,7 +282,7 @@ class _AddMeetingScreenState extends State<AddMeetingScreen> {
                         eTime: eTimeController.text.trim(),
                         desc: descriptionController.text.trim());
                   } else {
-                    Fluttertoast.showToast(msg: 'Add Participation please');
+                    Fluttertoast.showToast(msg: 'Participation is Required');
                   }
                 }
               },
@@ -301,14 +298,14 @@ class _AddMeetingScreenState extends State<AddMeetingScreen> {
                   if (state is AddMettingLoaded) {
                     Navigator.pop(context);
                     Fluttertoast.showToast(msg: 'Meeting Created Successful');
-
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute<dynamic>(
-                          builder: (BuildContext context) =>
-                              const BottomBarPages(index: 3),
-                        ),
-                        (route) => false);
+                    Navigator.pop(context);
+                    // Navigator.pushAndRemoveUntil(
+                    //     context,
+                    //     MaterialPageRoute<dynamic>(
+                    //       builder: (BuildContext context) =>
+                    //           const BottomBarPages(index: 3),
+                    //     ),
+                    //     (route) => false);
 
                     clear();
                   }

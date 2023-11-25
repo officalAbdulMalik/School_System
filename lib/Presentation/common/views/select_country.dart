@@ -3,10 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Presentation/common/views/sign_up_screen.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
+import 'package:school_system/Presentation/utils/custom_widget/custom_row_widget.dart';
+import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-
-import '../../utils/custom_widget/custom_row_widget.dart';
-import '../../utils/custom_widget/navigator_pop.dart';
 
 class SelectCountry extends StatefulWidget {
   SelectCountry({Key? key}) : super(key: key);
@@ -55,10 +54,10 @@ class _SelectCountryState extends State<SelectCountry> {
                 CustomRowWidget(
                   text1: 'Choice Your Country',
                   text2: 'Select Your country from here...',
-                  image: 'con_star.png',
+                  image: 'images/star_l.webp',
                 ),
                 SizedBox(
-                  height: 70.h,
+                  height: 60.h,
                 ),
                 InkWell(
                   onTap: () async {
@@ -99,7 +98,7 @@ class _SelectCountryState extends State<SelectCountry> {
                               style: GoogleFonts.poppins(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w400,
-                                fontSize: 18.sp,
+                                fontSize: 16.sp,
                               ),
                             ),
                           ),
@@ -109,7 +108,7 @@ class _SelectCountryState extends State<SelectCountry> {
                   ),
                 ),
                 SizedBox(
-                  height: 25.h,
+                  height: 20.h,
                 ),
                 // buildTextFieldLabel('Password'),
                 InkWell(
@@ -152,7 +151,7 @@ class _SelectCountryState extends State<SelectCountry> {
                               style: GoogleFonts.poppins(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w400,
-                                fontSize: 18.sp,
+                                fontSize: 16.sp,
                               ),
                             ),
                           ),

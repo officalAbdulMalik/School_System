@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_system/Models/Chats/chat_model.dart';
+import 'package:school_system/Presentation/common/views/chat_screens/Components/chat_card.dart';
 import 'package:school_system/Presentation/common/views/chat_screens/slect_user_for_chat.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
 import 'package:school_system/Presentation/utils/custom_widget/custom_time_picker.dart';
@@ -121,7 +123,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       FirebaseFirestore.instance.collection('Chat').snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      return const CircularProgressIndicator();
+                      return const Center(child: CircularProgressIndicator());
                     }
 
                     List<QueryDocumentSnapshot<Map<String, dynamic>>>
@@ -139,13 +141,18 @@ class _ChatScreenState extends State<ChatScreen> {
 
                         var userData =
                             chatDocuments[index].data() as Map<String, dynamic>;
-                        String name = userData['firstName'] ?? "";
-                        String lastName = userData['lastName'] ?? "";
-                        String imageUrl = userData['profileImage'] ?? "";
-                        String type = userData['user_type'] ?? "";
+
+                        ChatsUsers chats = ChatsUsers.fromMap(userData);
                         String docID = snapshot.data!.docs[index].id;
-                        return customCard(
-                            context, name, lastName, imageUrl, docID, type);
+                        return CustomCards(docID: docID,model: chats);
+                        // return ChatCard();
+
+                        // String name = userData['firstName'] ?? "";
+                        // String lastName = userData['lastName'] ?? "";
+                        // String imageUrl = userData['profileImage'] ?? "";
+                        // String type = userData['user_type'] ?? "";
+
+
                       },
                       separatorBuilder: (context, index) {
                         return Divider(
@@ -165,157 +172,8 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 }
 
-customCard(BuildContext context, String name, String lastName, String image,
-    String docID, String type) {
-  return InkWell(
-    onTap: () {
-      Navigator.push(context, MaterialPageRoute(
-        builder: (context) {
-          return ChatDetailsScreen(
-            docId: docID,
-            userImage: image,
-            userName: "$name $lastName",
-            type: type,
-          );
-        },
-      ));
-    },
-    child: Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 8.sp),
-      height: 70.h,
-      width: double.infinity,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            width: 46.sp,
-            height: 46.sp,
-            decoration: ShapeDecoration(
-              image: DecorationImage(
-                image: image.isNotEmpty
-                    ? NetworkImage(image)
-                    : const AssetImage('images/prof.png') as ImageProvider,
-                fit: BoxFit.fill,
-              ),
-              shape: OvalBorder(),
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      Flexible(
-                        child: MyText(
-                          '$name $lastName',
-                          color: Color(0xFF000600),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      const Flexible(
-                        child: MyText(
-                          'Date ',
-                          textAlign: TextAlign.right,
-                          color: Color(0xFF9CA3AF),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                FutureBuilder(
-                  future: getLastChat(docID),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Expanded(
-                        child: MyText(
-                          'Loading.....',
-                          color: Color(0xFF6B7280),
-                          fontSize: 12,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      );
-                    } else if (snapshot.data == null) {
-                      return const Expanded(
-                        child: MyText(
-                          '...',
-                          color: Color(0xFF6B7280),
-                          fontSize: 12,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      );
-                    } else {
-                      var lastChatData =
-                          snapshot.data!.data() as Map<String, dynamic>;
-                      String lastMessage = lastChatData['message'];
 
-                      return Expanded(
-                        child: MyText(
-                          lastMessage,
-                          color: Color(0xFF6B7280),
-                          fontSize: 12,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
-          // Container(
-          //   width: 20.sp,
-          //   height: 20.sp,
-          //   decoration: BoxDecoration(
-          //       shape: BoxShape.circle,
-          //       color: widget.check[index] == 0
-          //           ? Colors.transparent
-          //           : const Color(0xff3DAEF5)),
-          //   child: Center(
-          //     child: widget.check[index] == 0
-          //         ? SvgPicture.asset(AppImages.doubleCheck)
-          //         : MyText(
-          //       widget.check[index].toString(),
-          //       color: Colors.white,
-          //     ),
-          //   ),
-          // ),
-        ],
-      ),
-    ),
-  );
-}
 
-Future<DocumentSnapshot> getLastChat(String userId) async {
-  return FirebaseFirestore.instance
-      .collection('Chat')
-      .doc(userId)
-      .collection('chats')
-      .orderBy('time_tempt')
-      .limit(1)
-      .get()
-      .then((querySnapshot) {
-    if (querySnapshot.docs.isNotEmpty) {
-      return querySnapshot.docs.first;
-    } else {
-      return querySnapshot.docs.first;
-    }
-  });
-}
 //    return Scaffold(
 //       resizeToAvoidBottomInset: false,
 //       backgroundColor: kPrimaryColor,

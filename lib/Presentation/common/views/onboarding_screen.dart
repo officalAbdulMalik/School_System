@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_system/Controllers/firebase_repos/firebase_notifications.dart';
 import 'package:school_system/Presentation/common/views/select_country.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
+import 'package:school_system/Presentation/utils/custom_widget/show_star_image.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -47,15 +49,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 SizedBox(
                   height: 30.h,
                 ),
-                Center(
-                  child: SizedBox(
-                    height: 170,
-                    width: 200,
-                    child: Image.asset(
-                      'images/satar.png',
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                ShowStarsImage(
+                  width: 1.sw,
+                  height: 140.h,
+                  imageUrl: 'images/star_c.webp',
                 ),
                 SizedBox(
                   height: 20.h,
@@ -67,7 +64,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     style: GoogleFonts.poppins(
                       color: kPrimaryColor,
                       fontWeight: FontWeight.w600,
-                      fontSize: 24.sp,
+                      fontSize: 20.sp,
                     ),
                   ),
                 ),
@@ -79,12 +76,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'Connecting Parents and Teacher Worldwide ',
+                      'Connecting Parents and Teachers Worldwide ',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                         color: Colors.amber,
                         fontWeight: FontWeight.w500,
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                       ),
                     ),
                   ),
@@ -110,8 +107,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         .setString('device_token', token);
                   },
                   child: Container(
-                    padding: EdgeInsets.only(left: 10.sp),
-                    height: 60.h,
+                    height: 50.h,
                     width: 340.w,
                     decoration: BoxDecoration(
                       color: kBorderColor.withOpacity(0.2),
@@ -120,14 +116,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           : Border.all(color: Colors.white),
                       borderRadius: BorderRadius.circular(15.sp),
                     ),
-                    child: Align(
-                      alignment: Alignment.center,
+                    child: Center(
                       child: Text(
-                        'I\'m a teacher',
+                        'I\'m a Teacher',
                         style: GoogleFonts.poppins(
                           color: Colors.black,
                           fontWeight: FontWeight.w500,
-                          fontSize: 20.sp,
+                          fontSize: 16.sp,
                         ),
                       ),
                     ),
@@ -151,8 +146,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     setState(() {});
                   },
                   child: Container(
-                    padding: EdgeInsets.only(left: 10.sp),
-                    height: 60.h,
+                    height: 50.h,
                     width: 340.w,
                     decoration: BoxDecoration(
                       color: kBorderColor.withOpacity(0.2),
@@ -162,15 +156,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       borderRadius: BorderRadius.circular(15.sp),
                     ),
                     child: Center(
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          '  I\'m a parents',
-                          style: GoogleFonts.poppins(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20.sp,
-                          ),
+                      child: Text(
+                        '  I\'m a Parent',
+                        style: GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.sp,
                         ),
                       ),
                     ),

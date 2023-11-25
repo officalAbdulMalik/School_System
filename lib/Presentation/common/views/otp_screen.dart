@@ -1,19 +1,14 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:otp_text_field/otp_field.dart';
-import 'package:otp_text_field/otp_field_style.dart';
-import 'package:otp_text_field/style.dart';
+
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-
+import 'package:pinput/pinput.dart';
 import '../../../Controllers/Cubits/CommonCubit/verify_otp_cubit.dart';
 import '../../../Data/Repository/forget_password_api.dart';
 import '../../utils/custom_widget/custom_row_widget.dart';
@@ -35,10 +30,13 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
-  String otpCode = '';
+
   ValueNotifier<bool> loading = ValueNotifier(false);
 
-  OtpFieldController otp = OtpFieldController();
+ TextEditingController otpController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+
 
   String? email = LoginApiShadePreference.preferences!.getString('email');
 
@@ -58,19 +56,20 @@ class _OtpScreenState extends State<OtpScreen> {
               SizedBox(
                 height: 20.h,
               ),
-              CustomRowWidget(
+               CustomRowWidget(
                 text1: 'OTP Verification',
                 text2: 'Please type the verification code sent to email.',
-                image: 'sch_star.png',
+                image: 'images/star_s.webp',
+                height: 70.h,
+                width: 70.w,
               ),
               Align(
                 alignment: Alignment.center,
                 child: SizedBox(
-                  height: 150,
-                  width: 400,
+                  height: 150.h,
+                  width: 400.w,
                   child: Image.asset(
-                    'images/satar.png',
-                    height: 150,
+                    'images/star_e.webp',
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -78,35 +77,14 @@ class _OtpScreenState extends State<OtpScreen> {
               SizedBox(
                 height: 25.h,
               ),
+              PinCodeField(formKey: _formKey,controller: otpController,),
               SizedBox(
-                height: 60.h,
-                width: 500.w,
-                child: OTPTextField(
-                  controller: otp,
-                  fieldWidth: 45.sp,
-                  length: 5,
-                  width: MediaQuery.of(context).size.width,
-                  textFieldAlignment: MainAxisAlignment.spaceAround,
-                  fieldStyle: FieldStyle.box,
-                  outlineBorderRadius: 15,
-                  otpFieldStyle: OtpFieldStyle(
-                    disabledBorderColor: Colors.black,
-                    enabledBorderColor: Colors.grey,
-                  ),
-                  onCompleted: (String verificationCode) {
-                    otpCode = verificationCode;
-                    setState(() {});
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 10.h,
+                height: 15.h,
               ),
               InkWell(
                 onTap: () async {
                   await ForgetPasswordApi.sendEmail(widget.email);
-                  otpCode = '';
-                  otp.clear();
+                  otpController.clear();
                   setState(() {});
                 },
                 child: RichText(
@@ -142,7 +120,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   }
                   if (state is VerifyOtpLoaded) {
                     Navigator.of(context).pop(true);
-                    if (widget.firstTime == true) {
+                    if (widget.firstTime == false) {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
                           return ForgetPassword(
@@ -160,44 +138,135 @@ class _OtpScreenState extends State<OtpScreen> {
                   }
                 },
                 builder: (context, state) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return ForgetPassword(
-                            email: widget.email,
-                          );
-                        },
-                      ));
+                  return CustomWidgets.customButton('Verify Email', onTap: () {
 
-                      if (otpCode.isNotEmpty) {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return SchoolListScreen();
+                      },
+                    ));
+
+                    if (_formKey.currentState!.validate()) {
+                      if(otpController.text.length < 5){
+                        Fluttertoast.showToast(msg: 'Otp Not correct');
+
+                      }else{
                         context
                             .read<VerifyOtpCubit>()
-                            .verifyOTp(otpCode, widget.email);
-                        otpCode = "";
-
-                        otp.clear();
-                      } else {
-                        Fluttertoast.showToast(msg: 'Enter Otp Code');
+                            .verifyOTp(otpController.text.trim(), widget.email);
                       }
-
-                      // Navigator.push(context, MaterialPageRoute(
-                      //   builder: (context) {
-                      //     return LoginApiShadePreference.preferences!
-                      //                 .getString('role') ==
-                      //             'teacher'
-                      //         ? TeacherAddSchool()
-                      //         : SchoolListScreen();
-                      //   },
-                      // ));
-                    },
-                    child: CustomWidgets.customButton('Verify Email'),
-                  );
+                    } else {
+                      Fluttertoast.showToast(msg: 'Enter Otp Code');
+                    }
+                  });
                 },
               )
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+class PinCodeField extends StatefulWidget {
+  const PinCodeField({Key? key, this.controller, this.formKey})
+      : super(key: key);
+
+  final TextEditingController? controller;
+  final GlobalKey? formKey;
+
+  @override
+  State<PinCodeField> createState() => _PinCodeFieldState();
+}
+
+class _PinCodeFieldState extends State<PinCodeField> {
+  final focusNode = FocusNode();
+
+  @override
+  void dispose() {
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    const focusedBorderColor = kPrimaryColor;
+    const fillColor = Color.fromRGBO(243, 246, 249, 0);
+
+    final defaultPinTheme = PinTheme(
+      width: 77.w,
+      height: 60.h,
+      textStyle: const TextStyle(
+        fontSize: 22,
+        color: Color.fromRGBO(30, 60, 87, 1),
+      ),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20.r),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x0F000000),
+              blurRadius: 12,
+              offset: Offset(0, 6),
+              spreadRadius: 0,
+            )
+          ]),
+    );
+
+    /// Optionally you can use form to validate the Pinput
+    return Form(
+      key: widget.formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Directionality(
+            // Specify direction if desired
+            textDirection: TextDirection.ltr,
+            child: Pinput(
+              length: 5,
+              controller: widget.controller,
+              focusNode: focusNode,
+              androidSmsAutofillMethod:
+              AndroidSmsAutofillMethod.smsUserConsentApi,
+              listenForMultipleSmsOnAndroid: true,
+              defaultPinTheme: defaultPinTheme,
+
+              separatorBuilder: (index) => const SizedBox(width: 8),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return '';
+                }
+              },
+              // onClipboardFound: (value) {
+              //   debugPrint('onClipboardFound: $value');
+              //   pinController.setText(value);
+              // },
+              hapticFeedbackType: HapticFeedbackType.lightImpact,
+              onCompleted: (pin) {
+                debugPrint('onCompleted: $pin');
+              },
+              onChanged: (value) {
+                debugPrint('onChanged: $value');
+              },
+              cursor: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 9),
+                    width: 22,
+                    height: 1,
+                    color: focusedBorderColor,
+                  ),
+                ],
+              ),
+              focusedPinTheme: defaultPinTheme,
+              submittedPinTheme: defaultPinTheme,
+              errorPinTheme: defaultPinTheme.copyBorderWith(
+                border: Border.all(color: Colors.redAccent),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

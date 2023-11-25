@@ -12,7 +12,10 @@ class SendEmailOtpCubit extends Cubit<SendEmailOtpState> {
 
     try {
       await ForgetPasswordApi.sendEmail(email).then((value) {
-        if (value['error'] != null && value['error'] == true) {
+        if (value['status'] != 200) {
+
+          print(value['error']);
+
           emit(SendEmailOtpError(error: value['message']));
         } else {
           emit(SendEmailOtpLoaded());

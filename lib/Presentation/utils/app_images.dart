@@ -1,7 +1,7 @@
 class AppImages{
   static String timeIcon= 'images/Time.svg';
   static String userImage= 'images/user.jpeg';
-  static String starConfuse= 'images/star_confuse.png';
+  static String starConfuse= 'images/star_s.webp';
   static String message= 'images/message.gif';
   static String groupChat= 'images/group_chat.gif';
   static String publicList= 'images/public_list.gif';

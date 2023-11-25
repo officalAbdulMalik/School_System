@@ -19,7 +19,7 @@ import 'all_mettings_screen.dart';
 import 'components/event_card.dart';
 
 class DashboardScreen extends StatefulWidget {
-  DashboardScreen({Key? key}) : super(key: key);
+  const DashboardScreen({Key? key}) : super(key: key);
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -49,7 +49,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       body: BlocConsumer<GetAllMeetingsCubit, GetAllMeetingsState>(
         listener: (context, state) {
-          print('state is $state');
           if (state is GetAllMeetingsLoading) {
             Dialogs.loadingDialog(context);
           }
@@ -155,26 +154,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ],
                       ),
                       SizedBox(
-                        height: 200,
-                        width: 1.sw,
                         child: state.meetings.isNotEmpty
-                            ? ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: state.meetings.length == 1 ? 1 : 2,
-                                itemBuilder: (context, index) {
-                                  return EventCard(
-                                    cardColor: kGreenColor,
-                                    data: state.meetings[index],
-                                  );
-                                },
-                              )
+                            ? SizedBox(
+                          height: 185.h,
+                              child: ListView.builder(
+                                 shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: state.meetings.length == 1 ? 1 : 2,
+                                  itemBuilder: (context, index) {
+                                    return EventCard(
+                                      cardColor: kGreenColor,
+                                      data: state.meetings[index],
+                                    );
+                                  },
+                                ),
+                            )
                             : CustomWidgets.errorText(noDataString),
                       ),
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: 20.sp,
+                  height: 10.h,
                 ),
                 Row(
                   children: [
@@ -192,7 +193,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           height: 136.sp,
                           padding: const EdgeInsets.all(16),
                           decoration: ShapeDecoration(
-                            color: const Color(0xFFE2F4FF),
+                            color: kCardBLColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),
@@ -202,10 +203,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               Expanded(
                                 flex: 2,
                                 child: SizedBox(
-                                  width: 64.sp,
-                                  height: 64.sp,
+                                  width: 84.w,
+                                  height: 84.h,
                                   child: Center(
-                                    child: Image.asset('images/satar.png'),
+                                    child: Image.asset('images/star_e.webp'),
                                   ),
                                 ),
                               ),
@@ -215,8 +216,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     role == 'teacher'
                                         ? 'My Classes'
                                         : "My Kids",
-                                    color: Color(0xFF000600),
-                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontSize: 16.sp,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -242,7 +243,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           height: 136.sp,
                           padding: const EdgeInsets.all(16),
                           decoration: ShapeDecoration(
-                            color: kGreenColor,
+                            color: kCardGColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),
@@ -282,9 +283,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ],
             );
           } else if (state is GetAllMeetingsError) {
-            print(state.error);
             return Center(
-              child: Text(state.error!),
+              child: Text(state.error??""),
             );
           } else {
             return const SizedBox();

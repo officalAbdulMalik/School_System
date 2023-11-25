@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:school_system/Data/api_const.dart';
 import 'package:school_system/controllers/services/apis.dart';
 
 class CreateSubjectsRepo {
@@ -16,7 +17,7 @@ class CreateSubjectsRepo {
       log(body.toString());
 
       String url =
-          'https://www.dev.schoolsnow.parentteachermobile.com/api/teacher/subject';
+          AppApiUrls.createSubject;
 
       return await Api().postApi(url: url, body: body).then((value) {
         return value;

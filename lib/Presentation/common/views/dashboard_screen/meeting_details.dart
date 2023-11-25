@@ -64,29 +64,28 @@ class _MeetingsDetailsState extends State<MeetingsDetails> {
                               Expanded(
                                   child: InkWell(
                                 onTap: () async {
-                                  context
-                                      .read<AcceptRejectMeetingsCubit>()
-                                      .acceptRejectMeetings(
-                                          widget.meetings!.id!, 'rejected');
+
                                 },
                                 child: CustomWidgets.customButton('Reject',
-                                    buttonColor: kDescriptionColor),
+                                    buttonColor: kDescriptionColor, onTap: () {
+                                      context
+                                          .read<AcceptRejectMeetingsCubit>()
+                                          .acceptRejectMeetings(
+                                          widget.meetings!.id!, 'rejected');
+                                    }),
                               )),
                               SizedBox(
                                 width: 10.w,
                               ),
                               Expanded(
-                                  child: InkWell(
-                                onTap: () {
-                                  context
-                                      .read<AcceptRejectMeetingsCubit>()
-                                      .acceptRejectMeetings(
-                                          widget.meetings!.id!, 'accepted');
-                                },
-                                child: CustomWidgets.customButton(
-                                  'Accept',
-                                ),
-                              )),
+                                  child: CustomWidgets.customButton(
+                                    'Accept', onTap: () {
+                                    context
+                                        .read<AcceptRejectMeetingsCubit>()
+                                        .acceptRejectMeetings(
+                                        widget.meetings!.id!, 'accepted');
+                                  },
+                                  )),
                             ],
                           ),
                   )

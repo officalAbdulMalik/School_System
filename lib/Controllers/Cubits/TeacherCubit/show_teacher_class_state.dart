@@ -8,9 +8,9 @@ class ShowTeacherClassInitial extends ShowTeacherClassState {}
 class ShowTeacherClassLoading extends ShowTeacherClassState {}
 
 class ShowTeacherClassLoaded extends ShowTeacherClassState {
-  TeacherShowClass model = TeacherShowClass();
+ final List<Classes> clasess;
 
-  ShowTeacherClassLoaded({required this.model});
+  ShowTeacherClassLoaded({required this.clasess});
 }
 
 class ShowTeacherClassError extends ShowTeacherClassState {

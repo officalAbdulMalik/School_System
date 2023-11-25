@@ -88,7 +88,6 @@ class SignUpCubit extends Cubit<SignUpState> {
       return json.decode(response.body);
     } else {
       var data = jsonDecode(response.body);
-      print(data);
       String error = data['message'];
       emit(SignUpError());
       Fluttertoast.showToast(msg: error);

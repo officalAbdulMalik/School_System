@@ -9,7 +9,6 @@ import 'package:school_system/Controllers/Cubits/CommonCubit/get_parents_teacher
 import 'package:school_system/Controllers/Cubits/TeacherCubit/get_class_student_cubit.dart';
 import 'package:school_system/Controllers/Cubits/TeacherCubit/show_teacher_class_cubit.dart';
 import 'package:school_system/Controllers/firebase_repos/add_chat_message.dart';
-import 'package:school_system/Models/teacher_parents_data_model.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/common/views/bottom_bar.dart';
 import 'package:school_system/Presentation/utils/colors.dart';
@@ -45,7 +44,7 @@ class _SelectUserForChatState extends State<SelectUserForChat> {
 
   // this is the outer user data to create chat with this
   String? outerId;
-  ParentsTeachers? user;
+  // ParentsTeachers? user;
 
   bool loading = false;
 
@@ -73,22 +72,7 @@ class _SelectUserForChatState extends State<SelectUserForChat> {
         child: Scaffold(
             bottomNavigationBar: Padding(
               padding: EdgeInsets.all(10.0.sp),
-              child: InkWell(
-                onTap: () {
-                  if (user != null) {
-                    loading = true;
-                    context.read<CreateChatCubit>().createChat(
-                        userId!,
-                        outerId!,
-                        user!.firstName!,
-                        user!.lastName!,
-                        user!.image);
-                  } else {
-                    Fluttertoast.showToast(msg: 'Select User');
-                  }
-                },
-                child: CustomWidgets.customButton('Start Chat'),
-              ),
+              child: CustomWidgets.customButton('Start Chat', onTap: () {  }),
             ),
             body: ListView(
               padding: EdgeInsets.only(left: 20.sp, right: 20.sp),
@@ -117,7 +101,7 @@ class _SelectUserForChatState extends State<SelectUserForChat> {
                         },
                         builder: (context, state) {
                           if (state is ShowTeacherClassLoaded) {
-                            return state.model.data!.isNotEmpty
+                            return state.clasess.isNotEmpty
                                 ? CustomDropDown(
                                     hintText: 'Class',
                                     onChanged: (value) {
@@ -127,7 +111,7 @@ class _SelectUserForChatState extends State<SelectUserForChat> {
                                           .getParentsTeachers(
                                               '/api/teacher/student/parents?student_id=$value');
                                     },
-                                    itemsMap: state.model.data!.map((e) {
+                                    itemsMap: state.clasess.map((e) {
                                       return DropdownMenuItem(
                                         value: e.id,
                                         child: Text(
@@ -205,61 +189,61 @@ class _SelectUserForChatState extends State<SelectUserForChat> {
                 SizedBox(
                   height: 10.h,
                 ),
-                BlocConsumer<GetParentsTeachersCubit, GetAllParentsState>(
-                  listener: (context, state) {
-                    if (state is GetAllParentsLoading) {
-                      Dialogs.loadingDialog(context);
-                    }
-
-                    if (state is GetAllParentsLoaded) {
-                      // list = state.model;
-
-                      Navigator.pop(context);
-                    }
-                    if (state is GetAllParentsError) {
-                      Fluttertoast.showToast(msg: state.error!);
-                      Navigator.pop(context);
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is GetAllParentsLoaded) {
-                      print(state.model.length);
-
-                      return state.model.isNotEmpty
-                          ? CustomDropDown(
-                              hintText: 'Parent Teacher',
-                              itemsMap: state.model.map((e) {
-                                return DropdownMenuItem(
-                                  value: e.id,
-                                  child: Text(
-                                    e.firstName!,
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (value) {
-                                outerId = value.toString();
-                                user = state.model
-                                    .firstWhere((user) => user.id == value);
-                                setState(() {});
-                              },
-                            )
-                          : Center(
-                              child: Text(
-                                "No Data Found",
-                                style: GoogleFonts.acme(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16.sp,
-                                ),
-                              ),
-                            );
-                    } else if (state is GetAllParentsError) {
-                      return const Center(child: Text('error' ?? ''));
-                    } else {
-                      return SizedBox();
-                    }
-                  },
-                ),
+                // BlocConsumer<GetParentsTeachersCubit, GetAllParentsState>(
+                //   listener: (context, state) {
+                //     if (state is GetAllParentsLoading) {
+                //       Dialogs.loadingDialog(context);
+                //     }
+                //
+                //     if (state is GetAllParentsLoaded) {
+                //       // list = state.model;
+                //
+                //       Navigator.pop(context);
+                //     }
+                //     if (state is GetAllParentsError) {
+                //       Fluttertoast.showToast(msg: state.error!);
+                //       Navigator.pop(context);
+                //     }
+                //   },
+                //   builder: (context, state) {
+                //     if (state is GetAllParentsLoaded) {
+                //
+                //
+                //       return state.model!.isNotEmpty
+                //           ? CustomDropDown(
+                //               hintText: 'Parent Teacher',
+                //               itemsMap: state.model!.map((e) {
+                //                 return DropdownMenuItem(
+                //                   value: e.id,
+                //                   child: Text(
+                //                     e.firstName!,
+                //                   ),
+                //                 );
+                //               }).toList(),
+                //               onChanged: (value) {
+                //                 outerId = value.toString();
+                //                 // user = state.model
+                //                 //     .firstWhere((user) => user.id == value);
+                //                 setState(() {});
+                //               },
+                //             )
+                //           : Center(
+                //               child: Text(
+                //                 "No Data Found",
+                //                 style: GoogleFonts.acme(
+                //                   color: Colors.black,
+                //                   fontWeight: FontWeight.w400,
+                //                   fontSize: 16.sp,
+                //                 ),
+                //               ),
+                //             );
+                //     } else if (state is GetAllParentsError) {
+                //       return const Center(child: Text('error' ?? ''));
+                //     } else {
+                //       return SizedBox();
+                //     }
+                //   },
+                // ),
                 SizedBox(
                   height: 20.h,
                 ),

@@ -21,7 +21,7 @@ import 'all_school_screen.dart';
 import 'loginScreen.dart';
 
 class SignUpScreen extends StatefulWidget {
-  SignUpScreen({Key? key}) : super(key: key);
+ const SignUpScreen({Key? key}) : super(key: key);
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -89,7 +89,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   bool checkBox = false;
 
-  String role = LoginApiShadePreference.preferences!.getString('role')!;
+  String? role = LoginApiShadePreference.preferences?.getString('role');
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +110,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               CustomRowWidget(
                 text1: 'Create Your New Account!',
                 text2: 'Improving Parent & Teacher Communication.',
-                image: 'sign_star.png',
+                image: 'images/star_c.webp',
                 flex: 6,
               ),
               SizedBox(
@@ -124,7 +124,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   setState(() {});
                 },
                 itemsMap: role == 'Teacher'
-                    ? teacher.map((e) {
+                    ? ['Mr.',
+                  'Mrs.',
+                  'Doctor',
+                  'Ms.',
+                  ].map((e) {
                         return DropdownMenuItem(
                           value: e,
                           child: Text(
@@ -137,7 +141,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         );
                       }).toList()
-                    : parents.map((e) {
+                    : [
+          'Mother',
+          'Father',
+          'GrandMother',
+          'Legal Guardian',
+          'Other'
+          ].map((e) {
                         return DropdownMenuItem(
                           value: e,
                           child: Text(
@@ -152,19 +162,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       }).toList(),
               ),
               SizedBox(
-                height: 10.h,
+                height: 15.h,
               ),
               MyTextField(
                 controller: firstName,
                 maxLine: 1,
-                hintText: 'Firs Name',
+                hintText: 'First Name',
                 filledColor: kContainerColor,
                 isRequiredField: true,
                 // decoration: textFieldIconDecoration(
                 //     Icons.alternate_email, 'service@gmail.com', null),
               ),
               SizedBox(
-                height: 10.h,
+                height: 15.h,
               ),
               MyTextField(
                 controller: lastName,
@@ -176,7 +186,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 //     Icons.alternate_email, 'service@gmail.com', null),
               ),
               SizedBox(
-                height: 10.h,
+                height: 15.h,
               ),
               MyTextField(
                 controller: email,
@@ -188,7 +198,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 //     Icons.alternate_email, 'service@gmail.com', null),
               ),
               SizedBox(
-                height: 10.h,
+                height: 15.h,
               ),
               MyTextField(
                 controller: password,
@@ -202,7 +212,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
 
               SizedBox(
-                height: 10.h,
+                height: 15.h,
               ),
               MyTextField(
                 controller: confirmPassword,
@@ -215,7 +225,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 //     Icons.alternate_email, 'service@gmail.com', null),
               ),
               SizedBox(
-                height: role != 'Teacher' ? 20.h : 0,
+                height: 15.h ,
               ),
               role != 'Teacher'
                   ? MyTextField(
@@ -229,30 +239,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     )
                   : const SizedBox(),
               SizedBox(
-                height: role != 'Teacher' ? 10.h : 0.h,
+                height:   role != 'Teacher' ? 5.h:0.0,
               ),
               role != 'Teacher'
                   ? CustomDatePickerValidateWidget(
-                      hintText: 'Select Birth Date',
+
+                isBorderRequired: false,
+                      hintText: 'Birth Date',
                       validationText: 'Date is required',
                       validator: dateVal,
                       controller: dob,
+
                     )
                   : const SizedBox(),
               SizedBox(
-                height: 10.h,
-              ),
-              MyTextField(
-                controller: occupation,
-                maxLine: 1,
-                hintText: role == 'Teacher' ? 'qualification' : 'occupation',
-                filledColor: kContainerColor,
-                isRequiredField: true,
-                // decoration: textFieldIconDecoration(
-                //     Icons.alternate_email, 'service@gmail.com', null),
-              ),
-              SizedBox(
-                height: 10.h,
+                height:   role != 'Teacher' ? 10.h:0.0,
               ),
               // buildTextFieldLabel('Password'),
               CustomDropDown(
@@ -280,7 +281,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 }).toList(),
               ),
               SizedBox(
-                height: 10.h,
+                height: 15.h,
               ),
               CustomDropDown(
                 hintText: 'Gender',
@@ -306,7 +307,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 }).toList(),
               ),
               SizedBox(
-                height: 10.h,
+                height: 15.h,
               ),
               // buildTextFieldLabel('Password'),
               CustomDropDown(
@@ -315,7 +316,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   print(value);
                   // selectedSchool = value.toString();
                 },
-                itemsMap: about.map((e) {
+                itemsMap: [
+                  'Parent',
+                  'Teacher',
+                  'School',
+                  'SocialNetwork',
+                  'Search Engine',
+                  'Other'
+                ].map((e) {
                   return DropdownMenuItem(
                     value: e,
                     child: Text(
@@ -332,29 +340,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: 5.h,
               ),
-              Row(
-                children: [
-                  Checkbox(
-                    activeColor: kPrimaryColor,
-                    splashRadius: 0.0,
-                    value: checkBox,
-                    onChanged: (bool? value) {
-                      checkBox = value!;
-                      setState(() {});
-                    },
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      'i am agree to receive emails and notifications ',
+              SizedBox(
+                height: 35.h,
+                width: 1.sw,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Checkbox(
+                      activeColor: kPrimaryColor,
+                      splashRadius: 0.0,
+
+                      value: checkBox,
+                      onChanged: (bool? value) {
+                        checkBox = value!;
+                        setState(() {});
+                      },
+                    ),
+                    Text(
+                      'I agree to the terms and conditions.',
+                      maxLines: 2,
                       style: GoogleFonts.poppins(
                         color: kDescriptionColor,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14.sp,
+
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
               SizedBox(
                 height: 5.h,
@@ -369,48 +383,55 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Navigator.pushReplacement(context, MaterialPageRoute(
                       builder: (context) {
                         return OtpScreen(
-                          firstTime: false,
+                          firstTime: true,
                           email: email.text.trim(),
                         );
                       },
                     ));
-
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return SchoolListScreen();
-                      },
-                    ));
+                  }
+                  if(state is SignUpError){
+                    Navigator.of(context).pop(true);
                   }
                 },
                 builder: (context, state) {
-                  return InkWell(
-                    onTap: () async {
-                      LoginApiShadePreference.preferences!
-                          .setString('email', email.text);
-                      if (_formKey.currentState!.validate()) {
-                        bool valEmail = isEmailValid(email.text);
-                        if (valEmail == true) {
-                          context.read<SignUpCubit>().createUser(
-                              firstName.text.trim(),
-                              lastName.text.trim(),
-                              email.text.trim(),
-                              password.text.trim(),
-                              teacherM,
-                              language,
-                              abou,
-                              occupation.text.trim(),
-                              phoneNumber.text.trim(),
-                              gender,
-                              dob.text.trim(),
-                              context);
-                        } else {
-                          Fluttertoast.showToast(
-                              msg: "The email format is not correct.");
-                        }
-                      }
-                    },
-                    child: CustomWidgets.customButton('Sign Up'),
-                  );
+                  return CustomWidgets.customButton('Sign Up', onTap: () async {
+    LoginApiShadePreference.preferences!
+        .setString('email', email.text);
+    if (_formKey.currentState!.validate()) {
+    bool valEmail = isEmailValid(email.text);
+    if (valEmail == true) {
+    if(password.text.trim() == confirmPassword.text.trim()){
+    if(checkBox == true){
+    context.read<SignUpCubit>().createUser(
+    firstName.text.trim(),
+    lastName.text.trim(),
+    email.text.trim(),
+    password.text.trim(),
+    teacherM,
+    language,
+    abou,
+    occupation.text.trim(),
+    phoneNumber.text.trim(),
+    gender,
+    dob.text.trim(),
+    context);
+    }else{
+    Fluttertoast.showToast(
+    msg: "Check Required");
+    }
+
+    }else{
+    Fluttertoast.showToast(
+    msg: "The confirmed password does not match");
+    }
+
+    } else {
+    Fluttertoast.showToast(
+    msg: "The email format is not correct.");
+    }
+    }
+
+    });
                 },
               ),
               SizedBox(
@@ -420,7 +441,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'You have account,  ',
+                    'If You have account, ',
                     style: GoogleFonts.poppins(
                       color: kDescriptionColor,
                       fontWeight: FontWeight.w500,
@@ -461,20 +482,5 @@ class _SignUpScreenState extends State<SignUpScreen> {
     RegExp emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
     return emailRegex.hasMatch(email);
-  }
-
-  checkSignupValidation() {
-    if (firstName.text.isEmpty &&
-        lastName.text.isEmpty &&
-        email.text.isEmpty &&
-        password.text.isEmpty &&
-        password != confirmPassword) {
-      print('false');
-      return false;
-    } else {
-      print('this the true');
-
-      return true;
-    }
   }
 }

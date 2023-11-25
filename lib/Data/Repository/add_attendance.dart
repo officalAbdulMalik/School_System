@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:school_system/Data/api_const.dart';
 import 'package:school_system/Data/app_const.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
@@ -19,7 +20,7 @@ class AddAttendance {
             'Bearer ${LoginApiShadePreference.preferences!.getString('api_token')}'
       };
       var request = http.Request(
-          'POST', Uri.parse('$baseUrl/api/teacher/mark-attendance'));
+          'POST', Uri.parse(AppApiUrls.markAttendance));
       request.body = json.encode({
         "present_student_ids": present,
         "absence_student_id": absent,

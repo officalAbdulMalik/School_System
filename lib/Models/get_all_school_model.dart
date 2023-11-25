@@ -4,38 +4,38 @@
 
 import 'dart:convert';
 
-class GetAllSchools {
-  int? status;
-  String? message;
-  List<Schools>? data;
-
-  GetAllSchools({
-    this.status,
-    this.message,
-    this.data,
-  });
-
-  factory GetAllSchools.fromRawJson(String str) =>
-      GetAllSchools.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory GetAllSchools.fromJson(Map<String, dynamic> json) => GetAllSchools(
-        status: json["status"],
-        message: json["message"],
-        data: json["data"] == null
-            ? []
-            : List<Schools>.from(json["data"]!.map((x) => Schools.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "status": status,
-        "message": message,
-        "data": data == null
-            ? []
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
-      };
-}
+// class GetAllSchools {
+//   int? status;
+//   String? message;
+//   List<Schools>? data;
+//
+//   GetAllSchools({
+//     this.status,
+//     this.message,
+//     this.data,
+//   });
+//
+//   factory GetAllSchools.fromRawJson(String str) =>
+//       GetAllSchools.fromJson(json.decode(str));
+//
+//   String toRawJson() => json.encode(toJson());
+//
+//   factory GetAllSchools.fromJson(Map<String, dynamic> json) => GetAllSchools(
+//         status: json["status"],
+//         message: json["message"],
+//         data: json["data"] == null
+//             ? []
+//             : List<Schools>.from(json["data"]!.map((x) => Schools.fromJson(x))),
+//       );
+//
+//   Map<String, dynamic> toJson() => {
+//         "status": status,
+//         "message": message,
+//         "data": data == null
+//             ? []
+//             : List<dynamic>.from(data!.map((x) => x.toJson())),
+//       };
+// }
 
 class Schools {
   int? id;

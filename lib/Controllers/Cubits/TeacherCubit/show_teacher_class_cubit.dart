@@ -1,14 +1,11 @@
 import 'dart:convert';
 
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:school_system/Data/Repository/get_teacher_class.dart';
-import 'package:school_system/Data/app_const.dart';
-import 'package:school_system/Data/Repository/auth_apis.dart';
 
-import '../../../models/get_teacher_class_model.dart';
-import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-import 'package:http/http.dart' as http;
+import 'package:school_system/Models/TeacherModels/teacher_classes.dart';
+
 part 'show_teacher_class_state.dart';
 
 class ShowTeacherClassCubit extends Cubit<ShowTeacherClassState> {
@@ -25,9 +22,10 @@ class ShowTeacherClassCubit extends Cubit<ShowTeacherClassState> {
       if (value['error'] != null && value['error'] == false) {
         print(value);
 
-        TeacherShowClass sections = TeacherShowClass.fromJson(value);
+        var section = List<Classes>.from(
+            value['data'].map((x) => Classes.fromJson(x)));
 
-        emit(ShowTeacherClassLoaded(model: sections));
+        emit(ShowTeacherClassLoaded(clasess: section));
       } else {
         emit(ShowTeacherClassError(error: value['error']));
       }

@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:school_system/Data/app_const.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 import 'package:http/http.dart' as http;
-import 'package:school_system/models/teacher_parents_data_model.dart';
 
 class GetParticipation {
   static Future<Map<String, dynamic>> getData(String endPoint) async {

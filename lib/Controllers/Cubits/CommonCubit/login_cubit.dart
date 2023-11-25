@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:school_system/Data/Repository/auth_apis.dart';
+import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 part 'login_state.dart';
+
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
@@ -17,6 +19,17 @@ class LoginCubit extends Cubit<LoginState> {
     try {
       await LoginApi.login(email, password).then((value) {
         if (value['status'] == 200 && value['error'] == null) {
+
+          String token = value['token'];
+          String role = value['user']['type'];
+          String userId = value['user']['id'].toString();
+          String profileImage = value['user']['image'] ?? "";
+
+          LoginApiShadePreference.preferences!.setString('api_token', token);
+          LoginApiShadePreference.preferences!.setString('type', role);
+          LoginApiShadePreference.preferences!.setString('user_id', userId);
+          LoginApiShadePreference.preferences!.setString('image', profileImage);
+
           log(value.toString());
           emit(LoginLoaded());
         } else {
@@ -32,3 +45,4 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 }
+

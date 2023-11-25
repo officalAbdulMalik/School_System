@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school_system/Controllers/Cubits/TeacherCubit/show_class_attendance_cubit.dart';
 import 'package:school_system/Controllers/Services/AdsServices/show_ads.dart';
+import 'package:school_system/Models/TeacherModels/teacher_classes.dart';
 import 'package:school_system/Presentation/common/resources/Extension/extension.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
 import 'package:school_system/Presentation/utils/app_images.dart';
@@ -13,7 +14,6 @@ import 'package:school_system/Presentation/utils/custom_widget/my_text.dart';
 import 'package:school_system/Presentation/utils/custom_widget/navigator_pop.dart';
 import 'package:school_system/Presentation/utils/custom_widget/search_text_field.dart';
 import 'package:school_system/models/get_class_student_model.dart';
-import 'package:school_system/models/get_teacher_class_model.dart';
 import 'package:school_system/models/show_attendance_model.dart';
 
 import 'package:table_calendar/table_calendar.dart';
@@ -24,7 +24,7 @@ class ShowAllAttendanceScreen extends StatefulWidget {
   ShowAllAttendanceScreen({Key? key, required this.data, required this.index})
       : super(key: key);
 
-  TeacherShowClass data;
+  List<Classes> data;
   int? index;
   @override
   State<ShowAllAttendanceScreen> createState() =>
@@ -74,7 +74,7 @@ class _ShowAllAttendanceScreenState extends State<ShowAllAttendanceScreen> {
   @override
   void initState() {
     context.read<ShowClassAttendanceCubit>().getAttendance(
-        widget.data.data![widget.index!].id.toString(), "2023-10-08");
+        widget.data[widget.index!].id.toString(), "2023-10-08");
 
     // TODO: implement initState
     super.initState();

@@ -9,4 +9,10 @@ class SignUpLoading extends SignUpState {}
 
 class SignUpLoaded extends SignUpState {}
 
-class SignUpError extends SignUpState {}
+class SignUpError extends SignUpState {
+ final String? error;
+
+ SignUpError({this.error});
+
+
+}

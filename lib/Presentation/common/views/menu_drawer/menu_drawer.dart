@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school_system/Controllers/Cubits/CommonCubit/delate_account_cubit.dart';
 import 'package:school_system/Presentation/common/resources/dailog.dart';
+import 'package:school_system/Presentation/common/views/loginScreen.dart';
+import 'package:school_system/Presentation/common/views/onboarding_screen.dart';
 import 'package:school_system/Presentation/common/views/privacy_police.dart';
 import 'package:school_system/Presentation/common/views/sign_up_screen.dart';
 import 'package:school_system/Presentation/common/views/terms_condation.dart';
@@ -133,7 +135,7 @@ class MenuDrawerScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return SignUpScreen();
+                        return LogInScreen();
                       },
                     ),
                     (route) => false,

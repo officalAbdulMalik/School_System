@@ -134,15 +134,15 @@ class _AssignSubjectsState extends State<AssignSubjects> {
             BlocBuilder<ShowTeacherClassCubit, ShowTeacherClassState>(
               builder: (context, state) {
                 if (state is ShowTeacherClassLoaded) {
-                  print(state.model.data!.length);
-                  return state.model.data!.isNotEmpty
+                  print(state.clasess.length);
+                  return state.clasess.isNotEmpty
                       ? CustomDropDown(
                           hintText: 'Classes',
                           onChanged: (value) {
                             print(value);
                             selectedSchool = value.toString();
                           },
-                          itemsMap: state.model.data!.map((e) {
+                          itemsMap: state.clasess.map((e) {
                             return DropdownMenuItem(
                               value: e.id,
                               child: Text(
@@ -198,22 +198,19 @@ class _AssignSubjectsState extends State<AssignSubjects> {
               },
               builder: (context, state) {
                 if (state is AddSectionLoading) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(
                       color: Colors.blue,
                     ),
                   );
                 } else {
-                  return InkWell(
-                    onTap: () {
-                      if (formKey.currentState!.validate()) {
-                        context
-                            .read<AddSectionCubit>()
-                            .addSubjectToClass(selectedSubject, selectedSchool);
-                      }
-                    },
-                    child: CustomWidgets.customButton('Save'),
-                  );
+                  return CustomWidgets.customButton('Save', onTap: () {
+                    if (formKey.currentState!.validate()) {
+                      context
+                          .read<AddSectionCubit>()
+                          .addSubjectToClass(selectedSubject, selectedSchool);
+                    }
+                  });
                 }
               },
             ),

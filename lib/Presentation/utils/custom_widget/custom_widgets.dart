@@ -32,24 +32,27 @@ class CustomWidgets {
   }
 
   static customButton(String text,
-      {Color? buttonColor, double? fontSize, int? hight}) {
-    return Container(
-      margin: EdgeInsets.only(top: 10.sp),
-      height: 45.h,
-      width: 340.w,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15.sp),
-        color: buttonColor ?? kPrimaryColor,
-      ),
-      child: Center(
-          child: Text(
-        text,
-        style: GoogleFonts.poppins(
-          color: Colors.white,
-          fontSize: fontSize ?? 16.h,
-          fontWeight: FontWeight.w500,
+      {Color? buttonColor, double? fontSize, int? hight,required VoidCallback onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.only(top: 10.sp),
+        height: 45.h,
+        width: 340.w,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15.sp),
+          color: buttonColor ?? kPrimaryColor,
         ),
-      )),
+        child: Center(
+            child: Text(
+          text,
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: fontSize ?? 16.h,
+            fontWeight: FontWeight.w500,
+          ),
+        )),
+      ),
     );
   }
 

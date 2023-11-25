@@ -7,11 +7,11 @@ class GetAllParentsInitial extends GetAllParentsState {}
 class GetAllParentsLoading extends GetAllParentsState {}
 
 class GetAllParentsLoaded extends GetAllParentsState {
-  List<ParentsTeachers> model;
+  List<Participation>? model;
 
   List<bool> checkList;
 
-  GetAllParentsLoaded({required this.model, required this.checkList});
+  GetAllParentsLoaded({ required this.checkList,this.model});
 }
 
 class GetAllParentsError extends GetAllParentsState {

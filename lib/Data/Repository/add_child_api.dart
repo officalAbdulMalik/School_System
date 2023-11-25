@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http_parser/http_parser.dart';
 
 import 'package:mime/mime.dart';
+import 'package:school_system/Data/api_const.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
 
 class AddChildRepo {
@@ -26,8 +27,7 @@ class AddChildRepo {
     };
     var request = http.MultipartRequest(
         'POST',
-        Uri.parse(
-            'http://www.dev.schoolsnow.parentteachermobile.com/api/parent/student/create'));
+        Uri.parse(AppApiUrls.createChild));
     request.fields.addAll({
       'first_name': firstName,
       'last_name': lastName,

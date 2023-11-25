@@ -2,10 +2,8 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:http/http.dart' as http;
-import 'package:school_system/Data/app_const.dart';
+import 'package:school_system/Data/api_const.dart';
 import 'package:school_system/Presentation/utils/shade_prefrence.dart';
-
-import 'auth_apis.dart';
 
 class AddMeetings {
   static Future<Map<String, dynamic>> sendMeetingRequest(
@@ -47,7 +45,7 @@ class AddMeetings {
     };
     try {
       http.Response request = await http.post(
-          Uri.parse('$baseUrl/api/add/meetings'),
+          Uri.parse(AppApiUrls.addNewMeeting),
           body: body,
           headers: headers);
       // var data = jsonDecode(request.body);

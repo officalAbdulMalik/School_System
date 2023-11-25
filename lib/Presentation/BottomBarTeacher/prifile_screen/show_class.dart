@@ -107,14 +107,14 @@ class _TeacherClassState extends State<TeacherClass> {
             },
             builder: (context, state) {
               if (state is ShowTeacherClassLoaded) {
-                return state.model.data!.isNotEmpty
+                return state.clasess.isNotEmpty
                     ? SizedBox(
                         height: MediaQuery.of(context).size.height,
                         width: 400.w,
                         child: ListView.separated(
                           padding: EdgeInsets.only(left: 5.sp, right: 5.sp),
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount: state.model.data!.length,
+                          itemCount: state.clasess.length,
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
@@ -123,7 +123,7 @@ class _TeacherClassState extends State<TeacherClass> {
                                     return role == 'parent'
                                         ? ShowChildren()
                                         : ClassDeatailsScreen(
-                                            data: state.model,
+                                            data: state.clasess,
                                             index: index,
                                           );
                                   },
@@ -206,8 +206,8 @@ class _TeacherClassState extends State<TeacherClass> {
                                                         Flexible(
                                                           child: MyText(
                                                             state
-                                                                    .model
-                                                                    .data?[
+                                                                    .clasess
+                                                                    [
                                                                         index]
                                                                     .grade ??
                                                                 "",
@@ -229,7 +229,7 @@ class _TeacherClassState extends State<TeacherClass> {
                                                   Flexible(
                                                     child: MyText(
                                                       // 'Class A',
-                                                      state.model.data?[index]
+                                                      state.clasess[index]
                                                               .name ??
                                                           "",
 
@@ -250,8 +250,8 @@ class _TeacherClassState extends State<TeacherClass> {
                                                       width: 0.35.sw,
                                                       child: ListView.builder(
                                                         itemCount: state
-                                                            .model
-                                                            .data?[index]
+                                                            .clasess
+                                                            [index]
                                                             .allSubjects!
                                                             .length,
                                                         itemBuilder:
@@ -287,8 +287,8 @@ class _TeacherClassState extends State<TeacherClass> {
                                                               Flexible(
                                                                 child: MyText(
                                                                   state
-                                                                          .model
-                                                                          .data?[
+                                                                          .clasess
+                                                                          [
                                                                               index]
                                                                           .allSubjects?[
                                                                               ind]
@@ -362,9 +362,8 @@ class _TeacherClassState extends State<TeacherClass> {
                                                       ),
                                                       const SizedBox(width: 4),
                                                       MyText(
-                                                        state
-                                                            .model
-                                                            .data![index]
+                                                        state.clasess
+                                                            [index]
                                                             .classSection!
                                                             .studentsCount
                                                             .toString(),
